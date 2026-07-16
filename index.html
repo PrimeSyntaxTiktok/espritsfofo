@@ -12,6 +12,10 @@
   <title>Sprite Locker — Collection Fortnite</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fortnite.gg">
+  <link rel="dns-prefetch" href="//fortnite.gg">
+  <link rel="preload" as="image" href="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_FossilMeal_Default_L.webp" fetchpriority="high">
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800;1,900&amp;display=swap" rel="stylesheet">
   <style>
     :root {
@@ -1861,6 +1865,7 @@
       overflow: hidden;
       content-visibility: auto;
       contain-intrinsic-size: auto 330px;
+      contain: layout paint style;
       border: 1px solid rgba(184, 202, 255, .15);
       border-radius: 19px;
       background: linear-gradient(180deg, #151b3b, #0e132c);
@@ -1950,9 +1955,13 @@
       padding: 5%;
       object-fit: contain;
       filter: drop-shadow(0 18px 16px rgba(0,0,0,.36));
-      transition: transform .25s cubic-bezier(.2,.8,.2,1);
+      opacity: 1;
+      transition: opacity .16s ease, transform .25s cubic-bezier(.2,.8,.2,1);
     }
 
+    .sprite-image img.is-pending,
+    .sprite-image img.is-loading { opacity: 0; transform: scale(.965); }
+    .sprite-image img.is-loaded { opacity: 1; }
     .sprite-image img.broken { opacity: 0; }
 
     .badges {
@@ -1983,7 +1992,7 @@
       text-overflow: ellipsis;
       text-transform: uppercase;
       white-space: nowrap;
-      backdrop-filter: blur(9px);
+      backdrop-filter: none;
     }
 
     .badge.variant { margin-left: auto; color: var(--variant-color); }
@@ -2038,7 +2047,7 @@
       font-size: .78rem;
       font-weight: 700;
       cursor: pointer;
-      backdrop-filter: blur(8px);
+      backdrop-filter: none;
     }
 
     .card-body { padding: 11px; }
@@ -2440,6 +2449,7 @@
       .dialog-inner { grid-template-columns: 1fr; gap: 10px; }
       .dialog-image { position: relative; top: auto; width: min(100%, 360px); margin: 0 auto; }
       .dialog-content { padding: 8px 3px 4px; }
+      .sprite-image img { filter: drop-shadow(0 10px 10px rgba(0,0,0,.3)); }
     }
 
     @media (max-width: 470px) {
@@ -2524,7 +2534,7 @@
         </div>
         <div class="hero-art" aria-hidden="true">
           <div class="hero-orbit"></div>
-          <img class="hero-sprite hero-sprite-main" src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_FossilMeal_Default_L.webp" alt="" width="600" height="600" decoding="async" referrerpolicy="no-referrer">
+          <img class="hero-sprite hero-sprite-main" src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_FossilMeal_Default_L.webp" alt="" width="600" height="600" decoding="async" fetchpriority="high" referrerpolicy="no-referrer">
           <img class="hero-sprite hero-sprite-one" src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Air_Holo_L.webp" alt="" width="600" height="600" decoding="async" referrerpolicy="no-referrer">
           <img class="hero-sprite hero-sprite-two" src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Seven_Gold_ui_L.webp" alt="" width="600" height="600" decoding="async" referrerpolicy="no-referrer">
           <span class="hero-burst">83</span>
@@ -2549,7 +2559,7 @@
           <div class="sync-state" id="syncState" data-state="local" role="status" aria-live="polite"><span class="sync-dot"></span><span id="syncStateText">Local</span></div>
           <button class="sync-btn primary" id="signInBtn" type="button" disabled><span aria-hidden="true">G</span> Connexion</button>
           <button class="sync-btn" id="syncNowBtn" type="button" hidden>↻ Synchroniser</button>
-          <button class="sync-btn icon" id="signOutBtn" type="button" aria-label="Se déconnecter de Firebase" hidden>↪</button>
+          <button class="sync-btn" id="signOutBtn" type="button" aria-label="Se déconnecter de Firebase" hidden>Déconnexion</button>
         </div>
       </div>
       <div class="hud-grid">
@@ -2682,6 +2692,8 @@
       const IMAGE_ROOT = "https://fortnite.gg/img/x/sprites/icons/";
       const STORAGE_KEY = "prime-fortnite-esprits-v41-20";
       const META_KEY = "prime-fortnite-esprits-v41-20-meta";
+      const AUTH_REDIRECT_KEY = "prime-fortnite-google-redirect-pending";
+      const FIREBASE_SDK_VERSION = "12.16.0";
       const FIREBASE_CONFIG = Object.freeze({
         apiKey: "AIzaSyD39GIbGoaZepVfNB1Qj33VLus_x-hR5Jg",
         authDomain: "budget-master-pro-27c23.firebaseapp.com",
@@ -2966,12 +2978,20 @@
       let firebaseUser = null;
       let firebaseInitializing = false;
       let firebaseReady = false;
+      let firebaseRuntimeConfig = FIREBASE_CONFIG;
       let cloudUnsubscribe = null;
       let cloudSyncTimer = null;
       let cloudSyncing = false;
       let cloudSyncQueued = false;
       let cloudSyncQueuedPull = false;
       let authSequence = 0;
+      let authUnsubscribe = null;
+      let authActionInProgress = false;
+      let spriteImageObserver = null;
+      let renderFrame = 0;
+      let imageWarmupStarted = false;
+      const warmedImageUrls = new Set();
+      const warmingImages = new Set();
 
       const grid = document.getElementById("spriteGrid");
       const searchInput = document.getElementById("searchInput");
@@ -3082,13 +3102,14 @@
       function cardTemplate(sprite, index) {
         const entry = state[sprite.id] || blankEntry();
         const variant = variants[sprite.variant];
+        const immediateImage = index < 8;
         const classes = ["sprite-card", entry.owned ? "owned" : "", entry.mastered ? "mastered" : ""].filter(Boolean).join(" ");
         return `
           <article class="${classes}" data-id="${sprite.id}" data-rarity="${sprite.rarity}" data-variant="${sprite.variant}" style="--glow:${rarityGlow[sprite.rarity]};--variant-color:${variant.color}">
             <div class="card-media">
               <button class="image-button" type="button" data-action="details" data-id="${sprite.id}" aria-label="Voir les détails de ${esc(sprite.fr)}">
                 <div class="sprite-image">
-                <img src="${sprite.image}" alt="${esc(sprite.fr)}" width="600" height="600" loading="${index < 6 ? "eager" : "lazy"}" decoding="async" referrerpolicy="no-referrer" onerror="this.classList.add('broken')">
+                <img ${immediateImage ? `src="${sprite.image}"` : `data-src="${sprite.image}"`} class="${immediateImage ? "is-loading" : "is-pending"}" alt="${esc(sprite.fr)}" width="600" height="600" loading="${immediateImage ? "eager" : "lazy"}" decoding="async" fetchpriority="${index < 3 ? "high" : "low"}" referrerpolicy="no-referrer">
                 </div>
               </button>
               <div class="badges">
@@ -3147,7 +3168,165 @@
         return result;
       }
 
+      function settleSpriteImage(image, loaded) {
+        image.classList.remove("is-pending", "is-loading");
+        image.classList.toggle("is-loaded", loaded);
+        image.classList.toggle("broken", !loaded);
+        if (loaded && image.currentSrc) warmedImageUrls.add(image.currentSrc);
+      }
+
+      function trackSpriteImage(image) {
+        if (image.dataset.imageTracked === "true") return;
+        image.dataset.imageTracked = "true";
+        if (image.complete) {
+          settleSpriteImage(image, image.naturalWidth > 0);
+          return;
+        }
+        image.addEventListener("load", () => {
+          if (typeof image.decode === "function") {
+            image.decode().catch(() => {}).finally(() => settleSpriteImage(image, true));
+          } else {
+            settleSpriteImage(image, true);
+          }
+        }, { once: true });
+        image.addEventListener("error", () => settleSpriteImage(image, false), { once: true });
+      }
+
+      function activateSpriteImage(image, eager = true) {
+        const source = image.dataset.src;
+        if (!source) {
+          trackSpriteImage(image);
+          return;
+        }
+        image.classList.remove("is-pending");
+        image.classList.add("is-loading");
+        image.loading = eager ? "eager" : "lazy";
+        image.fetchPriority = eager ? "auto" : "low";
+        delete image.dataset.src;
+        image.src = source;
+        trackSpriteImage(image);
+      }
+
+      function setupProgressiveSpriteImages() {
+        if (spriteImageObserver) {
+          spriteImageObserver.disconnect();
+          spriteImageObserver = null;
+        }
+        const images = [...grid.querySelectorAll(".sprite-image img")];
+        images.filter(image => image.hasAttribute("src")).forEach(trackSpriteImage);
+        const pending = images.filter(image => image.dataset.src);
+        if (!pending.length) return;
+
+        if ("IntersectionObserver" in window) {
+          spriteImageObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+              if (!entry.isIntersecting) return;
+              spriteImageObserver.unobserve(entry.target);
+              activateSpriteImage(entry.target, true);
+            });
+          }, {
+            root: null,
+            rootMargin: window.innerWidth < 720 ? "1800px 0px" : "1300px 0px",
+            threshold: 0.01
+          });
+          pending.forEach(image => spriteImageObserver.observe(image));
+        } else {
+          pending.forEach(image => activateSpriteImage(image, false));
+        }
+      }
+
+      function warmSpriteImage(url) {
+        if (!url || warmedImageUrls.has(url)) return;
+        warmedImageUrls.add(url);
+        const image = new Image();
+        warmingImages.add(image);
+        image.decoding = "async";
+        image.fetchPriority = "low";
+        image.referrerPolicy = "no-referrer";
+        image.onload = () => warmingImages.delete(image);
+        image.onerror = () => {
+          warmingImages.delete(image);
+          warmedImageUrls.delete(url);
+        };
+        image.src = url;
+      }
+
+      function startBackgroundImageWarmup() {
+        if (imageWarmupStarted) return;
+        imageWarmupStarted = true;
+        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        if (connection && (connection.saveData || /(^|-)2g$/.test(connection.effectiveType || ""))) return;
+
+        const queue = [...new Set(sprites.map(sprite => sprite.image))];
+        let cursor = 0;
+        const batchSize = connection && connection.effectiveType === "3g" ? 2 : 5;
+        const scheduleIdle = callback => {
+          if ("requestIdleCallback" in window) {
+            window.requestIdleCallback(callback, { timeout: 1400 });
+          } else {
+            setTimeout(() => callback({ didTimeout: true, timeRemaining: () => 8 }), 120);
+          }
+        };
+        const runBatch = deadline => {
+          if (document.hidden) {
+            setTimeout(() => scheduleIdle(runBatch), 600);
+            return;
+          }
+          let loaded = 0;
+          while (cursor < queue.length && loaded < batchSize && (deadline.didTimeout || deadline.timeRemaining() > 3)) {
+            warmSpriteImage(queue[cursor++]);
+            loaded++;
+          }
+          if (cursor < queue.length) setTimeout(() => scheduleIdle(runBatch), 260);
+        };
+        setTimeout(() => scheduleIdle(runBatch), 900);
+      }
+
+      function updateRenderedCard(id) {
+        const card = grid.querySelector(`.sprite-card[data-id="${id}"]`);
+        const entry = state[id] || blankEntry();
+        if (!card) {
+          updateStats();
+          return;
+        }
+        card.classList.toggle("owned", entry.owned);
+        card.classList.toggle("mastered", entry.mastered);
+
+        const ownedButton = card.querySelector('[data-action="owned"]');
+        ownedButton.setAttribute("aria-pressed", String(entry.owned));
+        ownedButton.innerHTML = `<span aria-hidden="true">${entry.owned ? "✓" : "+"}</span>${entry.owned ? "Obtenu" : "Je l’ai"}`;
+
+        const level = card.querySelector('[data-action="level"]');
+        level.value = String(entry.level);
+
+        const masteredButton = card.querySelector('[data-action="mastered"]');
+        masteredButton.setAttribute("aria-pressed", String(entry.mastered));
+        masteredButton.innerHTML = `<span aria-hidden="true">${entry.mastered ? "★" : "☆"}</span>${entry.mastered ? "Maîtrisé" : "Marquer maîtrisé"}`;
+        updateStats();
+      }
+
+      function refreshAfterStateChange(id) {
+        if (statusFilter !== "all" || sortSelect.value === "level") {
+          render();
+        } else {
+          updateRenderedCard(id);
+        }
+      }
+
+      function scheduleRender() {
+        if (renderFrame) cancelAnimationFrame(renderFrame);
+        renderFrame = requestAnimationFrame(() => {
+          renderFrame = 0;
+          render();
+        });
+      }
+
       function render() {
+        if (renderFrame) {
+          cancelAnimationFrame(renderFrame);
+          renderFrame = 0;
+        }
+        if (spriteImageObserver) spriteImageObserver.disconnect();
         const visible = getVisibleSprites();
         if (visible.length) {
           grid.innerHTML = visible.map(cardTemplate).join("");
@@ -3158,6 +3337,7 @@
         document.getElementById("resultCount").textContent = visible.length;
         document.getElementById("activeHint").textContent = visible.length === sprites.length ? "Catalogue complet" : "Filtres actifs";
         updateStats();
+        setupProgressiveSpriteImages();
       }
 
       function updateStats() {
@@ -3259,12 +3439,60 @@
         syncStateText.textContent = message;
       }
 
+      function runtimeFirebaseConfig() {
+        const hostname = location.hostname.toLowerCase();
+        const firebaseHostingDomains = [
+          `${FIREBASE_CONFIG.projectId}.firebaseapp.com`,
+          `${FIREBASE_CONFIG.projectId}.web.app`
+        ];
+        if (firebaseHostingDomains.includes(hostname)) {
+          return Object.freeze({ ...FIREBASE_CONFIG, authDomain: hostname });
+        }
+        return FIREBASE_CONFIG;
+      }
+
+      function isHostedAuthContext() {
+        return (location.protocol === "https:" || location.protocol === "http:") && Boolean(location.hostname);
+      }
+
+      function isMobileDevice() {
+        const touchMac = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
+        const mobileAgent = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+        const userAgentDataMobile = Boolean(navigator.userAgentData && navigator.userAgentData.mobile);
+        const coarsePointer = typeof window.matchMedia === "function" && window.matchMedia("(pointer: coarse)").matches;
+        return touchMac || mobileAgent || userAgentDataMobile || (coarsePointer && navigator.maxTouchPoints > 0);
+      }
+
+      function redirectIsSameOrigin() {
+        return isHostedAuthContext() && location.hostname.toLowerCase() === String(firebaseRuntimeConfig.authDomain || "").toLowerCase();
+      }
+
+      function setRedirectPending(pending) {
+        try {
+          if (pending) sessionStorage.setItem(AUTH_REDIRECT_KEY, String(Date.now()));
+          else sessionStorage.removeItem(AUTH_REDIRECT_KEY);
+        } catch (_) {}
+      }
+
+      function redirectWasPending() {
+        try { return Boolean(sessionStorage.getItem(AUTH_REDIRECT_KEY)); } catch (_) { return false; }
+      }
+
+      function setAuthBusy(busy) {
+        authActionInProgress = busy;
+        signInButton.disabled = busy || !firebaseReady;
+        signOutButton.disabled = busy;
+        syncNowButton.disabled = busy || cloudSyncing;
+        document.getElementById("firebaseCard").setAttribute("aria-busy", String(busy));
+      }
+
       function updateAccountInterface(user) {
         const connected = Boolean(user);
         signInButton.hidden = connected;
-        signInButton.disabled = !firebaseReady;
+        signInButton.disabled = authActionInProgress || !firebaseReady;
         syncNowButton.hidden = !connected;
         signOutButton.hidden = !connected;
+        signOutButton.disabled = authActionInProgress;
 
         if (!connected) {
           accountName.textContent = "Synchronisation Firebase";
@@ -3351,10 +3579,15 @@
 
       function friendlyFirebaseError(error) {
         const code = String(error && error.code || "");
-        if (code.includes("unauthorized-domain")) return "Ce domaine doit être autorisé dans Firebase";
-        if (code.includes("operation-not-supported-in-this-environment")) return "Ouvre l’app depuis son site pour te connecter";
+        if (code.includes("unauthorized-domain")) return `Autorise ${location.hostname || "ce domaine"} dans Firebase Authentication`;
+        if (code.includes("operation-not-supported-in-this-environment")) return "Ouvre l’app depuis une adresse HTTPS pour te connecter";
+        if (code.includes("web-storage-unsupported")) return "Le stockage privé du navigateur bloque la connexion Google";
         if (code.includes("popup-closed") || code.includes("cancelled-popup")) return "Connexion Google annulée";
         if (code.includes("popup-blocked")) return "La fenêtre Google a été bloquée";
+        if (code.includes("account-exists-with-different-credential")) return "Ce compte utilise déjà une autre méthode de connexion";
+        if (code.includes("too-many-requests")) return "Trop de tentatives : réessaie dans quelques instants";
+        if (code.includes("user-disabled")) return "Ce compte Google a été désactivé";
+        if (code.includes("invalid-api-key") || code.includes("app-not-authorized")) return "La configuration Firebase de ce site n’est pas autorisée";
         if (code.includes("permission-denied")) return "Accès Firestore refusé par les règles";
         if (code.includes("network-request-failed") || code.includes("unavailable")) return "Connexion internet indisponible";
         return "Firebase est momentanément indisponible";
@@ -3465,6 +3698,8 @@
           cloudUnsubscribe = null;
         }
         firebaseUser = user || null;
+        if (firebaseUser) setRedirectPending(false);
+        setAuthBusy(false);
         updateAccountInterface(firebaseUser);
         if (!firebaseUser) return;
         setSyncStatus("loading", "Connexion à Firebase…");
@@ -3475,15 +3710,17 @@
       async function initializeFirebaseSync() {
         if (firebaseReady || firebaseInitializing) return;
         firebaseInitializing = true;
-        signInButton.disabled = true;
+        setAuthBusy(true);
         setSyncStatus("loading", "Connexion à Firebase…");
         try {
+          const firebaseCdn = `https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}`;
           const [appModule, authModule, firestoreModule] = await Promise.all([
-            import("https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js"),
-            import("https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js"),
-            import("https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js")
+            import(`${firebaseCdn}/firebase-app.js`),
+            import(`${firebaseCdn}/firebase-auth.js`),
+            import(`${firebaseCdn}/firebase-firestore.js`)
           ]);
-          const app = appModule.initializeApp(FIREBASE_CONFIG);
+          firebaseRuntimeConfig = runtimeFirebaseConfig();
+          const app = appModule.getApps().length ? appModule.getApp() : appModule.initializeApp(firebaseRuntimeConfig);
           firebaseAuth = authModule.getAuth(app);
           firebaseAuth.languageCode = "fr";
           firebaseDb = firestoreModule.getFirestore(app);
@@ -3498,66 +3735,155 @@
             onSnapshot: firestoreModule.onSnapshot,
             serverTimestamp: firestoreModule.serverTimestamp
           };
-          try {
-            await authModule.setPersistence(firebaseAuth, authModule.browserLocalPersistence);
-          } catch (_) {}
+
+          const persistenceOptions = [
+            authModule.browserLocalPersistence,
+            authModule.browserSessionPersistence,
+            authModule.inMemoryPersistence
+          ].filter(Boolean);
+          for (const persistence of persistenceOptions) {
+            try {
+              await authModule.setPersistence(firebaseAuth, persistence);
+              break;
+            } catch (_) {}
+          }
+
           firebaseReady = true;
-          signInButton.disabled = false;
-          authModule.onAuthStateChanged(firebaseAuth, user => handleAuthState(user), error => {
-            setSyncStatus("error", "Connexion impossible");
-            showToast(friendlyFirebaseError(error));
-          });
+          const hadRedirectPending = redirectWasPending();
+          let redirectResult = null;
           try {
-            await authModule.getRedirectResult(firebaseAuth);
+            redirectResult = await authModule.getRedirectResult(firebaseAuth);
+            if (redirectResult && redirectResult.user) {
+              setRedirectPending(false);
+              showToast("Connexion Google réussie");
+            } else if (hadRedirectPending && !firebaseAuth.currentUser) {
+              setRedirectPending(false);
+              accountEmail.textContent = "La redirection Google n’a pas pu être terminée";
+              setSyncStatus("error", "Connexion à reprendre");
+            }
           } catch (error) {
-            updateAccountInterface(null);
+            setRedirectPending(false);
             setSyncStatus("error", "Connexion impossible");
             showToast(friendlyFirebaseError(error));
           }
+
+          if (authUnsubscribe) authUnsubscribe();
+          authUnsubscribe = authModule.onAuthStateChanged(firebaseAuth, user => handleAuthState(user), error => {
+            setAuthBusy(false);
+            setSyncStatus("error", "Connexion impossible");
+            showToast(friendlyFirebaseError(error));
+          });
+          setTimeout(() => {
+            if (firebaseReady && authActionInProgress && !redirectWasPending()) {
+              setAuthBusy(false);
+              updateAccountInterface(firebaseAuth.currentUser || null);
+            }
+          }, 1500);
         } catch (error) {
           firebaseReady = false;
-          signInButton.disabled = true;
+          setAuthBusy(false);
           updateAccountInterface(null);
           accountEmail.textContent = "Données locales conservées";
           setSyncStatus(navigator.onLine === false ? "local" : "error", navigator.onLine === false ? "Local hors connexion" : "Firebase indisponible");
         } finally {
           firebaseInitializing = false;
+          if (!authActionInProgress) signInButton.disabled = false;
+        }
+      }
+
+      async function ensureFirebaseReady() {
+        if (firebaseReady) return true;
+        if (!firebaseInitializing) initializeFirebaseSync();
+        const startedAt = Date.now();
+        while (firebaseInitializing && Date.now() - startedAt < 10000) {
+          await new Promise(resolve => setTimeout(resolve, 40));
+        }
+        return firebaseReady;
+      }
+
+      function popupCanFallbackToRedirect(error) {
+        const code = String(error && error.code || "");
+        return redirectIsSameOrigin() && (
+          code.includes("popup-blocked") ||
+          code.includes("operation-not-supported-in-this-environment") ||
+          code.includes("web-storage-unsupported")
+        );
+      }
+
+      async function startGoogleRedirect(provider) {
+        setRedirectPending(true);
+        setSyncStatus("loading", "Ouverture de Google…");
+        try {
+          await firebaseSdk.signInWithRedirect(firebaseAuth, provider);
+        } catch (error) {
+          setRedirectPending(false);
+          throw error;
         }
       }
 
       async function connectGoogleAccount() {
-        if (!firebaseReady) await initializeFirebaseSync();
+        if (authActionInProgress) return;
+        if (!isHostedAuthContext()) {
+          setSyncStatus("error", "Hébergement HTTPS requis");
+          showToast("La connexion Google fonctionne depuis le site hébergé, pas en ouvrant directement le fichier");
+          return;
+        }
+        await ensureFirebaseReady();
         if (!firebaseSdk || !firebaseAuth) {
           showToast("Firebase n’est pas disponible pour le moment");
           return;
         }
+        setAuthBusy(true);
         try {
           setSyncStatus("loading", "Connexion Google…");
           const provider = new firebaseSdk.GoogleAuthProvider();
           provider.setCustomParameters({ prompt: "select_account" });
-          const mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-          const hosted = location.protocol === "http:" || location.protocol === "https:";
-          if (mobile && hosted) {
-            await firebaseSdk.signInWithRedirect(firebaseAuth, provider);
-          } else {
-            await firebaseSdk.signInWithPopup(firebaseAuth, provider);
+
+          if (isMobileDevice() && redirectIsSameOrigin()) {
+            await startGoogleRedirect(provider);
+            return;
+          }
+
+          try {
+            const result = await firebaseSdk.signInWithPopup(firebaseAuth, provider);
+            if (result && result.user) showToast("Connexion Google réussie");
+          } catch (popupError) {
+            if (!popupCanFallbackToRedirect(popupError)) throw popupError;
+            await startGoogleRedirect(provider);
+            return;
           }
         } catch (error) {
-          updateAccountInterface(null);
+          updateAccountInterface(firebaseAuth.currentUser || firebaseUser);
           setSyncStatus("error", "Connexion impossible");
           showToast(friendlyFirebaseError(error));
+        } finally {
+          if (!redirectWasPending()) setAuthBusy(false);
         }
       }
 
       signInButton.addEventListener("click", connectGoogleAccount);
       syncNowButton.addEventListener("click", () => synchronizeCloud({ pull: true }));
       signOutButton.addEventListener("click", async () => {
-        if (!firebaseSdk || !firebaseAuth) return;
+        if (!firebaseSdk || !firebaseAuth || authActionInProgress) return;
+        setAuthBusy(true);
+        setSyncStatus("loading", "Déconnexion…");
         try {
+          setRedirectPending(false);
+          clearTimeout(cloudSyncTimer);
+          if (cloudUnsubscribe) {
+            cloudUnsubscribe();
+            cloudUnsubscribe = null;
+          }
           await firebaseSdk.signOut(firebaseAuth);
+          firebaseUser = null;
+          updateAccountInterface(null);
           showToast("Déconnecté — données locales conservées");
         } catch (error) {
+          updateAccountInterface(firebaseAuth.currentUser || firebaseUser);
+          setSyncStatus("error", "Déconnexion impossible");
           showToast(friendlyFirebaseError(error));
+        } finally {
+          setAuthBusy(false);
         }
       });
 
@@ -3583,10 +3909,10 @@
           openDetails(id);
         } else if (target.dataset.action === "owned") {
           setOwned(id, !(state[id] || blankEntry()).owned);
-          render();
+          refreshAfterStateChange(id);
         } else if (target.dataset.action === "mastered") {
           setMastered(id, !(state[id] || blankEntry()).mastered);
-          render();
+          refreshAfterStateChange(id);
         }
       });
 
@@ -3594,7 +3920,7 @@
         const target = event.target.closest('[data-action="level"]');
         if (!target) return;
         setLevel(target.dataset.id, target.value);
-        render();
+        refreshAfterStateChange(target.dataset.id);
       });
 
       document.querySelector(".chips").addEventListener("click", event => {
@@ -3605,7 +3931,7 @@
         render();
       });
 
-      searchInput.addEventListener("input", render);
+      searchInput.addEventListener("input", scheduleRender);
       variantFilter.addEventListener("change", render);
       rarityFilter.addEventListener("change", render);
       sortSelect.addEventListener("change", render);
@@ -3690,21 +4016,21 @@
         if (!activeDialogId) return;
         setOwned(activeDialogId, !(state[activeDialogId] || blankEntry()).owned);
         syncDialogButtons();
-        render();
+        refreshAfterStateChange(activeDialogId);
       });
 
       document.getElementById("dialogLevel").addEventListener("change", event => {
         if (!activeDialogId) return;
         setLevel(activeDialogId, event.target.value);
         syncDialogButtons();
-        render();
+        refreshAfterStateChange(activeDialogId);
       });
 
       document.getElementById("dialogMastered").addEventListener("click", () => {
         if (!activeDialogId) return;
         setMastered(activeDialogId, !(state[activeDialogId] || blankEntry()).mastered);
         syncDialogButtons();
-        render();
+        refreshAfterStateChange(activeDialogId);
       });
 
       document.getElementById("dialogNote").addEventListener("input", event => {
@@ -3737,9 +4063,22 @@
         }
       });
 
+      function scheduleFirebaseInitialization() {
+        if ("requestIdleCallback" in window) {
+          window.requestIdleCallback(() => initializeFirebaseSync(), { timeout: 650 });
+        } else {
+          setTimeout(() => initializeFirebaseSync(), 80);
+        }
+      }
+
       render();
       updateAccountInterface(null);
-      initializeFirebaseSync();
+      scheduleFirebaseInitialization();
+      if (document.readyState === "complete") {
+        startBackgroundImageWarmup();
+      } else {
+        window.addEventListener("load", startBackgroundImageWarmup, { once: true });
+      }
     })();
   </script>
 </body>
