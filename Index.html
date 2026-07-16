@@ -1,0 +1,2214 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#080b19">
+  <meta name="color-scheme" content="dark">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="Suivi mobile des 83 esprits disponibles dans Fortnite Chapitre 7 Saison 3.">
+  <title>Prime — Collection d'esprits Fortnite</title>
+  <style>
+    :root {
+      --bg: #080b19;
+      --panel: rgba(20, 24, 48, .88);
+      --panel-2: #171c36;
+      --card: #11162c;
+      --line: rgba(255,255,255,.105);
+      --text: #f8f9ff;
+      --muted: #a7aecb;
+      --yellow: #f6df32;
+      --purple: #9167ff;
+      --cyan: #3de6ef;
+      --green: #45e59a;
+      --danger: #ff617c;
+      --radius: 22px;
+      --shadow: 0 18px 45px rgba(0,0,0,.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      min-width: 280px;
+      min-height: 100vh;
+      min-height: 100dvh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 14% -8%, rgba(145,103,255,.35), transparent 30rem),
+        radial-gradient(circle at 100% 18%, rgba(61,230,239,.12), transparent 25rem),
+        linear-gradient(180deg, #0b0e20 0%, var(--bg) 65%);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+      overscroll-behavior-y: none;
+    }
+
+    button, input, select, textarea { font: inherit; }
+    button, select { touch-action: manipulation; }
+    button { color: inherit; }
+    a { color: var(--cyan); }
+
+    .app {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: 0 12px calc(90px + env(safe-area-inset-bottom));
+    }
+
+    .hero {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      margin: 0 -12px;
+      padding: calc(28px + env(safe-area-inset-top)) 18px 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      border-radius: 999px;
+      filter: blur(1px);
+      pointer-events: none;
+    }
+
+    .hero::before {
+      width: 230px;
+      height: 230px;
+      top: -120px;
+      right: -80px;
+      background: linear-gradient(140deg, rgba(246,223,50,.34), rgba(61,230,239,.08));
+      transform: rotate(22deg);
+    }
+
+    .hero::after {
+      width: 150px;
+      height: 150px;
+      left: -85px;
+      bottom: -85px;
+      background: rgba(145,103,255,.24);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      color: var(--yellow);
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 16px var(--green);
+    }
+
+    h1 {
+      max-width: 760px;
+      margin: 0;
+      font-size: clamp(2rem, 9vw, 4.4rem);
+      line-height: .92;
+      letter-spacing: -.055em;
+      text-wrap: balance;
+    }
+
+    h1 span {
+      color: var(--yellow);
+      text-shadow: 0 7px 35px rgba(246,223,50,.16);
+    }
+
+    .hero-copy {
+      max-width: 650px;
+      margin: 13px 0 0;
+      color: var(--muted);
+      font-size: .92rem;
+      line-height: 1.5;
+    }
+
+    .edition {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .edition span {
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.045);
+      color: #d9dcf0;
+      font-size: .72rem;
+      font-weight: 750;
+    }
+
+    .dashboard {
+      position: relative;
+      z-index: 2;
+      margin-top: -1px;
+      padding: 15px 0 12px;
+    }
+
+    .sync-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      padding: 11px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: linear-gradient(135deg, rgba(145,103,255,.13), rgba(17,22,44,.82) 48%, rgba(61,230,239,.07));
+      box-shadow: 0 10px 24px rgba(0,0,0,.18);
+    }
+
+    .sync-account {
+      display: flex;
+      min-width: 0;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sync-avatar {
+      display: grid;
+      flex: 0 0 40px;
+      width: 40px;
+      height: 40px;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 13px;
+      background: rgba(255,255,255,.07);
+      color: var(--cyan);
+    }
+
+    .sync-avatar svg { width: 22px; height: 22px; }
+    .sync-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+    .sync-copy { min-width: 0; }
+
+    .sync-copy strong,
+    .sync-copy span {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .sync-copy strong { font-size: .79rem; }
+    .sync-copy span { margin-top: 3px; color: var(--muted); font-size: .66rem; }
+
+    .sync-controls {
+      display: flex;
+      flex: 0 0 auto;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 7px;
+    }
+
+    .sync-state {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      max-width: 150px;
+      padding: 7px 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(5,8,20,.35);
+      color: #d7dbee;
+      font-size: .62rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .sync-state span:last-child {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sync-dot {
+      flex: 0 0 7px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #7f87a7;
+      box-shadow: 0 0 0 3px rgba(127,135,167,.12);
+    }
+
+    .sync-state[data-state="synced"] .sync-dot { background: var(--green); box-shadow: 0 0 0 3px rgba(69,229,154,.12); }
+    .sync-state[data-state="loading"] .sync-dot { background: var(--cyan); box-shadow: 0 0 0 3px rgba(61,230,239,.12); }
+    .sync-state[data-state="pending"] .sync-dot { background: var(--yellow); box-shadow: 0 0 0 3px rgba(246,223,50,.12); }
+    .sync-state[data-state="error"] .sync-dot { background: var(--danger); box-shadow: 0 0 0 3px rgba(255,97,124,.12); }
+
+    .sync-btn {
+      min-height: 36px;
+      padding: 7px 10px;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 11px;
+      background: rgba(255,255,255,.075);
+      color: var(--text);
+      font-size: .67rem;
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .sync-btn.primary { border-color: transparent; background: #f8f9ff; color: #11152b; }
+    .sync-btn.icon { width: 36px; padding: 0; font-size: 1rem; }
+    .sync-btn:disabled { opacity: .5; cursor: default; }
+    [hidden] { display: none !important; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .stat {
+      min-width: 0;
+      padding: 12px 10px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(17,22,44,.78);
+      box-shadow: 0 10px 24px rgba(0,0,0,.18);
+    }
+
+    .stat strong {
+      display: block;
+      overflow: hidden;
+      color: var(--text);
+      font-size: clamp(1.08rem, 5vw, 1.55rem);
+      line-height: 1;
+      letter-spacing: -.04em;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 6px;
+      overflow: hidden;
+      color: var(--muted);
+      font-size: .64rem;
+      font-weight: 800;
+      letter-spacing: .055em;
+      text-overflow: ellipsis;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .progress-wrap {
+      margin-top: 10px;
+      padding: 11px 12px 12px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(17,22,44,.74);
+    }
+
+    .progress-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: .73rem;
+      font-weight: 750;
+    }
+
+    .progress-head strong { color: var(--text); }
+
+    .progress-track {
+      overflow: hidden;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.075);
+    }
+
+    .progress-fill {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--purple), var(--cyan), var(--yellow));
+      box-shadow: 0 0 18px rgba(61,230,239,.38);
+      transition: width .35s ease;
+    }
+
+    .toolbar {
+      position: sticky;
+      z-index: 30;
+      top: 0;
+      margin: 0 -12px 14px;
+      padding: 10px 12px 11px;
+      border-top: 1px solid rgba(255,255,255,.04);
+      border-bottom: 1px solid var(--line);
+      background: rgba(8,11,25,.89);
+      box-shadow: 0 12px 30px rgba(0,0,0,.24);
+      backdrop-filter: blur(18px) saturate(150%);
+      -webkit-backdrop-filter: blur(18px) saturate(150%);
+    }
+
+    .search-row {
+      display: grid;
+      grid-template-columns: minmax(0,1fr) 44px;
+      gap: 8px;
+    }
+
+    .search-box {
+      position: relative;
+      min-width: 0;
+    }
+
+    .search-box svg {
+      position: absolute;
+      top: 50%;
+      left: 13px;
+      width: 18px;
+      height: 18px;
+      color: var(--muted);
+      pointer-events: none;
+      transform: translateY(-50%);
+    }
+
+    .search-box input {
+      width: 100%;
+      height: 44px;
+      padding: 0 12px 0 40px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      outline: none;
+      background: var(--panel-2);
+      color: var(--text);
+      font-size: .9rem;
+    }
+
+    .search-box input:focus {
+      border-color: rgba(61,230,239,.65);
+      box-shadow: 0 0 0 3px rgba(61,230,239,.1);
+    }
+
+    .tools-toggle {
+      display: grid;
+      width: 44px;
+      height: 44px;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--panel-2);
+      cursor: pointer;
+    }
+
+    .tools-toggle svg { width: 20px; height: 20px; }
+
+    .chips {
+      display: flex;
+      gap: 7px;
+      margin-top: 9px;
+      padding-bottom: 1px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .chips::-webkit-scrollbar { display: none; }
+
+    .chip {
+      flex: 0 0 auto;
+      min-height: 36px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.045);
+      color: var(--muted);
+      font-size: .76rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .chip[aria-selected="true"] {
+      border-color: rgba(246,223,50,.65);
+      background: var(--yellow);
+      color: #111426;
+      box-shadow: 0 7px 18px rgba(246,223,50,.14);
+    }
+
+    .selects {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 7px;
+      margin-top: 8px;
+    }
+
+    select {
+      min-width: 0;
+      height: 38px;
+      padding: 0 28px 0 10px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      outline: none;
+      background: var(--panel-2);
+      color: var(--text);
+      font-size: .72rem;
+      font-weight: 750;
+    }
+
+    .tools-panel {
+      display: none;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 7px;
+      margin-top: 9px;
+    }
+
+    .tools-panel.open { display: grid; }
+
+    .tool-btn {
+      min-height: 40px;
+      padding: 7px 8px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: rgba(255,255,255,.055);
+      color: #dfe2f4;
+      font-size: .7rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .tool-btn.danger { color: #ff9aaa; }
+
+    .result-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 0 2px 10px;
+      color: var(--muted);
+      font-size: .75rem;
+    }
+
+    .result-line strong { color: var(--text); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px;
+    }
+
+    .sprite-card {
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(29,35,69,.96), rgba(14,18,37,.98));
+      box-shadow: 0 13px 28px rgba(0,0,0,.24);
+      content-visibility: auto;
+      contain-intrinsic-size: 330px;
+      transition: border-color .2s ease, transform .2s ease, opacity .2s ease;
+    }
+
+    .sprite-card.owned {
+      border-color: rgba(69,229,154,.52);
+      box-shadow: 0 13px 30px rgba(0,0,0,.25), inset 0 0 0 1px rgba(69,229,154,.08);
+    }
+
+    .sprite-card.mastered {
+      border-color: rgba(246,223,50,.68);
+      box-shadow: 0 13px 30px rgba(0,0,0,.25), 0 0 24px rgba(246,223,50,.08);
+    }
+
+    .image-button {
+      position: relative;
+      display: block;
+      width: 100%;
+      padding: 0;
+      overflow: hidden;
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      background: none;
+      cursor: pointer;
+    }
+
+    .sprite-image {
+      position: relative;
+      display: grid;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      place-items: center;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 47%, var(--glow, rgba(145,103,255,.36)), transparent 54%),
+        linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.008));
+    }
+
+    .sprite-image::before {
+      content: "";
+      position: absolute;
+      inset: 8%;
+      border: 1px solid rgba(255,255,255,.075);
+      border-radius: 50%;
+    }
+
+    .sprite-image::after {
+      content: "✦";
+      position: absolute;
+      z-index: 0;
+      color: rgba(255,255,255,.18);
+      font-size: 2rem;
+    }
+
+    .sprite-image img {
+      position: relative;
+      z-index: 1;
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 5%;
+      object-fit: contain;
+      filter: drop-shadow(0 15px 17px rgba(0,0,0,.36));
+      transition: transform .22s ease;
+    }
+
+    .sprite-image img.broken { opacity: 0; }
+    .image-button:active img { transform: scale(.96); }
+
+    .badges {
+      position: absolute;
+      z-index: 3;
+      top: 8px;
+      right: 8px;
+      left: 8px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 5px;
+      pointer-events: none;
+    }
+
+    .badge {
+      max-width: 72%;
+      overflow: hidden;
+      padding: 5px 7px;
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 999px;
+      background: rgba(8,11,25,.73);
+      box-shadow: 0 5px 12px rgba(0,0,0,.2);
+      color: white;
+      font-size: .55rem;
+      font-weight: 900;
+      letter-spacing: .045em;
+      text-overflow: ellipsis;
+      text-transform: uppercase;
+      white-space: nowrap;
+      backdrop-filter: blur(8px);
+    }
+
+    .badge.variant { margin-left: auto; color: var(--variant-color, #fff); }
+    .badge.rare { color: #7fd5ff; }
+    .badge.epic { color: #d49bff; }
+    .badge.legendary { color: #ffb45e; }
+    .badge.mythic { color: #f7eb62; }
+
+    .owned-mark {
+      position: absolute;
+      z-index: 4;
+      right: 8px;
+      bottom: 8px;
+      display: none;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 7px;
+      border-radius: 999px;
+      background: var(--green);
+      color: #07170f;
+      font-size: .58rem;
+      font-weight: 950;
+      text-transform: uppercase;
+    }
+
+    .owned .owned-mark { display: inline-flex; }
+
+    .card-body { padding: 10px; }
+
+    .card-title-row {
+      display: grid;
+      grid-template-columns: minmax(0,1fr) 32px;
+      align-items: start;
+      gap: 5px;
+      min-height: 43px;
+    }
+
+    .card-title {
+      margin: 0;
+      overflow: hidden;
+      font-size: clamp(.78rem, 3.5vw, .98rem);
+      line-height: 1.14;
+      letter-spacing: -.025em;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .card-subtitle {
+      display: block;
+      margin-top: 4px;
+      overflow: hidden;
+      color: var(--muted);
+      font-size: .6rem;
+      font-weight: 650;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .info-btn {
+      display: grid;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      font-size: .85rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .card-actions {
+      display: grid;
+      grid-template-columns: minmax(0,1fr) minmax(62px,.72fr);
+      gap: 6px;
+      margin-top: 9px;
+    }
+
+    .own-btn,
+    .master-btn {
+      min-width: 0;
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: rgba(255,255,255,.055);
+      color: #d7daec;
+      font-size: .68rem;
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .own-btn[aria-pressed="true"] {
+      border-color: rgba(69,229,154,.35);
+      background: rgba(69,229,154,.16);
+      color: #8ef2be;
+    }
+
+    .level-select {
+      width: 100%;
+      height: 40px;
+      padding-left: 8px;
+      font-size: .68rem;
+    }
+
+    .master-btn {
+      width: 100%;
+      margin-top: 6px;
+      min-height: 36px;
+      color: var(--muted);
+    }
+
+    .master-btn[aria-pressed="true"] {
+      border-color: rgba(246,223,50,.38);
+      background: rgba(246,223,50,.13);
+      color: var(--yellow);
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      padding: 48px 20px;
+      border: 1px dashed rgba(255,255,255,.16);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.025);
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .empty-state strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    .footer {
+      padding: 32px 8px 0;
+      color: #777f9e;
+      font-size: .68rem;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .footer p { margin: 5px 0; }
+
+    .top-btn {
+      position: fixed;
+      z-index: 45;
+      right: 14px;
+      bottom: calc(14px + env(safe-area-inset-bottom));
+      display: grid;
+      width: 46px;
+      height: 46px;
+      padding: 0;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 15px;
+      background: rgba(27,32,62,.92);
+      box-shadow: var(--shadow);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(12px);
+      transition: .2s ease;
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+    }
+
+    .top-btn.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    dialog {
+      width: min(500px, calc(100% - 22px));
+      max-height: calc(100dvh - 22px);
+      padding: 0;
+      overflow: hidden auto;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 24px;
+      background: #10152b;
+      color: var(--text);
+      box-shadow: 0 28px 90px rgba(0,0,0,.62);
+    }
+
+    dialog::backdrop {
+      background: rgba(3,5,14,.78);
+      backdrop-filter: blur(8px);
+    }
+
+    .dialog-inner { padding: 12px 12px calc(16px + env(safe-area-inset-bottom)); }
+
+    .dialog-top {
+      position: sticky;
+      z-index: 3;
+      top: 0;
+      display: flex;
+      justify-content: flex-end;
+      height: 0;
+    }
+
+    .dialog-close {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      margin: 8px;
+      padding: 0;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 14px;
+      background: rgba(8,11,25,.82);
+      color: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+    }
+
+    .dialog-image {
+      display: grid;
+      width: min(100%, 330px);
+      aspect-ratio: 1;
+      margin: 0 auto;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: radial-gradient(circle, var(--glow, rgba(145,103,255,.35)), transparent 60%);
+    }
+
+    .dialog-image img {
+      width: 100%;
+      height: 100%;
+      padding: 5%;
+      object-fit: contain;
+      filter: drop-shadow(0 18px 20px rgba(0,0,0,.35));
+    }
+
+    .dialog-content { padding: 16px 4px 0; }
+
+    .dialog-kicker {
+      color: var(--yellow);
+      font-size: .67rem;
+      font-weight: 900;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+
+    .dialog-content h2 {
+      margin: 5px 0 6px;
+      font-size: clamp(1.45rem, 7vw, 2rem);
+      line-height: 1;
+      letter-spacing: -.045em;
+    }
+
+    .dialog-original { color: var(--muted); font-size: .75rem; }
+
+    .effect-box,
+    .variant-box {
+      margin-top: 13px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255,255,255,.035);
+      color: #d7daec;
+      font-size: .82rem;
+      line-height: 1.48;
+    }
+
+    .effect-box strong,
+    .variant-box strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--text);
+      font-size: .67rem;
+      letter-spacing: .065em;
+      text-transform: uppercase;
+    }
+
+    .dialog-controls {
+      display: grid;
+      grid-template-columns: repeat(2,minmax(0,1fr));
+      gap: 8px;
+      margin-top: 13px;
+    }
+
+    .dialog-controls button,
+    .dialog-controls select {
+      width: 100%;
+      min-height: 46px;
+      border-radius: 13px;
+    }
+
+    .notes-label {
+      display: block;
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: .69rem;
+      font-weight: 800;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+
+    .notes-label textarea {
+      width: 100%;
+      min-height: 88px;
+      margin-top: 7px;
+      padding: 11px 12px;
+      resize: vertical;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      outline: none;
+      background: rgba(255,255,255,.045);
+      color: var(--text);
+      font-size: .84rem;
+      line-height: 1.4;
+    }
+
+    .notes-label textarea:focus { border-color: rgba(61,230,239,.55); }
+
+    .confirm-dialog { width: min(390px, calc(100% - 28px)); }
+    .confirm-copy { padding: 22px; }
+    .confirm-copy h2 { margin: 0 0 8px; }
+    .confirm-copy p { margin: 0; color: var(--muted); line-height: 1.5; }
+    .confirm-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 18px; }
+    .confirm-actions button { min-height: 46px; border: 1px solid var(--line); border-radius: 13px; background: rgba(255,255,255,.06); font-weight: 850; cursor: pointer; }
+    .confirm-actions .confirm-reset { background: var(--danger); color: white; border-color: transparent; }
+
+    .toast {
+      position: fixed;
+      z-index: 80;
+      right: 14px;
+      bottom: calc(72px + env(safe-area-inset-bottom));
+      left: 14px;
+      width: fit-content;
+      max-width: calc(100% - 28px);
+      margin: auto;
+      padding: 11px 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 13px;
+      background: rgba(27,32,62,.96);
+      box-shadow: var(--shadow);
+      color: white;
+      font-size: .78rem;
+      font-weight: 800;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: .22s ease;
+    }
+
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    @media (min-width: 700px) {
+      .app { padding-inline: 20px; }
+      .hero { margin-inline: -20px; padding-inline: 28px; }
+      .dashboard { padding-top: 20px; }
+      .toolbar { margin-inline: -20px; padding-inline: 20px; }
+      .grid { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; }
+      .sync-card, .stats, .progress-wrap { max-width: 720px; }
+      .stats { gap: 12px; }
+      .stat { padding: 15px; }
+      .toolbar { display: grid; grid-template-columns: minmax(260px,.9fr) minmax(0,1.4fr); column-gap: 12px; align-items: start; }
+      .search-row { grid-column: 1; grid-row: 1 / span 2; }
+      .chips { grid-column: 2; margin-top: 0; }
+      .selects { grid-column: 2; }
+      .tools-panel { grid-column: 1 / -1; }
+    }
+
+    @media (min-width: 1000px) {
+      .grid { grid-template-columns: repeat(4, minmax(0,1fr)); }
+    }
+
+    @media (max-width: 520px) {
+      .sync-card { align-items: stretch; flex-direction: column; }
+      .sync-controls { justify-content: space-between; }
+      .sync-state { flex: 1 1 120px; max-width: none; }
+    }
+
+    @media (max-width: 340px) {
+      .grid { grid-template-columns: 1fr; }
+      .sprite-card { max-width: 300px; margin-inline: auto; }
+      .selects { grid-template-columns: 1fr 1fr; }
+      .selects select:last-child { grid-column: 1 / -1; }
+      .tools-panel { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app" id="top">
+    <header class="hero">
+      <div class="eyebrow">Chapitre 7 · Saison 3</div>
+      <h1>Ma collection<br><span>d’esprits</span></h1>
+      <p class="hero-copy">Coche chaque version récupérée, indique son niveau et marque celles que tu as maîtrisées. Tout reste enregistré sur ton téléphone et peut être synchronisé avec ton compte Google.</p>
+      <div class="edition">
+        <span>21 esprits de base</span>
+        <span>83 versions disponibles</span>
+        <span>Mis à jour le 16 juillet 2026</span>
+      </div>
+    </header>
+
+    <section class="dashboard" aria-label="Progression">
+      <div class="sync-card" id="firebaseCard">
+        <div class="sync-account">
+          <div class="sync-avatar" aria-hidden="true">
+            <svg id="firebaseIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m5 17 2.2-14 4.1 7.7L14.7 5 19 17l-7 4Z"></path><path d="m5 17 6.3-6.3L19 17"></path></svg>
+            <img id="accountAvatar" alt="" referrerpolicy="no-referrer" hidden>
+          </div>
+          <div class="sync-copy">
+            <strong id="accountName">Synchronisation Firebase</strong>
+            <span id="accountEmail">Enregistré sur cet appareil</span>
+          </div>
+        </div>
+        <div class="sync-controls">
+          <div class="sync-state" id="syncState" data-state="local" role="status" aria-live="polite"><span class="sync-dot"></span><span id="syncStateText">Local</span></div>
+          <button class="sync-btn primary" id="signInBtn" type="button" disabled>Connexion Google</button>
+          <button class="sync-btn" id="syncNowBtn" type="button" hidden>Synchroniser</button>
+          <button class="sync-btn icon" id="signOutBtn" type="button" aria-label="Se déconnecter de Firebase" title="Déconnexion" hidden>↪</button>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><strong id="ownedStat">0/83</strong><span>Possédés</span></div>
+        <div class="stat"><strong id="masteredStat">0/83</strong><span>Maîtrisés</span></div>
+        <div class="stat"><strong id="levelStat">—</strong><span>Niveau moyen</span></div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-head"><span>Collection complète</span><strong id="percentStat">0 %</strong></div>
+        <div class="progress-track" role="progressbar" aria-label="Collection complétée" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+    </section>
+
+    <section class="toolbar" aria-label="Recherche et filtres">
+      <div class="search-row">
+        <label class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+          <input id="searchInput" type="search" placeholder="Rechercher un esprit…" autocomplete="off" spellcheck="false" aria-label="Rechercher un esprit">
+        </label>
+        <button class="tools-toggle" id="toolsToggle" type="button" aria-label="Sauvegarde et options" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"></path><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 8.5 19.4a1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 8.5a1.7 1.7 0 0 0-.34-1.88l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V3a2 2 0 1 1 4 0v.09A1.7 1.7 0 0 0 15.5 4.6a1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.14.37.35.7.6 1 .3.3.7.45 1.1.4H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51.6Z"></path></svg>
+        </button>
+      </div>
+
+      <div class="chips" role="listbox" aria-label="État de collection">
+        <button class="chip" type="button" data-status="all" aria-selected="true">Tous</button>
+        <button class="chip" type="button" data-status="owned" aria-selected="false">✓ Possédés</button>
+        <button class="chip" type="button" data-status="missing" aria-selected="false">Manquants</button>
+        <button class="chip" type="button" data-status="mastered" aria-selected="false">★ Maîtrisés</button>
+      </div>
+
+      <div class="selects">
+        <select id="variantFilter" aria-label="Filtrer par variante">
+          <option value="all">Toutes variantes</option>
+          <option value="base">Base</option>
+          <option value="gold">Or</option>
+          <option value="gummy">Gélifié</option>
+          <option value="galaxy">Galaxie</option>
+          <option value="holofoil">Holofoil</option>
+        </select>
+        <select id="rarityFilter" aria-label="Filtrer par rareté">
+          <option value="all">Toutes raretés</option>
+          <option value="rare">Rare</option>
+          <option value="epic">Épique</option>
+          <option value="legendary">Légendaire</option>
+          <option value="mythic">Mythique</option>
+        </select>
+        <select id="sortSelect" aria-label="Trier la collection">
+          <option value="catalog">Ordre collection</option>
+          <option value="name">Nom A–Z</option>
+          <option value="level">Niveau décroissant</option>
+          <option value="rarity">Rareté décroissante</option>
+        </select>
+      </div>
+
+      <div class="tools-panel" id="toolsPanel">
+        <button class="tool-btn" id="exportBtn" type="button">Exporter ma sauvegarde</button>
+        <button class="tool-btn" id="importBtn" type="button">Importer une sauvegarde</button>
+        <button class="tool-btn danger" id="resetBtn" type="button">Tout réinitialiser</button>
+        <input id="importInput" type="file" accept="application/json,.json" hidden>
+      </div>
+    </section>
+
+    <div class="result-line"><span><strong id="resultCount">83</strong> version(s) affichée(s)</span><span id="activeHint">Catalogue complet</span></div>
+    <main class="grid" id="spriteGrid" aria-live="polite"></main>
+
+    <footer class="footer">
+      <p>Données vérifiées pour la mise à jour Fortnite v41.20. Les futures variantes non encore récupérables ne sont pas incluses dans les 83.</p>
+      <p>Visuels Fortnite © Epic Games. Application non officielle. Sources : <a href="https://fortnite.gg/sprites" target="_blank" rel="noopener noreferrer">Fortnite.GG</a> · <a href="https://communities.epicgames.com/thread/v41-20-fortnite-runners-battle-royale-update-notes/PVIq" target="_blank" rel="noopener noreferrer">notes v41.20</a></p>
+    </footer>
+  </div>
+
+  <button class="top-btn" id="topBtn" type="button" aria-label="Revenir en haut">↑</button>
+
+  <dialog id="detailDialog">
+    <div class="dialog-top"><button class="dialog-close" id="detailClose" type="button" aria-label="Fermer">×</button></div>
+    <div class="dialog-inner">
+      <div class="dialog-image" id="dialogImageBox"><img id="dialogImage" alt="" width="600" height="600"></div>
+      <div class="dialog-content">
+        <div class="dialog-kicker" id="dialogKicker"></div>
+        <h2 id="dialogTitle"></h2>
+        <div class="dialog-original" id="dialogOriginal"></div>
+        <div class="effect-box"><strong>Capacité</strong><span id="dialogEffect"></span></div>
+        <div class="variant-box"><strong>Bonus de variante</strong><span id="dialogVariantEffect"></span></div>
+        <div class="dialog-controls">
+          <button class="own-btn" id="dialogOwned" type="button" aria-pressed="false">✓ Je l’ai</button>
+          <select class="level-select" id="dialogLevel" aria-label="Niveau de cet esprit"></select>
+          <button class="master-btn" id="dialogMastered" type="button" aria-pressed="false">★ Maîtrisé</button>
+          <button class="tool-btn" id="dialogNext" type="button">Suivant →</button>
+        </div>
+        <label class="notes-label">Ma note personnelle<textarea id="dialogNote" maxlength="500" placeholder="Ex. trouvé près de…, à améliorer…"></textarea></label>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="confirm-dialog" id="resetDialog">
+    <div class="confirm-copy">
+      <h2>Réinitialiser la collection ?</h2>
+      <p>Toutes les cases, tous les niveaux et toutes tes notes seront effacés sur cet appareil et, si tu es connecté, dans Firebase.</p>
+      <div class="confirm-actions">
+        <button id="cancelReset" type="button">Annuler</button>
+        <button class="confirm-reset" id="confirmReset" type="button">Tout effacer</button>
+      </div>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const IMAGE_ROOT = "https://fortnite.gg/img/x/sprites/icons/";
+      const STORAGE_KEY = "prime-fortnite-esprits-v41-20";
+      const META_KEY = "prime-fortnite-esprits-v41-20-meta";
+      const FIREBASE_CONFIG = Object.freeze({
+        apiKey: "AIzaSyD39GIbGoaZepVfNB1Qj33VLus_x-hR5Jg",
+        authDomain: "budget-master-pro-27c23.firebaseapp.com",
+        projectId: "budget-master-pro-27c23",
+        storageBucket: "budget-master-pro-27c23.firebasestorage.app",
+        messagingSenderId: "625395489880",
+        appId: "1:625395489880:web:14d8a071d7573d93dafe2d",
+        measurementId: "G-528WFJ7ZWN"
+      });
+
+      const variants = {
+        base: {
+          fr: "Base", en: "Base", color: "#ffffff",
+          effect: "Aucun bonus de variante : seule la capacité propre de l’esprit s’applique."
+        },
+        gold: {
+          fr: "Or", en: "Gold", color: "#ffe46b",
+          effect: "Accorde un bonus d’EXP pour chaque élimination."
+        },
+        gummy: {
+          fr: "Gélifié", en: "Gummy", color: "#ff83c8",
+          effect: "Augmente de 10 % la Poussière d’esprit gagnée lors de l’extraction."
+        },
+        galaxy: {
+          fr: "Galaxie", en: "Galaxy", color: "#a8a0ff",
+          effect: "Accorde davantage de munitions lors de l’ouverture des boîtes de munitions."
+        },
+        holofoil: {
+          fr: "Holofoil", en: "Holofoil", color: "#78f4ee",
+          effect: "Augmente de 5 % pour l’escouade la chance de trouver d’autres variantes rares dans les coffres."
+        }
+      };
+
+      const families = [
+        {
+          key: "batman", fr: "Esprit Batman", en: "Batman Sprite", rarity: "mythic",
+          effect: "Permet de s’élancer dans les airs et de déployer la Bat-Cape.",
+          images: {
+            base: "T_Icon_BR_FossilMeal_Default_L.webp",
+            gold: "T_Icon_BR_FossilMeal_Gold_L.webp",
+            gummy: "T_Icon_BR_FossilMeal_Candy_L.webp",
+            galaxy: "T_Icon_BR_FossilMeal_Galaxy_L.webp",
+            holofoil: "T_Icon_BR_FossilMeal_Holofoil_L.webp"
+          }
+        },
+        {
+          key: "water", fr: "Esprit de l’eau", en: "Water Sprite", rarity: "rare",
+          effect: "Régénère le bouclier dans l’eau. La régénération passe de 2 à 6 points par pulsation entre les niveaux 1 et 5.",
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_Water_Unvault_Ch7S3_ui_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_Water_Gold_ui_L.webp",
+            gummy: "T_Icon_BR_Creature_Sprite_Water_Candy_ui_L.webp",
+            galaxy: "T_Icon_BR_Creature_Sprite_Water_Galaxy_ui_L.webp",
+            holofoil: "T_Icon_BR_Creature_Sprite_Water_Holofoil_ui_L.webp"
+          }
+        },
+        {
+          key: "earth", fr: "Esprit de la terre", en: "Earth Sprite", rarity: "rare",
+          effect: "Donne une chance de trouver du butin rare supplémentaire en ouvrant des coffres.",
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_Earth_Ch7S3_UI_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_Earth_Gold_ui_L.webp",
+            gummy: "T_Icon_BR_Creature_Sprite_Earth_Candy_ui_L.webp",
+            galaxy: "T_Icon_BR_Creature_Sprite_Earth_Galaxy_ui_L.webp"
+          }
+        },
+        {
+          key: "fire", fr: "Esprit du feu", en: "Fire Sprite", rarity: "rare",
+          effect: "Déclenche une explosion de feu après avoir infligé suffisamment de dégâts à un adversaire.",
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_Fire_Unvault_Ch7S3_ui_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_Fire_Gold_ui_L.webp",
+            gummy: "T_Icon_BR_Creature_Sprite_Fire_Candy_ui_L.webp",
+            galaxy: "T_Icon_BR_Creature_Sprite_Fire_Galaxy_ui_L.webp",
+            holofoil: "T_Icon_BR_Creature_Sprite_Fire_Holofoil_ui_L.webp"
+          }
+        },
+        {
+          key: "duck", fr: "Esprit canard", en: "Duck Sprite", rarity: "epic",
+          effect: "Régénère le bouclier lorsque tu utilises une emote ou que tu fais un Jam.",
+          images: {
+            base: "T_Icon_BR_Duck_Default_L.webp",
+            gold: "T_Icon_BR_Duck_Gold_L.webp",
+            gummy: "T_Icon_BR_Duck_Candy_L.webp",
+            galaxy: "T_Icon_BR_Duck_Galaxy_L.webp"
+          }
+        },
+        {
+          key: "ghost", fr: "Esprit fantôme", en: "Ghost Sprite", rarity: "epic",
+          effect: "Te rend invisible pendant un court instant après un rechargement.",
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_Ghost_Unvault_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_Ghost_Gold_L.webp",
+            gummy: "T_Icon_BR_Creature_Sprite_Ghost_Candy_L.webp",
+            galaxy: "T_Icon_BR_Creature_Sprite_Ghost_Galaxy_L.webp",
+            holofoil: "T_Icon_BR_Creature_Sprite_Ghost_Holo_L.webp"
+          }
+        },
+        {
+          key: "dream", fr: "Esprit des rêves", en: "Dream Sprite", rarity: "legendary",
+          effect: "Donne un objet aléatoire à chaque montée de niveau et libère du butin légendaire au niveau maximal.",
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_Sleepy_ui_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_Sleepy_Gold_ui_L.webp",
+            gummy: "T_Icon_BR_Creature_Sprite_Sleepy_Candy_ui_L.webp",
+            galaxy: "T_Icon_BR_Creature_Sprite_Sleepy_Galaxy_ui_L.webp"
+          }
+        },
+        {
+          key: "demon", fr: "Esprit démon", en: "Demon Sprite", rarity: "epic",
+          effect: "Rend des PV et du bouclier à chaque élimination : de 10 points au niveau 1 à 30 au niveau 5.",
+          images: {
+            base: "T_Icon_BR_RedDemon_Default_L.webp",
+            gold: "T_Icon_BR_RedDemon_Gold_L.webp",
+            gummy: "T_Icon_BR_RedDemon_Candy_L.webp",
+            galaxy: "T_Icon_BR_RedDemon_Galaxy_L.webp"
+          }
+        },
+        {
+          key: "punk", fr: "Esprit punk", en: "Punk Sprite", rarity: "legendary",
+          effect: "Peut occasionnellement accorder une amélioration de munitions illimitées… ou un effet surprise.",
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_Punk_ui_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_Punk_Gold_ui_L.webp",
+            gummy: "T_Icon_BR_Creature_Sprite_Punk_Candy_ui_L.webp",
+            galaxy: "T_Icon_BR_Creature_Sprite_Punk_Galaxy_ui_L.webp"
+          }
+        },
+        {
+          key: "king", fr: "Esprit roi", en: "King Sprite", rarity: "epic",
+          effect: "Augmente les dégâts de la pioche : le bonus progresse de 30 à 120 dégâts entre les niveaux 1 et 5.",
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_King_ui_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_King_Gold_ui_L.webp",
+            gummy: "T_Icon_BR_Creature_Sprite_King_Candy_ui_L.webp",
+            galaxy: "T_Icon_BR_Creature_Sprite_King_Galaxy_ui_L.webp",
+            holofoil: "T_Icon_BR_Creature_Sprite_King_Holofoil_ui_L.webp"
+          }
+        },
+        {
+          key: "pollo", fr: "Esprit Pollo", en: "Pollo Sprite", rarity: "mythic",
+          effect: "Après une élimination, régénère progressivement le bouclier pour toi et les membres proches de l’escouade pendant 6 à 10 secondes selon le niveau.",
+          images: { base: "T_Icon_BR_CompanyStargazer_Default_L.webp" }
+        },
+        {
+          key: "vini", fr: "Esprit Vini Jr.", en: "Vini Jr. Sprite", rarity: "mythic",
+          effect: "Après un sprint, rend la glissade destructrice. Toucher un ennemi avec une glissade augmente la cadence de tir et la vitesse de rechargement.",
+          images: { base: "T_Icon_BR_CokeParmesan_Default_L.webp" }
+        },
+        {
+          key: "burnt-peanut", fr: "Cacahuète brûlée", en: "Burnt Peanut", rarity: "mythic",
+          effect: "Peut faire apparaître du butin supplémentaire après une élimination, avec une chance de butin mythique au niveau maximal.",
+          images: { base: "T_Icon_BR_Creature_Sprite_BurntPeanut_ui_L.webp" }
+        },
+        {
+          key: "zero-point", fr: "Esprit du Point zéro", en: "Zero Point Sprite", rarity: "mythic",
+          effect: "Fait apparaître une mini bulle protectrice lorsque tu utilises un objet de soin sur toi-même.",
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_ZeroPoint_ui_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_ZeroPoint_Gold_ui_L.webp",
+            gummy: "T_Icon_BR_Creature_Sprite_ZeroPoint_Candy_ui_L.webp",
+            galaxy: "T_Icon_BR_Creature_Sprite_ZeroPoint_Galaxy_ui_L.webp"
+          }
+        },
+        {
+          key: "fishy", fr: "Esprit poisson", en: "Fishy Sprite", rarity: "rare",
+          effect: "Augmente la vitesse de nage et accorde une accélération de déplacement après avoir subi des dégâts.",
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_Fishy_ui_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_Fishy_Gold_ui_L.webp",
+            gummy: "T_Icon_BR_Creature_Sprite_Fishy_Candy_ui_L.webp",
+            galaxy: "T_Icon_BR_Creature_Sprite_Fishy_Galaxy_ui_L.webp"
+          }
+        },
+        {
+          key: "striker", fr: "Esprit frappeur", en: "Striker Sprite", rarity: "epic",
+          effect: "Accorde l’effet Surmultiplication après un rétablissement, un franchissement ou une course murale, pendant 6 à 10 secondes selon le niveau.",
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_Soccer_ui_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_Soccer_Gold_L.webp",
+            gummy: "T_Icon_BR_Creature_Sprite_Soccer_Candy_L.webp",
+            galaxy: "T_Icon_BR_Creature_Sprite_Soccer_Galaxy_L.webp",
+            holofoil: "T_Icon_BR_Creature_Sprite_Soccer_Holofoil_L.webp"
+          }
+        },
+        {
+          key: "aura", fr: "Esprit aura", en: "Aura Sprite", rarity: "epic",
+          effect: "Accorde une charge de roche antigravité après avoir infligé une quantité définie de dégâts.",
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_Drifter_ui_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_Drifter_Gold_ui_L.webp",
+            gummy: "T_Icon_BR_Creature_Sprite_Drifter_Candy_ui_L.webp",
+            galaxy: "T_Icon_BR_Creature_Sprite_Drifter_Galaxy_ui_L.webp"
+          }
+        },
+        {
+          key: "boss", fr: "Esprit boss", en: "Boss Sprite", rarity: "legendary",
+          effect: "Augmente fortement le maximum de PV et de bouclier.",
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_Boss_ui_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_Boss_Gold_ui_L.webp",
+            gummy: "T_Icon_BR_Creature_Sprite_Boss_Candy_ui_L.webp",
+            galaxy: "T_Icon_BR_Creature_Sprite_Boss_Galaxy_ui_L.webp"
+          }
+        },
+        {
+          key: "grim", fr: "Esprit faucheur", en: "Grim Sprite", rarity: "mythic",
+          effect: "Marque automatiquement les ennemis qui t’infligent des dégâts.",
+          images: {
+            base: "T_Icon_BR_GrimReaper_Default_L.webp",
+            gold: "T_Icon_BR_GrimReaper_Gold_L.webp",
+            gummy: "T_Icon_BR_GrimReaper_Candy_L.webp",
+            galaxy: "T_Icon_BR_GrimReaper_Galaxy_L.webp"
+          }
+        },
+        {
+          key: "air", fr: "Esprit de l’air", en: "Air Sprite", rarity: "rare",
+          effect: "Augmente la vitesse de sprint et la hauteur de saut, tout en annulant les dégâts de chute. La hauteur progresse avec le niveau.",
+          images: {
+            base: "T_Icon_BR_Air_Default_L.webp",
+            gold: "T_Icon_BR_Air_Gold_L.webp",
+            gummy: "T_Icon_BR_Air_Candy_L.webp",
+            galaxy: "T_Icon_BR_Air_Galaxy_L.webp",
+            holofoil: "T_Icon_BR_Air_Holo_L.webp"
+          }
+        },
+        {
+          key: "seven", fr: "Esprit des Sept", en: "Seven Sprite", rarity: "legendary",
+          effect: "Rend visibles pour l’escouade les traces de pas des ennemis pendant 10 à 30 secondes selon le niveau.",
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_Seven_ui_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_Seven_Gold_ui_L.webp",
+            gummy: "T_Icon_BR_Creature_Sprite_Seven_Candy_ui_L.webp",
+            galaxy: "T_Icon_BR_Creature_Sprite_Seven_Galaxy_ui_L.webp",
+            holofoil: "T_Icon_BR_Creature_Sprite_Seven_Holofoil_ui_L.webp"
+          }
+        }
+      ];
+
+      const rarityLabels = {
+        rare: "Rare",
+        epic: "Épique",
+        legendary: "Légendaire",
+        mythic: "Mythique"
+      };
+
+      const rarityRank = { rare: 1, epic: 2, legendary: 3, mythic: 4 };
+      const rarityGlow = {
+        rare: "rgba(61,174,255,.42)",
+        epic: "rgba(180,92,255,.43)",
+        legendary: "rgba(255,146,61,.43)",
+        mythic: "rgba(246,223,50,.39)"
+      };
+
+      const sprites = [];
+      families.forEach((family, familyIndex) => {
+        Object.entries(family.images).forEach(([variant, filename], variantIndex) => {
+          const v = variants[variant];
+          sprites.push({
+            id: `${family.key}-${variant}`,
+            familyKey: family.key,
+            familyIndex,
+            variantIndex,
+            variant,
+            fr: variant === "base" ? family.fr : `${family.fr} · ${v.fr}`,
+            en: variant === "base" ? family.en : `${v.en} ${family.en.replace(/ Sprite$/, "")}`,
+            rarity: family.rarity,
+            effect: family.effect,
+            image: IMAGE_ROOT + filename
+          });
+        });
+      });
+
+      let state = loadState();
+      let localUpdatedAt = loadLocalUpdatedAt();
+      let statusFilter = "all";
+      let activeDialogId = null;
+      let toastTimer = null;
+      let firebaseSdk = null;
+      let firebaseAuth = null;
+      let firebaseDb = null;
+      let firebaseUser = null;
+      let firebaseInitializing = false;
+      let firebaseReady = false;
+      let cloudUnsubscribe = null;
+      let cloudSyncTimer = null;
+      let cloudSyncing = false;
+      let cloudSyncQueued = false;
+      let cloudSyncQueuedPull = false;
+      let authSequence = 0;
+
+      const grid = document.getElementById("spriteGrid");
+      const searchInput = document.getElementById("searchInput");
+      const variantFilter = document.getElementById("variantFilter");
+      const rarityFilter = document.getElementById("rarityFilter");
+      const sortSelect = document.getElementById("sortSelect");
+      const detailDialog = document.getElementById("detailDialog");
+      const resetDialog = document.getElementById("resetDialog");
+      const progressTrack = document.querySelector(".progress-track");
+      const signInButton = document.getElementById("signInBtn");
+      const syncNowButton = document.getElementById("syncNowBtn");
+      const signOutButton = document.getElementById("signOutBtn");
+      const syncState = document.getElementById("syncState");
+      const syncStateText = document.getElementById("syncStateText");
+      const accountName = document.getElementById("accountName");
+      const accountEmail = document.getElementById("accountEmail");
+      const accountAvatar = document.getElementById("accountAvatar");
+      const firebaseIcon = document.getElementById("firebaseIcon");
+
+      function blankEntry() {
+        return { owned: false, level: 0, mastered: false, note: "", modifiedAt: 0 };
+      }
+
+      function normalizeEntry(value) {
+        const entry = blankEntry();
+        if (!value || typeof value !== "object") return entry;
+        entry.owned = Boolean(value.owned);
+        entry.level = Math.max(0, Math.min(5, Number(value.level) || 0));
+        entry.mastered = Boolean(value.mastered);
+        entry.note = typeof value.note === "string" ? value.note.slice(0, 500) : "";
+        entry.modifiedAt = Math.max(0, Number(value.modifiedAt) || 0);
+        if (entry.level > 0 || entry.mastered) entry.owned = true;
+        if (!entry.owned) entry.level = 0;
+        return entry;
+      }
+
+      function loadState() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+          const result = {};
+          sprites.forEach(sprite => { result[sprite.id] = normalizeEntry(saved[sprite.id]); });
+          return result;
+        } catch (_) {
+          const result = {};
+          sprites.forEach(sprite => { result[sprite.id] = blankEntry(); });
+          return result;
+        }
+      }
+
+      function loadLocalUpdatedAt() {
+        try {
+          const raw = localStorage.getItem(META_KEY);
+          const saved = raw ? JSON.parse(raw) : null;
+          const timestamp = typeof saved === "number" ? saved : Number(saved && saved.updatedAtMs);
+          if (Number.isFinite(timestamp) && timestamp > 0) return timestamp;
+          if (localStorage.getItem(STORAGE_KEY)) return Date.now();
+        } catch (_) {}
+        return 0;
+      }
+
+      function nextMutationTime() {
+        localUpdatedAt = Math.max(Date.now(), localUpdatedAt + 1);
+        return localUpdatedAt;
+      }
+
+      function touchEntry(entry) {
+        entry.modifiedAt = nextMutationTime();
+        return entry;
+      }
+
+      function saveState({ sync = true } = {}) {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          localStorage.setItem(META_KEY, JSON.stringify({ updatedAtMs: localUpdatedAt }));
+        } catch (_) {}
+        if (sync) scheduleCloudSync();
+      }
+
+      function entriesEqual(left, right) {
+        return left.owned === right.owned &&
+          left.level === right.level &&
+          left.mastered === right.mastered &&
+          left.note === right.note &&
+          left.modifiedAt === right.modifiedAt;
+      }
+
+      function stateFingerprint(collection = state) {
+        return JSON.stringify(sprites.map(sprite => {
+          const entry = normalizeEntry(collection[sprite.id]);
+          return [sprite.id, entry.owned, entry.level, entry.mastered, entry.note, entry.modifiedAt];
+        }));
+      }
+
+      function esc(value) {
+        return String(value).replace(/[&<>'"]/g, char => ({
+          "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;"
+        })[char]);
+      }
+
+      function levelOptions(current) {
+        let html = `<option value="0"${current === 0 ? " selected" : ""}>Niv. —</option>`;
+        for (let level = 1; level <= 5; level++) {
+          html += `<option value="${level}"${current === level ? " selected" : ""}>Niv. ${level}</option>`;
+        }
+        return html;
+      }
+
+      function cardTemplate(sprite, index) {
+        const entry = state[sprite.id] || blankEntry();
+        const variant = variants[sprite.variant];
+        const classes = ["sprite-card", entry.owned ? "owned" : "", entry.mastered ? "mastered" : ""].filter(Boolean).join(" ");
+        return `
+          <article class="${classes}" data-id="${sprite.id}">
+            <button class="image-button" type="button" data-action="details" data-id="${sprite.id}" aria-label="Voir les détails de ${esc(sprite.fr)}">
+              <div class="sprite-image" style="--glow:${rarityGlow[sprite.rarity]}">
+                <img src="${sprite.image}" alt="${esc(sprite.fr)}" width="600" height="600" loading="${index < 6 ? "eager" : "lazy"}" decoding="async" referrerpolicy="no-referrer" onerror="this.classList.add('broken')">
+                <div class="badges">
+                  <span class="badge ${sprite.rarity}">${rarityLabels[sprite.rarity]}</span>
+                  <span class="badge variant" style="--variant-color:${variant.color}">${variant.fr}</span>
+                </div>
+                <span class="owned-mark">✓ Obtenu</span>
+              </div>
+            </button>
+            <div class="card-body">
+              <div class="card-title-row">
+                <div>
+                  <h2 class="card-title">${esc(sprite.fr)}</h2>
+                  <span class="card-subtitle">${esc(sprite.en)}</span>
+                </div>
+                <button class="info-btn" type="button" data-action="details" data-id="${sprite.id}" aria-label="Informations">i</button>
+              </div>
+              <div class="card-actions">
+                <button class="own-btn" type="button" data-action="owned" data-id="${sprite.id}" aria-pressed="${entry.owned}">${entry.owned ? "✓ Obtenu" : "+ Je l’ai"}</button>
+                <select class="level-select" data-action="level" data-id="${sprite.id}" aria-label="Niveau de ${esc(sprite.fr)}">${levelOptions(entry.level)}</select>
+              </div>
+              <button class="master-btn" type="button" data-action="mastered" data-id="${sprite.id}" aria-pressed="${entry.mastered}">${entry.mastered ? "★ Maîtrisé" : "☆ Marquer maîtrisé"}</button>
+            </div>
+          </article>`;
+      }
+
+      function normalizedText(value) {
+        return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+      }
+
+      function getVisibleSprites() {
+        const query = normalizedText(searchInput.value.trim());
+        const selectedVariant = variantFilter.value;
+        const selectedRarity = rarityFilter.value;
+
+        const result = sprites.filter(sprite => {
+          const entry = state[sprite.id] || blankEntry();
+          const matchesSearch = !query || normalizedText(`${sprite.fr} ${sprite.en} ${variants[sprite.variant].fr}`).includes(query);
+          const matchesVariant = selectedVariant === "all" || sprite.variant === selectedVariant;
+          const matchesRarity = selectedRarity === "all" || sprite.rarity === selectedRarity;
+          const matchesStatus = statusFilter === "all" ||
+            (statusFilter === "owned" && entry.owned) ||
+            (statusFilter === "missing" && !entry.owned) ||
+            (statusFilter === "mastered" && entry.mastered);
+          return matchesSearch && matchesVariant && matchesRarity && matchesStatus;
+        });
+
+        if (sortSelect.value === "name") {
+          result.sort((a, b) => a.fr.localeCompare(b.fr, "fr"));
+        } else if (sortSelect.value === "level") {
+          result.sort((a, b) => (state[b.id].level - state[a.id].level) || a.familyIndex - b.familyIndex || a.variantIndex - b.variantIndex);
+        } else if (sortSelect.value === "rarity") {
+          result.sort((a, b) => rarityRank[b.rarity] - rarityRank[a.rarity] || a.familyIndex - b.familyIndex || a.variantIndex - b.variantIndex);
+        } else {
+          result.sort((a, b) => a.familyIndex - b.familyIndex || a.variantIndex - b.variantIndex);
+        }
+        return result;
+      }
+
+      function render() {
+        const visible = getVisibleSprites();
+        if (visible.length) {
+          grid.innerHTML = visible.map(cardTemplate).join("");
+        } else {
+          grid.innerHTML = `<div class="empty-state"><strong>Aucun esprit trouvé</strong>Essaie un autre filtre ou efface ta recherche.</div>`;
+        }
+
+        document.getElementById("resultCount").textContent = visible.length;
+        document.getElementById("activeHint").textContent = visible.length === sprites.length ? "Catalogue complet" : "Filtres actifs";
+        updateStats();
+      }
+
+      function updateStats() {
+        const entries = sprites.map(sprite => state[sprite.id] || blankEntry());
+        const owned = entries.filter(entry => entry.owned);
+        const mastered = entries.filter(entry => entry.mastered).length;
+        const average = owned.length ? owned.reduce((sum, entry) => sum + entry.level, 0) / owned.length : 0;
+        const percent = Math.round((owned.length / sprites.length) * 100);
+
+        document.getElementById("ownedStat").textContent = `${owned.length}/${sprites.length}`;
+        document.getElementById("masteredStat").textContent = `${mastered}/${sprites.length}`;
+        document.getElementById("levelStat").textContent = owned.length ? average.toLocaleString("fr-FR", { maximumFractionDigits: 1 }) : "—";
+        document.getElementById("percentStat").textContent = `${percent} %`;
+        document.getElementById("progressFill").style.width = `${percent}%`;
+        progressTrack.setAttribute("aria-valuenow", String(percent));
+      }
+
+      function setOwned(id, owned) {
+        const entry = state[id] || blankEntry();
+        entry.owned = owned;
+        if (owned && entry.level === 0) entry.level = 1;
+        if (!owned) {
+          entry.level = 0;
+          entry.mastered = false;
+        }
+        state[id] = touchEntry(entry);
+        saveState();
+      }
+
+      function setLevel(id, level) {
+        const entry = state[id] || blankEntry();
+        entry.level = Math.max(0, Math.min(5, Number(level) || 0));
+        entry.owned = entry.level > 0 || entry.mastered;
+        state[id] = touchEntry(entry);
+        saveState();
+      }
+
+      function setMastered(id, mastered) {
+        const entry = state[id] || blankEntry();
+        entry.mastered = mastered;
+        if (mastered) {
+          entry.owned = true;
+          entry.level = Math.max(1, entry.level);
+        }
+        state[id] = touchEntry(entry);
+        saveState();
+      }
+
+      function openDetails(id) {
+        const sprite = sprites.find(item => item.id === id);
+        if (!sprite) return;
+        activeDialogId = id;
+        const entry = state[id] || blankEntry();
+        const variant = variants[sprite.variant];
+        const image = document.getElementById("dialogImage");
+        image.classList.remove("broken");
+        image.src = sprite.image;
+        image.alt = sprite.fr;
+        image.onerror = () => image.classList.add("broken");
+        document.getElementById("dialogImageBox").style.setProperty("--glow", rarityGlow[sprite.rarity]);
+        document.getElementById("dialogKicker").textContent = `${rarityLabels[sprite.rarity]} · Variante ${variant.fr}`;
+        document.getElementById("dialogTitle").textContent = sprite.fr;
+        document.getElementById("dialogOriginal").textContent = sprite.en;
+        document.getElementById("dialogEffect").textContent = sprite.effect;
+        document.getElementById("dialogVariantEffect").textContent = variant.effect;
+        document.getElementById("dialogLevel").innerHTML = levelOptions(entry.level);
+        document.getElementById("dialogNote").value = entry.note;
+        syncDialogButtons();
+        if (!detailDialog.open) detailDialog.showModal();
+      }
+
+      function syncDialogButtons() {
+        if (!activeDialogId) return;
+        const entry = state[activeDialogId] || blankEntry();
+        const ownedButton = document.getElementById("dialogOwned");
+        const masteredButton = document.getElementById("dialogMastered");
+        ownedButton.setAttribute("aria-pressed", String(entry.owned));
+        ownedButton.textContent = entry.owned ? "✓ Obtenu" : "+ Je l’ai";
+        masteredButton.setAttribute("aria-pressed", String(entry.mastered));
+        masteredButton.textContent = entry.mastered ? "★ Maîtrisé" : "☆ Marquer maîtrisé";
+        document.getElementById("dialogLevel").value = String(entry.level);
+      }
+
+      function closeDialog(dialog) {
+        if (dialog && dialog.open) dialog.close();
+      }
+
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove("show"), 2200);
+      }
+
+      function setSyncStatus(kind, message) {
+        syncState.dataset.state = kind;
+        syncStateText.textContent = message;
+      }
+
+      function updateAccountInterface(user) {
+        const connected = Boolean(user);
+        signInButton.hidden = connected;
+        signInButton.disabled = !firebaseReady;
+        syncNowButton.hidden = !connected;
+        signOutButton.hidden = !connected;
+
+        if (!connected) {
+          accountName.textContent = "Synchronisation Firebase";
+          accountEmail.textContent = "Enregistré sur cet appareil";
+          accountAvatar.hidden = true;
+          accountAvatar.removeAttribute("src");
+          firebaseIcon.hidden = false;
+          setSyncStatus("local", navigator.onLine === false ? "Local hors connexion" : "Local");
+          return;
+        }
+
+        accountName.textContent = user.displayName || "Compte Google connecté";
+        accountEmail.textContent = user.email || "Sauvegarde Firebase active";
+        if (user.photoURL) {
+          accountAvatar.src = user.photoURL;
+          accountAvatar.hidden = false;
+          firebaseIcon.hidden = true;
+          accountAvatar.onerror = () => {
+            accountAvatar.hidden = true;
+            firebaseIcon.hidden = false;
+          };
+        } else {
+          accountAvatar.hidden = true;
+          firebaseIcon.hidden = false;
+        }
+      }
+
+      function cloudDocumentReference() {
+        if (!firebaseSdk || !firebaseDb || !firebaseUser) return null;
+        return firebaseSdk.doc(firebaseDb, "users", firebaseUser.uid, "primebudget", "fortniteEsprits");
+      }
+
+      function mergeCloudData(data) {
+        const remoteCollection = data && typeof data === "object"
+          ? (data.collection || data.entries || data.sprites || {})
+          : {};
+        const timestampObject = data && data.updatedAt;
+        const remoteUpdatedAt = Math.max(0,
+          Number(data && data.updatedAtMs) || 0,
+          timestampObject && typeof timestampObject.toMillis === "function" ? timestampObject.toMillis() : 0
+        );
+        const previousLocalUpdatedAt = localUpdatedAt;
+        const before = stateFingerprint();
+        const merged = {};
+        let shouldPush = false;
+
+        sprites.forEach(sprite => {
+          const localEntry = normalizeEntry(state[sprite.id]);
+          const remoteEntry = normalizeEntry(remoteCollection[sprite.id]);
+          let chosen = localEntry;
+
+          if (remoteEntry.modifiedAt > localEntry.modifiedAt) {
+            chosen = remoteEntry;
+          } else if (localEntry.modifiedAt > remoteEntry.modifiedAt) {
+            shouldPush = true;
+          } else if (!entriesEqual(localEntry, remoteEntry)) {
+            if (remoteUpdatedAt > previousLocalUpdatedAt) {
+              chosen = remoteEntry;
+            } else {
+              shouldPush = true;
+            }
+          }
+          merged[sprite.id] = chosen;
+        });
+
+        state = merged;
+        localUpdatedAt = Math.max(
+          previousLocalUpdatedAt,
+          remoteUpdatedAt,
+          ...Object.values(merged).map(entry => entry.modifiedAt)
+        );
+        const changed = before !== stateFingerprint();
+        if (changed || localUpdatedAt !== previousLocalUpdatedAt) saveState({ sync: false });
+        return { changed, shouldPush };
+      }
+
+      function refreshAfterCloudMerge() {
+        render();
+        if (!activeDialogId || !detailDialog.open) return;
+        syncDialogButtons();
+        const note = document.getElementById("dialogNote");
+        if (document.activeElement !== note) note.value = (state[activeDialogId] || blankEntry()).note;
+      }
+
+      function friendlyFirebaseError(error) {
+        const code = String(error && error.code || "");
+        if (code.includes("unauthorized-domain")) return "Ce domaine doit être autorisé dans Firebase";
+        if (code.includes("operation-not-supported-in-this-environment")) return "Ouvre l’app depuis son site pour te connecter";
+        if (code.includes("popup-closed") || code.includes("cancelled-popup")) return "Connexion Google annulée";
+        if (code.includes("popup-blocked")) return "La fenêtre Google a été bloquée";
+        if (code.includes("permission-denied")) return "Accès Firestore refusé par les règles";
+        if (code.includes("network-request-failed") || code.includes("unavailable")) return "Connexion internet indisponible";
+        return "Firebase est momentanément indisponible";
+      }
+
+      function scheduleCloudSync() {
+        if (!firebaseUser || !firebaseReady) return;
+        clearTimeout(cloudSyncTimer);
+        setSyncStatus("pending", navigator.onLine === false ? "Hors connexion" : "À synchroniser");
+        cloudSyncTimer = setTimeout(() => synchronizeCloud({ pull: false }), 900);
+      }
+
+      async function synchronizeCloud({ pull = false } = {}) {
+        if (!firebaseSdk || !firebaseDb || !firebaseUser) return;
+        if (cloudSyncing) {
+          cloudSyncQueued = true;
+          cloudSyncQueuedPull = cloudSyncQueuedPull || pull;
+          return;
+        }
+        if (navigator.onLine === false) {
+          setSyncStatus("pending", "Hors connexion");
+          return;
+        }
+
+        cloudSyncing = true;
+        syncNowButton.disabled = true;
+        setSyncStatus("loading", "Synchronisation…");
+        const userId = firebaseUser.uid;
+        const reference = cloudDocumentReference();
+
+        try {
+          let shouldWrite = !pull;
+          if (pull) {
+            const snapshot = await firebaseSdk.getDoc(reference);
+            if (!firebaseUser || firebaseUser.uid !== userId) return;
+            if (snapshot.exists()) {
+              const result = mergeCloudData(snapshot.data());
+              if (result.changed) refreshAfterCloudMerge();
+              shouldWrite = result.shouldPush;
+            } else {
+              shouldWrite = true;
+            }
+          }
+
+          if (shouldWrite) {
+            localUpdatedAt = Math.max(localUpdatedAt, Date.now());
+            saveState({ sync: false });
+            await firebaseSdk.setDoc(reference, {
+              app: "fortnite-esprits",
+              schemaVersion: 2,
+              updatedAt: firebaseSdk.serverTimestamp(),
+              updatedAtMs: localUpdatedAt,
+              collection: state
+            }, { merge: true });
+          }
+
+          if (firebaseUser && firebaseUser.uid === userId) setSyncStatus("synced", "Synchronisé");
+        } catch (error) {
+          if (firebaseUser && firebaseUser.uid === userId) {
+            const offline = navigator.onLine === false || String(error && error.code || "").includes("unavailable");
+            setSyncStatus(offline ? "pending" : "error", offline ? "Hors connexion" : "Erreur de synchro");
+            if (!offline) showToast(friendlyFirebaseError(error));
+          }
+        } finally {
+          cloudSyncing = false;
+          syncNowButton.disabled = false;
+          if (cloudSyncQueued) {
+            const queuedPull = cloudSyncQueuedPull;
+            cloudSyncQueued = false;
+            cloudSyncQueuedPull = false;
+            setTimeout(() => synchronizeCloud({ pull: queuedPull }), 0);
+          }
+        }
+      }
+
+      function startCloudListener() {
+        if (cloudUnsubscribe) cloudUnsubscribe();
+        const reference = cloudDocumentReference();
+        if (!reference) return;
+        const userId = firebaseUser.uid;
+        cloudUnsubscribe = firebaseSdk.onSnapshot(reference, { includeMetadataChanges: true }, snapshot => {
+          if (!firebaseUser || firebaseUser.uid !== userId) return;
+          if (!snapshot.exists()) {
+            scheduleCloudSync();
+            return;
+          }
+          const result = mergeCloudData(snapshot.data());
+          if (result.changed) refreshAfterCloudMerge();
+          if (result.shouldPush) {
+            scheduleCloudSync();
+          } else if (snapshot.metadata.hasPendingWrites) {
+            setSyncStatus("loading", "Synchronisation…");
+          } else if (navigator.onLine === false || snapshot.metadata.fromCache) {
+            setSyncStatus("pending", "Hors connexion");
+          } else {
+            setSyncStatus("synced", "Synchronisé");
+          }
+        }, error => {
+          const offline = navigator.onLine === false || String(error && error.code || "").includes("unavailable");
+          setSyncStatus(offline ? "pending" : "error", offline ? "Hors connexion" : "Erreur de synchro");
+        });
+      }
+
+      async function handleAuthState(user) {
+        const sequence = ++authSequence;
+        if (cloudUnsubscribe) {
+          cloudUnsubscribe();
+          cloudUnsubscribe = null;
+        }
+        firebaseUser = user || null;
+        updateAccountInterface(firebaseUser);
+        if (!firebaseUser) return;
+        setSyncStatus("loading", "Connexion à Firebase…");
+        await synchronizeCloud({ pull: true });
+        if (sequence === authSequence && firebaseUser && firebaseUser.uid === user.uid) startCloudListener();
+      }
+
+      async function initializeFirebaseSync() {
+        if (firebaseReady || firebaseInitializing) return;
+        firebaseInitializing = true;
+        signInButton.disabled = true;
+        setSyncStatus("loading", "Connexion à Firebase…");
+        try {
+          const [appModule, authModule, firestoreModule] = await Promise.all([
+            import("https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js"),
+            import("https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js"),
+            import("https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js")
+          ]);
+          const app = appModule.initializeApp(FIREBASE_CONFIG);
+          firebaseAuth = authModule.getAuth(app);
+          firebaseAuth.languageCode = "fr";
+          firebaseDb = firestoreModule.getFirestore(app);
+          firebaseSdk = {
+            GoogleAuthProvider: authModule.GoogleAuthProvider,
+            signInWithPopup: authModule.signInWithPopup,
+            signInWithRedirect: authModule.signInWithRedirect,
+            signOut: authModule.signOut,
+            doc: firestoreModule.doc,
+            getDoc: firestoreModule.getDoc,
+            setDoc: firestoreModule.setDoc,
+            onSnapshot: firestoreModule.onSnapshot,
+            serverTimestamp: firestoreModule.serverTimestamp
+          };
+          try {
+            await authModule.setPersistence(firebaseAuth, authModule.browserLocalPersistence);
+          } catch (_) {}
+          firebaseReady = true;
+          signInButton.disabled = false;
+          authModule.onAuthStateChanged(firebaseAuth, user => handleAuthState(user), error => {
+            setSyncStatus("error", "Connexion impossible");
+            showToast(friendlyFirebaseError(error));
+          });
+          try {
+            await authModule.getRedirectResult(firebaseAuth);
+          } catch (error) {
+            updateAccountInterface(null);
+            setSyncStatus("error", "Connexion impossible");
+            showToast(friendlyFirebaseError(error));
+          }
+        } catch (error) {
+          firebaseReady = false;
+          signInButton.disabled = true;
+          updateAccountInterface(null);
+          accountEmail.textContent = "Données locales conservées";
+          setSyncStatus(navigator.onLine === false ? "local" : "error", navigator.onLine === false ? "Local hors connexion" : "Firebase indisponible");
+        } finally {
+          firebaseInitializing = false;
+        }
+      }
+
+      async function connectGoogleAccount() {
+        if (!firebaseReady) await initializeFirebaseSync();
+        if (!firebaseSdk || !firebaseAuth) {
+          showToast("Firebase n’est pas disponible pour le moment");
+          return;
+        }
+        try {
+          setSyncStatus("loading", "Connexion Google…");
+          const provider = new firebaseSdk.GoogleAuthProvider();
+          provider.setCustomParameters({ prompt: "select_account" });
+          const mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+          const hosted = location.protocol === "http:" || location.protocol === "https:";
+          if (mobile && hosted) {
+            await firebaseSdk.signInWithRedirect(firebaseAuth, provider);
+          } else {
+            await firebaseSdk.signInWithPopup(firebaseAuth, provider);
+          }
+        } catch (error) {
+          updateAccountInterface(null);
+          setSyncStatus("error", "Connexion impossible");
+          showToast(friendlyFirebaseError(error));
+        }
+      }
+
+      signInButton.addEventListener("click", connectGoogleAccount);
+      syncNowButton.addEventListener("click", () => synchronizeCloud({ pull: true }));
+      signOutButton.addEventListener("click", async () => {
+        if (!firebaseSdk || !firebaseAuth) return;
+        try {
+          await firebaseSdk.signOut(firebaseAuth);
+          showToast("Déconnecté — données locales conservées");
+        } catch (error) {
+          showToast(friendlyFirebaseError(error));
+        }
+      });
+
+      window.addEventListener("online", () => {
+        if (!firebaseReady) initializeFirebaseSync();
+        else if (firebaseUser) synchronizeCloud({ pull: true });
+        else setSyncStatus("local", "Local");
+      });
+
+      window.addEventListener("offline", () => {
+        setSyncStatus(firebaseUser ? "pending" : "local", firebaseUser ? "Hors connexion" : "Local hors connexion");
+      });
+
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden && firebaseUser && navigator.onLine !== false) synchronizeCloud({ pull: true });
+      });
+
+      grid.addEventListener("click", event => {
+        const target = event.target.closest("[data-action]");
+        if (!target) return;
+        const id = target.dataset.id;
+        if (target.dataset.action === "details") {
+          openDetails(id);
+        } else if (target.dataset.action === "owned") {
+          setOwned(id, !(state[id] || blankEntry()).owned);
+          render();
+        } else if (target.dataset.action === "mastered") {
+          setMastered(id, !(state[id] || blankEntry()).mastered);
+          render();
+        }
+      });
+
+      grid.addEventListener("change", event => {
+        const target = event.target.closest('[data-action="level"]');
+        if (!target) return;
+        setLevel(target.dataset.id, target.value);
+        render();
+      });
+
+      document.querySelector(".chips").addEventListener("click", event => {
+        const chip = event.target.closest("[data-status]");
+        if (!chip) return;
+        statusFilter = chip.dataset.status;
+        document.querySelectorAll("[data-status]").forEach(button => button.setAttribute("aria-selected", String(button === chip)));
+        render();
+      });
+
+      searchInput.addEventListener("input", render);
+      variantFilter.addEventListener("change", render);
+      rarityFilter.addEventListener("change", render);
+      sortSelect.addEventListener("change", render);
+
+      document.getElementById("toolsToggle").addEventListener("click", event => {
+        const panel = document.getElementById("toolsPanel");
+        const open = panel.classList.toggle("open");
+        event.currentTarget.setAttribute("aria-expanded", String(open));
+      });
+
+      document.getElementById("exportBtn").addEventListener("click", () => {
+        const payload = {
+          app: "Prime — Collection d’esprits Fortnite",
+          version: "v41.20",
+          exportedAt: new Date().toISOString(),
+          collection: state
+        };
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `collection-esprits-fortnite-${new Date().toISOString().slice(0,10)}.json`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        showToast("Sauvegarde exportée");
+      });
+
+      document.getElementById("importBtn").addEventListener("click", () => document.getElementById("importInput").click());
+      document.getElementById("importInput").addEventListener("change", async event => {
+        const file = event.target.files && event.target.files[0];
+        if (!file) return;
+        try {
+          const parsed = JSON.parse(await file.text());
+          const imported = parsed.collection || parsed;
+          if (!imported || typeof imported !== "object") throw new Error("Format invalide");
+          const next = {};
+          const importedAt = nextMutationTime();
+          sprites.forEach(sprite => {
+            const entry = normalizeEntry(imported[sprite.id]);
+            entry.modifiedAt = importedAt;
+            next[sprite.id] = entry;
+          });
+          state = next;
+          saveState();
+          render();
+          showToast("Collection importée");
+        } catch (_) {
+          showToast("Fichier de sauvegarde invalide");
+        } finally {
+          event.target.value = "";
+        }
+      });
+
+      document.getElementById("resetBtn").addEventListener("click", () => resetDialog.showModal());
+      document.getElementById("cancelReset").addEventListener("click", () => closeDialog(resetDialog));
+      document.getElementById("confirmReset").addEventListener("click", () => {
+        const next = {};
+        const resetAt = nextMutationTime();
+        sprites.forEach(sprite => {
+          const entry = blankEntry();
+          entry.modifiedAt = resetAt;
+          next[sprite.id] = entry;
+        });
+        state = next;
+        saveState();
+        closeDialog(resetDialog);
+        render();
+        showToast("Collection réinitialisée");
+      });
+
+      document.getElementById("detailClose").addEventListener("click", () => closeDialog(detailDialog));
+      detailDialog.addEventListener("click", event => {
+        if (event.target === detailDialog) closeDialog(detailDialog);
+      });
+      resetDialog.addEventListener("click", event => {
+        if (event.target === resetDialog) closeDialog(resetDialog);
+      });
+
+      document.getElementById("dialogOwned").addEventListener("click", () => {
+        if (!activeDialogId) return;
+        setOwned(activeDialogId, !(state[activeDialogId] || blankEntry()).owned);
+        syncDialogButtons();
+        render();
+      });
+
+      document.getElementById("dialogLevel").addEventListener("change", event => {
+        if (!activeDialogId) return;
+        setLevel(activeDialogId, event.target.value);
+        syncDialogButtons();
+        render();
+      });
+
+      document.getElementById("dialogMastered").addEventListener("click", () => {
+        if (!activeDialogId) return;
+        setMastered(activeDialogId, !(state[activeDialogId] || blankEntry()).mastered);
+        syncDialogButtons();
+        render();
+      });
+
+      document.getElementById("dialogNote").addEventListener("input", event => {
+        if (!activeDialogId) return;
+        const entry = state[activeDialogId] || blankEntry();
+        entry.note = event.target.value.slice(0, 500);
+        state[activeDialogId] = touchEntry(entry);
+        saveState();
+      });
+
+      document.getElementById("dialogNext").addEventListener("click", () => {
+        if (!activeDialogId) return;
+        const visible = getVisibleSprites();
+        if (!visible.length) return;
+        const current = visible.findIndex(sprite => sprite.id === activeDialogId);
+        const next = visible[(current + 1 + visible.length) % visible.length];
+        openDetails(next.id);
+      });
+
+      const topButton = document.getElementById("topBtn");
+      window.addEventListener("scroll", () => {
+        topButton.classList.toggle("visible", window.scrollY > 650);
+      }, { passive: true });
+      topButton.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+      document.addEventListener("keydown", event => {
+        if (event.key === "/" && !/input|textarea|select/i.test(document.activeElement.tagName)) {
+          event.preventDefault();
+          searchInput.focus();
+        }
+      });
+
+      render();
+      updateAccountInterface(null);
+      initializeFirebaseSync();
+    })();
+  </script>
+</body>
+</html>
