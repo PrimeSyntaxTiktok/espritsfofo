@@ -3893,6 +3893,215 @@
       .master-btn,
       .master-btn .master-copy { font-size: .35rem; }
     }
+
+    .locker-toggle {
+      position: absolute;
+      z-index: 7;
+      left: 8px;
+      bottom: 8px;
+      display: inline-flex;
+      min-height: 28px;
+      max-width: calc(100% - 51px);
+      padding: 5px 9px 5px 6px;
+      align-items: center;
+      gap: 6px;
+      overflow: hidden;
+      border: 1px solid rgba(78, 191, 255, .55);
+      border-radius: 9px;
+      background: linear-gradient(120deg, rgba(15, 126, 218, .96), rgba(92, 73, 224, .96));
+      box-shadow: 0 7px 18px rgba(16, 67, 170, .38), inset 0 1px 0 rgba(255,255,255,.2);
+      color: #fff;
+      font-size: .48rem;
+      font-weight: 950;
+      letter-spacing: .035em;
+      line-height: 1;
+      text-transform: uppercase;
+      white-space: nowrap;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+    }
+
+    .locker-toggle-icon {
+      display: grid;
+      width: 18px;
+      height: 18px;
+      flex: 0 0 18px;
+      place-items: center;
+      border-radius: 5px;
+      background: rgba(3, 8, 29, .28);
+      font-family: var(--display);
+      font-size: .72rem;
+    }
+
+    .locker-toggle-label { overflow: hidden; text-overflow: ellipsis; }
+
+    .locker-toggle[aria-pressed="true"] {
+      border-color: rgba(91, 245, 172, .65);
+      background: linear-gradient(120deg, rgba(22, 154, 91, .96), rgba(54, 205, 135, .96));
+      box-shadow: 0 7px 18px rgba(28, 170, 105, .3), inset 0 1px 0 rgba(255,255,255,.24);
+      color: #041a11;
+    }
+
+    .card-actions { margin-top: 7px; }
+
+    .locker-action-dialog {
+      width: min(460px, calc(100% - 24px));
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    .locker-action-shell {
+      position: relative;
+      isolation: isolate;
+      padding: 22px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 100% 0, rgba(65, 218, 255, .17), transparent 42%),
+        radial-gradient(circle at 0 100%, rgba(145, 103, 255, .2), transparent 44%),
+        linear-gradient(145deg, #121a3d, #090d22 72%);
+    }
+
+    .locker-action-shell::before {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      border-top: 4px solid var(--yellow);
+      background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 28px 28px;
+      content: "";
+      mask-image: linear-gradient(to bottom, #000, transparent 80%);
+    }
+
+    .locker-modal-head { display: flex; align-items: center; gap: 11px; }
+
+    .locker-modal-mark {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      flex: 0 0 42px;
+      place-items: center;
+      border: 2px solid #fff;
+      border-radius: 10px 4px 10px 4px;
+      background: var(--yellow);
+      box-shadow: 6px 6px 0 #237ac9;
+      color: #071126;
+      font-family: var(--display);
+      font-size: 1.45rem;
+      font-style: italic;
+      font-weight: 950;
+    }
+
+    .locker-modal-kicker {
+      color: var(--cyan);
+      font-size: .6rem;
+      font-weight: 950;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .locker-action-shell h2 {
+      margin: 17px 0 6px;
+      font-family: var(--display);
+      font-size: clamp(1.8rem, 8vw, 2.65rem);
+      font-style: italic;
+      letter-spacing: .005em;
+      line-height: .91;
+      text-transform: uppercase;
+    }
+
+    .locker-action-shell > p { margin: 0; color: #aeb9d9; font-size: .76rem; line-height: 1.5; }
+
+    .locker-spirit-name {
+      display: block;
+      margin-top: 13px;
+      padding: 10px 11px;
+      border: 1px solid rgba(246, 223, 50, .27);
+      border-radius: 10px;
+      background: rgba(246, 223, 50, .07);
+      color: var(--yellow);
+      font-family: var(--display);
+      font-size: 1rem;
+      font-style: italic;
+      letter-spacing: .025em;
+      text-transform: uppercase;
+    }
+
+    .locker-setup-grid { display: grid; gap: 12px; margin-top: 16px; }
+    .locker-setup-field { display: grid; gap: 7px; }
+    .locker-setup-label { color: #8996bd; font-size: .55rem; font-weight: 950; letter-spacing: .1em; text-transform: uppercase; }
+
+    .locker-level-select {
+      width: 100%;
+      min-height: 44px;
+      padding: 8px 34px 8px 12px;
+      border: 1px solid rgba(194, 210, 255, .18);
+      border-radius: 11px;
+      outline: none;
+      background-color: #151d42;
+      color: #fff;
+      font-weight: 850;
+    }
+
+    .mastery-choice { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+    .mastery-choice button {
+      min-height: 42px;
+      padding: 7px;
+      border: 1px solid rgba(194, 210, 255, .14);
+      border-radius: 10px;
+      background: rgba(255,255,255,.045);
+      color: #aeb9d9;
+      font-size: .65rem;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .mastery-choice button[aria-pressed="true"] {
+      border-color: rgba(246, 223, 50, .5);
+      background: rgba(246, 223, 50, .14);
+      box-shadow: inset 0 0 0 1px rgba(246, 223, 50, .08);
+      color: var(--yellow);
+    }
+
+    .locker-dialog-actions { display: grid; grid-template-columns: .8fr 1.2fr; gap: 8px; margin-top: 18px; }
+    .locker-dialog-actions button {
+      min-height: 45px;
+      padding: 8px 10px;
+      border: 1px solid rgba(194, 210, 255, .16);
+      border-radius: 11px;
+      background: rgba(255,255,255,.055);
+      color: #d7def5;
+      font-size: .68rem;
+      font-weight: 950;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .locker-dialog-actions .confirm-add {
+      border-color: rgba(74, 181, 255, .32);
+      background: linear-gradient(110deg, #147dd1, #6753ea);
+      box-shadow: 0 9px 22px rgba(34, 102, 218, .24);
+      color: #fff;
+    }
+
+    .locker-dialog-actions .confirm-remove {
+      border-color: rgba(255, 97, 124, .38);
+      background: linear-gradient(110deg, #d8395b, #ff617c);
+      box-shadow: 0 9px 22px rgba(216, 57, 91, .2);
+      color: #fff;
+    }
+
+    @media (hover: hover) {
+      .locker-toggle:hover { filter: brightness(1.1); transform: translateY(-1px); }
+      .mastery-choice button:hover, .locker-dialog-actions button:hover { border-color: rgba(255,255,255,.3); }
+    }
+
+    @media (max-width: 470px) {
+      .locker-toggle { left: 7px; bottom: 7px; min-height: 25px; padding: 4px 7px 4px 5px; gap: 4px; border-radius: 7px; font-size: .39rem; }
+      .locker-toggle-icon { width: 16px; height: 16px; flex-basis: 16px; font-size: .62rem; }
+      .locker-action-shell { padding: 19px 16px 17px; }
+      .locker-dialog-actions { grid-template-columns: 1fr 1.25fr; }
+      .locker-dialog-actions button { min-height: 42px; padding-inline: 6px; font-size: .58rem; }
+    }
   </style>
 </head>
 <body>
@@ -4123,6 +4332,51 @@
     </div>
   </dialog>
 
+  <dialog class="locker-action-dialog" id="addSpriteDialog" aria-labelledby="addSpriteDialogTitle">
+    <div class="locker-action-shell">
+      <div class="locker-modal-head">
+        <span class="locker-modal-mark" aria-hidden="true">F</span>
+        <span class="locker-modal-kicker" id="addSpriteDialogKicker">Ajout au casier</span>
+      </div>
+      <h2 id="addSpriteDialogTitle">Configurer l’esprit</h2>
+      <p id="addSpriteDialogCopy">Choisis son niveau actuel et indique s’il est déjà maîtrisé avant de l’ajouter.</p>
+      <strong class="locker-spirit-name" id="addSpriteName"></strong>
+      <div class="locker-setup-grid">
+        <label class="locker-setup-field">
+          <span class="locker-setup-label" id="addSpriteLevelLabel">Niveau actuel</span>
+          <select class="locker-level-select" id="addSpriteLevel" aria-labelledby="addSpriteLevelLabel"></select>
+        </label>
+        <div class="locker-setup-field">
+          <span class="locker-setup-label" id="addSpriteMasteryLabel">Est-il maîtrisé ?</span>
+          <div class="mastery-choice" role="group" aria-labelledby="addSpriteMasteryLabel">
+            <button id="addSpriteNotMastered" type="button" aria-pressed="true">Pas encore</button>
+            <button id="addSpriteMastered" type="button" aria-pressed="false">Oui, maîtrisé</button>
+          </div>
+        </div>
+      </div>
+      <div class="locker-dialog-actions">
+        <button id="cancelAddSprite" type="button">Annuler</button>
+        <button class="confirm-add" id="confirmAddSprite" type="button">Ajouter au casier</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="locker-action-dialog" id="removeSpriteDialog" aria-labelledby="removeSpriteDialogTitle">
+    <div class="locker-action-shell">
+      <div class="locker-modal-head">
+        <span class="locker-modal-mark" aria-hidden="true">F</span>
+        <span class="locker-modal-kicker" id="removeSpriteDialogKicker">Gestion du casier</span>
+      </div>
+      <h2 id="removeSpriteDialogTitle">Retirer cet esprit ?</h2>
+      <p id="removeSpriteDialogCopy">Cette action retirera l’esprit du casier et remettra son niveau et sa maîtrise à zéro.</p>
+      <strong class="locker-spirit-name" id="removeSpriteName"></strong>
+      <div class="locker-dialog-actions">
+        <button id="cancelRemoveSprite" type="button">Le conserver</button>
+        <button class="confirm-remove" id="confirmRemoveSprite" type="button">Oui, le retirer</button>
+      </div>
+    </div>
+  </dialog>
+
   <dialog class="confirm-dialog" id="resetDialog">
     <div class="confirm-copy">
       <h2>Réinitialiser la collection ?</h2>
@@ -4246,6 +4500,21 @@
           levelFor: "Niveau de {name}",
           personalNote: "Ma note personnelle",
           notePlaceholder: "Ex. trouvé près de…, à améliorer…",
+          addDialogKicker: "Ajout au casier",
+          addDialogTitle: "Configurer l’esprit",
+          addDialogCopy: "Choisis son niveau actuel et indique s’il est déjà maîtrisé avant de l’ajouter.",
+          chooseLevel: "Niveau actuel",
+          masteryQuestion: "Est-il maîtrisé ?",
+          notMastered: "Pas encore",
+          yesMastered: "Oui, maîtrisé",
+          confirmAdd: "Ajouter au casier",
+          removeDialogKicker: "Gestion du casier",
+          removeDialogTitle: "Retirer cet esprit ?",
+          removeDialogCopy: "Cette action retirera l’esprit du casier et remettra son niveau et sa maîtrise à zéro.",
+          keepInLocker: "Le conserver",
+          confirmRemove: "Oui, le retirer",
+          spriteAddedToast: "{name} ajouté au casier",
+          spriteRemovedToast: "{name} retiré du casier",
           resetTitle: "Réinitialiser la collection ?",
           resetCopy: "Toutes les cases, tous les niveaux et toutes tes notes seront effacés sur cet appareil et, si tu es connecté, dans Firebase.",
           cancel: "Annuler",
@@ -4409,6 +4678,21 @@
           levelFor: "Level of {name}",
           personalNote: "My personal note",
           notePlaceholder: "E.g. found near…, needs leveling…",
+          addDialogKicker: "Add to Locker",
+          addDialogTitle: "Configure this Sprite",
+          addDialogCopy: "Choose its current level and indicate whether it is already mastered before adding it.",
+          chooseLevel: "Current level",
+          masteryQuestion: "Is it mastered?",
+          notMastered: "Not yet",
+          yesMastered: "Yes, mastered",
+          confirmAdd: "Add to Locker",
+          removeDialogKicker: "Locker management",
+          removeDialogTitle: "Remove this Sprite?",
+          removeDialogCopy: "This will remove the Sprite from your Locker and reset its level and mastery.",
+          keepInLocker: "Keep it",
+          confirmRemove: "Yes, remove it",
+          spriteAddedToast: "{name} added to your Locker",
+          spriteRemovedToast: "{name} removed from your Locker",
           resetTitle: "Reset the collection?",
           resetCopy: "Every checkbox, level, and personal note will be erased from this device and, if you are signed in, from Firebase.",
           cancel: "Cancel",
@@ -4649,8 +4933,8 @@
           }
         },
         {
-          key: "punk", fr: "Esprit de Punk", en: "Punk Sprite", rarity: "legendary",
-          aliases: ["Esprit punk"],
+          key: "punk", fr: "Esprit punk", en: "Punk Sprite", rarity: "legendary",
+          aliases: ["Esprit de Punk"],
           effect: {
             fr: "Peut occasionnellement accorder une amélioration de munitions illimitées… ou un effet surprise.",
             en: "Can occasionally grant unlimited ammo… or a surprise effect."
@@ -4687,8 +4971,8 @@
           images: { base: "T_Icon_BR_CokeParmesan_Default_L.webp" }
         },
         {
-          key: "burnt-peanut", fr: "Cacahuète brûlée", en: "Burnt Peanut", rarity: "mythic",
-          aliases: ["Arachide brûlée"],
+          key: "burnt-peanut", fr: "Esprit cacahuète", en: "Burnt Peanut", rarity: "mythic",
+          aliases: ["Cacahuète brûlée", "Esprit cacahuète brûlée", "Esprit de la cacahuète brûlée", "Arachide brûlée"],
           effect: {
             fr: "Peut faire apparaître du butin supplémentaire après une élimination, avec une chance de butin mythique au niveau maximal.",
             en: "Can spawn extra loot after an elimination, with a chance of Mythic loot at max level."
@@ -4796,8 +5080,8 @@
           }
         },
         {
-          key: "seven", fr: "Esprit de Seven", en: "Seven Sprite", rarity: "legendary",
-          aliases: ["Esprit des Sept"],
+          key: "seven", fr: "Esprit des Sept", en: "Seven Sprite", rarity: "legendary",
+          aliases: ["Esprit de Seven"],
           effect: {
             fr: "Rend visibles pour l’escouade les traces de pas des ennemis pendant 10 à 30 secondes selon le niveau.",
             en: "Reveals enemy footsteps to the squad for 10 to 30 seconds depending on level."
@@ -4855,6 +5139,8 @@
       let localUpdatedAt = loadLocalUpdatedAt();
       let statusFilter = "all";
       let activeDialogId = null;
+      let pendingLockerId = null;
+      let pendingMastered = false;
       let toastTimer = null;
       let firebaseSdk = null;
       let firebaseAuth = null;
@@ -4883,6 +5169,11 @@
       const rarityFilter = document.getElementById("rarityFilter");
       const sortSelect = document.getElementById("sortSelect");
       const detailDialog = document.getElementById("detailDialog");
+      const addSpriteDialog = document.getElementById("addSpriteDialog");
+      const removeSpriteDialog = document.getElementById("removeSpriteDialog");
+      const addSpriteLevel = document.getElementById("addSpriteLevel");
+      const addSpriteNotMastered = document.getElementById("addSpriteNotMastered");
+      const addSpriteMastered = document.getElementById("addSpriteMastered");
       const resetDialog = document.getElementById("resetDialog");
       const progressTrack = document.querySelector(".progress-track");
       const signInButton = document.getElementById("signInBtn");
@@ -5046,6 +5337,24 @@
         if (notesLabel && notesLabel.firstChild) notesLabel.firstChild.nodeValue = t("personalNote");
         const note = document.getElementById("dialogNote");
         if (note) note.placeholder = t("notePlaceholder");
+        setText("#addSpriteDialogKicker", "addDialogKicker");
+        setText("#addSpriteDialogTitle", "addDialogTitle");
+        setText("#addSpriteDialogCopy", "addDialogCopy");
+        setText("#addSpriteLevelLabel", "chooseLevel");
+        setText("#addSpriteMasteryLabel", "masteryQuestion");
+        setText("#addSpriteNotMastered", "notMastered");
+        setText("#addSpriteMastered", "yesMastered");
+        setText("#cancelAddSprite", "cancel");
+        setText("#confirmAddSprite", "confirmAdd");
+        addSpriteLevel.innerHTML = Array.from({ length: 5 }, (_, index) => {
+          const level = index + 1;
+          return `<option value="${level}">${t("levelNumber", { level })}</option>`;
+        }).join("");
+        setText("#removeSpriteDialogKicker", "removeDialogKicker");
+        setText("#removeSpriteDialogTitle", "removeDialogTitle");
+        setText("#removeSpriteDialogCopy", "removeDialogCopy");
+        setText("#cancelRemoveSprite", "keepInLocker");
+        setText("#confirmRemoveSprite", "confirmRemove");
         setText("#resetDialog h2", "resetTitle");
         setText("#resetDialog p", "resetCopy");
         setText("#cancelReset", "cancel");
@@ -5162,7 +5471,7 @@
                 <span class="badge ${sprite.rarity}">${rarityLabel(sprite.rarity)}</span>
                 <span class="badge variant">${localizedVariant(sprite.variant)}</span>
               </div>
-              <span class="owned-mark"><span>✓</span> ${t("inLocker")}</span>
+              <button class="locker-toggle" type="button" data-action="owned" data-id="${sprite.id}" aria-pressed="${entry.owned}" aria-label="${esc(entry.owned ? t("removeFromLocker") : t("addToLocker"))} : ${esc(name)}"><span class="locker-toggle-icon" aria-hidden="true">${entry.owned ? "✓" : "+"}</span><span class="locker-toggle-label">${entry.owned ? t("inLocker") : t("addShort")}</span></button>
               <button class="info-btn" type="button" data-action="details" data-id="${sprite.id}" aria-label="${esc(t("informationAbout", { name }))}">i</button>
             </div>
             <div class="card-body">
@@ -5178,7 +5487,6 @@
               </div>
               <div class="card-power" aria-hidden="true"><span>${t("power")}</span><span class="power-pips">${powerPips(entry.level)}</span></div>
               <div class="card-actions">
-                <button class="own-btn" type="button" data-action="owned" data-id="${sprite.id}" aria-pressed="${entry.owned}" aria-label="${esc(entry.owned ? t("removeFromLocker") : t("addToLocker"))} : ${esc(name)}"><span class="action-icon" aria-hidden="true">${entry.owned ? "✓" : "+"}</span><span class="action-copy action-copy-full">${entry.owned ? t("addedToLocker") : t("addToLocker")}</span><span class="action-copy action-copy-short">${entry.owned ? t("obtained") : t("addShort")}</span></button>
                 <div class="card-secondary-actions">
                   <label class="level-control"><span>${t("level")}</span><select class="level-select" data-action="level" data-id="${sprite.id}" aria-label="${esc(t("levelFor", { name }))}">${levelOptions(entry.level)}</select></label>
                   <button class="master-btn" type="button" data-action="mastered" data-id="${sprite.id}" aria-pressed="${entry.mastered}" aria-label="${esc(entry.mastered ? t("removeMastery") : t("markMastered"))} : ${esc(name)}"><span class="master-icon" aria-hidden="true">${entry.mastered ? "★" : "☆"}</span><span class="master-copy">${entry.mastered ? t("mastered") : t("master")}</span></button>
@@ -5345,11 +5653,11 @@
         card.classList.toggle("owned", entry.owned);
         card.classList.toggle("mastered", entry.mastered);
 
-        const ownedButton = card.querySelector('[data-action="owned"]');
+        const ownedButton = card.querySelector(".locker-toggle");
         const name = card.querySelector(".card-title").textContent;
         ownedButton.setAttribute("aria-pressed", String(entry.owned));
         ownedButton.setAttribute("aria-label", `${entry.owned ? t("removeFromLocker") : t("addToLocker")} : ${name}`);
-        ownedButton.innerHTML = `<span class="action-icon" aria-hidden="true">${entry.owned ? "✓" : "+"}</span><span class="action-copy action-copy-full">${entry.owned ? t("addedToLocker") : t("addToLocker")}</span><span class="action-copy action-copy-short">${entry.owned ? t("obtained") : t("addShort")}</span>`;
+        ownedButton.innerHTML = `<span class="locker-toggle-icon" aria-hidden="true">${entry.owned ? "✓" : "+"}</span><span class="locker-toggle-label">${entry.owned ? t("inLocker") : t("addShort")}</span>`;
 
         const stateLabel = card.querySelector(".card-state-label");
         stateLabel.textContent = entry.owned ? t("obtained") : t("missing");
@@ -5430,6 +5738,85 @@
           control.track.setAttribute("aria-valuenow", String(variantPercent));
           control.track.setAttribute("aria-valuetext", t("countOf", { count, total }));
         });
+      }
+
+      function setPendingMastery(mastered) {
+        pendingMastered = Boolean(mastered);
+        addSpriteNotMastered.setAttribute("aria-pressed", String(!pendingMastered));
+        addSpriteMastered.setAttribute("aria-pressed", String(pendingMastered));
+      }
+
+      function openAddSpriteDialog(id, { level = 1, mastered = false } = {}) {
+        const sprite = sprites.find(item => item.id === id);
+        if (!sprite) return;
+        pendingLockerId = id;
+        addSpriteLevel.value = String(Math.max(1, Math.min(5, Number(level) || 1)));
+        setPendingMastery(mastered);
+        document.getElementById("addSpriteName").textContent = localizedName(sprite);
+        if (!addSpriteDialog.open) addSpriteDialog.showModal();
+      }
+
+      function openRemoveSpriteDialog(id) {
+        const sprite = sprites.find(item => item.id === id);
+        if (!sprite) return;
+        pendingLockerId = id;
+        document.getElementById("removeSpriteName").textContent = localizedName(sprite);
+        if (!removeSpriteDialog.open) removeSpriteDialog.showModal();
+      }
+
+      function requestLockerChange(id) {
+        const entry = state[id] || blankEntry();
+        if (entry.owned) openRemoveSpriteDialog(id);
+        else openAddSpriteDialog(id);
+      }
+
+      function restorePendingControls(id) {
+        if (!id) return;
+        updateRenderedCard(id);
+        if (activeDialogId === id && detailDialog.open) syncDialogButtons();
+      }
+
+      function cancelAddSprite() {
+        const id = pendingLockerId;
+        closeDialog(addSpriteDialog);
+        pendingLockerId = null;
+        restorePendingControls(id);
+      }
+
+      function cancelRemoveSprite() {
+        const id = pendingLockerId;
+        closeDialog(removeSpriteDialog);
+        pendingLockerId = null;
+        restorePendingControls(id);
+      }
+
+      function confirmAddSprite() {
+        const id = pendingLockerId;
+        const sprite = sprites.find(item => item.id === id);
+        if (!sprite) return;
+        const entry = state[id] || blankEntry();
+        entry.owned = true;
+        entry.level = Math.max(1, Math.min(5, Number(addSpriteLevel.value) || 1));
+        entry.mastered = pendingMastered;
+        state[id] = touchEntry(entry);
+        saveState();
+        closeDialog(addSpriteDialog);
+        pendingLockerId = null;
+        refreshAfterStateChange(id);
+        if (activeDialogId === id && detailDialog.open) syncDialogButtons();
+        showToast(t("spriteAddedToast", { name: localizedName(sprite) }));
+      }
+
+      function confirmRemoveSprite() {
+        const id = pendingLockerId;
+        const sprite = sprites.find(item => item.id === id);
+        if (!sprite) return;
+        setOwned(id, false);
+        closeDialog(removeSpriteDialog);
+        pendingLockerId = null;
+        refreshAfterStateChange(id);
+        if (activeDialogId === id && detailDialog.open) syncDialogButtons();
+        showToast(t("spriteRemovedToast", { name: localizedName(sprite) }));
       }
 
       function setOwned(id, owned) {
@@ -5986,19 +6373,33 @@
         if (target.dataset.action === "details") {
           openDetails(id);
         } else if (target.dataset.action === "owned") {
-          setOwned(id, !(state[id] || blankEntry()).owned);
-          refreshAfterStateChange(id);
+          requestLockerChange(id);
         } else if (target.dataset.action === "mastered") {
-          setMastered(id, !(state[id] || blankEntry()).mastered);
-          refreshAfterStateChange(id);
+          const entry = state[id] || blankEntry();
+          if (!entry.owned) {
+            openAddSpriteDialog(id, { mastered: true });
+          } else {
+            setMastered(id, !entry.mastered);
+            refreshAfterStateChange(id);
+          }
         }
       });
 
       grid.addEventListener("change", event => {
         const target = event.target.closest('[data-action="level"]');
         if (!target) return;
-        setLevel(target.dataset.id, target.value);
-        refreshAfterStateChange(target.dataset.id);
+        const id = target.dataset.id;
+        const entry = state[id] || blankEntry();
+        const nextLevel = Number(target.value) || 0;
+        if (!entry.owned && nextLevel > 0) {
+          openAddSpriteDialog(id, { level: nextLevel });
+        } else if (entry.owned && nextLevel === 0) {
+          target.value = String(entry.level);
+          openRemoveSpriteDialog(id);
+        } else {
+          setLevel(id, nextLevel);
+          refreshAfterStateChange(id);
+        }
       });
 
       document.querySelector(".chips").addEventListener("click", event => {
@@ -6090,25 +6491,58 @@
         if (event.target === resetDialog) closeDialog(resetDialog);
       });
 
+      addSpriteNotMastered.addEventListener("click", () => setPendingMastery(false));
+      addSpriteMastered.addEventListener("click", () => setPendingMastery(true));
+      document.getElementById("cancelAddSprite").addEventListener("click", cancelAddSprite);
+      document.getElementById("confirmAddSprite").addEventListener("click", confirmAddSprite);
+      document.getElementById("cancelRemoveSprite").addEventListener("click", cancelRemoveSprite);
+      document.getElementById("confirmRemoveSprite").addEventListener("click", confirmRemoveSprite);
+      addSpriteDialog.addEventListener("click", event => {
+        if (event.target === addSpriteDialog) cancelAddSprite();
+      });
+      addSpriteDialog.addEventListener("cancel", event => {
+        event.preventDefault();
+        cancelAddSprite();
+      });
+      removeSpriteDialog.addEventListener("click", event => {
+        if (event.target === removeSpriteDialog) cancelRemoveSprite();
+      });
+      removeSpriteDialog.addEventListener("cancel", event => {
+        event.preventDefault();
+        cancelRemoveSprite();
+      });
+
       document.getElementById("dialogOwned").addEventListener("click", () => {
         if (!activeDialogId) return;
-        setOwned(activeDialogId, !(state[activeDialogId] || blankEntry()).owned);
-        syncDialogButtons();
-        refreshAfterStateChange(activeDialogId);
+        requestLockerChange(activeDialogId);
       });
 
       document.getElementById("dialogLevel").addEventListener("change", event => {
         if (!activeDialogId) return;
-        setLevel(activeDialogId, event.target.value);
-        syncDialogButtons();
-        refreshAfterStateChange(activeDialogId);
+        const entry = state[activeDialogId] || blankEntry();
+        const nextLevel = Number(event.target.value) || 0;
+        if (!entry.owned && nextLevel > 0) {
+          openAddSpriteDialog(activeDialogId, { level: nextLevel });
+        } else if (entry.owned && nextLevel === 0) {
+          event.target.value = String(entry.level);
+          openRemoveSpriteDialog(activeDialogId);
+        } else {
+          setLevel(activeDialogId, nextLevel);
+          syncDialogButtons();
+          refreshAfterStateChange(activeDialogId);
+        }
       });
 
       document.getElementById("dialogMastered").addEventListener("click", () => {
         if (!activeDialogId) return;
-        setMastered(activeDialogId, !(state[activeDialogId] || blankEntry()).mastered);
-        syncDialogButtons();
-        refreshAfterStateChange(activeDialogId);
+        const entry = state[activeDialogId] || blankEntry();
+        if (!entry.owned) {
+          openAddSpriteDialog(activeDialogId, { mastered: true });
+        } else {
+          setMastered(activeDialogId, !entry.mastered);
+          syncDialogButtons();
+          refreshAfterStateChange(activeDialogId);
+        }
       });
 
       document.getElementById("dialogNote").addEventListener("input", event => {
