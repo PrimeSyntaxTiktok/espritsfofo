@@ -3942,6 +3942,32 @@
       color: #041a11;
     }
 
+    .card-mastery-status {
+      position: absolute;
+      z-index: 7;
+      left: 8px;
+      bottom: 42px;
+      display: none;
+      max-width: calc(100% - 51px);
+      padding: 4px 7px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 238, 65, .62);
+      border-radius: 7px;
+      background: linear-gradient(120deg, rgba(59, 53, 15, .94), rgba(28, 30, 45, .94));
+      box-shadow: 0 5px 14px rgba(255, 222, 43, .16), inset 0 1px 0 rgba(255,255,255,.12);
+      color: #fff34d;
+      font-size: .37rem;
+      font-weight: 950;
+      letter-spacing: .045em;
+      line-height: 1;
+      text-overflow: ellipsis;
+      text-transform: uppercase;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    .sprite-card.owned.mastered .card-mastery-status { display: block; }
+
     .card-actions { margin-top: 7px; }
 
     .locker-action-dialog {
@@ -4098,6 +4124,7 @@
     @media (max-width: 470px) {
       .locker-toggle { left: 7px; bottom: 7px; min-height: 25px; padding: 4px 7px 4px 5px; gap: 4px; border-radius: 7px; font-size: .39rem; }
       .locker-toggle-icon { width: 16px; height: 16px; flex-basis: 16px; font-size: .62rem; }
+      .card-mastery-status { left: 7px; bottom: 37px; padding: 3px 6px; font-size: .31rem; }
       .locker-action-shell { padding: 19px 16px 17px; }
       .locker-dialog-actions { grid-template-columns: 1fr 1.25fr; }
       .locker-dialog-actions button { min-height: 42px; padding-inline: 6px; font-size: .58rem; }
@@ -5471,6 +5498,7 @@
                 <span class="badge ${sprite.rarity}">${rarityLabel(sprite.rarity)}</span>
                 <span class="badge variant">${localizedVariant(sprite.variant)}</span>
               </div>
+              <span class="card-mastery-status" aria-hidden="true">★ ${t("mastered")}</span>
               <button class="locker-toggle" type="button" data-action="owned" data-id="${sprite.id}" aria-pressed="${entry.owned}" aria-label="${esc(entry.owned ? t("removeFromLocker") : t("addToLocker"))} : ${esc(name)}"><span class="locker-toggle-icon" aria-hidden="true">${entry.owned ? "✓" : "+"}</span><span class="locker-toggle-label">${entry.owned ? t("inLocker") : t("addShort")}</span></button>
               <button class="info-btn" type="button" data-action="details" data-id="${sprite.id}" aria-label="${esc(t("informationAbout", { name }))}">i</button>
             </div>
@@ -5486,12 +5514,6 @@
                 </div>
               </div>
               <div class="card-power" aria-hidden="true"><span>${t("power")}</span><span class="power-pips">${powerPips(entry.level)}</span></div>
-              <div class="card-actions">
-                <div class="card-secondary-actions">
-                  <label class="level-control"><span>${t("level")}</span><select class="level-select" data-action="level" data-id="${sprite.id}" aria-label="${esc(t("levelFor", { name }))}">${levelOptions(entry.level)}</select></label>
-                  <button class="master-btn" type="button" data-action="mastered" data-id="${sprite.id}" aria-pressed="${entry.mastered}" aria-label="${esc(entry.mastered ? t("removeMastery") : t("markMastered"))} : ${esc(name)}"><span class="master-icon" aria-hidden="true">${entry.mastered ? "★" : "☆"}</span><span class="master-copy">${entry.mastered ? t("mastered") : t("master")}</span></button>
-                </div>
-              </div>
             </div>
           </article>`;
       }
@@ -5662,14 +5684,7 @@
         const stateLabel = card.querySelector(".card-state-label");
         stateLabel.textContent = entry.owned ? t("obtained") : t("missing");
 
-        const level = card.querySelector('[data-action="level"]');
-        level.value = String(entry.level);
         card.querySelectorAll(".power-pip").forEach((pip, index) => pip.classList.toggle("active", index < entry.level));
-
-        const masteredButton = card.querySelector('[data-action="mastered"]');
-        masteredButton.setAttribute("aria-pressed", String(entry.mastered));
-        masteredButton.setAttribute("aria-label", `${entry.mastered ? t("removeMastery") : t("markMastered")} : ${name}`);
-        masteredButton.innerHTML = `<span class="master-icon" aria-hidden="true">${entry.mastered ? "★" : "☆"}</span><span class="master-copy">${entry.mastered ? t("mastered") : t("master")}</span>`;
         updateStats();
       }
 
@@ -6374,31 +6389,6 @@
           openDetails(id);
         } else if (target.dataset.action === "owned") {
           requestLockerChange(id);
-        } else if (target.dataset.action === "mastered") {
-          const entry = state[id] || blankEntry();
-          if (!entry.owned) {
-            openAddSpriteDialog(id, { mastered: true });
-          } else {
-            setMastered(id, !entry.mastered);
-            refreshAfterStateChange(id);
-          }
-        }
-      });
-
-      grid.addEventListener("change", event => {
-        const target = event.target.closest('[data-action="level"]');
-        if (!target) return;
-        const id = target.dataset.id;
-        const entry = state[id] || blankEntry();
-        const nextLevel = Number(target.value) || 0;
-        if (!entry.owned && nextLevel > 0) {
-          openAddSpriteDialog(id, { level: nextLevel });
-        } else if (entry.owned && nextLevel === 0) {
-          target.value = String(entry.level);
-          openRemoveSpriteDialog(id);
-        } else {
-          setLevel(id, nextLevel);
-          refreshAfterStateChange(id);
         }
       });
 
