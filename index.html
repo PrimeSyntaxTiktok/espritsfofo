@@ -4308,6 +4308,200 @@
       .patch-actions { display: grid; grid-template-columns: 1fr 1fr; }
       .patch-actions a { padding-inline: 8px; font-size: .54rem; }
     }
+    .patch-page-compact {
+      max-width: 960px;
+      padding: 18px 0 8px;
+    }
+    .patch-entry {
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .13);
+      border-radius: 18px;
+      background: rgba(10, 15, 39, .86);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, .24), inset 0 1px 0 rgba(255, 255, 255, .05);
+    }
+    .patch-simple-head {
+      display: flex;
+      padding: 21px 23px 19px;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, .11);
+      background: linear-gradient(110deg, rgba(31, 44, 98, .58), rgba(18, 23, 55, .3));
+    }
+    .patch-simple-head h1 {
+      max-width: none;
+      margin: 11px 0 0;
+      color: #fff;
+      font-family: var(--display);
+      font-size: clamp(1.75rem, 4vw, 3rem);
+      font-style: italic;
+      font-weight: 900;
+      letter-spacing: -.025em;
+      line-height: .94;
+      text-transform: uppercase;
+      transform: none;
+    }
+    .patch-simple-head h1 span {
+      display: inline;
+      margin: 0;
+      color: var(--yellow);
+      text-shadow: none;
+    }
+    .patch-page-compact .patch-kicker {
+      min-height: 0;
+      padding: 5px 8px;
+      border-radius: 6px;
+      font-size: .53rem;
+    }
+    .patch-page-compact .patch-date {
+      margin: 0 0 2px;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: none;
+      color: #95a5d0;
+      font-size: .58rem;
+      white-space: nowrap;
+    }
+    .patch-page-compact .patch-grid {
+      display: block;
+    }
+    .patch-page-compact .patch-card {
+      display: grid;
+      min-width: 0;
+      padding: 17px 23px;
+      overflow: visible;
+      grid-template-columns: minmax(145px, 185px) minmax(0, 1fr);
+      align-items: start;
+      gap: 22px;
+      border: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, .085);
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+    .patch-page-compact .patch-card::after {
+      top: 17px;
+      right: auto;
+      left: 0;
+      width: 3px;
+      height: 23px;
+      box-shadow: none;
+    }
+    .patch-page-compact .patch-card h2 {
+      margin: 2px 0 0;
+      font-size: .92rem;
+      line-height: 1.08;
+    }
+    .patch-page-compact .patch-list { gap: 6px; }
+    .patch-page-compact .patch-list li {
+      padding-left: 16px;
+      font-size: .68rem;
+      line-height: 1.42;
+    }
+    .patch-page-compact .patch-list li::before {
+      top: .47em;
+      width: 6px;
+      height: 6px;
+      box-shadow: none;
+    }
+    .patch-page-compact .patch-notice {
+      margin: 0;
+      padding: 14px 23px;
+      border: 0;
+      border-radius: 0;
+      background: rgba(255, 194, 69, .055);
+    }
+    .patch-page-compact .patch-notice-mark {
+      width: 27px;
+      height: 27px;
+      flex-basis: 27px;
+      border-radius: 7px;
+    }
+    @media (max-width: 700px) {
+      .patch-page-compact { padding-top: 11px; }
+      .patch-simple-head {
+        padding: 17px;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .patch-simple-head h1 { font-size: clamp(1.7rem, 9vw, 2.5rem); }
+      .patch-page-compact .patch-date { margin: 0; white-space: normal; }
+      .patch-page-compact .patch-card {
+        padding: 15px 17px;
+        grid-template-columns: 1fr;
+        gap: 9px;
+      }
+      .patch-page-compact .patch-card::after { top: 15px; }
+      .patch-page-compact .patch-card h2 { padding-left: 4px; }
+      .patch-page-compact .patch-notice { padding: 13px 17px; }
+    }
+    .hero.hero-minimal {
+      display: flex;
+      min-height: 0;
+      margin: 18px 0 0;
+      padding: clamp(16px, 3vw, 28px) 0 10px;
+      overflow: visible;
+      border: 0;
+      border-radius: 0;
+      background: none;
+      box-shadow: none;
+      isolation: auto;
+    }
+    .hero.hero-minimal::before,
+    .hero.hero-minimal::after { display: none; content: none; }
+    .hero-minimal .hero-inner {
+      display: grid;
+      width: 100%;
+      min-height: 0;
+      grid-template-columns: minmax(0, 1fr) minmax(245px, 360px);
+      align-items: center;
+      gap: clamp(12px, 3vw, 34px);
+    }
+    .hero-minimal .hero-text { max-width: none; }
+    .hero-minimal h1 {
+      max-width: none;
+      font-size: clamp(2.35rem, 6.4vw, 5.3rem);
+      line-height: .9;
+    }
+    .hero-rare-art {
+      display: grid;
+      height: 112px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      align-items: end;
+      gap: 0;
+    }
+    .hero-rare-sprite {
+      display: block;
+      width: 118%;
+      height: 112px;
+      margin-left: -9%;
+      object-fit: contain;
+      filter: drop-shadow(0 13px 11px rgba(0, 0, 0, .38));
+      transform: translateY(2px);
+    }
+    .hero-rare-sprite:nth-child(2) { transform: translateY(-5px) rotate(-3deg); }
+    .hero-rare-sprite:nth-child(3) { transform: translateY(1px) rotate(3deg); }
+    .hero-rare-sprite:nth-child(4) { transform: translateY(-7px) rotate(4deg); }
+    @media (max-width: 700px) {
+      .hero.hero-minimal { min-height: 0; margin-top: 10px; padding: 17px 1px 8px; }
+      .hero-minimal .hero-inner {
+        min-height: 0;
+        grid-template-columns: minmax(0, 1fr) minmax(132px, 40%);
+        gap: 5px;
+      }
+      .hero-minimal .hero-text { max-width: none; }
+      .hero-minimal h1 { font-size: clamp(2rem, 10vw, 3.25rem); }
+      .hero-rare-art { height: 82px; }
+      .hero-rare-sprite { width: 132%; height: 82px; margin-left: -16%; }
+    }
+    @media (max-width: 390px) {
+      .hero-minimal .hero-inner { grid-template-columns: minmax(0, 1fr) 124px; }
+      .hero-minimal h1 { font-size: clamp(1.82rem, 9.5vw, 2.65rem); }
+      .hero-rare-art,
+      .hero-rare-sprite { height: 72px; }
+    }
     @media (prefers-reduced-motion: reduce) { .app-page { animation: none; } }
   </style>
 </head>
@@ -4330,24 +4524,16 @@
     </nav>
 
     <main class="app-page is-active" id="homePage" data-page="home">
-    <header class="hero">
+    <header class="hero hero-minimal">
       <div class="hero-inner">
         <div class="hero-text">
-          <div class="eyebrow"><span>Collection officielle du joueur</span></div>
-          <h1>Domine ton<br><span>Sprite Locker</span></h1>
-          <p class="hero-copy">Rassemble chaque esprit, suis ta maîtrise et complète le casier ultime de la saison.</p>
-          <div class="edition" aria-label="Informations sur la collection">
-            <span><strong>24</strong> familles</span>
-            <span><strong>109</strong> versions</span>
-            <span><strong>v41.30</strong> à jour</span>
-          </div>
+          <h1>Maîtrise ton <span>esprit</span></h1>
         </div>
-        <div class="hero-art" aria-hidden="true">
-          <div class="hero-orbit"></div>
-          <img class="hero-sprite hero-sprite-main" src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_FossilMeal_Default_L.webp" alt="" width="600" height="600" decoding="async" fetchpriority="high" referrerpolicy="no-referrer">
-          <img class="hero-sprite hero-sprite-one" src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Air_Holo_L.webp" alt="" width="600" height="600" decoding="async" referrerpolicy="no-referrer">
-          <img class="hero-sprite hero-sprite-two" src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Seven_Gold_ui_L.webp" alt="" width="600" height="600" decoding="async" referrerpolicy="no-referrer">
-          <span class="hero-burst">109</span>
+        <div class="hero-rare-art" aria-hidden="true">
+          <img class="hero-rare-sprite" src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_CokeParmesan_Default_L.webp" alt="" width="320" height="320" decoding="async" fetchpriority="high" referrerpolicy="no-referrer">
+          <img class="hero-rare-sprite" src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BurntPeanut_ui_L.webp" alt="" width="320" height="320" decoding="async" fetchpriority="high" referrerpolicy="no-referrer">
+          <img class="hero-rare-sprite" src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_CompanyStargazer_Default_L.webp" alt="" width="320" height="320" decoding="async" fetchpriority="high" referrerpolicy="no-referrer">
+          <img class="hero-rare-sprite" src="https://fortnite.gg/img/x/sprites/icons/T_Icon_Reload_FillerGrunt_icon_L.webp" alt="" width="320" height="320" decoding="async" fetchpriority="high" referrerpolicy="no-referrer">
         </div>
       </div>
     </header>
@@ -4519,70 +4705,50 @@
       <main class="grid" id="spriteGrid" aria-live="polite"></main>
     </section>
 
-    <section class="patch-page app-page" id="patchNotesPage" data-page="patch-notes" aria-labelledby="patchNotesTitle">
-      <header class="patch-hero">
-        <div class="patch-copy">
-          <span class="patch-kicker" id="patchKicker">Mise à jour v41.30</span>
-          <h1 id="patchNotesTitle">Le casier passe à <span>109 esprits</span></h1>
-          <p class="patch-lead" id="patchLead">La collection vient de recevoir sa plus grosse mise à jour : de nouveaux esprits, de nouvelles variantes et une gestion du casier plus simple.</p>
+    <section class="patch-page patch-page-compact app-page" id="patchNotesPage" data-page="patch-notes" aria-labelledby="patchNotesTitle">
+      <article class="patch-entry">
+        <header class="patch-simple-head">
+          <div>
+            <span class="patch-kicker" id="patchKicker">Mise à jour v41.30</span>
+            <h1 id="patchNotesTitle">Le casier passe à <span>109 esprits</span></h1>
+          </div>
           <time class="patch-date" id="patchDate" datetime="2026-08-01T17:23:00+02:00">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2M7 3v3M17 3v3"></path></svg>
             <span id="patchDateText">1 août 2026 à 17:23 · heure de Paris</span>
           </time>
+        </header>
+
+        <div class="patch-grid">
+          <section class="patch-card">
+            <h2 id="patchNewTitle">Nouveaux esprits</h2>
+            <ul class="patch-list">
+              <li id="patchNewJohn">Esprit John Wick ajouté au catalogue.</li>
+              <li id="patchNewLlama">Esprit lama veinard ajouté avec 5 versions.</li>
+              <li id="patchNewPeely">Esprit de Banane dénicheur ajouté avec 5 versions.</li>
+            </ul>
+          </section>
+          <section class="patch-card">
+            <h2 id="patchVariantsTitle">Variantes ajoutées</h2>
+            <ul class="patch-list">
+              <li id="patchVariantsQuack">4 variantes Canardesques : Eau, Terre, Feu et Point Zéro.</li>
+              <li id="patchVariantsZero">Point Zéro reçoit les variantes Holofoil et Cube.</li>
+              <li id="patchVariantsRare">Faucheuse Holofoil et Lama veinard Gemme rejoignent la collection.</li>
+            </ul>
+          </section>
+          <section class="patch-card">
+            <h2 id="patchAppTitle">Application améliorée</h2>
+            <ul class="patch-list">
+              <li id="patchAppLevels">La gestion des niveaux a été entièrement supprimée.</li>
+              <li id="patchAppData">Tes possessions, maîtrises et notes existantes restent conservées.</li>
+              <li id="patchAppFilters">Les filtres, statistiques, images et textes français/anglais sont à jour.</li>
+            </ul>
+          </section>
         </div>
-        <div class="patch-art" aria-hidden="true">
-          <span class="patch-new-badge">+18</span>
-          <img class="patch-sprite patch-sprite-left" src="https://fortnite.gg/img/x/sprites/icons/T_Icon_Reload_FillerGrunt_icon_L.webp" alt="" width="600" height="600" loading="eager" decoding="async" referrerpolicy="no-referrer">
-          <img class="patch-sprite patch-sprite-main" src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Peely_Holofoil_ui_L.webp" alt="" width="600" height="600" loading="eager" decoding="async" referrerpolicy="no-referrer">
-          <img class="patch-sprite patch-sprite-right" src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Llama_Gem_ui_L.webp" alt="" width="600" height="600" loading="eager" decoding="async" referrerpolicy="no-referrer">
-        </div>
-      </header>
 
-      <div class="patch-metrics" aria-label="Résumé de la mise à jour">
-        <div class="patch-metric"><strong>109</strong><span id="patchMetricTotal">Versions récupérables</span></div>
-        <div class="patch-metric"><strong>+18</strong><span id="patchMetricAdded">Nouveaux ajouts</span></div>
-        <div class="patch-metric"><strong>24</strong><span id="patchMetricFamilies">Familles d’esprits</span></div>
-      </div>
-
-      <div class="patch-grid">
-        <article class="patch-card">
-          <span class="patch-card-icon" aria-hidden="true">F</span>
-          <h2 id="patchNewTitle">Nouveaux esprits</h2>
-          <ul class="patch-list">
-            <li id="patchNewJohn">Esprit John Wick ajouté au catalogue.</li>
-            <li id="patchNewLlama">Esprit lama veinard ajouté avec 5 versions.</li>
-            <li id="patchNewPeely">Esprit de Banane dénicheur ajouté avec 5 versions.</li>
-          </ul>
-        </article>
-        <article class="patch-card">
-          <span class="patch-card-icon" aria-hidden="true">◇</span>
-          <h2 id="patchVariantsTitle">Variantes ajoutées</h2>
-          <ul class="patch-list">
-            <li id="patchVariantsQuack">4 variantes Canardesques : Eau, Terre, Feu et Point Zéro.</li>
-            <li id="patchVariantsZero">Point Zéro reçoit les variantes Holofoil et Cube.</li>
-            <li id="patchVariantsRare">Faucheuse Holofoil et Lama veinard Gemme rejoignent la collection.</li>
-          </ul>
-        </article>
-        <article class="patch-card">
-          <span class="patch-card-icon" aria-hidden="true">✓</span>
-          <h2 id="patchAppTitle">Application améliorée</h2>
-          <ul class="patch-list">
-            <li id="patchAppLevels">La gestion des niveaux a été entièrement supprimée.</li>
-            <li id="patchAppData">Tes possessions, maîtrises et notes existantes restent conservées.</li>
-            <li id="patchAppFilters">Les filtres, statistiques, images et textes français/anglais sont à jour.</li>
-          </ul>
-        </article>
-      </div>
-
-      <aside class="patch-notice">
-        <span class="patch-notice-mark" aria-hidden="true">!</span>
-        <div><strong id="patchNoticeTitle">Contenu encore non sorti</strong><p id="patchNoticeCopy">Ironmouse et l’Esprit sinistre Gemme ne sont pas encore récupérables : ils seront ajoutés dès leur sortie officielle.</p></div>
-      </aside>
-
-      <div class="patch-actions">
-        <a href="#catalog" data-page-target="catalog" id="patchCatalogButton">Voir le catalogue</a>
-        <a href="#inventory" data-page-target="inventory" id="patchInventoryButton">Ouvrir mon inventaire</a>
-      </div>
+        <aside class="patch-notice">
+          <span class="patch-notice-mark" aria-hidden="true">!</span>
+          <div><strong id="patchNoticeTitle">Contenu encore non sorti</strong><p id="patchNoticeCopy">Ironmouse et l’Esprit sinistre Gemme ne sont pas encore récupérables : ils seront ajoutés dès leur sortie officielle.</p></div>
+        </aside>
+      </article>
     </section>
 
     <footer class="footer">
@@ -4730,7 +4896,7 @@
           locker: "Casier",
           season: "Chapitre 7 · Saison 3",
           heroEyebrow: "Collection officielle du joueur",
-          heroTitleHtml: "Maîtrise ton<br><span>casier d’esprits</span>",
+          heroTitleHtml: "Maîtrise ton <span>esprit</span>",
           heroCopy: "Rassemble chaque esprit, suis ta maîtrise et complète le casier ultime de la saison.",
           collectionInfo: "Informations sur la collection",
           families: "familles",
@@ -4942,7 +5108,7 @@
           locker: "Locker",
           season: "Chapter 7 · Season 3",
           heroEyebrow: "Official player collection",
-          heroTitleHtml: "Master your<br><span>Sprite Locker</span>",
+          heroTitleHtml: "Master your <span>Sprite</span>",
           heroCopy: "Collect every Sprite, track mastery, and complete the ultimate season locker.",
           collectionInfo: "Collection information",
           families: "families",
@@ -5699,15 +5865,8 @@
         const season = document.querySelector(".season-live");
         if (season) season.innerHTML = `<span aria-hidden="true"></span>${t("season")}`;
 
-        setText(".eyebrow span", "heroEyebrow");
         const heroTitle = document.querySelector(".hero-text h1");
         if (heroTitle) heroTitle.innerHTML = t("heroTitleHtml");
-        setText(".hero-copy", "heroCopy");
-        setAttribute(".edition", "aria-label", "collectionInfo");
-        const editionItems = document.querySelectorAll(".edition > span");
-        if (editionItems[0]) editionItems[0].innerHTML = `<strong>${families.length}</strong> ${t("families")}`;
-        if (editionItems[1]) editionItems[1].innerHTML = `<strong>${sprites.length}</strong> ${t("versions")}`;
-        if (editionItems[2]) editionItems[2].innerHTML = `<strong>v41.30</strong> ${t("upToDate")}`;
 
         setAttribute("#progress", "aria-label", "progressSection");
         setText(".sync-label", "cloudLocker");
