@@ -1182,32 +1182,6 @@
       text-transform: uppercase;
     }
 
-    .season-live {
-      display: inline-flex;
-      flex: 0 0 auto;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 11px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: rgba(15, 20, 48, .72);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
-      color: #e7ebff;
-      font-size: .65rem;
-      font-weight: 900;
-      letter-spacing: .075em;
-      text-transform: uppercase;
-      backdrop-filter: blur(12px);
-    }
-
-    .season-live span {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 0 4px rgba(73, 239, 160, .12), 0 0 15px rgba(73, 239, 160, .75);
-    }
-
     .topbar-actions,
     .topbar-links {
       display: flex;
@@ -2684,7 +2658,6 @@
       }
       .topbar-links { display: none; }
       .brand-copy small { display: none; }
-      .season-live { padding: 7px 9px; font-size: .58rem; }
       .hero { min-height: 350px; padding: 27px 22px; border-radius: 24px; }
       .hero-inner { display: block; min-height: 294px; }
       .hero-text { max-width: 74%; }
@@ -2778,7 +2751,6 @@
     }
 
     @media (max-width: 470px) {
-      .season-live { max-width: 138px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
       .hero { min-height: 365px; }
       .hero-text { max-width: 90%; }
       .hero-copy { max-width: 76%; }
@@ -4502,6 +4474,170 @@
       .hero-rare-art,
       .hero-rare-sprite { height: 72px; }
     }
+    .sync-card.auth-bar {
+      display: flex;
+      min-height: 56px;
+      margin-bottom: 10px;
+      padding: 8px 9px;
+      align-items: center;
+      flex-direction: row;
+      gap: 10px;
+      border-color: rgba(116, 172, 255, .2);
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at 5% 0%, rgba(45, 174, 255, .13), transparent 35%),
+        linear-gradient(105deg, rgba(18, 25, 61, .97), rgba(10, 15, 38, .96));
+      box-shadow: 0 12px 34px rgba(0, 0, 0, .22), inset 0 1px 0 rgba(255, 255, 255, .065);
+    }
+    .auth-summary {
+      display: flex;
+      min-width: 0;
+      flex: 1 1 auto;
+      align-items: center;
+      gap: 9px;
+    }
+    .auth-bar .sync-avatar {
+      width: 36px;
+      height: 36px;
+      flex-basis: 36px;
+      border-radius: 11px;
+    }
+    .auth-bar .sync-avatar svg { width: 20px; height: 20px; }
+    .auth-bar .sync-copy { min-width: 75px; flex: 1 1 auto; }
+    .auth-bar .sync-copy .sync-label {
+      margin-bottom: 2px;
+      color: #72cfff;
+      font-size: .45rem;
+      letter-spacing: .1em;
+    }
+    .auth-bar .sync-copy strong { font-size: .7rem; }
+    .auth-bar .sync-copy > span:last-child { margin-top: 1px; font-size: .55rem; }
+    .auth-live-status {
+      display: inline-flex;
+      min-width: 0;
+      padding: 4px 3px;
+      align-items: center;
+      gap: 7px;
+      color: #9da9cb;
+      font-size: .54rem;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+    .auth-live-status .sync-dot {
+      width: 6px;
+      height: 6px;
+      flex-basis: 6px;
+      box-shadow: 0 0 0 3px rgba(131, 141, 177, .09);
+    }
+    .auth-live-status[data-state="synced"] { color: #85efb5; }
+    .auth-live-status[data-state="synced"] .sync-dot { background: var(--green); box-shadow: 0 0 0 3px rgba(73,239,160,.1); }
+    .auth-live-status[data-state="loading"] { color: #79d8ff; }
+    .auth-live-status[data-state="loading"] .sync-dot { background: var(--blue); box-shadow: 0 0 0 3px rgba(36,169,255,.1); }
+    .auth-live-status[data-state="pending"] { color: #f5e96a; }
+    .auth-live-status[data-state="pending"] .sync-dot { background: var(--yellow); box-shadow: 0 0 0 3px rgba(247,237,56,.1); }
+    .auth-live-status[data-state="error"] { color: #ff899e; }
+    .auth-live-status[data-state="error"] .sync-dot { background: var(--danger); box-shadow: 0 0 0 3px rgba(255,94,124,.1); }
+    .auth-toggle {
+      display: inline-flex;
+      min-height: 39px;
+      padding: 7px 12px 7px 7px;
+      flex: 0 0 auto;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 1px solid rgba(123, 205, 255, .25);
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(35, 157, 240, .22), rgba(111, 83, 225, .18));
+      color: #f5f8ff;
+      font-size: .61rem;
+      font-weight: 950;
+      letter-spacing: .02em;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease, opacity .16s ease;
+    }
+    .auth-toggle:hover { border-color: rgba(125, 218, 255, .52); transform: translateY(-1px); }
+    .auth-toggle:active { transform: scale(.97); }
+    .auth-toggle:disabled { opacity: .55; cursor: wait; transform: none; }
+    .auth-google,
+    .auth-power {
+      display: grid;
+      width: 25px;
+      height: 25px;
+      flex: 0 0 25px;
+      place-items: center;
+      border-radius: 8px;
+      background: #fff;
+      color: #2568dc;
+      font-family: Arial, sans-serif;
+      font-size: .72rem;
+      font-weight: 950;
+    }
+    .auth-power { background: rgba(255, 255, 255, .1); color: #ff9aab; font-size: .85rem; }
+    .auth-toggle[data-connected="true"] {
+      border-color: rgba(255, 110, 135, .25);
+      background: rgba(255, 90, 120, .08);
+      color: #ffdce3;
+    }
+    .auth-bar .visitor-counter-inline {
+      display: grid;
+      min-width: 0;
+      margin: 0;
+      padding: 0 2px;
+      flex: 1 1 auto;
+      grid-template-columns: auto minmax(60px, 1fr) auto auto;
+      gap: 8px;
+      border: 0;
+      border-radius: 0;
+      background: none;
+      box-shadow: none;
+    }
+    .auth-bar .visitor-counter-inline .visitor-counter-dot {
+      width: 7px;
+      height: 7px;
+      box-shadow: 0 0 0 3px rgba(73,239,160,.08), 0 0 10px rgba(73,239,160,.42);
+    }
+    .auth-bar .visitor-counter-inline .visitor-counter-copy strong { font-size: .56rem; }
+    .auth-bar .visitor-counter-inline .visitor-counter-copy span { margin-top: 1px; font-size: .39rem; }
+    .auth-bar .visitor-counter-inline .visitor-counter-value {
+      min-width: 50px;
+      padding-left: 8px;
+    }
+    .auth-bar .visitor-counter-inline .visitor-counter-value strong { font-size: .77rem; }
+    .auth-bar .visitor-counter-inline .visitor-counter-value span { margin-top: 2px; font-size: .31rem; }
+    @media (max-width: 700px) {
+      .sync-card.auth-bar {
+        min-height: 52px;
+        padding: 7px;
+        align-items: center;
+        flex-direction: row;
+        gap: 7px;
+      }
+      .auth-bar .sync-avatar { width: 34px; height: 34px; flex-basis: 34px; }
+      .auth-bar .sync-copy strong { font-size: .64rem; }
+      .auth-live-status { padding-inline: 1px; font-size: .49rem; }
+      .auth-toggle { min-height: 37px; padding: 6px 9px 6px 6px; gap: 6px; font-size: .57rem; }
+      .auth-google,
+      .auth-power { width: 24px; height: 24px; flex-basis: 24px; }
+      .auth-bar .visitor-counter-inline {
+        grid-template-columns: auto minmax(48px, 1fr) auto auto;
+        gap: 5px;
+      }
+      .auth-bar .visitor-counter-inline .visitor-counter-value { min-width: 42px; padding-left: 5px; }
+      .auth-bar .visitor-counter-inline .visitor-counter-value strong { font-size: .68rem; }
+    }
+    @media (max-width: 430px) {
+      .auth-bar .visitor-counter-inline .visitor-counter-copy span { display: none; }
+      .auth-bar .visitor-counter-inline .visitor-counter-copy strong { font-size: .46rem; }
+      .auth-bar .visitor-counter-inline .visitor-counter-dot { display: none; }
+      .auth-bar .visitor-counter-inline { grid-template-columns: minmax(42px, 1fr) auto auto; gap: 3px; }
+      .auth-bar .visitor-counter-inline .visitor-counter-value { min-width: 37px; padding-left: 4px; }
+      .auth-bar .visitor-counter-inline .visitor-counter-value strong { font-size: .62rem; }
+      .auth-bar .visitor-counter-inline .visitor-counter-value span { font-size: .26rem; }
+      .auth-live-status span:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+      .auth-live-status { flex: 0 0 16px; justify-content: center; }
+      .auth-toggle { font-size: .53rem; }
+    }
     @media (prefers-reduced-motion: reduce) { .app-page { animation: none; } }
   </style>
 </head>
@@ -4519,7 +4655,6 @@
           <a href="#inventory" data-page-target="inventory">Inventaire</a>
           <a href="#patch-notes" data-page-target="patch-notes">Patch Notes</a>
         </div>
-        <div class="season-live"><span aria-hidden="true"></span>Chapitre 7 · Saison 3</div>
       </div>
     </nav>
 
@@ -4539,31 +4674,22 @@
     </header>
 
     <section class="dashboard" id="progress" aria-label="Progression">
-      <div class="sync-card" id="firebaseCard">
-        <div class="sync-account">
+      <div class="sync-card auth-bar" id="firebaseCard">
+        <div class="auth-summary">
           <div class="sync-avatar" aria-hidden="true">
             <svg id="firebaseIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7.5 18.5h9a4 4 0 0 0 .5-7.97A5.5 5.5 0 0 0 6.48 9.1 4.75 4.75 0 0 0 7.5 18.5Z"></path><path d="m13 8-3 5h3l-2 4.5 5-6h-3Z"></path></svg>
             <img id="accountAvatar" alt="" referrerpolicy="no-referrer" hidden>
           </div>
-          <div class="sync-copy">
-            <span class="sync-label">Cloud Locker</span>
-            <strong id="accountName">Synchronisation Firebase</strong>
-            <span id="accountEmail">Enregistré sur cet appareil</span>
-          </div>
+          <aside class="visitor-counter visitor-counter-inline" id="visitorCounter" data-state="loading" aria-label="Compteur public de visiteurs">
+            <span class="visitor-counter-dot" aria-hidden="true"></span>
+            <div class="visitor-counter-copy"><strong id="visitorCounterTitle">Visiteurs</strong><span id="visitorCounterStatus">Connexion…</span></div>
+            <div class="visitor-counter-value"><strong id="visitorsToday">—</strong><span id="visitorsTodayLabel">Aujourd’hui</span></div>
+            <div class="visitor-counter-value"><strong id="visitorsTotal">—</strong><span id="visitorsTotalLabel">Total</span></div>
+          </aside>
+          <div class="auth-live-status" id="syncState" data-state="local" role="status" aria-live="polite"><span class="sync-dot"></span><span id="syncStateText">Local</span></div>
         </div>
-        <div class="sync-controls">
-          <div class="sync-state" id="syncState" data-state="local" role="status" aria-live="polite"><span class="sync-dot"></span><span id="syncStateText">Local</span></div>
-          <button class="sync-btn primary" id="signInBtn" type="button" disabled><span aria-hidden="true">G</span> Connexion</button>
-          <button class="sync-btn" id="syncNowBtn" type="button" hidden>↻ Synchroniser</button>
-          <button class="sync-btn" id="signOutBtn" type="button" aria-label="Se déconnecter de Firebase" hidden>Déconnexion</button>
-        </div>
+        <button class="auth-toggle" id="authToggleBtn" type="button" data-connected="false" disabled><span class="auth-google" aria-hidden="true">G</span><span>Connexion Google</span></button>
       </div>
-      <aside class="visitor-counter" id="visitorCounter" data-state="loading" aria-label="Compteur public de visiteurs">
-        <span class="visitor-counter-dot" aria-hidden="true"></span>
-        <div class="visitor-counter-copy"><strong id="visitorCounterTitle">Visiteurs du site</strong><span id="visitorCounterStatus">Connexion au compteur…</span></div>
-        <div class="visitor-counter-value"><strong id="visitorsToday">—</strong><span id="visitorsTodayLabel">Aujourd’hui</span></div>
-        <div class="visitor-counter-value"><strong id="visitorsTotal">—</strong><span id="visitorsTotalLabel">Total</span></div>
-      </aside>
       <div class="hud-grid">
         <div class="progress-wrap" style="--progress:0">
           <div class="progress-copy">
@@ -4908,6 +5034,7 @@
           savedOnDevice: "Enregistré sur cet appareil",
           local: "Local",
           localOffline: "Local hors connexion",
+          connect: "Connexion",
           signIn: "Connexion Google",
           syncNow: "Synchroniser",
           signOut: "Déconnexion",
@@ -4921,7 +5048,7 @@
           masteredPlural: "Maîtrisés",
           missingPlural: "Manquants",
           visitorCounterAria: "Compteur public de visiteurs",
-          visitorCounterTitle: "Visiteurs du site",
+          visitorCounterTitle: "Visiteurs",
           visitorCounterLoading: "Connexion au compteur…",
           visitorCounterLive: "Compteur public en direct",
           visitorCounterError: "Compteur temporairement indisponible",
@@ -5120,6 +5247,7 @@
           savedOnDevice: "Saved on this device",
           local: "Local",
           localOffline: "Local · offline",
+          connect: "Sign in",
           signIn: "Sign in with Google",
           syncNow: "Sync now",
           signOut: "Sign out",
@@ -5133,7 +5261,7 @@
           masteredPlural: "Mastered",
           missingPlural: "Missing",
           visitorCounterAria: "Public visitor counter",
-          visitorCounterTitle: "Site visitors",
+          visitorCounterTitle: "Visitors",
           visitorCounterLoading: "Connecting to counter…",
           visitorCounterLive: "Live public counter",
           visitorCounterError: "Counter temporarily unavailable",
@@ -5794,13 +5922,9 @@
       const addSpriteMastered = document.getElementById("addSpriteMastered");
       const resetDialog = document.getElementById("resetDialog");
       const progressTrack = document.querySelector(".progress-track");
-      const signInButton = document.getElementById("signInBtn");
-      const syncNowButton = document.getElementById("syncNowBtn");
-      const signOutButton = document.getElementById("signOutBtn");
+      const authToggleButton = document.getElementById("authToggleBtn");
       const syncState = document.getElementById("syncState");
       const syncStateText = document.getElementById("syncStateText");
-      const accountName = document.getElementById("accountName");
-      const accountEmail = document.getElementById("accountEmail");
       const accountAvatar = document.getElementById("accountAvatar");
       const firebaseIcon = document.getElementById("firebaseIcon");
       const variantProgressControls = [
@@ -5862,21 +5986,13 @@
         if (quickLinks[1]) quickLinks[1].textContent = t("catalogNav");
         if (quickLinks[2]) quickLinks[2].textContent = t("inventoryNav");
         if (quickLinks[3]) quickLinks[3].textContent = t("patchNotesNav");
-        const season = document.querySelector(".season-live");
-        if (season) season.innerHTML = `<span aria-hidden="true"></span>${t("season")}`;
-
         const heroTitle = document.querySelector(".hero-text h1");
         if (heroTitle) heroTitle.innerHTML = t("heroTitleHtml");
 
         setAttribute("#progress", "aria-label", "progressSection");
-        setText(".sync-label", "cloudLocker");
-        accountName.textContent = t("firebaseSync");
-        accountEmail.textContent = t("savedOnDevice");
         syncStateText.textContent = navigator.onLine === false ? t("localOffline") : t("local");
-        signInButton.innerHTML = `<span aria-hidden="true">G</span> ${t("signIn")}`;
-        syncNowButton.textContent = `↻ ${t("syncNow")}`;
-        signOutButton.textContent = t("signOut");
-        signOutButton.setAttribute("aria-label", t("signOutAria"));
+        authToggleButton.innerHTML = `<span class="auth-google" aria-hidden="true">G</span><span>${t("connect")}</span>`;
+        authToggleButton.setAttribute("aria-label", t("signIn"));
 
         const progressCopy = document.querySelector(".progress-copy");
         if (progressCopy) {
@@ -6597,23 +6713,21 @@
 
       function setAuthBusy(busy) {
         authActionInProgress = busy;
-        signInButton.disabled = busy || !firebaseReady;
-        signOutButton.disabled = busy;
-        syncNowButton.disabled = busy || cloudSyncing;
+        authToggleButton.disabled = busy;
+        authToggleButton.classList.toggle("is-busy", busy);
         document.getElementById("firebaseCard").setAttribute("aria-busy", String(busy));
       }
 
       function updateAccountInterface(user) {
         const connected = Boolean(user);
-        signInButton.hidden = connected;
-        signInButton.disabled = authActionInProgress || !firebaseReady;
-        syncNowButton.hidden = !connected;
-        signOutButton.hidden = !connected;
-        signOutButton.disabled = authActionInProgress;
+        authToggleButton.dataset.connected = String(connected);
+        authToggleButton.disabled = authActionInProgress;
+        authToggleButton.innerHTML = connected
+          ? `<span class="auth-power" aria-hidden="true">↪</span><span>${t("signOut")}</span>`
+          : `<span class="auth-google" aria-hidden="true">G</span><span>${t("connect")}</span>`;
+        authToggleButton.setAttribute("aria-label", t(connected ? "signOutAria" : "signIn"));
 
         if (!connected) {
-          accountName.textContent = t("firebaseSync");
-          accountEmail.textContent = t("savedOnDevice");
           accountAvatar.hidden = true;
           accountAvatar.removeAttribute("src");
           firebaseIcon.hidden = false;
@@ -6621,8 +6735,6 @@
           return;
         }
 
-        accountName.textContent = user.displayName || t("googleConnected");
-        accountEmail.textContent = user.email || t("firebaseBackupActive");
         if (user.photoURL) {
           accountAvatar.src = user.photoURL;
           accountAvatar.hidden = false;
@@ -6730,7 +6842,6 @@
         }
 
         cloudSyncing = true;
-        syncNowButton.disabled = true;
         setSyncStatus("loading", t("syncing"));
         const userId = firebaseUser.uid;
         const reference = cloudDocumentReference();
@@ -6770,7 +6881,6 @@
           }
         } finally {
           cloudSyncing = false;
-          syncNowButton.disabled = false;
           if (cloudSyncQueued) {
             const queuedPull = cloudSyncQueuedPull;
             cloudSyncQueued = false;
@@ -6878,7 +6988,6 @@
               showToast(t("googleSuccess"));
             } else if (hadRedirectPending && !firebaseAuth.currentUser) {
               setRedirectPending(false);
-              accountEmail.textContent = t("redirectFailed");
               setSyncStatus("error", t("resumeSignIn"));
             }
           } catch (error) {
@@ -6903,11 +7012,10 @@
           firebaseReady = false;
           setAuthBusy(false);
           updateAccountInterface(null);
-          accountEmail.textContent = t("localDataKept");
           setSyncStatus(navigator.onLine === false ? "local" : "error", navigator.onLine === false ? t("localOffline") : t("firebaseUnavailable"));
         } finally {
           firebaseInitializing = false;
-          if (!authActionInProgress) signInButton.disabled = false;
+          if (!authActionInProgress) authToggleButton.disabled = false;
         }
       }
 
@@ -7045,9 +7153,7 @@
         }
       }
 
-      signInButton.addEventListener("click", connectGoogleAccount);
-      syncNowButton.addEventListener("click", () => synchronizeCloud({ pull: true }));
-      signOutButton.addEventListener("click", async () => {
+      async function disconnectGoogleAccount() {
         if (!firebaseSdk || !firebaseAuth || authActionInProgress) return;
         setAuthBusy(true);
         setSyncStatus("loading", t("signingOut"));
@@ -7069,6 +7175,11 @@
         } finally {
           setAuthBusy(false);
         }
+      }
+
+      authToggleButton.addEventListener("click", () => {
+        if (firebaseUser || (firebaseAuth && firebaseAuth.currentUser)) disconnectGoogleAccount();
+        else connectGoogleAccount();
       });
 
       window.addEventListener("online", () => {
