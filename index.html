@@ -6821,6 +6821,15 @@
         };
       });
 
+      function populateVariantFilterOptions() {
+        const selectedValue = variantFilter.value || "all";
+        variantFilter.innerHTML = [
+          `<option value="all">${esc(t("allVariants"))}</option>`,
+          ...Object.keys(variants).map(key => `<option value="${esc(key)}">${esc(localizedVariant(key))}</option>`)
+        ].join("");
+        variantFilter.value = selectedValue === "all" || variants[selectedValue] ? selectedValue : "all";
+      }
+
       function applyStaticTranslations() {
         const setText = (selector, key) => {
           const element = document.querySelector(selector);
@@ -6918,8 +6927,7 @@
         });
 
         variantFilter.setAttribute("aria-label", t("filterVariant"));
-        setOption("variantFilter", "all", "allVariants");
-        Object.keys(variants).forEach(key => setOption("variantFilter", key, key));
+        populateVariantFilterOptions();
         rarityFilter.setAttribute("aria-label", t("filterRarity"));
         setOption("rarityFilter", "all", "allRarities");
         Object.keys(rarityLabels.en).forEach(key => setOption("rarityFilter", key, key));
@@ -8705,6 +8713,7 @@
           if (!state[sprite.id]) state[sprite.id] = blankEntry();
         });
         renderPublishedPatchNotes(content.patchNotes || []);
+        populateVariantFilterOptions();
         populateAdminSelectors();
         if (activePage === "catalog" || activePage === "inventory") render();
         if (activePage === "guide") renderGuide();
@@ -8848,12 +8857,38 @@
       function renderAdminHistory() {
         const history = document.getElementById("adminHistory");
         if (!history) return;
+        const changedArrayItems = (draftItems, publishedItems, type, titleFor) => {
+          const publishedById = new Map((publishedItems || []).map((item, index) => [item.id || `${type}-${index}`, item]));
+          return (draftItems || []).flatMap((item, index) => {
+            const id = item.id || `${type}-${index}`;
+            const published = publishedById.get(id);
+            return JSON.stringify(item) !== JSON.stringify(published) ? [{ title: titleFor(item), type }] : [];
+          });
+        };
+        const changedObjectItems = (draftObject, publishedObject, type, titleFor) => Object.entries(draftObject || {}).flatMap(([key, value]) =>
+          JSON.stringify(value) !== JSON.stringify((publishedObject || {})[key]) ? [{ title: titleFor(key, value), type }] : []
+        );
+        const deletedArrayItems = (draftItems, publishedItems, type, titleFor) => {
+          const draftIds = new Set((draftItems || []).map((item, index) => item.id || `${type}-${index}`));
+          return (publishedItems || []).flatMap((item, index) => {
+            const id = item.id || `${type}-${index}`;
+            return draftIds.has(id) ? [] : [{ title: titleFor(item), type: `${type} supprimé` }];
+          });
+        };
+        const deletedObjectItems = (draftObject, publishedObject, type, titleFor) => Object.keys(publishedObject || {}).flatMap(key =>
+          Object.prototype.hasOwnProperty.call(draftObject || {}, key) ? [] : [{ title: titleFor(key, publishedObject[key]), type: `${type} supprimé` }]
+        );
         const items = [
-          ...(adminDraft.additions || []).map(item => ({ title: item.fr, type: "Nouvel esprit" })),
-          ...(adminDraft.variants || []).map(item => ({ title: `${item.fr || item.familyKey} · ${localizedVariant(item.variant)}`, type: "Variante" })),
-          ...Object.entries(adminDraft.overrides || {}).map(([id]) => ({ title: localizedName(sprites.find(sprite => sprite.id === id) || { fr: id, en: id }), type: "Correction" })),
-          ...Object.entries(adminDraft.variantOverrides || {}).map(([key, override]) => ({ title: override.fr || localizedVariant(key), type: "Type de variante" })),
-          ...(adminDraft.patchNotes || []).map(item => ({ title: item.title, type: "Patch Note" }))
+          ...changedArrayItems(adminDraft.additions, adminContent.additions, "Nouvel esprit", item => item.fr),
+          ...changedArrayItems(adminDraft.variants, adminContent.variants, "Variante", item => `${item.fr || item.familyKey} · ${localizedVariant(item.variant)}`),
+          ...changedObjectItems(adminDraft.overrides, adminContent.overrides, "Correction", id => localizedName(sprites.find(sprite => sprite.id === id) || { fr: id, en: id })),
+          ...changedObjectItems(adminDraft.variantOverrides, adminContent.variantOverrides, "Type de variante", (key, override) => override.fr || localizedVariant(key)),
+          ...changedArrayItems(adminDraft.patchNotes, adminContent.patchNotes, "Patch Note", item => item.title),
+          ...deletedArrayItems(adminDraft.additions, adminContent.additions, "Esprit", item => item.fr),
+          ...deletedArrayItems(adminDraft.variants, adminContent.variants, "Variante", item => `${item.fr || item.familyKey} · ${localizedVariant(item.variant)}`),
+          ...deletedObjectItems(adminDraft.overrides, adminContent.overrides, "Correction", id => localizedName(sprites.find(sprite => sprite.id === id) || { fr: id, en: id })),
+          ...deletedObjectItems(adminDraft.variantOverrides, adminContent.variantOverrides, "Type de variante", (key, override) => override.fr || localizedVariant(key)),
+          ...deletedArrayItems(adminDraft.patchNotes, adminContent.patchNotes, "Patch Note", item => item.title)
         ];
         history.innerHTML = items.length ? items.slice().reverse().map(item => `<article><strong>${esc(item.title)}</strong><span>${esc(item.type)} · brouillon</span></article>`).join("") : "";
         renderAdminContentManager();
@@ -8945,13 +8980,15 @@
             publishedBy: firebaseUser.uid
           });
           adminContent = normalizeAdminContent(adminDraft);
+          adminDraft = normalizeAdminContent(adminContent);
           try {
             localStorage.setItem(ADMIN_CONTENT_KEY, JSON.stringify(adminContent));
             localStorage.removeItem(ADMIN_DRAFT_KEY);
           } catch (_) {}
           adminDraftDirty = false;
-          document.getElementById("adminDraftStatus").textContent = "Publié à l’instant";
+          document.getElementById("adminDraftStatus").textContent = "Aucun brouillon · publication réussie";
           applyAdminContent(adminContent);
+          renderAdminHistory();
           showToast("Catalogue Sprite Locker publié");
         } catch (error) {
           showToast(friendlyFirebaseError(error));
