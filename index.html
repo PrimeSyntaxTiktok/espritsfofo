@@ -4921,12 +4921,13 @@
     .admin-guard-state { display: inline-flex; padding: 8px 11px; align-items: center; gap: 7px; border: 1px solid rgba(255,214,74,.2); border-radius: 999px; background: rgba(255,214,74,.08); color: #ffdc6b; font-size: .61rem; font-weight: 900; white-space: nowrap; }
     .admin-guard-state.is-ready { border-color: rgba(69,229,154,.2); background: rgba(69,229,154,.08); color: #72efb3; }
     .admin-workspace { display: grid; gap: 12px; }
-    .admin-tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; padding: 6px; border: 1px solid var(--feature-line); border-radius: 14px; background: rgba(8,13,32,.76); }
+    .admin-tabs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; padding: 6px; border: 1px solid var(--feature-line); border-radius: 14px; background: rgba(8,13,32,.76); }
     .admin-tabs button { min-height: 42px; border: 0; border-radius: 9px; background: transparent; color: #8b97b7; font-size: .64rem; font-weight: 900; cursor: pointer; }
     .admin-tabs button[aria-selected="true"] { background: rgba(var(--accent-rgb), .15); color: #fff; }
     .admin-form { display: none; padding: 23px; }
     .admin-form.is-active { display: block; }
     .admin-form .feature-primary { margin-top: 18px; }
+    #adminVariantEditForm input[type="color"] { min-height: 48px; padding: 4px; cursor: pointer; }
     .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 13px; }
     .field-span { grid-column: 1 / -1; }
     .admin-publish-bar { position: sticky; z-index: 8; bottom: calc(76px + env(safe-area-inset-bottom)); display: grid; padding: 14px; grid-template-columns: 1fr auto auto; align-items: center; gap: 9px; border: 1px solid rgba(var(--accent-rgb), .26); border-radius: 15px; background: rgba(9,14,34,.94); box-shadow: 0 16px 45px rgba(0,0,0,.4); backdrop-filter: blur(18px); }
@@ -5122,6 +5123,97 @@
     html[data-background] :is(.sync-card, .progress-wrap, .stat, .variant-overview, .toolbar, .panel-card, .guide-summary, .guide-integrity, .guide-card, .admin-publish-bar, .admin-history article, .admin-manage-row, .admin-patch-quick-row, .patch-entry, .patch-card, dialog) { border-color: rgba(var(--accent-rgb), .16); background: linear-gradient(145deg, color-mix(in srgb, var(--theme-surface-2) 90%, transparent), color-mix(in srgb, var(--theme-deep) 94%, transparent)); }
     html[data-background] :is(.feature-hero, .patch-simple-head) { border-color: rgba(var(--accent-rgb), .22); background: radial-gradient(circle at 88% 8%, rgba(var(--accent-rgb), .19), transparent 23rem), linear-gradient(135deg, color-mix(in srgb, var(--theme-surface-2) 92%, transparent), color-mix(in srgb, var(--theme-deep) 96%, transparent)); }
     html[data-background] :is(.topbar-links a[aria-current="page"], .mobile-dock-item[aria-current="page"], .admin-tabs button[aria-selected="true"], .segmented button[aria-pressed="true"]) { border-color: rgba(var(--accent-rgb), .42); background: rgba(var(--accent-rgb), .15); color: var(--accent); }
+
+    /* Échelle de lecture confortable sur ordinateur. */
+    @media (min-width: 1000px) {
+      html { font-size: 18px; }
+      .app { width: min(1480px, 100%); padding-inline: clamp(20px, 2.7vw, 42px); }
+      .topbar { min-height: 88px; padding-block: 15px; }
+      .brand { gap: 13px; }
+      .brand-mark { width: 48px; height: 48px; font-size: 1.6rem; }
+      .brand-copy strong { font-size: 1.25rem; }
+      .brand-copy small { font-size: .66rem; }
+      .topbar-links { gap: 6px; }
+      .topbar-links a { min-height: 42px; padding: 10px 13px; font-size: .67rem; }
+      .feature-page { padding-block: 32px 58px; }
+      .feature-hero { min-height: 220px; }
+      .feature-hero p { font-size: 1rem; }
+      .guide-toolbar button { min-height: 58px; font-size: .68rem; }
+      .guide-category-grid { gap: 16px; }
+      .guide-grid { gap: 28px; }
+      .guide-card { min-height: 300px; grid-template-columns: 162px minmax(0, 1fr); }
+      .guide-card-media img { width: 146px; height: 146px; }
+      .guide-card-content { padding: 18px; }
+      .guide-card h3 { font-size: 1.42rem; }
+      .guide-ability { font-size: .68rem; line-height: 1.55; }
+      .guide-level { min-height: 49px; }
+      .guide-level b { font-size: .43rem; }
+      .guide-level span { font-size: .52rem; }
+      .guide-detail-btn { min-height: 37px; padding-inline: 13px; }
+    }
+
+    @media (min-width: 1500px) {
+      html { font-size: 19px; }
+    }
+
+    /* Le Guide mobile reste intégralement dans la largeur de l'écran. */
+    @media (max-width: 560px) {
+      #guidePage { padding-bottom: 132px; overflow-x: clip; }
+      .guide-grid, .guide-category-section, .guide-category-grid { min-width: 0; }
+      .guide-card {
+        min-width: 0;
+        min-height: 0;
+        grid-template-columns: minmax(0, 1fr);
+        overflow: hidden;
+      }
+      .guide-card-media { min-height: 158px; padding: 13px; }
+      .guide-card-media::after {
+        right: 12%;
+        bottom: 0;
+        width: 76%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--guide-color) 42%, transparent), transparent);
+      }
+      .guide-card-media img { width: 128px; height: 128px; }
+      .guide-category-badge {
+        right: 12px;
+        bottom: 11px;
+        left: auto;
+        max-width: calc(100% - 24px);
+        padding: 6px 10px;
+        font-size: .47rem;
+      }
+      .guide-card-content { min-width: 0; padding: 16px; overflow: visible; }
+      .guide-card-top { align-items: flex-start; }
+      .guide-card-en { max-width: 54%; font-size: .55rem; }
+      .guide-card h3 { margin-top: 10px; font-size: 1.48rem; line-height: 1; }
+      .guide-ability {
+        width: 100%;
+        margin-top: 9px;
+        overflow: visible;
+        font-size: .76rem;
+        line-height: 1.58;
+        overflow-wrap: anywhere;
+        white-space: normal;
+      }
+      .guide-level-block { margin-top: 14px; padding-top: 12px; }
+      .guide-level-caption { margin-bottom: 8px; font-size: .54rem; line-height: 1.4; }
+      .guide-level-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 7px;
+        padding: 0;
+        overflow: visible;
+      }
+      .guide-level { min-width: 0; min-height: 54px; padding: 7px 5px; }
+      .guide-level:nth-child(5) { grid-column: 1 / -1; }
+      .guide-level b { font-size: .52rem; }
+      .guide-level span { font-size: .65rem; }
+      .guide-note { font-size: .64rem; line-height: 1.5; }
+      .guide-card-footer { margin-top: 14px; padding-top: 12px; align-items: center; }
+      .guide-cost { min-width: 0; font-size: .54rem; }
+      .guide-cost strong { font-size: .68rem; line-height: 1.3; }
+      .guide-detail-btn { min-height: 38px; padding-inline: 11px; flex: 0 0 auto; font-size: .57rem; }
+    }
 
     @media (max-width: 700px) {
       .mobile-dock { overflow-x: scroll !important; overflow-y: hidden !important; scroll-snap-type: x proximity !important; touch-action: pan-x !important; cursor: grab; }
@@ -5413,6 +5505,7 @@
           <button type="button" data-admin-tab="spirit" aria-selected="true">Nouvel esprit</button>
           <button type="button" data-admin-tab="edit" aria-selected="false">Modifier</button>
           <button type="button" data-admin-tab="variant" aria-selected="false">Nouvelle variante</button>
+          <button type="button" data-admin-tab="variant-edit" aria-selected="false">Modifier les variantes</button>
           <button type="button" data-admin-tab="patch" aria-selected="false">Patch Note</button>
           <button type="button" data-admin-tab="manage" aria-selected="false">Gérer / supprimer</button>
         </nav>
@@ -5431,6 +5524,18 @@
           <div class="form-grid"><label class="field-label">Famille d’esprit<select name="familyKey" id="adminVariantFamily" required></select></label><label class="field-label">Variante<select name="variant" class="admin-variant-select" required></select></label><label class="field-label field-span">URL de l’image<input name="image" required type="url" placeholder="https://…"></label><label class="field-label">Date de sortie<input name="releaseDate" type="date"></label></div>
           <button class="feature-primary" type="submit">Ajouter la variante</button>
         </form>
+        <form class="panel-card admin-form" id="adminVariantEditForm" data-admin-panel="variant-edit">
+          <div class="panel-heading"><div><span>Types de variantes</span><h2>Modifier une variante existante</h2></div><span class="panel-status">Modification globale</span></div>
+          <div class="form-grid">
+            <label class="field-label field-span">Variante à modifier<select name="variantKey" id="adminVariantEditSelect" class="admin-variant-select" required></select><small>Le changement s’appliquera aux filtres, badges, recherches et fiches de toutes les pages.</small></label>
+            <label class="field-label">Nom français<input name="fr" required maxlength="40"></label>
+            <label class="field-label">Nom anglais<input name="en" required maxlength="40"></label>
+            <label class="field-label">Couleur de la variante<input name="color" type="color" required></label>
+            <label class="field-label field-span">Bonus de variante en français<textarea name="effectFr" required maxlength="500" rows="4"></textarea></label>
+            <label class="field-label field-span">Bonus de variante en anglais<textarea name="effectEn" required maxlength="500" rows="4"></textarea></label>
+          </div>
+          <button class="feature-primary" type="submit">Enregistrer la variante</button>
+        </form>
         <form class="panel-card admin-form" id="adminPatchForm" data-admin-panel="patch">
           <div class="panel-heading"><div><span>Actualité</span><h2>Publier un Patch Note</h2></div></div>
           <div class="form-grid"><label class="field-label field-span">Titre<input name="title" required maxlength="100"></label><label class="field-label field-span">Contenu<textarea name="body" required maxlength="1800" rows="7" placeholder="Une ligne par nouveauté…"></textarea></label><label class="field-label">Date de publication<input name="date" required type="datetime-local"></label></div>
@@ -5442,7 +5547,7 @@
         </form>
         <section class="panel-card admin-form" id="adminManagePanel" data-admin-panel="manage">
           <div class="panel-heading"><div><span>Gestion complète</span><h2>Modifier ou supprimer le contenu</h2></div></div>
-          <p class="admin-manage-copy">Gère les Patch Notes, ajouts, variantes et corrections publiés. Les changements sont ajoutés au brouillon avant publication.</p>
+          <p class="admin-manage-copy">Gère les Patch Notes, les esprits ajoutés, les types de variantes, leurs noms, bonus et couleurs, ainsi que les corrections publiées. Les changements sont ajoutés au brouillon avant publication.</p>
           <div class="admin-content-manager" id="adminContentManager"></div>
         </section>
         <section class="admin-publish-bar"><div><span>Brouillon global</span><strong id="adminDraftStatus">Aucune modification</strong></div><button id="adminPreviewBtn" type="button">Aperçu local</button><button class="feature-primary" id="adminPublishBtn" type="button">Publier sur Sprite Locker</button></section>
@@ -8158,6 +8263,7 @@
           additions: Array.isArray(value.additions) ? value.additions : [],
           variants: Array.isArray(value.variants) ? value.variants : [],
           overrides: value.overrides && typeof value.overrides === "object" ? value.overrides : {},
+          variantOverrides: value.variantOverrides && typeof value.variantOverrides === "object" ? value.variantOverrides : {},
           patchNotes: Array.isArray(value.patchNotes) ? value.patchNotes : [],
           updatedAtMs: Math.max(0, Number(value.updatedAtMs) || 0)
         };
@@ -8459,6 +8565,12 @@
         fr: sprite.fr, en: sprite.en, rarity: sprite.rarity, effect: sprite.effect,
         image: sprite.image, releaseDate: sprite.releaseDate || ""
       }]));
+      const baseVariantSnapshot = Object.fromEntries(Object.entries(variants).map(([key, variant]) => [key, {
+        fr: variant.fr,
+        en: variant.en,
+        color: variant.color,
+        effect: { fr: variant.effect.fr, en: variant.effect.en }
+      }]));
       const adminManagedSpriteIds = new Set();
 
       function openPatchNoteEditor(context, body, title = "") {
@@ -8526,9 +8638,36 @@
           if (index >= 0) sprites.splice(index, 1);
         });
         adminManagedSpriteIds.clear();
+
+        Object.entries(baseVariantSnapshot).forEach(([key, snapshot]) => {
+          Object.assign(variants[key], {
+            fr: snapshot.fr,
+            en: snapshot.en,
+            color: snapshot.color,
+            effect: { fr: snapshot.effect.fr, en: snapshot.effect.en }
+          });
+        });
+        Object.entries(content.variantOverrides || {}).forEach(([key, override]) => {
+          if (!variants[key] || !override || typeof override !== "object") return;
+          const fallback = baseVariantSnapshot[key];
+          const color = /^#[0-9a-f]{6}$/i.test(String(override.color || "")) ? String(override.color).toLowerCase() : fallback.color;
+          Object.assign(variants[key], {
+            fr: String(override.fr || fallback.fr).trim().slice(0, 40) || fallback.fr,
+            en: String(override.en || fallback.en).trim().slice(0, 40) || fallback.en,
+            color,
+            effect: {
+              fr: String(override.effectFr || fallback.effect.fr).trim().slice(0, 500) || fallback.effect.fr,
+              en: String(override.effectEn || fallback.effect.en).trim().slice(0, 500) || fallback.effect.en
+            }
+          });
+        });
+
         baseSpriteSnapshot.forEach((snapshot, id) => {
           const sprite = sprites.find(item => item.id === id);
-          if (sprite) Object.assign(sprite, snapshot);
+          if (!sprite) return;
+          Object.assign(sprite, snapshot);
+          const family = families.find(item => item.key === sprite.familyKey);
+          if (family && sprite.variant !== "base") sprite.en = `${variants[sprite.variant].en} ${family.en}`;
         });
 
         const additions = [...(content.additions || [])];
@@ -8660,6 +8799,7 @@
         const familyOptions = representativeSprites().map(sprite => `<option value="${esc(sprite.familyKey)}">${esc(sprite.fr)}</option>`).join("");
         const family = document.getElementById("adminVariantFamily");
         if (family) family.innerHTML = familyOptions;
+        fillAdminVariantEditForm();
       }
 
       function fillAdminEditForm() {
@@ -8673,6 +8813,28 @@
         form.elements.rarity.value = sprite.rarity;
         form.elements.image.value = sprite.image;
         form.elements.releaseDate.value = sprite.releaseDate || "";
+      }
+
+      function fillAdminVariantEditForm() {
+        const form = document.getElementById("adminVariantEditForm");
+        if (!form) return;
+        const key = form.elements.variantKey.value;
+        const fallback = baseVariantSnapshot[key];
+        if (!fallback) return;
+        const override = adminDraft && adminDraft.variantOverrides && adminDraft.variantOverrides[key] || {};
+        form.elements.fr.value = override.fr || fallback.fr;
+        form.elements.en.value = override.en || fallback.en;
+        form.elements.color.value = /^#[0-9a-f]{6}$/i.test(String(override.color || "")) ? String(override.color).toLowerCase() : fallback.color;
+        form.elements.effectFr.value = override.effectFr || fallback.effect.fr;
+        form.elements.effectEn.value = override.effectEn || fallback.effect.en;
+      }
+
+      function activateAdminTab(tab) {
+        const selected = document.querySelector(`[data-admin-tab="${tab}"]`);
+        if (!selected) return;
+        document.querySelectorAll("[data-admin-tab]").forEach(item => item.setAttribute("aria-selected", String(item === selected)));
+        document.querySelectorAll("[data-admin-panel]").forEach(panel => panel.classList.toggle("is-active", panel.dataset.adminPanel === tab));
+        if (tab === "variant-edit") fillAdminVariantEditForm();
       }
 
       function markAdminDraft(message) {
@@ -8690,6 +8852,7 @@
           ...(adminDraft.additions || []).map(item => ({ title: item.fr, type: "Nouvel esprit" })),
           ...(adminDraft.variants || []).map(item => ({ title: `${item.fr || item.familyKey} · ${localizedVariant(item.variant)}`, type: "Variante" })),
           ...Object.entries(adminDraft.overrides || {}).map(([id]) => ({ title: localizedName(sprites.find(sprite => sprite.id === id) || { fr: id, en: id }), type: "Correction" })),
+          ...Object.entries(adminDraft.variantOverrides || {}).map(([key, override]) => ({ title: override.fr || localizedVariant(key), type: "Type de variante" })),
           ...(adminDraft.patchNotes || []).map(item => ({ title: item.title, type: "Patch Note" }))
         ];
         history.innerHTML = items.length ? items.slice().reverse().map(item => `<article><strong>${esc(item.title)}</strong><span>${esc(item.type)} · brouillon</span></article>`).join("") : "";
@@ -8702,15 +8865,20 @@
         if (!manager) return;
         const content = adminDraft || normalizeAdminContent();
         const group = (title, items, type) => `<section class="admin-manage-group"><h3>${esc(title)}</h3><div class="admin-manage-list">${items.length ? items.map((item, index) => {
-          const label = type === "override" ? item[0] : (item.title || item.fr || item.id || `Élément ${index + 1}`);
-          const detail = type === "patch" ? (item.date || "Date non définie") : (type === "variant" ? localizedVariant(item.variant) : type === "override" ? "Correction personnalisée" : "Contenu du catalogue");
-          const editButton = type === "patch" ? `<button type="button" data-admin-manage-action="edit" data-admin-manage-type="patch" data-admin-manage-index="${index}">Modifier</button>` : "";
-          return `<article class="admin-manage-row"><div><strong>${esc(label)}</strong><small>${esc(detail)}</small></div><div class="admin-manage-actions">${editButton}<button class="is-danger" type="button" data-admin-manage-action="delete" data-admin-manage-type="${type}" data-admin-manage-index="${index}"${type === "override" ? ` data-admin-manage-key="${esc(item[0])}"` : ""}>Supprimer</button></div></article>`;
+          const keyed = type === "override" || type === "variantMeta";
+          const key = keyed ? item[0] : "";
+          const value = keyed ? item[1] : item;
+          const label = type === "variantMeta" ? (value.fr || localizedVariant(key)) : type === "override" ? key : (value.title || value.fr || value.id || `Élément ${index + 1}`);
+          const detail = type === "patch" ? (value.date || "Date non définie") : type === "variant" ? localizedVariant(value.variant) : type === "variantMeta" ? `Noms, bonus et couleur · ${value.color || baseVariantSnapshot[key]?.color || "#ffffff"}` : type === "override" ? "Correction personnalisée" : "Contenu du catalogue";
+          const canEdit = type === "patch" || type === "variantMeta";
+          const editButton = canEdit ? `<button type="button" data-admin-manage-action="edit" data-admin-manage-type="${type}" data-admin-manage-index="${index}"${key ? ` data-admin-manage-key="${esc(key)}"` : ""}>Modifier</button>` : "";
+          return `<article class="admin-manage-row"><div><strong>${esc(label)}</strong><small>${esc(detail)}</small></div><div class="admin-manage-actions">${editButton}<button class="is-danger" type="button" data-admin-manage-action="delete" data-admin-manage-type="${type}" data-admin-manage-index="${index}"${key ? ` data-admin-manage-key="${esc(key)}"` : ""}>Supprimer</button></div></article>`;
         }).join("") : `<div class="empty-state"><strong>Aucun contenu</strong></div>`}</div></section>`;
         manager.innerHTML = [
           group("Patch Notes", content.patchNotes || [], "patch"),
           group("Esprits ajoutés", content.additions || [], "addition"),
           group("Variantes ajoutées", content.variants || [], "variant"),
+          group("Types de variantes modifiés", Object.entries(content.variantOverrides || {}), "variantMeta"),
           group("Corrections personnalisées", Object.entries(content.overrides || {}), "override")
         ].join("");
       }
@@ -8737,11 +8905,20 @@
           if (note) openPatchNoteEditor({ kind: "draftPatch", index }, note.body || "", note.title || "");
           return;
         }
+        if (action === "edit" && type === "variantMeta" && baseVariantSnapshot[key]) {
+          activateAdminTab("variant-edit");
+          const select = document.getElementById("adminVariantEditSelect");
+          select.value = key;
+          fillAdminVariantEditForm();
+          document.getElementById("adminVariantEditForm").scrollIntoView({ behavior: "smooth", block: "start" });
+          return;
+        }
         if (action !== "delete" || !window.confirm("Supprimer cet élément du contenu publié ?")) return;
         if (type === "patch") adminDraft.patchNotes.splice(index, 1);
         if (type === "addition") adminDraft.additions.splice(index, 1);
         if (type === "variant") adminDraft.variants.splice(index, 1);
         if (type === "override" && key) delete adminDraft.overrides[key];
+        if (type === "variantMeta" && key) delete adminDraft.variantOverrides[key];
         markAdminDraft("Suppression ajoutée au brouillon");
         showToast(type === "patch" ? "Patch Note supprimé du brouillon · clique sur Publier" : "Suppression prête à être publiée");
       }
@@ -8844,11 +9021,11 @@
       document.querySelector(".admin-tabs").addEventListener("click", event => {
         const button = event.target.closest("[data-admin-tab]");
         if (!button) return;
-        document.querySelectorAll("[data-admin-tab]").forEach(item => item.setAttribute("aria-selected", String(item === button)));
-        document.querySelectorAll("[data-admin-panel]").forEach(panel => panel.classList.toggle("is-active", panel.dataset.adminPanel === button.dataset.adminTab));
+        activateAdminTab(button.dataset.adminTab);
       });
 
       document.getElementById("adminEditSprite").addEventListener("change", fillAdminEditForm);
+      document.getElementById("adminVariantEditSelect").addEventListener("change", fillAdminVariantEditForm);
       document.getElementById("adminSpiritForm").addEventListener("submit", event => {
         event.preventDefault();
         const data = Object.fromEntries(new FormData(event.currentTarget));
@@ -8882,6 +9059,24 @@
         markAdminDraft(`Variante ${localizedVariant(data.variant)} ajoutée`);
         event.currentTarget.reset();
         showToast("Variante ajoutée au brouillon");
+      });
+      document.getElementById("adminVariantEditForm").addEventListener("submit", event => {
+        event.preventDefault();
+        const data = Object.fromEntries(new FormData(event.currentTarget));
+        const key = data.variantKey;
+        if (!baseVariantSnapshot[key]) return showToast("Variante introuvable");
+        const color = String(data.color || "").toLowerCase();
+        if (!/^#[0-9a-f]{6}$/.test(color)) return showToast("La couleur de variante est invalide");
+        adminDraft.variantOverrides[key] = {
+          fr: String(data.fr || "").trim().slice(0, 40),
+          en: String(data.en || "").trim().slice(0, 40),
+          color,
+          effectFr: String(data.effectFr || "").trim().slice(0, 500),
+          effectEn: String(data.effectEn || "").trim().slice(0, 500),
+          updatedAtMs: Date.now()
+        };
+        markAdminDraft(`Variante ${adminDraft.variantOverrides[key].fr} modifiée`);
+        showToast("Modification de variante ajoutée au brouillon");
       });
       document.getElementById("adminPatchForm").addEventListener("submit", event => {
         event.preventDefault();
