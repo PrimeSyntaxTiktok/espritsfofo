@@ -6492,6 +6492,7 @@
       const warmingImages = new Set();
 
       const grid = document.getElementById("spriteGrid");
+      const spriteCardCache = new Map();
       const searchInput = document.getElementById("searchInput");
       const variantFilter = document.getElementById("variantFilter");
       const rarityFilter = document.getElementById("rarityFilter");
@@ -6832,8 +6833,59 @@
           </article>`;
       }
 
+      function syncSpriteCardState(card, sprite) {
+        const entry = state[sprite.id] || blankEntry();
+        const stateSignature = `${Number(entry.owned)}:${Number(entry.mastered)}`;
+        if (card.dataset.stateSignature === stateSignature) return;
+        card.classList.toggle("owned", entry.owned);
+        card.classList.toggle("mastered", entry.mastered);
+
+        const ownedButton = card.querySelector(".locker-toggle");
+        const stateLabel = card.querySelector(".card-state-label");
+        if (ownedButton) {
+          const name = localizedName(sprite);
+          ownedButton.setAttribute("aria-pressed", String(entry.owned));
+          ownedButton.setAttribute("aria-label", `${entry.owned ? t("removeFromLocker") : t("addToLocker")} : ${name}`);
+          ownedButton.innerHTML = `<span class="locker-toggle-icon" aria-hidden="true">${entry.owned ? "✓" : "+"}</span><span class="locker-toggle-label">${entry.owned ? t("inLocker") : t("addShort")}</span>`;
+        }
+        if (stateLabel) stateLabel.textContent = entry.owned ? t("obtained") : t("missing");
+        card.dataset.stateSignature = stateSignature;
+      }
+
+      function spriteCardElement(sprite, index) {
+        let card = spriteCardCache.get(sprite.id);
+        if (!card) {
+          const template = document.createElement("template");
+          template.innerHTML = cardTemplate(sprite, index).trim();
+          card = template.content.firstElementChild;
+          spriteCardCache.set(sprite.id, card);
+        }
+        syncSpriteCardState(card, sprite);
+        return card;
+      }
+
       function normalizedText(value) {
-        return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+        return String(value ?? "")
+          .normalize("NFKD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/[’'`´]/g, " ")
+          .replace(/&/g, " et ")
+          .replace(/[^a-z0-9]+/gi, " ")
+          .trim()
+          .replace(/\s+/g, " ")
+          .toLowerCase();
+      }
+
+      const SEARCH_IGNORED_TOKENS = new Set([
+        "a", "au", "aux", "d", "de", "des", "du", "en", "et", "l", "la", "le", "les", "un", "une",
+        "and", "for", "of", "the", "to", "esprit", "esprits", "sprite", "sprites"
+      ]);
+
+      function searchTokens(value, { ignoreGeneric = false } = {}) {
+        const tokens = normalizedText(value).split(" ").filter(Boolean);
+        if (!ignoreGeneric) return tokens;
+        const meaningful = tokens.filter(token => !SEARCH_IGNORED_TOKENS.has(token));
+        return meaningful.length ? meaningful : tokens;
       }
 
       function normalizedPage(value) {
@@ -6954,30 +7006,36 @@
       }
 
       function getVisibleSprites() {
-        const query = normalizedText(searchInput.value.trim());
+        const rawQuery = searchInput.value.trim();
+        const query = normalizedText(rawQuery);
         const selectedVariant = variantFilter.value;
         const selectedRarity = rarityFilter.value;
 
-        const result = sprites.filter(sprite => {
+        const result = sprites.map(sprite => {
           const entry = state[sprite.id] || blankEntry();
-          const matchesSearch = !query || buildSearchIndex(sprite).includes(query);
+          const searchScore = query ? scoreSpriteSearch(sprite, rawQuery) : 1;
           const matchesVariant = selectedVariant === "all" || sprite.variant === selectedVariant;
           const matchesRarity = selectedRarity === "all" || sprite.rarity === selectedRarity;
           const matchesStatus = statusFilter === "all" ||
             (statusFilter === "owned" && entry.owned) ||
             (statusFilter === "missing" && !entry.owned) ||
             (statusFilter === "mastered" && entry.mastered);
-          return matchesSearch && matchesVariant && matchesRarity && matchesStatus;
-        });
+          return { sprite, searchScore, visible: searchScore > 0 && matchesVariant && matchesRarity && matchesStatus };
+        }).filter(item => item.visible);
 
-        if (sortSelect.value === "name") {
-          result.sort((a, b) => localizedName(a).localeCompare(localizedName(b), APP_LOCALE));
-        } else if (sortSelect.value === "rarity") {
-          result.sort((a, b) => rarityRank[b.rarity] - rarityRank[a.rarity] || a.familyIndex - b.familyIndex || a.variantIndex - b.variantIndex);
-        } else {
-          result.sort((a, b) => a.familyIndex - b.familyIndex || a.variantIndex - b.variantIndex);
-        }
-        return result;
+        const compareBySelectedSort = (a, b) => {
+          if (sortSelect.value === "name") {
+            return localizedName(a.sprite).localeCompare(localizedName(b.sprite), APP_LOCALE);
+          }
+          if (sortSelect.value === "rarity") {
+            return rarityRank[b.sprite.rarity] - rarityRank[a.sprite.rarity] ||
+              a.sprite.familyIndex - b.sprite.familyIndex || a.sprite.variantIndex - b.sprite.variantIndex;
+          }
+          return a.sprite.familyIndex - b.sprite.familyIndex || a.sprite.variantIndex - b.sprite.variantIndex;
+        };
+
+        result.sort((a, b) => (query ? b.searchScore - a.searchScore : 0) || compareBySelectedSort(a, b));
+        return result.map(item => item.sprite);
       }
 
       function settleSpriteImage(image, loaded) {
@@ -7096,23 +7154,12 @@
 
       function updateRenderedCard(id) {
         const card = grid.querySelector(`.sprite-card[data-id="${id}"]`);
-        const entry = state[id] || blankEntry();
         if (!card) {
           updateStats();
           return;
         }
-        card.classList.toggle("owned", entry.owned);
-        card.classList.toggle("mastered", entry.mastered);
-
-        const ownedButton = card.querySelector(".locker-toggle");
-        const name = card.querySelector(".card-title").textContent;
-        ownedButton.setAttribute("aria-pressed", String(entry.owned));
-        ownedButton.setAttribute("aria-label", `${entry.owned ? t("removeFromLocker") : t("addToLocker")} : ${name}`);
-        ownedButton.innerHTML = `<span class="locker-toggle-icon" aria-hidden="true">${entry.owned ? "✓" : "+"}</span><span class="locker-toggle-label">${entry.owned ? t("inLocker") : t("addShort")}</span>`;
-
-        const stateLabel = card.querySelector(".card-state-label");
-        stateLabel.textContent = entry.owned ? t("obtained") : t("missing");
-
+        const sprite = sprites.find(item => item.id === id);
+        if (sprite) syncSpriteCardState(card, sprite);
         updateStats();
       }
 
@@ -7140,7 +7187,9 @@
         if (spriteImageObserver) spriteImageObserver.disconnect();
         const visible = getVisibleSprites();
         if (visible.length) {
-          grid.innerHTML = visible.map(cardTemplate).join("");
+          const fragment = document.createDocumentFragment();
+          visible.forEach((sprite, index) => fragment.appendChild(spriteCardElement(sprite, index)));
+          grid.replaceChildren(fragment);
         } else {
           const emptyTitle = activePage === "inventory" ? t("inventoryEmptyTitle") : t("emptyTitle");
           const emptyCopy = activePage === "inventory" ? t("inventoryEmptyCopy") : t("emptyCopy");
@@ -7882,6 +7931,17 @@
         }
       };
 
+      const searchDocumentCache = new Map();
+
+      const categorySearchAliases = {
+        healing: ["soin", "soins", "guerison", "healing", "heal"],
+        mobility: ["mobilite", "deplacement", "deplacements", "mobility"],
+        defense: ["defense", "protection", "defence"],
+        loot: ["butin", "loot"],
+        combat: ["combat"],
+        squad: ["soutien", "escouade", "equipe", "squad", "team support"]
+      };
+
       let guideCategory = "healing";
       let appearanceSettings = loadAppearanceSettings();
       let adminAccess = false;
@@ -7957,23 +8017,140 @@
         document.querySelectorAll("[data-density]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.density === appearanceSettings.density)));
       }
 
+      function containsNormalizedPhrase(haystack, needle) {
+        const normalizedNeedle = normalizedText(needle);
+        return Boolean(normalizedNeedle) && ` ${normalizedText(haystack)} `.includes(` ${normalizedNeedle} `);
+      }
+
       function spriteCapabilityKeys(sprite) {
-        const haystack = normalizedText(`${localizedEffect(sprite.effect)} ${sprite.fr} ${sprite.en}`);
+        const haystack = [sprite.fr, sprite.en, sprite.effect?.fr, sprite.effect?.en].filter(Boolean).join(" ");
         return Object.entries(capabilityMeta)
-          .filter(([, meta]) => meta.terms.some(term => haystack.includes(normalizedText(term))))
+          .filter(([, meta]) => meta.terms.some(term => containsNormalizedPhrase(haystack, term)))
           .map(([key]) => key);
       }
 
+      function searchStem(token) {
+        if (token.length > 5 && token.endsWith("ies")) return `${token.slice(0, -3)}y`;
+        if (token.length > 4 && token.endsWith("s") && !token.endsWith("ss")) return token.slice(0, -1);
+        return token;
+      }
+
+      function isOneEditAway(left, right) {
+        if (left === right) return true;
+        if (Math.abs(left.length - right.length) > 1) return false;
+        let i = 0;
+        let j = 0;
+        let edits = 0;
+        while (i < left.length && j < right.length) {
+          if (left[i] === right[j]) {
+            i++;
+            j++;
+            continue;
+          }
+          edits++;
+          if (edits > 1) return false;
+          if (left.length > right.length) i++;
+          else if (right.length > left.length) j++;
+          else {
+            i++;
+            j++;
+          }
+        }
+        return edits + Number(i < left.length || j < right.length) <= 1;
+      }
+
+      function tokenMatchQuality(queryToken, candidateToken) {
+        if (queryToken === candidateToken) return 4;
+        if (searchStem(queryToken) === searchStem(candidateToken)) return 3.6;
+        if (queryToken.length >= 3 && candidateToken.startsWith(queryToken)) return 3;
+        if (queryToken.length >= 5 && candidateToken.length >= 4 && isOneEditAway(queryToken, candidateToken)) return 2.4;
+        return 0;
+      }
+
+      function bestTokenQuality(queryToken, candidateTokens) {
+        let best = 0;
+        candidateTokens.forEach(candidateToken => {
+          best = Math.max(best, tokenMatchQuality(queryToken, candidateToken));
+        });
+        return best;
+      }
+
+      function uniqueSearchTokens(values) {
+        return [...new Set(values.flatMap(value => searchTokens(value)))];
+      }
+
+      function buildSearchDocument(sprite) {
+        const cached = searchDocumentCache.get(sprite.id);
+        if (cached) return cached;
+
+        const variant = variants[sprite.variant] || variants.base;
+        const names = [sprite.fr, sprite.en, ...(sprite.aliases || [])].filter(Boolean).map(normalizedText);
+        const abilities = [sprite.effect?.fr, sprite.effect?.en].filter(Boolean).map(normalizedText);
+        const variantValues = [variant.fr, variant.en, variant.effect?.fr, variant.effect?.en].filter(Boolean).map(normalizedText);
+        const rarityValues = [sprite.rarity, rarityLabels.fr[sprite.rarity], rarityLabels.en[sprite.rarity]].filter(Boolean).map(normalizedText);
+        const categoryKeys = spriteCapabilityKeys(sprite);
+        const categoryValues = categoryKeys.flatMap(key => [key, capabilityMeta[key].label, ...(categorySearchAliases[key] || [])]).map(normalizedText);
+        const document = {
+          names,
+          abilities,
+          variants: variantValues,
+          rarities: rarityValues,
+          categories: categoryValues,
+          nameTokens: uniqueSearchTokens(names),
+          abilityTokens: uniqueSearchTokens(abilities),
+          variantTokens: uniqueSearchTokens(variantValues),
+          rarityTokens: uniqueSearchTokens(rarityValues),
+          categoryTokens: uniqueSearchTokens(categoryValues)
+        };
+        document.allText = normalizedText([...names, ...abilities, ...variantValues, ...rarityValues, ...categoryValues].join(" "));
+        document.allTokens = uniqueSearchTokens([document.allText]);
+        searchDocumentCache.set(sprite.id, document);
+        return document;
+      }
+
       function buildSearchIndex(sprite) {
-        const categories = spriteCapabilityKeys(sprite);
-        const semantic = categories.flatMap(key => [capabilityMeta[key].label, ...capabilityMeta[key].terms]).join(" ");
-        const variant = variants[sprite.variant];
-        return normalizedText([
-          sprite.fr, sprite.en, ...(sprite.aliases || []),
-          localizedEffect(sprite.effect), sprite.effect.fr || "", sprite.effect.en || "",
-          variant.fr, variant.en, localizedEffect(variant.effect),
-          rarityLabel(sprite.rarity), sprite.rarity, semantic
-        ].join(" "));
+        return buildSearchDocument(sprite).allText;
+      }
+
+      function scoreSpriteSearch(sprite, rawQuery) {
+        const query = normalizedText(rawQuery);
+        if (!query) return 1;
+
+        const originalTokens = searchTokens(query);
+        const tokens = searchTokens(query, { ignoreGeneric: true });
+        const document = buildSearchDocument(sprite);
+        const nameIntent = originalTokens.some(token => ["esprit", "esprits", "sprite", "sprites"].includes(token));
+        if (nameIntent && tokens.some(token => bestTokenQuality(token, document.nameTokens) === 0)) return 0;
+        const overallQualities = tokens.map(token => bestTokenQuality(token, document.allTokens));
+        if (overallQualities.some(quality => quality === 0)) return 0;
+
+        const zones = [
+          [document.nameTokens, 180],
+          [document.abilityTokens, 120],
+          [document.variantTokens, 110],
+          [document.rarityTokens, 100],
+          [document.categoryTokens, 75]
+        ];
+        let score = 100 + overallQualities.reduce((total, quality) => total + quality * 12, 0);
+
+        tokens.forEach(token => {
+          let bestZoneScore = 0;
+          zones.forEach(([zoneTokens, weight]) => {
+            bestZoneScore = Math.max(bestZoneScore, bestTokenQuality(token, zoneTokens) * weight);
+          });
+          score += bestZoneScore;
+        });
+
+        const meaningfulPhrase = tokens.join(" ");
+        if (document.names.some(name => name === query)) score += 2400;
+        else if (document.names.some(name => containsNormalizedPhrase(name, query))) score += 1200;
+        else if (meaningfulPhrase && document.names.some(name => containsNormalizedPhrase(name, meaningfulPhrase))) score += 900;
+
+        if (document.variants.some(value => value === query)) score += 800;
+        if (document.rarities.some(value => value === query)) score += 700;
+        if (document.abilities.some(value => containsNormalizedPhrase(value, query))) score += 500;
+        if (tokens.every(token => bestTokenQuality(token, document.nameTokens) > 0)) score += 550;
+        return score;
       }
 
       function representativeSprites() {
@@ -8104,6 +8281,8 @@
           sprite.releaseDate = String(override.releaseDate || sprite.releaseDate || "");
         });
 
+        searchDocumentCache.clear();
+        spriteCardCache.clear();
         sprites.sort((a, b) => a.familyIndex - b.familyIndex || a.variantIndex - b.variantIndex);
         sprites.forEach((sprite, index) => {
           sprite.catalogNumber = index + 1;
