@@ -4640,6 +4640,448 @@
     }
     @media (prefers-reduced-motion: reduce) { .app-page { animation: none; } }
   </style>
+  <style id="sprite-locker-features">
+    :root {
+      --accent: #24a9ff;
+      --accent-rgb: 36, 169, 255;
+      --feature-surface: rgba(15, 21, 47, .9);
+      --feature-line: rgba(255, 255, 255, .105);
+      --feature-muted: #9ba7c8;
+      --catalog-min: 214px;
+      --catalog-gap: 14px;
+    }
+
+    body {
+      transition: background .35s ease;
+    }
+
+    html[data-background="galaxy"] body {
+      background:
+        radial-gradient(circle at 18% 5%, rgba(127, 75, 255, .38), transparent 31rem),
+        radial-gradient(circle at 88% 24%, rgba(255, 72, 186, .17), transparent 27rem),
+        linear-gradient(145deg, #070719, #100b2c 55%, #071225);
+    }
+    html[data-background="storm"] body {
+      background:
+        radial-gradient(circle at 15% 4%, rgba(84, 60, 181, .38), transparent 29rem),
+        radial-gradient(circle at 95% 35%, rgba(52, 84, 169, .24), transparent 30rem),
+        linear-gradient(155deg, #080914, #11142b 60%, #080a16);
+    }
+    html[data-background="zero"] body {
+      background:
+        radial-gradient(circle at 50% -5%, rgba(92, 234, 255, .3), transparent 27rem),
+        radial-gradient(circle at 85% 26%, rgba(156, 87, 255, .23), transparent 25rem),
+        linear-gradient(160deg, #05131f, #0b102d 62%, #09091c);
+    }
+    html[data-background="night"] body {
+      background:
+        radial-gradient(circle at 14% -8%, rgba(var(--accent-rgb), .3), transparent 30rem),
+        radial-gradient(circle at 100% 18%, rgba(61, 230, 239, .1), transparent 25rem),
+        linear-gradient(180deg, #0b0e20 0%, var(--bg) 65%);
+    }
+
+    .topbar-links { flex-wrap: wrap; justify-content: flex-end; }
+    .topbar-links a[aria-current="page"] { color: #fff; background: rgba(var(--accent-rgb), .14); }
+    .topbar-links a[hidden] { display: none; }
+
+    .feature-page {
+      width: 100%;
+      min-height: 70vh;
+      padding: 26px 0 48px;
+    }
+    .feature-page.is-active { display: block; }
+    .feature-hero {
+      position: relative;
+      display: flex;
+      min-height: 188px;
+      margin-bottom: 18px;
+      padding: clamp(24px, 4vw, 42px);
+      overflow: hidden;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+      border: 1px solid var(--feature-line);
+      border-radius: 26px;
+      background:
+        linear-gradient(120deg, rgba(var(--accent-rgb), .13), transparent 44%),
+        linear-gradient(145deg, rgba(25, 33, 71, .97), rgba(9, 14, 35, .98));
+      box-shadow: 0 24px 70px rgba(0, 0, 0, .28), inset 0 1px 0 rgba(255, 255, 255, .08);
+      isolation: isolate;
+    }
+    .feature-hero::before {
+      position: absolute;
+      z-index: -1;
+      top: -120px;
+      right: -80px;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      content: "";
+      background: radial-gradient(circle, rgba(var(--accent-rgb), .27), transparent 66%);
+    }
+    .feature-hero::after {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 2px;
+      content: "";
+      background: linear-gradient(90deg, transparent, var(--accent), #66f1eb, transparent);
+    }
+    .feature-eyebrow,
+    .panel-heading span,
+    .setting-copy > span,
+    .admin-publish-bar span {
+      color: var(--accent);
+      font-size: .65rem;
+      font-weight: 950;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .feature-hero h1 {
+      max-width: 760px;
+      margin: 8px 0 10px;
+      font-family: var(--display, "Barlow Condensed", sans-serif);
+      font-size: clamp(2.35rem, 6vw, 4.5rem);
+      font-style: italic;
+      font-weight: 950;
+      letter-spacing: -.02em;
+      line-height: .86;
+      text-transform: uppercase;
+    }
+    .feature-hero h1 span { color: var(--accent); }
+    .feature-hero p { max-width: 680px; margin: 0; color: var(--feature-muted); font-size: .92rem; line-height: 1.55; }
+    .feature-hero-orb {
+      display: grid;
+      width: 112px;
+      height: 112px;
+      flex: 0 0 112px;
+      place-items: center;
+      border: 1px solid rgba(var(--accent-rgb), .42);
+      border-radius: 32px;
+      background: linear-gradient(145deg, rgba(var(--accent-rgb), .24), rgba(255,255,255,.04));
+      box-shadow: 0 0 55px rgba(var(--accent-rgb), .22), inset 0 1px 0 rgba(255,255,255,.18);
+      color: #fff;
+      font-size: 3.2rem;
+      transform: rotate(9deg);
+    }
+    .feature-primary,
+    .feature-secondary {
+      min-height: 44px;
+      padding: 0 18px;
+      border: 0;
+      border-radius: 12px;
+      font-size: .75rem;
+      font-weight: 950;
+      cursor: pointer;
+    }
+    .feature-primary { background: linear-gradient(135deg, var(--accent), #5ce4ee); box-shadow: 0 10px 25px rgba(var(--accent-rgb), .22); color: #03111c; }
+    .feature-secondary { border: 1px solid var(--feature-line); background: rgba(255,255,255,.065); color: #fff; }
+    .feature-primary:hover, .feature-secondary:hover { filter: brightness(1.08); transform: translateY(-1px); }
+
+    .panel-card {
+      border: 1px solid var(--feature-line);
+      border-radius: 20px;
+      background: linear-gradient(145deg, rgba(21, 28, 61, .96), rgba(11, 16, 38, .96));
+      box-shadow: 0 18px 48px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.055);
+    }
+    .panel-heading { display: flex; margin-bottom: 22px; align-items: flex-start; justify-content: space-between; gap: 16px; }
+    .panel-heading h2 { margin: 4px 0 0; font-family: var(--display, "Barlow Condensed", sans-serif); font-size: 1.85rem; font-style: italic; line-height: .95; text-transform: uppercase; }
+    .panel-status { padding: 6px 9px; border: 1px solid rgba(69,229,154,.2); border-radius: 999px; background: rgba(69,229,154,.08); color: #71efb2 !important; font-size: .56rem !important; letter-spacing: .05em !important; white-space: nowrap; }
+
+    .field-label { display: grid; gap: 7px; color: #dbe2fb; font-size: .68rem; font-weight: 850; }
+    .field-label input,
+    .field-label select,
+    .field-label textarea {
+      width: 100%;
+      min-height: 45px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 11px;
+      outline: none;
+      background: rgba(3,7,22,.55);
+      color: #f7f9ff;
+      font-size: .78rem;
+      font-weight: 650;
+    }
+    .field-label textarea { min-height: 104px; resize: vertical; line-height: 1.5; }
+    .field-label input:focus, .field-label select:focus, .field-label textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(var(--accent-rgb), .12); }
+    .field-label small { color: #7f8bac; font-size: .58rem; font-weight: 650; }
+    .switch-row { display: flex; padding: 13px 0; align-items: center; justify-content: space-between; gap: 16px; }
+    .switch-row > span { display: grid; gap: 4px; }
+    .switch-row strong { font-size: .76rem; }
+    .switch-row small { color: #818dab; font-size: .62rem; line-height: 1.4; }
+    .switch-row input { position: relative; width: 46px; height: 26px; flex: 0 0 46px; appearance: none; border: 1px solid rgba(255,255,255,.14); border-radius: 99px; background: rgba(255,255,255,.09); cursor: pointer; transition: .2s ease; }
+    .switch-row input::after { position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; content: ""; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,.3); transition: .2s ease; }
+    .switch-row input:checked { border-color: rgba(var(--accent-rgb), .7); background: var(--accent); }
+    .switch-row input:checked::after { transform: translateX(20px); }
+
+    .guide-toolbar {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 12px;
+      padding: 7px;
+      border: 1px solid var(--feature-line);
+      border-radius: 17px;
+      background: rgba(11, 16, 38, .78);
+    }
+    .guide-toolbar button { display: flex; min-height: 50px; padding: 8px; align-items: center; justify-content: center; gap: 7px; border: 0; border-radius: 11px; background: transparent; color: #98a4c4; font-size: .67rem; font-weight: 900; cursor: pointer; }
+    .guide-toolbar button span { color: var(--accent); font-size: 1rem; }
+    .guide-toolbar button[aria-selected="true"] { background: rgba(var(--accent-rgb), .14); box-shadow: inset 0 0 0 1px rgba(var(--accent-rgb), .32); color: #fff; }
+    .guide-summary { display: flex; margin: 18px 0 13px; align-items: center; justify-content: space-between; gap: 16px; }
+    .guide-summary > div { display: flex; align-items: center; gap: 12px; }
+    .guide-summary > div > span { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 12px; background: rgba(var(--accent-rgb), .13); color: var(--accent); font-size: 1.25rem; }
+    .guide-summary strong { display: block; font-family: var(--display, "Barlow Condensed", sans-serif); font-size: 1.45rem; font-style: italic; text-transform: uppercase; }
+    .guide-summary p { margin: 1px 0 0; color: var(--feature-muted); font-size: .68rem; }
+    .guide-summary > span { padding: 7px 10px; border-radius: 999px; background: rgba(255,255,255,.06); color: #b9c3df; font-size: .62rem; font-weight: 850; }
+    .guide-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .guide-card { position: relative; display: grid; min-height: 166px; padding: 18px 16px 16px 144px; overflow: hidden; align-content: center; border: 1px solid var(--feature-line); border-radius: 18px; background: linear-gradient(140deg, rgba(22,29,63,.96), rgba(9,14,34,.97)); box-shadow: inset 0 1px 0 rgba(255,255,255,.05); }
+    .guide-card img { position: absolute; bottom: -18px; left: 1px; width: 142px; height: 142px; object-fit: contain; filter: drop-shadow(0 12px 18px rgba(0,0,0,.36)); }
+    .guide-card .badge { position: static; width: fit-content; margin-bottom: 8px; }
+    .guide-card h3 { margin: 0; font-family: var(--display, "Barlow Condensed", sans-serif); font-size: 1.25rem; font-style: italic; line-height: .95; text-transform: uppercase; }
+    .guide-card p { display: -webkit-box; margin: 7px 0 0; overflow: hidden; color: var(--feature-muted); font-size: .64rem; line-height: 1.45; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+    .guide-card button { position: absolute; inset: 0; border: 0; background: transparent; cursor: pointer; }
+    .guide-card:hover { border-color: rgba(var(--accent-rgb), .38); transform: translateY(-2px); }
+
+    .settings-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .setting-card { display: grid; padding: 20px; grid-template-columns: 46px minmax(0, 1fr); align-items: start; gap: 14px; }
+    .setting-wide, .admin-entry { grid-column: 1 / -1; }
+    .setting-icon { display: grid; width: 44px; height: 44px; place-items: center; border: 1px solid rgba(var(--accent-rgb), .25); border-radius: 13px; background: rgba(var(--accent-rgb), .1); color: var(--accent); font-size: 1.25rem; }
+    .setting-copy h2 { margin: 3px 0 5px; font-family: var(--display, sans-serif); font-size: 1.4rem; font-style: italic; text-transform: uppercase; }
+    .setting-copy p { margin: 0; color: var(--feature-muted); font-size: .64rem; line-height: 1.45; }
+    .color-setting, .preset-colors, .background-picker, .segmented, .setting-motion .switch-row { grid-column: 1 / -1; }
+    .color-setting { display: flex; align-items: center; gap: 10px; }
+    .color-setting input { width: 58px; height: 42px; padding: 3px; border: 1px solid rgba(255,255,255,.12); border-radius: 11px; background: rgba(255,255,255,.04); cursor: pointer; }
+    .color-setting span { font-family: ui-monospace, monospace; color: #b9c4e0; font-size: .72rem; font-weight: 800; }
+    .preset-colors { display: flex; margin-top: -3px; gap: 8px; }
+    .preset-colors button { width: 24px; height: 24px; border: 3px solid rgba(255,255,255,.12); border-radius: 50%; background: var(--swatch); cursor: pointer; }
+    .background-picker { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .background-picker button { min-width: 0; padding: 7px; border: 1px solid rgba(255,255,255,.1); border-radius: 13px; background: rgba(255,255,255,.035); color: #aeb9d7; font-size: .58rem; font-weight: 850; cursor: pointer; }
+    .background-picker button[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(var(--accent-rgb), .1); color: #fff; }
+    .background-picker i { display: block; height: 67px; margin-bottom: 7px; border-radius: 9px; }
+    .bg-night { background: radial-gradient(circle at 25% 15%, #4e44a3, transparent 38%), linear-gradient(145deg,#111b3f,#070b1c); }
+    .bg-galaxy { background: radial-gradient(circle at 25% 20%, #f049b2, transparent 23%), radial-gradient(circle at 70% 65%, #6045df, transparent 35%), #0d0921; }
+    .bg-storm { background: radial-gradient(circle at 65% 12%, #7163bc, transparent 34%), linear-gradient(145deg,#252b51,#0a0d1c); }
+    .bg-zero { background: radial-gradient(circle at 50% 45%, #69f5ef, transparent 16%), radial-gradient(circle at 50% 45%, #784ff1, transparent 48%), #071322; }
+    .segmented { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; padding: 5px; border: 1px solid rgba(255,255,255,.08); border-radius: 12px; background: rgba(2,6,19,.42); }
+    .segmented button { min-height: 36px; border: 0; border-radius: 8px; background: transparent; color: #8996b6; font-size: .61rem; font-weight: 900; cursor: pointer; }
+    .segmented button[aria-pressed="true"] { background: rgba(var(--accent-rgb), .17); color: #fff; }
+    .setting-motion { align-content: start; }
+    .setting-motion .switch-row { margin: 0; padding: 6px 0 0; }
+    .admin-entry { display: flex; padding: 22px; align-items: center; justify-content: space-between; gap: 22px; border-color: rgba(255,214,74,.2); background: linear-gradient(125deg, rgba(255,214,74,.075), rgba(17,22,50,.96) 40%); }
+    .admin-entry h2 { margin: 5px 0; font-family: var(--display, sans-serif); font-size: 1.55rem; font-style: italic; text-transform: uppercase; }
+    .admin-entry p { margin: 0; color: var(--feature-muted); font-size: .68rem; }
+    .admin-entry button, .admin-locked button { min-height: 42px; padding: 0 16px; border: 1px solid rgba(255,214,74,.25); border-radius: 11px; background: rgba(255,214,74,.1); color: #ffdf72; font-size: .66rem; font-weight: 950; cursor: pointer; white-space: nowrap; }
+
+    .admin-locked { grid-column: 1 / -1; padding: 54px 20px; border: 1px dashed rgba(255,255,255,.14); border-radius: 22px; background: rgba(10,15,35,.72); text-align: center; }
+    .admin-locked > span { display: grid; width: 62px; height: 62px; margin: auto; place-items: center; border-radius: 18px; background: rgba(var(--accent-rgb),.12); color: var(--accent); font-size: 2rem; }
+    .admin-locked h2 { margin: 15px 0 6px; font-family: var(--display, sans-serif); font-size: 2rem; font-style: italic; text-transform: uppercase; }
+    .admin-locked p { margin: 0; color: var(--feature-muted); font-size: .76rem; }
+
+    html[data-card-size="small"] { --catalog-min: 170px; }
+    html[data-card-size="medium"] { --catalog-min: 214px; }
+    html[data-card-size="large"] { --catalog-min: 270px; }
+    html[data-density="dense"] { --catalog-gap: 8px; }
+    html[data-density="balanced"] { --catalog-gap: 14px; }
+    html[data-density="airy"] { --catalog-gap: 22px; }
+    .collection-area .grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--catalog-min)), 1fr)); gap: var(--catalog-gap); }
+
+    .admin-guard-state { display: inline-flex; padding: 8px 11px; align-items: center; gap: 7px; border: 1px solid rgba(255,214,74,.2); border-radius: 999px; background: rgba(255,214,74,.08); color: #ffdc6b; font-size: .61rem; font-weight: 900; white-space: nowrap; }
+    .admin-guard-state.is-ready { border-color: rgba(69,229,154,.2); background: rgba(69,229,154,.08); color: #72efb3; }
+    .admin-workspace { display: grid; gap: 12px; }
+    .admin-tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; padding: 6px; border: 1px solid var(--feature-line); border-radius: 14px; background: rgba(8,13,32,.76); }
+    .admin-tabs button { min-height: 42px; border: 0; border-radius: 9px; background: transparent; color: #8b97b7; font-size: .64rem; font-weight: 900; cursor: pointer; }
+    .admin-tabs button[aria-selected="true"] { background: rgba(var(--accent-rgb), .15); color: #fff; }
+    .admin-form { display: none; padding: 23px; }
+    .admin-form.is-active { display: block; }
+    .admin-form .feature-primary { margin-top: 18px; }
+    .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 13px; }
+    .field-span { grid-column: 1 / -1; }
+    .admin-publish-bar { position: sticky; z-index: 8; bottom: calc(76px + env(safe-area-inset-bottom)); display: grid; padding: 14px; grid-template-columns: 1fr auto auto; align-items: center; gap: 9px; border: 1px solid rgba(var(--accent-rgb), .26); border-radius: 15px; background: rgba(9,14,34,.94); box-shadow: 0 16px 45px rgba(0,0,0,.4); backdrop-filter: blur(18px); }
+    .admin-publish-bar > div { display: grid; gap: 3px; }
+    .admin-publish-bar strong { font-size: .72rem; }
+    .admin-publish-bar > button { min-height: 40px; padding: 0 14px; border: 1px solid rgba(255,255,255,.1); border-radius: 10px; background: rgba(255,255,255,.05); color: #c5cee6; font-size: .62rem; font-weight: 900; cursor: pointer; }
+    .admin-publish-bar > .feature-primary { border: 0; background: linear-gradient(135deg, var(--accent), #57e2ea); color: #06121d; }
+    .admin-history { display: grid; gap: 7px; }
+    .admin-history article { display: flex; padding: 12px 14px; align-items: center; justify-content: space-between; gap: 12px; border: 1px solid rgba(255,255,255,.08); border-radius: 12px; background: rgba(255,255,255,.035); }
+    .admin-history strong { font-size: .68rem; }
+    .admin-history span { color: #8490af; font-size: .57rem; }
+    .admin-content-manager { display: grid; gap: 14px; }
+    .admin-manage-group { padding: 16px; border: 1px solid rgba(255,255,255,.08); border-radius: 14px; background: rgba(255,255,255,.025); }
+    .admin-manage-group h3 { margin: 0 0 10px; font-family: var(--display,sans-serif); font-size: 1.2rem; font-style: italic; text-transform: uppercase; }
+    .admin-manage-list { display: grid; gap: 7px; }
+    .admin-manage-row { display: grid; padding: 10px 11px; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 10px; border: 1px solid rgba(255,255,255,.07); border-radius: 10px; background: rgba(255,255,255,.035); }
+    .admin-manage-row strong, .admin-manage-row small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .admin-manage-row strong { font-size: .61rem; }
+    .admin-manage-row small { margin-top: 4px; color: #818dab; font-size: .49rem; }
+    .admin-manage-actions { display: flex; gap: 5px; }
+    .admin-manage-actions button { min-height: 32px; padding: 0 9px; border: 1px solid rgba(255,255,255,.09); border-radius: 8px; background: rgba(255,255,255,.04); color: #aeb9d4; font-size: .51rem; font-weight: 900; cursor: pointer; }
+    .admin-manage-actions button.is-danger { color: #ff8999; }
+
+    @media (max-width: 960px) {
+      .topbar-links a { padding-inline: 7px; font-size: .56rem; }
+      .guide-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 760px) {
+      .feature-page { padding: 12px 0 34px; }
+      .feature-hero { min-height: 160px; padding: 23px 20px; border-radius: 20px; }
+      .feature-hero h1 { font-size: clamp(2.25rem, 12vw, 3.5rem); }
+      .feature-hero p { font-size: .76rem; }
+      .feature-hero-orb { display: none; }
+      .guide-toolbar { grid-template-columns: repeat(3, 1fr); }
+      .settings-grid { grid-template-columns: 1fr; }
+      .setting-wide, .admin-entry { grid-column: auto; }
+      .background-picker { grid-template-columns: repeat(2, 1fr); }
+      .feature-hero > .feature-secondary, .admin-guard-state { align-self: flex-start; }
+      .feature-hero-settings, .feature-hero-admin { align-items: flex-start; flex-direction: column; gap: 15px; }
+      .admin-publish-bar { bottom: calc(72px + env(safe-area-inset-bottom)); grid-template-columns: 1fr 1fr; }
+      .admin-publish-bar > div { grid-column: 1 / -1; }
+    }
+    @media (max-width: 560px) {
+      .guide-toolbar { gap: 5px; padding: 5px; }
+      .guide-toolbar button { min-height: 44px; font-size: .55rem; }
+      .guide-grid { grid-template-columns: 1fr; }
+      .guide-card { min-height: 146px; padding-left: 132px; }
+      .guide-card img { width: 128px; height: 128px; }
+      .setting-card, .admin-form { padding: 17px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field-span { grid-column: auto; }
+      .admin-tabs { grid-template-columns: repeat(2, 1fr); }
+      .admin-entry { display: grid; }
+      .admin-entry button { width: 100%; }
+      .mobile-dock { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+      .mobile-dock-item { min-width: 0; padding-inline: 1px; }
+      .mobile-dock-item span { font-size: .42rem; }
+      .mobile-dock-item svg { width: 18px; height: 18px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .guide-card, .feature-primary, .feature-secondary, body { transition: none !important; }
+    }
+    html[data-reduced-motion="true"] *,
+    html[data-reduced-motion="true"] *::before,
+    html[data-reduced-motion="true"] *::after { scroll-behavior: auto !important; animation: none !important; transition-duration: .001ms !important; }
+    .published-patch-feed { display: grid; gap: 14px; margin-bottom: 14px; }
+    .custom-patch-entry { padding: 24px; border-color: rgba(var(--accent-rgb), .24); background: linear-gradient(135deg, rgba(var(--accent-rgb), .1), rgba(13,18,42,.97) 40%); }
+    .custom-patch-entry .patch-card { margin-top: 18px; }
+    .patch-admin-actions { display: flex; margin-top: 12px; gap: 7px; }
+    .patch-admin-actions button { min-height: 36px; padding: 0 11px; border: 1px solid rgba(255,255,255,.1); border-radius: 9px; background: rgba(255,255,255,.05); color: #bdc6dd; font-size: .55rem; font-weight: 900; cursor: pointer; }
+    .patch-admin-actions button:last-child { border-color: rgba(255,96,119,.18); color: #ff8a9a; }
+    .admin-editor-dialog { width: min(500px, calc(100% - 24px)); padding: 24px; border: 1px solid rgba(var(--accent-rgb),.28); border-radius: 20px; background: linear-gradient(145deg,#171e42,#090e23); box-shadow: 0 30px 90px rgba(0,0,0,.65); color: #fff; }
+    .admin-editor-dialog::backdrop { background: rgba(2,5,15,.78); backdrop-filter: blur(9px); }
+    .admin-editor-dialog h2 { margin: 0 0 16px; font-family: var(--display,sans-serif); font-size: 1.7rem; font-style: italic; text-transform: uppercase; }
+    .admin-editor-dialog .field-label + .field-label { margin-top: 12px; }
+    .admin-editor-actions { display: grid; margin-top: 19px; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .admin-editor-actions button { min-height: 41px; padding: 0 12px; border: 1px solid rgba(255,255,255,.1); border-radius: 10px; background: rgba(255,255,255,.05); color: #c2cbe2; font-size: .58rem; font-weight: 950; cursor: pointer; }
+    .admin-editor-actions button.is-primary { border: 0; background: var(--accent); color: #06131f; }
+    @media (max-width: 700px) {
+      .mobile-dock {
+        right: max(8px, env(safe-area-inset-right));
+        left: max(8px, env(safe-area-inset-left));
+        display: flex;
+        width: auto;
+        max-width: none;
+        min-height: 70px;
+        padding: 7px 9px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        justify-content: flex-start;
+        gap: 6px;
+        scroll-behavior: smooth;
+        scroll-padding-inline: 9px;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        overscroll-behavior-x: contain;
+        touch-action: pan-x;
+        -webkit-overflow-scrolling: touch;
+      }
+      .mobile-dock::-webkit-scrollbar { display: none; }
+      .mobile-dock-item {
+        min-width: 74px;
+        min-height: 54px;
+        padding: 6px 7px;
+        flex: 0 0 74px;
+        scroll-snap-align: start;
+        scroll-snap-stop: normal;
+      }
+      .mobile-dock-item span { font-size: .45rem; }
+      .mobile-dock-item svg { width: 19px; height: 19px; }
+      .mobile-dock::after { width: 1px; flex: 0 0 1px; content: ""; }
+    }
+
+    /* Gestion directe des Patch Notes dans l'onglet administrateur. */
+    .admin-patch-quick { margin-top: 22px; padding-top: 18px; border-top: 1px solid rgba(var(--accent-rgb), .2); }
+    .admin-patch-quick > header { display: flex; margin-bottom: 10px; align-items: flex-end; justify-content: space-between; gap: 12px; }
+    .admin-patch-quick > header span { color: var(--accent); font-size: .5rem; font-weight: 950; letter-spacing: .12em; text-transform: uppercase; }
+    .admin-patch-quick > header h3 { margin: 4px 0 0; font-family: var(--display, sans-serif); font-size: 1.35rem; font-style: italic; text-transform: uppercase; }
+    .admin-patch-quick > header small { color: var(--feature-muted); font-size: .5rem; font-weight: 850; }
+    .admin-patch-quick-list { display: grid; gap: 8px; }
+    .admin-patch-quick-row { display: grid; padding: 12px; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; border: 1px solid rgba(255,255,255,.09); border-radius: 12px; background: rgba(255,255,255,.035); }
+    .admin-patch-quick-row > div:first-child { min-width: 0; }
+    .admin-patch-quick-row strong, .admin-patch-quick-row small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .admin-patch-quick-row strong { font-size: .64rem; }
+    .admin-patch-quick-row small { margin-top: 4px; color: var(--feature-muted); font-size: .49rem; }
+    .admin-patch-quick-actions { display: flex; gap: 7px; }
+    .admin-patch-quick-actions button, .patch-admin-actions button { display: inline-flex; min-height: 39px; padding: 0 13px; align-items: center; justify-content: center; gap: 6px; border: 1px solid rgba(var(--accent-rgb), .3); border-radius: 10px; background: rgba(var(--accent-rgb), .12); color: var(--accent); font-size: .57rem; font-weight: 950; cursor: pointer; }
+    .admin-patch-quick-actions button.is-danger, .patch-admin-actions button.is-danger, .patch-admin-actions button:last-child { border-color: rgba(255,96,119,.28); background: rgba(255,96,119,.1); color: #ff8a9a; }
+    .patch-admin-actions { margin: 0; padding: 13px 18px; justify-content: flex-end; border-top: 1px solid rgba(255,255,255,.08); background: rgba(3,7,21,.28); }
+    .patch-admin-actions::before { margin-right: auto; align-self: center; color: var(--accent); content: "Commandes administrateur"; font-size: .49rem; font-weight: 950; letter-spacing: .08em; text-transform: uppercase; }
+    /* Le thème choisi pilote désormais les surfaces de toutes les pages. */
+    html[data-background="night"] {
+      --theme-deep: #050817;
+      --theme-surface: #111832;
+      --theme-surface-2: #182044;
+      --theme-body: radial-gradient(circle at 14% -8%, rgba(var(--accent-rgb), .32), transparent 30rem), radial-gradient(circle at 100% 18%, rgba(var(--accent-rgb), .1), transparent 25rem), linear-gradient(180deg, #0b0e20 0%, #050817 72%);
+    }
+    html[data-background="galaxy"] {
+      --theme-deep: #070519;
+      --theme-surface: #181036;
+      --theme-surface-2: #26164b;
+      --theme-body: radial-gradient(circle at 18% 5%, rgba(127,75,255,.4), transparent 31rem), radial-gradient(circle at 88% 24%, rgba(255,72,186,.19), transparent 27rem), radial-gradient(circle at 52% 86%, rgba(var(--accent-rgb),.14), transparent 25rem), linear-gradient(145deg, #070719, #100b2c 55%, #071225);
+    }
+    html[data-background="storm"] {
+      --theme-deep: #070812;
+      --theme-surface: #15182c;
+      --theme-surface-2: #202644;
+      --theme-body: radial-gradient(circle at 15% 4%, rgba(84,60,181,.4), transparent 29rem), radial-gradient(circle at 95% 35%, rgba(var(--accent-rgb),.24), transparent 30rem), linear-gradient(155deg, #080914, #11142b 60%, #080a16);
+    }
+    html[data-background="zero"] {
+      --theme-deep: #041019;
+      --theme-surface: #0b1d2d;
+      --theme-surface-2: #102b42;
+      --theme-body: radial-gradient(circle at 50% -5%, rgba(92,234,255,.34), transparent 27rem), radial-gradient(circle at 85% 26%, rgba(156,87,255,.24), transparent 25rem), radial-gradient(circle at 10% 75%, rgba(var(--accent-rgb),.13), transparent 26rem), linear-gradient(160deg, #05131f, #0b102d 62%, #09091c);
+    }
+    html[data-background] {
+      --bg: var(--theme-deep);
+      --bg-deep: var(--theme-deep);
+      --surface: var(--theme-surface);
+      --surface-2: var(--theme-surface-2);
+      --surface-3: color-mix(in srgb, var(--theme-surface-2) 76%, white 8%);
+      --panel: color-mix(in srgb, var(--theme-surface) 90%, transparent);
+      --panel-2: var(--theme-surface-2);
+      --card: var(--theme-surface);
+      --blue: var(--accent);
+      --cyan: var(--accent);
+      --yellow: var(--accent);
+      --purple: color-mix(in srgb, var(--accent) 62%, #9a65ff);
+      --feature-surface: color-mix(in srgb, var(--theme-surface) 90%, transparent);
+      --feature-line: rgba(var(--accent-rgb), .2);
+    }
+    html[data-background] body { background: var(--theme-body); background-attachment: fixed; }
+    html[data-background] :is(.topbar, .mobile-dock) { border-color: rgba(var(--accent-rgb), .2); background: color-mix(in srgb, var(--theme-surface) 92%, transparent); box-shadow: 0 18px 50px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.06); }
+    html[data-background] :is(.sync-card, .progress-wrap, .stat, .variant-overview, .toolbar, .panel-card, .guide-summary, .guide-card, .admin-publish-bar, .admin-history article, .admin-manage-row, .admin-patch-quick-row, .patch-entry, .patch-card, dialog) { border-color: rgba(var(--accent-rgb), .16); background: linear-gradient(145deg, color-mix(in srgb, var(--theme-surface-2) 90%, transparent), color-mix(in srgb, var(--theme-deep) 94%, transparent)); }
+    html[data-background] :is(.feature-hero, .patch-simple-head) { border-color: rgba(var(--accent-rgb), .22); background: radial-gradient(circle at 88% 8%, rgba(var(--accent-rgb), .19), transparent 23rem), linear-gradient(135deg, color-mix(in srgb, var(--theme-surface-2) 92%, transparent), color-mix(in srgb, var(--theme-deep) 96%, transparent)); }
+    html[data-background] :is(.topbar-links a[aria-current="page"], .mobile-dock-item[aria-current="page"], .admin-tabs button[aria-selected="true"], .segmented button[aria-pressed="true"]) { border-color: rgba(var(--accent-rgb), .42); background: rgba(var(--accent-rgb), .15); color: var(--accent); }
+
+    @media (max-width: 700px) {
+      .mobile-dock { overflow-x: scroll !important; overflow-y: hidden !important; scroll-snap-type: x proximity !important; touch-action: pan-x !important; cursor: grab; }
+      .mobile-dock.is-dragging { scroll-behavior: auto; scroll-snap-type: none !important; cursor: grabbing; }
+      .admin-patch-quick-row { grid-template-columns: 1fr; }
+      .admin-patch-quick-actions { display: grid; grid-template-columns: 1fr 1fr; }
+      .patch-admin-actions { display: grid; grid-template-columns: 1fr 1fr; }
+      .patch-admin-actions::before { grid-column: 1 / -1; margin: 0 0 2px; }
+    }
+  </style>
 </head>
 <body>
   <div class="app" id="top">
@@ -4653,7 +5095,10 @@
           <a href="#home" data-page-target="home">Accueil</a>
           <a href="#catalog" data-page-target="catalog">Catalogue</a>
           <a href="#inventory" data-page-target="inventory">Inventaire</a>
+          <a href="#guide" data-page-target="guide">Guide</a>
+          <a href="#settings" data-page-target="settings">Réglages</a>
           <a href="#patch-notes" data-page-target="patch-notes">Patch Notes</a>
+          <a href="#admin" data-page-target="admin" data-admin-link hidden>Admin</a>
         </div>
       </div>
     </nav>
@@ -4831,6 +5276,123 @@
       <main class="grid" id="spriteGrid" aria-live="polite"></main>
     </section>
 
+    <section class="feature-page app-page" id="guidePage" data-page="guide" aria-labelledby="guideTitle">
+      <header class="feature-hero feature-hero-guide">
+        <div>
+          <span class="feature-eyebrow">Choisir le bon compagnon</span>
+          <h1 id="guideTitle">Guide des <span>capacités</span></h1>
+          <p>Retrouve instantanément les esprits adaptés à ton style de jeu, classés selon leur véritable utilité en partie.</p>
+        </div>
+        <div class="feature-hero-orb" aria-hidden="true">✦</div>
+      </header>
+      <div class="guide-toolbar" role="tablist" aria-label="Catégories de capacités">
+        <button type="button" data-guide-category="healing" aria-selected="true"><span>＋</span>Soins</button>
+        <button type="button" data-guide-category="mobility" aria-selected="false"><span>➜</span>Mobilité</button>
+        <button type="button" data-guide-category="defense" aria-selected="false"><span>◆</span>Défense</button>
+        <button type="button" data-guide-category="loot" aria-selected="false"><span>⬡</span>Butin</button>
+        <button type="button" data-guide-category="combat" aria-selected="false"><span>✦</span>Combat</button>
+        <button type="button" data-guide-category="squad" aria-selected="false"><span>●</span>Escouade</button>
+      </div>
+      <div class="guide-summary">
+        <div><span id="guideCategoryIcon" aria-hidden="true">＋</span><div><strong id="guideCategoryTitle">Soins</strong><p id="guideCategoryCopy">Récupération de PV, de bouclier et survie.</p></div></div>
+        <span id="guideResultCount">0 esprit</span>
+      </div>
+      <div class="guide-grid" id="guideGrid"></div>
+    </section>
+
+    <section class="feature-page app-page" id="settingsPage" data-page="settings" aria-labelledby="settingsTitle">
+      <header class="feature-hero feature-hero-settings">
+        <div>
+          <span class="feature-eyebrow">Ton casier, ton style</span>
+          <h1 id="settingsTitle">Personnalise <span>Sprite Locker</span></h1>
+          <p>Adapte les couleurs, l’ambiance et la densité du catalogue à ton écran et à tes préférences.</p>
+        </div>
+        <button class="feature-secondary" id="resetAppearance" type="button">Réglages par défaut</button>
+      </header>
+      <div class="settings-grid">
+        <section class="panel-card setting-card">
+          <div class="setting-icon">◉</div><div class="setting-copy"><span>Identité visuelle</span><h2>Couleur principale</h2><p>Cette couleur souligne les boutons, les progressions et les éléments actifs.</p></div>
+          <div class="color-setting"><input id="accentColor" type="color" value="#24a9ff" aria-label="Couleur principale"><span id="accentColorValue">#24A9FF</span></div>
+          <div class="preset-colors" id="presetColors"><button type="button" data-color="#24a9ff" style="--swatch:#24a9ff" aria-label="Bleu"></button><button type="button" data-color="#8b5cf6" style="--swatch:#8b5cf6" aria-label="Violet"></button><button type="button" data-color="#14d9a7" style="--swatch:#14d9a7" aria-label="Vert"></button><button type="button" data-color="#ff4d9d" style="--swatch:#ff4d9d" aria-label="Rose"></button><button type="button" data-color="#ffd84a" style="--swatch:#ffd84a" aria-label="Jaune"></button></div>
+        </section>
+        <section class="panel-card setting-card setting-wide">
+          <div class="setting-icon">▧</div><div class="setting-copy"><span>Ambiance</span><h2>Fond Fortnite</h2><p>Choisis une atmosphère sans gêner la lisibilité de ta collection.</p></div>
+          <div class="background-picker" id="backgroundPicker">
+            <button type="button" data-background="night" aria-pressed="true"><i class="bg-night"></i><span>Nuit Royale</span></button>
+            <button type="button" data-background="galaxy" aria-pressed="false"><i class="bg-galaxy"></i><span>Galaxie</span></button>
+            <button type="button" data-background="storm" aria-pressed="false"><i class="bg-storm"></i><span>Tempête</span></button>
+            <button type="button" data-background="zero" aria-pressed="false"><i class="bg-zero"></i><span>Point Zéro</span></button>
+          </div>
+        </section>
+        <section class="panel-card setting-card">
+          <div class="setting-icon">▦</div><div class="setting-copy"><span>Catalogue</span><h2>Taille des cartes</h2><p>Ajuste la place accordée à chaque esprit.</p></div>
+          <div class="segmented" id="cardSizePicker"><button type="button" data-card-size="small">Petites</button><button type="button" data-card-size="medium" aria-pressed="true">Standard</button><button type="button" data-card-size="large">Grandes</button></div>
+        </section>
+        <section class="panel-card setting-card">
+          <div class="setting-icon">⌗</div><div class="setting-copy"><span>Espacement</span><h2>Densité de la grille</h2><p>Affiche davantage de cartes ou laisse-les respirer.</p></div>
+          <div class="segmented" id="gridDensityPicker"><button type="button" data-density="dense">Dense</button><button type="button" data-density="balanced" aria-pressed="true">Équilibrée</button><button type="button" data-density="airy">Aérée</button></div>
+        </section>
+        <section class="panel-card setting-card setting-motion">
+          <div class="setting-icon">≈</div><div class="setting-copy"><span>Confort</span><h2>Animations réduites</h2><p>Limite les transitions et les mouvements décoratifs.</p></div>
+          <label class="switch-row compact"><span><strong>Réduire les animations</strong></span><input id="reducedMotion" type="checkbox" role="switch"></label>
+        </section>
+        <section class="panel-card admin-entry" id="adminEntry">
+          <div><span class="feature-eyebrow">Espace protégé</span><h2>Tableau d’administration</h2><p id="adminEntryCopy">Connecte ton compte administrateur pour gérer le catalogue et les Patch Notes.</p></div>
+          <button type="button" data-page-target="admin">Ouvrir l’administration</button>
+        </section>
+      </div>
+    </section>
+
+    <section class="feature-page app-page" id="adminPage" data-page="admin" aria-labelledby="adminTitle">
+      <header class="feature-hero feature-hero-admin">
+        <div><span class="feature-eyebrow">Espace privé</span><h1 id="adminTitle">Tableau <span>d’administration</span></h1><p>Publie les nouveautés du catalogue sans modifier manuellement le fichier HTML.</p></div>
+        <span class="admin-guard-state" id="adminGuardState">Vérification du compte</span>
+      </header>
+      <div class="admin-locked" id="adminLocked">
+        <span aria-hidden="true">◇</span><h2>Accès administrateur requis</h2><p>Cette page s’ouvre uniquement avec un compte autorisé dans Firebase.</p><button type="button" id="adminConnectBtn">Connexion Google</button>
+      </div>
+      <div class="admin-workspace" id="adminWorkspace" hidden>
+        <nav class="admin-tabs" role="tablist" aria-label="Outils d’administration">
+          <button type="button" data-admin-tab="spirit" aria-selected="true">Nouvel esprit</button>
+          <button type="button" data-admin-tab="edit" aria-selected="false">Modifier</button>
+          <button type="button" data-admin-tab="variant" aria-selected="false">Nouvelle variante</button>
+          <button type="button" data-admin-tab="patch" aria-selected="false">Patch Note</button>
+          <button type="button" data-admin-tab="manage" aria-selected="false">Gérer / supprimer</button>
+        </nav>
+        <form class="panel-card admin-form is-active" id="adminSpiritForm" data-admin-panel="spirit">
+          <div class="panel-heading"><div><span>Catalogue</span><h2>Ajouter un nouvel esprit</h2></div></div>
+          <div class="form-grid"><label class="field-label">Nom français<input name="fr" required maxlength="60"></label><label class="field-label">Nom anglais<input name="en" required maxlength="60"></label><label class="field-label field-span">Capacité<textarea name="effect" required maxlength="500" rows="4"></textarea></label><label class="field-label">Rareté<select name="rarity"><option value="rare">Rare</option><option value="epic">Épique</option><option value="legendary">Légendaire</option><option value="mythic">Mythique</option></select></label><label class="field-label">Variante de départ<select name="variant" class="admin-variant-select"></select></label><label class="field-label field-span">URL de l’image<input name="image" required type="url" placeholder="https://…"></label><label class="field-label">Date de sortie<input name="releaseDate" type="date"></label></div>
+          <button class="feature-primary" type="submit">Ajouter au brouillon</button>
+        </form>
+        <form class="panel-card admin-form" id="adminEditForm" data-admin-panel="edit">
+          <div class="panel-heading"><div><span>Correction</span><h2>Modifier un esprit existant</h2></div></div>
+          <div class="form-grid"><label class="field-label field-span">Esprit<select name="spriteId" id="adminEditSprite" required></select></label><label class="field-label">Nom français<input name="fr" required maxlength="60"></label><label class="field-label">Nom anglais<input name="en" required maxlength="60"></label><label class="field-label field-span">Capacité<textarea name="effect" required maxlength="500" rows="4"></textarea></label><label class="field-label">Rareté<select name="rarity"><option value="rare">Rare</option><option value="epic">Épique</option><option value="legendary">Légendaire</option><option value="mythic">Mythique</option></select></label><label class="field-label">Date de sortie<input name="releaseDate" type="date"></label><label class="field-label field-span">URL de l’image<input name="image" required type="url"></label></div>
+          <button class="feature-primary" type="submit">Enregistrer la correction</button>
+        </form>
+        <form class="panel-card admin-form" id="adminVariantForm" data-admin-panel="variant">
+          <div class="panel-heading"><div><span>Collection</span><h2>Ajouter une variante</h2></div></div>
+          <div class="form-grid"><label class="field-label">Famille d’esprit<select name="familyKey" id="adminVariantFamily" required></select></label><label class="field-label">Variante<select name="variant" class="admin-variant-select" required></select></label><label class="field-label field-span">URL de l’image<input name="image" required type="url" placeholder="https://…"></label><label class="field-label">Date de sortie<input name="releaseDate" type="date"></label></div>
+          <button class="feature-primary" type="submit">Ajouter la variante</button>
+        </form>
+        <form class="panel-card admin-form" id="adminPatchForm" data-admin-panel="patch">
+          <div class="panel-heading"><div><span>Actualité</span><h2>Publier un Patch Note</h2></div></div>
+          <div class="form-grid"><label class="field-label field-span">Titre<input name="title" required maxlength="100"></label><label class="field-label field-span">Contenu<textarea name="body" required maxlength="1800" rows="7" placeholder="Une ligne par nouveauté…"></textarea></label><label class="field-label">Date de publication<input name="date" required type="datetime-local"></label></div>
+          <button class="feature-primary" type="submit">Ajouter le Patch Note</button>
+          <section class="admin-patch-quick" aria-labelledby="adminPatchQuickTitle">
+            <header><div><span>Gestion directe</span><h3 id="adminPatchQuickTitle">Mes Patch Notes</h3></div><small>Modifier ou supprimer</small></header>
+            <div class="admin-patch-quick-list" id="adminPatchQuickList" aria-live="polite"></div>
+          </section>
+        </form>
+        <section class="panel-card admin-form" id="adminManagePanel" data-admin-panel="manage">
+          <div class="panel-heading"><div><span>Gestion complète</span><h2>Modifier ou supprimer le contenu</h2></div></div>
+          <p class="admin-manage-copy">Gère les Patch Notes, ajouts, variantes et corrections publiés. Les changements sont ajoutés au brouillon avant publication.</p>
+          <div class="admin-content-manager" id="adminContentManager"></div>
+        </section>
+        <section class="admin-publish-bar"><div><span>Brouillon global</span><strong id="adminDraftStatus">Aucune modification</strong></div><button id="adminPreviewBtn" type="button">Aperçu local</button><button class="feature-primary" id="adminPublishBtn" type="button">Publier sur Sprite Locker</button></section>
+        <div class="admin-history" id="adminHistory"></div>
+      </div>
+    </section>
+
     <section class="patch-page patch-page-compact app-page" id="patchNotesPage" data-page="patch-notes" aria-labelledby="patchNotesTitle">
       <article class="patch-entry">
         <header class="patch-simple-head">
@@ -4878,7 +5440,7 @@
     </section>
 
     <footer class="footer">
-      <p class="developer-credit"><span class="developer-signal" aria-hidden="true"></span>Développé par <strong>Alexi Minez</strong> <span aria-hidden="true">.</span></p>
+      <p class="developer-credit"><span class="developer-signal" aria-hidden="true"></span>Développé par <strong>PrimeSyntax</strong> <span aria-hidden="true">.</span></p>
     </footer>
   </div>
 
@@ -4895,11 +5457,30 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5Z"></path><path d="m4.5 7.5 7.5 4 7.5-4M12 12v9"></path></svg>
       <span>Inventaire</span>
     </a>
+    <a class="mobile-dock-item" href="#guide" data-page-target="guide">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 5.5h6a3 3 0 0 1 3 3v10H7a3 3 0 0 0-3 3z"></path><path d="M20 5.5h-4a3 3 0 0 0-3 3v10h4a3 3 0 0 1 3 3z"></path></svg>
+      <span>Guide</span>
+    </a>
+    <a class="mobile-dock-item" href="#settings" data-page-target="settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .4 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.4 1.7 1.7 0 0 0-1 1.6v.1h-4v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.4l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .4-1.9 1.7 1.7 0 0 0-1.6-1H3v-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.4-1.9L4.2 7l2.9-2.8.1.1a1.7 1.7 0 0 0 1.9.4 1.7 1.7 0 0 0 1-1.6V3h4v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.4l.1-.1L19.9 7l-.1.1a1.7 1.7 0 0 0-.4 1.9 1.7 1.7 0 0 0 1.6 1h.1v4H21a1.7 1.7 0 0 0-1.6 1Z"></path></svg>
+      <span>Réglages</span>
+    </a>
     <a class="mobile-dock-item" href="#patch-notes" data-page-target="patch-notes">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 3h9l3 3v15H6z"></path><path d="M14 3v4h4M9 11h6M9 15h6"></path></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"></path><path d="M14 3v5h5M9 12h7M9 16h7"></path></svg>
       <span>Patch Notes</span>
     </a>
+    <a class="mobile-dock-item" href="#admin" data-page-target="admin" data-admin-link hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3 4.5 6v5c0 5 3.2 8.4 7.5 10 4.3-1.6 7.5-5 7.5-10V6z"></path><path d="m9 12 2 2 4-5"></path></svg>
+      <span>Admin</span>
+    </a>
   </nav>
+
+  <dialog class="admin-editor-dialog" id="patchNoteEditor" aria-labelledby="patchNoteEditorTitle">
+    <h2 id="patchNoteEditorTitle">Modifier le Patch Note</h2>
+    <label class="field-label">Titre<input id="patchEditorTitle" type="text" maxlength="120"></label>
+    <label class="field-label">Contenu<textarea id="patchEditorBody" maxlength="1800" rows="7" required></textarea></label>
+    <div class="admin-editor-actions"><button type="button" data-patch-editor-action="close">Annuler</button><button class="is-primary" type="button" data-patch-editor-action="save">Enregistrer</button></div>
+  </dialog>
 
   <button class="top-btn" id="topBtn" type="button" aria-label="Revenir en haut">↑</button>
 
@@ -5985,7 +6566,10 @@
         if (quickLinks[0]) quickLinks[0].textContent = t("home");
         if (quickLinks[1]) quickLinks[1].textContent = t("catalogNav");
         if (quickLinks[2]) quickLinks[2].textContent = t("inventoryNav");
-        if (quickLinks[3]) quickLinks[3].textContent = t("patchNotesNav");
+        if (quickLinks[3]) quickLinks[3].textContent = APP_LANGUAGE === "fr" ? "Guide" : "Guide";
+        if (quickLinks[4]) quickLinks[4].textContent = APP_LANGUAGE === "fr" ? "Réglages" : "Settings";
+        if (quickLinks[5]) quickLinks[5].textContent = t("patchNotesNav");
+        if (quickLinks[6]) quickLinks[6].textContent = "Admin";
         const heroTitle = document.querySelector(".hero-text h1");
         if (heroTitle) heroTitle.innerHTML = t("heroTitleHtml");
 
@@ -6054,13 +6638,16 @@
         setText("#resetBtn", "resetAll");
 
         const developerCredit = document.querySelector(".developer-credit");
-        if (developerCredit) developerCredit.innerHTML = `<span class="developer-signal" aria-hidden="true"></span>${t("developedBy")} <strong>Alexi Minez</strong> <span aria-hidden="true">.</span>`;
+        if (developerCredit) developerCredit.innerHTML = `<span class="developer-signal" aria-hidden="true"></span>${t("developedBy")} <strong>PrimeSyntax</strong> <span aria-hidden="true">.</span>`;
         setAttribute(".mobile-dock", "aria-label", "mobileNav");
         const mobileLabels = document.querySelectorAll(".mobile-dock-item span");
         if (mobileLabels[0]) mobileLabels[0].textContent = t("home");
         if (mobileLabels[1]) mobileLabels[1].textContent = t("catalogNav");
         if (mobileLabels[2]) mobileLabels[2].textContent = t("inventoryNav");
-        if (mobileLabels[3]) mobileLabels[3].textContent = t("patchNotesNav");
+        if (mobileLabels[3]) mobileLabels[3].textContent = APP_LANGUAGE === "fr" ? "Guide" : "Guide";
+        if (mobileLabels[4]) mobileLabels[4].textContent = APP_LANGUAGE === "fr" ? "Réglages" : "Settings";
+        if (mobileLabels[5]) mobileLabels[5].textContent = t("patchNotesNav");
+        if (mobileLabels[6]) mobileLabels[6].textContent = "Admin";
         setAttribute("#topBtn", "aria-label", "backToTop");
 
         setText("#patchKicker", "patchKicker");
@@ -6250,7 +6837,8 @@
       }
 
       function normalizedPage(value) {
-        return ["home", "catalog", "inventory", "patch-notes"].includes(value) ? value : "home";
+        const route = String(value || "").split("/")[0];
+        return ["home", "catalog", "inventory", "guide", "settings", "admin", "patch-notes"].includes(route) ? route : "home";
       }
 
       function updateCollectionPageCopy() {
@@ -6262,18 +6850,32 @@
       }
 
       function showPage(page, { updateHash = true } = {}) {
-        activePage = normalizedPage(page);
+        activePage = normalizedPage(String(page || "home").replace(/^#/, ""));
         const homeVisible = activePage === "home";
         const collectionVisible = activePage === "catalog" || activePage === "inventory";
         const patchNotesVisible = activePage === "patch-notes";
+        const guideVisible = activePage === "guide";
+        const settingsVisible = activePage === "settings";
+        const adminVisible = activePage === "admin";
+
         document.documentElement.dataset.appPage = activePage;
         document.getElementById("homePage").classList.toggle("is-active", homeVisible);
         document.getElementById("collectionPage").classList.toggle("is-active", collectionVisible);
         document.getElementById("patchNotesPage").classList.toggle("is-active", patchNotesVisible);
+        document.getElementById("guidePage").classList.toggle("is-active", guideVisible);
+        document.getElementById("settingsPage").classList.toggle("is-active", settingsVisible);
+        document.getElementById("adminPage").classList.toggle("is-active", adminVisible);
+
         document.querySelectorAll("[data-page-target]").forEach(link => {
           if (link.dataset.pageTarget === activePage) link.setAttribute("aria-current", "page");
           else link.removeAttribute("aria-current");
         });
+        const mobileDock = document.querySelector(".mobile-dock");
+        const activeMobileLink = mobileDock?.querySelector(`[data-page-target="${activePage}"]`);
+        if (mobileDock && activeMobileLink && typeof mobileDock.scrollTo === "function" && window.innerWidth <= 700) {
+          const targetLeft = activeMobileLink.offsetLeft - (mobileDock.clientWidth - activeMobileLink.offsetWidth) / 2;
+          mobileDock.scrollTo({ left: Math.max(0, targetLeft), behavior: "smooth" });
+        }
 
         statusFilter = activePage === "inventory" ? "owned" : "all";
         document.querySelectorAll("[data-status]").forEach(button => {
@@ -6282,6 +6884,15 @@
         if (collectionVisible) {
           updateCollectionPageCopy();
           render();
+        } else if (guideVisible) {
+          renderGuide();
+          updateStats();
+        } else if (settingsVisible) {
+          renderAppearanceControls();
+          updateStats();
+        } else if (adminVisible) {
+          renderAdminAccess();
+          updateStats();
         } else {
           updateStats();
         }
@@ -6291,6 +6902,57 @@
         if (typeof window.scrollTo === "function") window.scrollTo({ top: 0, behavior: "auto" });
       }
 
+      function setupMobileDockSwipe() {
+        const dock = document.querySelector(".mobile-dock");
+        if (!dock || dock.dataset.swipeReady === "true") return;
+        dock.dataset.swipeReady = "true";
+        let startX = 0;
+        let startY = 0;
+        let startScrollLeft = 0;
+        let tracking = false;
+        let suppressClick = false;
+
+        dock.addEventListener("touchstart", event => {
+          if (event.touches.length !== 1) return;
+          const touch = event.touches[0];
+          startX = touch.clientX;
+          startY = touch.clientY;
+          startScrollLeft = dock.scrollLeft;
+          tracking = true;
+          suppressClick = false;
+        }, { passive: true });
+
+        dock.addEventListener("touchmove", event => {
+          if (!tracking || event.touches.length !== 1) return;
+          const touch = event.touches[0];
+          const deltaX = startX - touch.clientX;
+          const deltaY = startY - touch.clientY;
+          if (Math.abs(deltaX) <= Math.abs(deltaY) || Math.abs(deltaX) < 3) return;
+          event.preventDefault();
+          suppressClick = true;
+          dock.classList.add("is-dragging");
+          dock.scrollLeft = startScrollLeft + deltaX;
+        }, { passive: false });
+
+        const endTouch = () => {
+          tracking = false;
+          dock.classList.remove("is-dragging");
+          setTimeout(() => { suppressClick = false; }, 160);
+        };
+        dock.addEventListener("touchend", endTouch, { passive: true });
+        dock.addEventListener("touchcancel", endTouch, { passive: true });
+        dock.addEventListener("click", event => {
+          if (!suppressClick) return;
+          event.preventDefault();
+          event.stopPropagation();
+        }, true);
+        dock.addEventListener("wheel", event => {
+          if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+          event.preventDefault();
+          dock.scrollLeft += event.deltaY;
+        }, { passive: false });
+      }
+
       function getVisibleSprites() {
         const query = normalizedText(searchInput.value.trim());
         const selectedVariant = variantFilter.value;
@@ -6298,7 +6960,7 @@
 
         const result = sprites.filter(sprite => {
           const entry = state[sprite.id] || blankEntry();
-          const matchesSearch = !query || normalizedText(`${sprite.fr} ${sprite.en} ${sprite.aliases.join(" ")} ${variants[sprite.variant].fr} ${variants[sprite.variant].en}`).includes(query);
+          const matchesSearch = !query || buildSearchIndex(sprite).includes(query);
           const matchesVariant = selectedVariant === "all" || sprite.variant === selectedVariant;
           const matchesRarity = selectedRarity === "all" || sprite.rarity === selectedRarity;
           const matchesStatus = statusFilter === "all" ||
@@ -6732,6 +7394,7 @@
           accountAvatar.removeAttribute("src");
           firebaseIcon.hidden = false;
           setSyncStatus("local", navigator.onLine === false ? t("localOffline") : t("local"));
+          setAdminAccess(false);
           return;
         }
 
@@ -6925,13 +7588,23 @@
           cloudUnsubscribe = null;
         }
         firebaseUser = user || null;
+        if (firebaseUser) {
+          adminAccess = false;
+          document.querySelectorAll("[data-admin-link]").forEach(link => { link.hidden = true; });
+        }
         if (firebaseUser) setRedirectPending(false);
         setAuthBusy(false);
         updateAccountInterface(firebaseUser);
-        if (!firebaseUser) return;
+        if (!firebaseUser) {
+          setAdminAccess(false);
+          return;
+        }
         setSyncStatus("loading", t("firebaseConnecting"));
         await synchronizeCloud({ pull: true });
-        if (sequence === authSequence && firebaseUser && firebaseUser.uid === user.uid) startCloudListener();
+        await checkAdminAccess(firebaseUser);
+        if (sequence === authSequence && firebaseUser && firebaseUser.uid === user.uid) {
+          startCloudListener();
+        }
       }
 
       async function initializeFirebaseSync() {
@@ -6978,6 +7651,7 @@
           }
 
           firebaseReady = true;
+          loadPublishedContent();
           setTimeout(() => { try { startPublicVisitorCounter(); } catch (_) {} }, 0);
           const hadRedirectPending = redirectWasPending();
           let redirectResult = null;
@@ -7176,6 +7850,614 @@
           setAuthBusy(false);
         }
       }
+
+      const APPEARANCE_KEY = "sprite-locker-appearance-v1";
+      const ADMIN_CONTENT_KEY = "sprite-locker-admin-content-v1";
+      const ADMIN_DRAFT_KEY = "sprite-locker-admin-draft-v1";
+      const DEFAULT_APPEARANCE = Object.freeze({ accent: "#24a9ff", background: "night", cardSize: "medium", density: "balanced", reducedMotion: false });
+      const capabilityMeta = {
+        healing: {
+          label: "Soins", icon: "＋", copy: "Récupération de PV, de bouclier et survie.",
+          terms: ["soin", "soins", "sante", "pv", "bouclier", "regenere", "rend des", "heal", "health", "shield", "restore", "regenerates"]
+        },
+        mobility: {
+          label: "Mobilité", icon: "➜", copy: "Vitesse, sauts, glissades et déplacements.",
+          terms: ["vitesse", "sprint", "saut", "glissade", "nage", "air", "envol", "surmultiplication", "movement", "speed", "jump", "slide", "swim", "launch", "overdrive", "mantling"]
+        },
+        defense: {
+          label: "Défense", icon: "◆", copy: "Protection, discrétion et réduction des dégâts.",
+          terms: ["protect", "protection", "bulle", "invisible", "degats de chute", "maximum de pv", "maximum health", "fall damage", "bubble", "invisible", "preventing fall"]
+        },
+        loot: {
+          label: "Butin", icon: "⬡", copy: "Coffres, objets, munitions et récompenses.",
+          terms: ["butin", "coffre", "munitions", "objet aleatoire", "rare", "loot", "chest", "ammo", "random item", "spawn extra"]
+        },
+        combat: {
+          label: "Combat", icon: "✦", copy: "Dégâts, éliminations et puissance offensive.",
+          terms: ["degats", "elimination", "cadence de tir", "rechargement", "pioche", "explosion", "ennemi", "adversaire", "damage", "elimination", "fire rate", "reload", "pickaxe", "opponent", "enemy"]
+        },
+        squad: {
+          label: "Soutien d’escouade", icon: "●", copy: "Informations et bonus utiles à toute l’équipe.",
+          terms: ["escouade", "allie", "traces de pas", "chaque autre esprit", "squad", "teammate", "footsteps", "every other carried"]
+        }
+      };
+
+      let guideCategory = "healing";
+      let appearanceSettings = loadAppearanceSettings();
+      let adminAccess = false;
+      let adminContent = loadAdminContent();
+      let adminDraft = loadAdminDraft();
+      let adminDraftDirty = false;
+      let patchEditorContext = null;
+
+      function loadAppearanceSettings() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(APPEARANCE_KEY) || "{}");
+          return {
+            accent: /^#[0-9a-f]{6}$/i.test(saved.accent || "") ? saved.accent.toLowerCase() : DEFAULT_APPEARANCE.accent,
+            background: ["night", "galaxy", "storm", "zero"].includes(saved.background) ? saved.background : DEFAULT_APPEARANCE.background,
+            cardSize: ["small", "medium", "large"].includes(saved.cardSize) ? saved.cardSize : DEFAULT_APPEARANCE.cardSize,
+            density: ["dense", "balanced", "airy"].includes(saved.density) ? saved.density : DEFAULT_APPEARANCE.density,
+            reducedMotion: Boolean(saved.reducedMotion)
+          };
+        } catch (_) { return { ...DEFAULT_APPEARANCE }; }
+      }
+
+      function normalizeAdminContent(value = {}) {
+        return {
+          additions: Array.isArray(value.additions) ? value.additions : [],
+          variants: Array.isArray(value.variants) ? value.variants : [],
+          overrides: value.overrides && typeof value.overrides === "object" ? value.overrides : {},
+          patchNotes: Array.isArray(value.patchNotes) ? value.patchNotes : [],
+          updatedAtMs: Math.max(0, Number(value.updatedAtMs) || 0)
+        };
+      }
+
+      function loadAdminContent() {
+        try { return normalizeAdminContent(JSON.parse(localStorage.getItem(ADMIN_CONTENT_KEY) || "{}")); }
+        catch (_) { return normalizeAdminContent(); }
+      }
+
+      function loadAdminDraft() {
+        try { return normalizeAdminContent(JSON.parse(localStorage.getItem(ADMIN_DRAFT_KEY) || "{}")); }
+        catch (_) { return normalizeAdminContent(); }
+      }
+
+      function hexToRgb(hex) {
+        const value = String(hex).replace("#", "");
+        return [parseInt(value.slice(0, 2), 16), parseInt(value.slice(2, 4), 16), parseInt(value.slice(4, 6), 16)].join(", ");
+      }
+
+      function applyAppearance() {
+        const root = document.documentElement;
+        root.style.setProperty("--accent", appearanceSettings.accent);
+        root.style.setProperty("--accent-rgb", hexToRgb(appearanceSettings.accent));
+        root.dataset.background = appearanceSettings.background;
+        root.dataset.cardSize = appearanceSettings.cardSize;
+        root.dataset.density = appearanceSettings.density;
+        root.dataset.reducedMotion = String(appearanceSettings.reducedMotion);
+        const themeMeta = document.querySelector('meta[name="theme-color"]');
+        if (themeMeta) themeMeta.content = appearanceSettings.accent;
+      }
+
+      function saveAppearance() {
+        try { localStorage.setItem(APPEARANCE_KEY, JSON.stringify(appearanceSettings)); } catch (_) {}
+        applyAppearance();
+        renderAppearanceControls();
+      }
+
+      function renderAppearanceControls() {
+        const color = document.getElementById("accentColor");
+        if (!color) return;
+        color.value = appearanceSettings.accent;
+        document.getElementById("accentColorValue").textContent = appearanceSettings.accent.toUpperCase();
+        document.getElementById("reducedMotion").checked = appearanceSettings.reducedMotion;
+        document.querySelectorAll("[data-background]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.background === appearanceSettings.background)));
+        document.querySelectorAll("[data-card-size]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.cardSize === appearanceSettings.cardSize)));
+        document.querySelectorAll("[data-density]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.density === appearanceSettings.density)));
+      }
+
+      function spriteCapabilityKeys(sprite) {
+        const haystack = normalizedText(`${localizedEffect(sprite.effect)} ${sprite.fr} ${sprite.en}`);
+        return Object.entries(capabilityMeta)
+          .filter(([, meta]) => meta.terms.some(term => haystack.includes(normalizedText(term))))
+          .map(([key]) => key);
+      }
+
+      function buildSearchIndex(sprite) {
+        const categories = spriteCapabilityKeys(sprite);
+        const semantic = categories.flatMap(key => [capabilityMeta[key].label, ...capabilityMeta[key].terms]).join(" ");
+        const variant = variants[sprite.variant];
+        return normalizedText([
+          sprite.fr, sprite.en, ...(sprite.aliases || []),
+          localizedEffect(sprite.effect), sprite.effect.fr || "", sprite.effect.en || "",
+          variant.fr, variant.en, localizedEffect(variant.effect),
+          rarityLabel(sprite.rarity), sprite.rarity, semantic
+        ].join(" "));
+      }
+
+      function representativeSprites() {
+        const seen = new Set();
+        return sprites.filter(sprite => {
+          if (seen.has(sprite.familyKey)) return false;
+          seen.add(sprite.familyKey);
+          return true;
+        });
+      }
+
+      function renderGuide() {
+        const meta = capabilityMeta[guideCategory] || capabilityMeta.healing;
+        const matches = representativeSprites().filter(sprite => spriteCapabilityKeys(sprite).includes(guideCategory));
+        document.getElementById("guideCategoryIcon").textContent = meta.icon;
+        document.getElementById("guideCategoryTitle").textContent = meta.label;
+        document.getElementById("guideCategoryCopy").textContent = meta.copy;
+        document.getElementById("guideResultCount").textContent = `${matches.length} esprit${matches.length > 1 ? "s" : ""}`;
+        document.querySelectorAll("[data-guide-category]").forEach(button => button.setAttribute("aria-selected", String(button.dataset.guideCategory === guideCategory)));
+        document.getElementById("guideGrid").innerHTML = matches.length ? matches.map(sprite => `
+          <article class="guide-card" style="--variant-color:${variants[sprite.variant].color}">
+            <img src="${esc(sprite.image)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+            <span class="badge ${sprite.rarity}">${rarityLabel(sprite.rarity)}</span>
+            <h3>${esc(localizedName(sprite))}</h3>
+            <p>${esc(localizedEffect(sprite.effect))}</p>
+            <button type="button" data-guide-sprite="${esc(sprite.id)}" aria-label="Voir ${esc(localizedName(sprite))}"></button>
+          </article>`).join("") : `<div class="empty-state"><strong>Aucun esprit dans cette catégorie</strong>Le guide sera enrichi avec les prochaines sorties.</div>`;
+      }
+
+      const baseSpriteSnapshot = new Map(sprites.map(sprite => [sprite.id, {
+        fr: sprite.fr, en: sprite.en, rarity: sprite.rarity, effect: sprite.effect,
+        image: sprite.image, releaseDate: sprite.releaseDate || ""
+      }]));
+      const adminManagedSpriteIds = new Set();
+
+      function openPatchNoteEditor(context, body, title = "") {
+        patchEditorContext = context;
+        document.getElementById("patchEditorTitle").value = title;
+        document.getElementById("patchEditorBody").value = body;
+        const dialog = document.getElementById("patchNoteEditor");
+        if (!dialog.open) dialog.showModal();
+      }
+
+      async function savePatchNoteEditor() {
+        if (!patchEditorContext || !adminAccess) return;
+        const body = document.getElementById("patchEditorBody").value.trim();
+        const title = document.getElementById("patchEditorTitle").value.trim().slice(0, 100) || "Mise à jour Sprite Locker";
+        if (!body) return showToast("Le contenu ne peut pas être vide");
+        const context = patchEditorContext;
+        try {
+          if (context.kind === "patch") {
+            const notes = [...(adminContent.patchNotes || [])];
+            if (!notes[context.index]) return;
+            notes[context.index] = { ...notes[context.index], title, body: body.slice(0, 1800), updatedAtMs: Date.now() };
+            adminDraft = normalizeAdminContent({ ...adminContent, patchNotes: notes, updatedAtMs: Date.now() });
+            adminDraftDirty = true;
+            await publishAdminContent();
+          } else if (context.kind === "draftPatch") {
+            if (!adminDraft.patchNotes[context.index]) return;
+            adminDraft.patchNotes[context.index] = { ...adminDraft.patchNotes[context.index], title, body: body.slice(0, 1800), updatedAtMs: Date.now() };
+            markAdminDraft("Patch Note modifié dans le brouillon");
+          }
+          document.getElementById("patchNoteEditor").close();
+          patchEditorContext = null;
+          showToast("Modification enregistrée");
+        } catch (error) {
+          showToast(friendlyFirebaseError(error));
+        }
+      }
+
+      function normalizeManagedSprite(item, fallback = {}) {
+        const variant = variants[item.variant] ? item.variant : (fallback.variant || "base");
+        const familyKey = slugForAdmin(item.familyKey || fallback.familyKey || item.fr || "sprite");
+        const id = String(item.id || `${familyKey}-${variant}`);
+        const effectText = String(item.effect || fallback.effect && localizedEffect(fallback.effect) || "Capacité à venir.").slice(0, 500);
+        return {
+          id,
+          catalogNumber: sprites.length + 1,
+          familyKey,
+          familyIndex: Number.isFinite(Number(item.familyIndex)) ? Number(item.familyIndex) : sprites.length + 100,
+          variantIndex: Object.keys(variants).indexOf(variant),
+          variant,
+          fr: String(item.fr || fallback.fr || "Nouvel esprit").slice(0, 60),
+          en: String(item.en || fallback.en || item.fr || "New Sprite").slice(0, 60),
+          aliases: Array.isArray(item.aliases) ? item.aliases : [],
+          rarity: rarityRank[item.rarity] ? item.rarity : (fallback.rarity || "rare"),
+          effect: { fr: effectText, en: String(item.effectEn || fallback.effect && fallback.effect.en || effectText).slice(0, 500) },
+          image: String(item.image || fallback.image || ""),
+          releaseDate: String(item.releaseDate || "")
+        };
+      }
+
+      function applyAdminContent(content, { announce = false } = {}) {
+        adminManagedSpriteIds.forEach(id => {
+          const index = sprites.findIndex(sprite => sprite.id === id);
+          if (index >= 0) sprites.splice(index, 1);
+        });
+        adminManagedSpriteIds.clear();
+        baseSpriteSnapshot.forEach((snapshot, id) => {
+          const sprite = sprites.find(item => item.id === id);
+          if (sprite) Object.assign(sprite, snapshot);
+        });
+
+        const additions = [...(content.additions || [])];
+        additions.forEach((item, index) => {
+          const sprite = normalizeManagedSprite({ ...item, familyIndex: families.length + index });
+          if (!sprite.image || sprites.some(existing => existing.id === sprite.id)) return;
+          sprites.push(sprite);
+          adminManagedSpriteIds.add(sprite.id);
+        });
+
+        (content.variants || []).forEach((item, index) => {
+          const fallback = sprites.find(sprite => sprite.familyKey === item.familyKey) || {};
+          const sprite = normalizeManagedSprite({ ...item, familyIndex: fallback.familyIndex ?? families.length + additions.length + index }, fallback);
+          if (!sprite.image || sprites.some(existing => existing.id === sprite.id)) return;
+          sprites.push(sprite);
+          adminManagedSpriteIds.add(sprite.id);
+        });
+
+        Object.entries(content.overrides || {}).forEach(([id, override]) => {
+          const sprite = sprites.find(item => item.id === id);
+          if (!sprite || !override || typeof override !== "object") return;
+          if (override.fr) sprite.fr = String(override.fr).slice(0, 60);
+          if (override.en) sprite.en = String(override.en).slice(0, 60);
+          if (rarityRank[override.rarity]) sprite.rarity = override.rarity;
+          if (override.image) sprite.image = String(override.image);
+          if (override.effect) sprite.effect = { fr: String(override.effect).slice(0, 500), en: String(override.effectEn || override.effect).slice(0, 500) };
+          sprite.releaseDate = String(override.releaseDate || sprite.releaseDate || "");
+        });
+
+        sprites.sort((a, b) => a.familyIndex - b.familyIndex || a.variantIndex - b.variantIndex);
+        sprites.forEach((sprite, index) => {
+          sprite.catalogNumber = index + 1;
+          if (!state[sprite.id]) state[sprite.id] = blankEntry();
+        });
+        renderPublishedPatchNotes(content.patchNotes || []);
+        populateAdminSelectors();
+        if (activePage === "catalog" || activePage === "inventory") render();
+        if (activePage === "guide") renderGuide();
+        updateStats();
+        if (announce) showToast("Aperçu du catalogue appliqué");
+      }
+
+      function renderPublishedPatchNotes(notes) {
+        let feed = document.getElementById("publishedPatchFeed");
+        if (!feed) {
+          feed = document.createElement("div");
+          feed.id = "publishedPatchFeed";
+          feed.className = "published-patch-feed";
+          document.getElementById("patchNotesPage").prepend(feed);
+        }
+        feed.innerHTML = notes.map((note, index) => ({ note, index })).sort((a, b) => String(b.note.date).localeCompare(String(a.note.date))).map(({ note, index }) => `
+          <article class="patch-entry custom-patch-entry">
+            <header class="patch-simple-head"><div><span class="patch-kicker">Patch Note publié</span><h1>${esc(note.title || "Mise à jour Sprite Locker")}</h1></div><time class="patch-date">${esc(new Date(note.date || Date.now()).toLocaleString(APP_LOCALE, { dateStyle: "long", timeStyle: "short" }))}</time></header>
+            <section class="patch-card"><ul class="patch-list">${String(note.body || "").split(/\n+/).filter(Boolean).map(line => `<li>${esc(line)}</li>`).join("")}</ul></section>
+            ${adminAccess ? `<div class="patch-admin-actions"><button type="button" data-patch-admin-action="edit" data-patch-index="${index}"><span aria-hidden="true">✎</span>Modifier</button><button class="is-danger" type="button" data-patch-admin-action="delete" data-patch-index="${index}"><span aria-hidden="true">×</span>Supprimer</button></div>` : ""}
+          </article>`).join("");
+      }
+
+      async function loadPublishedContent() {
+        if (!firebaseSdk || !firebaseDb) return;
+        try {
+          const snapshot = await firebaseSdk.getDoc(firebaseSdk.doc(firebaseDb, "spriteLockerContent", "catalog"));
+          if (snapshot.exists()) {
+            const remote = normalizeAdminContent(snapshot.data());
+            if (remote.updatedAtMs >= adminContent.updatedAtMs) {
+              adminContent = remote;
+              try { localStorage.setItem(ADMIN_CONTENT_KEY, JSON.stringify(adminContent)); } catch (_) {}
+              if (!adminDraftDirty && !localStorage.getItem(ADMIN_DRAFT_KEY)) adminDraft = normalizeAdminContent(adminContent);
+            }
+          }
+        } catch (_) {}
+        applyAdminContent(adminContent);
+      }
+
+      function setAdminAccess(allowed) {
+        adminAccess = Boolean(allowed);
+        document.querySelectorAll("[data-admin-link]").forEach(link => { link.hidden = !adminAccess; });
+        renderPublishedPatchNotes(adminContent.patchNotes || []);
+        renderAdminAccess();
+      }
+
+      async function checkAdminAccess(user) {
+        if (!user || !firebaseSdk || !firebaseDb) {
+          return setAdminAccess(false);
+        }
+        try {
+          const snapshot = await firebaseSdk.getDoc(firebaseSdk.doc(firebaseDb, "spriteLockerAdmins", user.uid));
+          setAdminAccess(snapshot.exists() && snapshot.data().active === true);
+        } catch (_) {
+          setAdminAccess(false);
+        }
+      }
+
+      function renderAdminAccess() {
+        const locked = document.getElementById("adminLocked");
+        const workspace = document.getElementById("adminWorkspace");
+        const guard = document.getElementById("adminGuardState");
+        const entryCopy = document.getElementById("adminEntryCopy");
+        if (!locked || !workspace) return;
+        locked.hidden = adminAccess;
+        workspace.hidden = !adminAccess;
+        guard.textContent = adminAccess ? "Compte administrateur vérifié" : (firebaseUser ? "Compte non autorisé" : "Connexion requise");
+        guard.classList.toggle("is-ready", adminAccess);
+        entryCopy.textContent = adminAccess
+          ? "Ton compte est autorisé : le catalogue global peut être mis à jour."
+          : "Connecte ton compte administrateur pour gérer le catalogue et les Patch Notes.";
+        const entryButton = document.querySelector("#adminEntry button");
+        if (entryButton) entryButton.disabled = !adminAccess && Boolean(firebaseUser);
+        renderAdminHistory();
+      }
+
+      function populateAdminSelectors() {
+        const variantOptions = Object.keys(variants).map(key => `<option value="${key}">${esc(localizedVariant(key))}</option>`).join("");
+        document.querySelectorAll(".admin-variant-select").forEach(select => {
+          const value = select.value;
+          select.innerHTML = variantOptions;
+          if (variants[value]) select.value = value;
+        });
+        const spriteOptions = sprites.map(sprite => `<option value="${esc(sprite.id)}">${esc(localizedName(sprite))} · ${esc(localizedVariant(sprite.variant))}</option>`).join("");
+        const edit = document.getElementById("adminEditSprite");
+        if (edit) {
+          const value = edit.value;
+          edit.innerHTML = spriteOptions;
+          edit.value = sprites.some(sprite => sprite.id === value) ? value : (sprites[0] && sprites[0].id || "");
+          fillAdminEditForm();
+        }
+        const familyOptions = representativeSprites().map(sprite => `<option value="${esc(sprite.familyKey)}">${esc(sprite.fr)}</option>`).join("");
+        const family = document.getElementById("adminVariantFamily");
+        if (family) family.innerHTML = familyOptions;
+      }
+
+      function fillAdminEditForm() {
+        const form = document.getElementById("adminEditForm");
+        if (!form) return;
+        const sprite = sprites.find(item => item.id === form.elements.spriteId.value);
+        if (!sprite) return;
+        form.elements.fr.value = sprite.fr;
+        form.elements.en.value = sprite.en;
+        form.elements.effect.value = localizedEffect(sprite.effect);
+        form.elements.rarity.value = sprite.rarity;
+        form.elements.image.value = sprite.image;
+        form.elements.releaseDate.value = sprite.releaseDate || "";
+      }
+
+      function markAdminDraft(message) {
+        adminDraft.updatedAtMs = Date.now();
+        adminDraftDirty = true;
+        try { localStorage.setItem(ADMIN_DRAFT_KEY, JSON.stringify(adminDraft)); } catch (_) {}
+        document.getElementById("adminDraftStatus").textContent = message;
+        renderAdminHistory();
+      }
+
+      function renderAdminHistory() {
+        const history = document.getElementById("adminHistory");
+        if (!history) return;
+        const items = [
+          ...(adminDraft.additions || []).map(item => ({ title: item.fr, type: "Nouvel esprit" })),
+          ...(adminDraft.variants || []).map(item => ({ title: `${item.fr || item.familyKey} · ${localizedVariant(item.variant)}`, type: "Variante" })),
+          ...Object.entries(adminDraft.overrides || {}).map(([id]) => ({ title: localizedName(sprites.find(sprite => sprite.id === id) || { fr: id, en: id }), type: "Correction" })),
+          ...(adminDraft.patchNotes || []).map(item => ({ title: item.title, type: "Patch Note" }))
+        ];
+        history.innerHTML = items.length ? items.slice().reverse().map(item => `<article><strong>${esc(item.title)}</strong><span>${esc(item.type)} · brouillon</span></article>`).join("") : "";
+        renderAdminContentManager();
+        renderAdminPatchQuickList();
+      }
+
+      function renderAdminContentManager() {
+        const manager = document.getElementById("adminContentManager");
+        if (!manager) return;
+        const content = adminDraft || normalizeAdminContent();
+        const group = (title, items, type) => `<section class="admin-manage-group"><h3>${esc(title)}</h3><div class="admin-manage-list">${items.length ? items.map((item, index) => {
+          const label = type === "override" ? item[0] : (item.title || item.fr || item.id || `Élément ${index + 1}`);
+          const detail = type === "patch" ? (item.date || "Date non définie") : (type === "variant" ? localizedVariant(item.variant) : type === "override" ? "Correction personnalisée" : "Contenu du catalogue");
+          const editButton = type === "patch" ? `<button type="button" data-admin-manage-action="edit" data-admin-manage-type="patch" data-admin-manage-index="${index}">Modifier</button>` : "";
+          return `<article class="admin-manage-row"><div><strong>${esc(label)}</strong><small>${esc(detail)}</small></div><div class="admin-manage-actions">${editButton}<button class="is-danger" type="button" data-admin-manage-action="delete" data-admin-manage-type="${type}" data-admin-manage-index="${index}"${type === "override" ? ` data-admin-manage-key="${esc(item[0])}"` : ""}>Supprimer</button></div></article>`;
+        }).join("") : `<div class="empty-state"><strong>Aucun contenu</strong></div>`}</div></section>`;
+        manager.innerHTML = [
+          group("Patch Notes", content.patchNotes || [], "patch"),
+          group("Esprits ajoutés", content.additions || [], "addition"),
+          group("Variantes ajoutées", content.variants || [], "variant"),
+          group("Corrections personnalisées", Object.entries(content.overrides || {}), "override")
+        ].join("");
+      }
+
+      function renderAdminPatchQuickList() {
+        const list = document.getElementById("adminPatchQuickList");
+        if (!list) return;
+        const notes = adminDraft && Array.isArray(adminDraft.patchNotes) ? adminDraft.patchNotes : [];
+        list.innerHTML = notes.length ? notes.map((note, index) => {
+          const parsedDate = new Date(note.date || note.createdAtMs || Date.now());
+          const dateLabel = Number.isNaN(parsedDate.getTime()) ? "Date non définie" : parsedDate.toLocaleString(APP_LOCALE, { dateStyle: "medium", timeStyle: "short" });
+          const published = (adminContent.patchNotes || []).some(publishedNote => publishedNote.id && publishedNote.id === note.id);
+          return `<article class="admin-patch-quick-row">
+            <div><strong>${esc(note.title || "Mise à jour Sprite Locker")}</strong><small>${esc(dateLabel)} · ${published ? "publié" : "brouillon à publier"}</small></div>
+            <div class="admin-patch-quick-actions"><button type="button" data-admin-manage-action="edit" data-admin-manage-type="patch" data-admin-manage-index="${index}"><span aria-hidden="true">✎</span>Modifier</button><button class="is-danger" type="button" data-admin-manage-action="delete" data-admin-manage-type="patch" data-admin-manage-index="${index}"><span aria-hidden="true">×</span>Supprimer</button></div>
+          </article>`;
+        }).join("") : `<div class="empty-state"><strong>Aucun Patch Note</strong>Les Patch Notes ajoutés apparaîtront ici avec leurs boutons de gestion.</div>`;
+      }
+
+      function manageAdminContent(action, type, index, key) {
+        if (!adminAccess) return;
+        if (action === "edit" && type === "patch") {
+          const note = (adminDraft.patchNotes || [])[index];
+          if (note) openPatchNoteEditor({ kind: "draftPatch", index }, note.body || "", note.title || "");
+          return;
+        }
+        if (action !== "delete" || !window.confirm("Supprimer cet élément du contenu publié ?")) return;
+        if (type === "patch") adminDraft.patchNotes.splice(index, 1);
+        if (type === "addition") adminDraft.additions.splice(index, 1);
+        if (type === "variant") adminDraft.variants.splice(index, 1);
+        if (type === "override" && key) delete adminDraft.overrides[key];
+        markAdminDraft("Suppression ajoutée au brouillon");
+        showToast(type === "patch" ? "Patch Note supprimé du brouillon · clique sur Publier" : "Suppression prête à être publiée");
+      }
+
+      function slugForAdmin(value) {
+        return normalizedText(String(value || ""))
+          .replace(/[^a-z0-9-]+/g, "-")
+          .replace(/^-+|-+$/g, "")
+          .replace(/-{2,}/g, "-")
+          .slice(0, 40) || `sprite-${Date.now().toString(36)}`;
+      }
+
+      async function publishAdminContent() {
+        if (!adminAccess || !firebaseUser || !firebaseSdk || !firebaseDb) {
+          showToast("Compte administrateur requis");
+          return;
+        }
+        adminDraft.updatedAtMs = Date.now();
+        try {
+          await firebaseSdk.setDoc(firebaseSdk.doc(firebaseDb, "spriteLockerContent", "catalog"), {
+            ...adminDraft,
+            updatedAt: firebaseSdk.serverTimestamp(),
+            updatedAtMs: adminDraft.updatedAtMs,
+            publishedBy: firebaseUser.uid
+          });
+          adminContent = normalizeAdminContent(adminDraft);
+          try {
+            localStorage.setItem(ADMIN_CONTENT_KEY, JSON.stringify(adminContent));
+            localStorage.removeItem(ADMIN_DRAFT_KEY);
+          } catch (_) {}
+          adminDraftDirty = false;
+          document.getElementById("adminDraftStatus").textContent = "Publié à l’instant";
+          applyAdminContent(adminContent);
+          showToast("Catalogue Sprite Locker publié");
+        } catch (error) {
+          showToast(friendlyFirebaseError(error));
+        }
+      }
+
+      document.querySelector(".guide-toolbar").addEventListener("click", event => {
+        const button = event.target.closest("[data-guide-category]");
+        if (!button) return;
+        guideCategory = button.dataset.guideCategory;
+        renderGuide();
+      });
+
+      document.getElementById("guideGrid").addEventListener("click", event => {
+        const button = event.target.closest("[data-guide-sprite]");
+        if (button) openDetails(button.dataset.guideSprite);
+      });
+
+      document.getElementById("patchNoteEditor").addEventListener("click", event => {
+        const button = event.target.closest("[data-patch-editor-action]");
+        if (!button) return;
+        if (button.dataset.patchEditorAction === "close") {
+          patchEditorContext = null;
+          document.getElementById("patchNoteEditor").close();
+        }
+        if (button.dataset.patchEditorAction === "save") savePatchNoteEditor();
+      });
+
+      document.getElementById("accentColor").addEventListener("input", event => {
+        appearanceSettings.accent = event.target.value.toLowerCase();
+        saveAppearance();
+      });
+      document.getElementById("presetColors").addEventListener("click", event => {
+        const button = event.target.closest("[data-color]");
+        if (!button) return;
+        appearanceSettings.accent = button.dataset.color;
+        saveAppearance();
+      });
+      document.getElementById("backgroundPicker").addEventListener("click", event => {
+        const button = event.target.closest("[data-background]");
+        if (!button) return;
+        appearanceSettings.background = button.dataset.background;
+        saveAppearance();
+      });
+      document.getElementById("cardSizePicker").addEventListener("click", event => {
+        const button = event.target.closest("[data-card-size]");
+        if (!button) return;
+        appearanceSettings.cardSize = button.dataset.cardSize;
+        saveAppearance();
+      });
+      document.getElementById("gridDensityPicker").addEventListener("click", event => {
+        const button = event.target.closest("[data-density]");
+        if (!button) return;
+        appearanceSettings.density = button.dataset.density;
+        saveAppearance();
+      });
+      document.getElementById("reducedMotion").addEventListener("change", event => {
+        appearanceSettings.reducedMotion = event.target.checked;
+        saveAppearance();
+      });
+      document.getElementById("resetAppearance").addEventListener("click", () => {
+        appearanceSettings = { ...DEFAULT_APPEARANCE };
+        saveAppearance();
+        showToast("Apparence réinitialisée");
+      });
+
+      document.querySelector(".admin-tabs").addEventListener("click", event => {
+        const button = event.target.closest("[data-admin-tab]");
+        if (!button) return;
+        document.querySelectorAll("[data-admin-tab]").forEach(item => item.setAttribute("aria-selected", String(item === button)));
+        document.querySelectorAll("[data-admin-panel]").forEach(panel => panel.classList.toggle("is-active", panel.dataset.adminPanel === button.dataset.adminTab));
+      });
+
+      document.getElementById("adminEditSprite").addEventListener("change", fillAdminEditForm);
+      document.getElementById("adminSpiritForm").addEventListener("submit", event => {
+        event.preventDefault();
+        const data = Object.fromEntries(new FormData(event.currentTarget));
+        const familyKey = `custom-${slugForAdmin(data.fr)}-${Date.now().toString(36)}`;
+        adminDraft.additions.push({ ...data, familyKey, id: `${familyKey}-${data.variant}`, createdAtMs: Date.now() });
+        markAdminDraft(`Nouvel esprit : ${data.fr}`);
+        event.currentTarget.reset();
+        showToast("Esprit ajouté au brouillon");
+      });
+      document.getElementById("adminEditForm").addEventListener("submit", event => {
+        event.preventDefault();
+        const data = Object.fromEntries(new FormData(event.currentTarget));
+        const id = data.spriteId;
+        delete data.spriteId;
+        adminDraft.overrides[id] = { ...data, updatedAtMs: Date.now() };
+        markAdminDraft(`Correction enregistrée`);
+        showToast("Correction ajoutée au brouillon");
+      });
+      document.getElementById("adminVariantForm").addEventListener("submit", event => {
+        event.preventDefault();
+        const data = Object.fromEntries(new FormData(event.currentTarget));
+        const source = sprites.find(sprite => sprite.familyKey === data.familyKey);
+        if (!source) return showToast("Famille d’esprit introuvable");
+        const id = `${data.familyKey}-${data.variant}`;
+        const allDraftIds = [...adminDraft.additions, ...adminDraft.variants].map(item => item.id);
+        if (sprites.some(sprite => sprite.id === id) || allDraftIds.includes(id)) return showToast("Cette variante existe déjà");
+        adminDraft.variants.push({
+          ...data, id, fr: source.fr, en: `${variants[data.variant].en} ${source.en}`,
+          rarity: source.rarity, effect: localizedEffect(source.effect), effectEn: source.effect.en || localizedEffect(source.effect), createdAtMs: Date.now()
+        });
+        markAdminDraft(`Variante ${localizedVariant(data.variant)} ajoutée`);
+        event.currentTarget.reset();
+        showToast("Variante ajoutée au brouillon");
+      });
+      document.getElementById("adminPatchForm").addEventListener("submit", event => {
+        event.preventDefault();
+        const data = Object.fromEntries(new FormData(event.currentTarget));
+        adminDraft.patchNotes.push({ ...data, id: `patch-${Date.now().toString(36)}`, createdAtMs: Date.now() });
+        markAdminDraft(`Patch Note : ${data.title}`);
+        event.currentTarget.reset();
+        event.currentTarget.elements.date.value = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+        showToast("Patch Note ajouté au brouillon");
+      });
+      document.getElementById("adminPreviewBtn").addEventListener("click", () => applyAdminContent(adminDraft, { announce: true }));
+      document.getElementById("adminPublishBtn").addEventListener("click", publishAdminContent);
+      document.getElementById("adminConnectBtn").addEventListener("click", connectGoogleAccount);
+      document.getElementById("adminWorkspace").addEventListener("click", event => {
+        const button = event.target.closest("[data-admin-manage-action]");
+        if (button) manageAdminContent(button.dataset.adminManageAction, button.dataset.adminManageType, Number(button.dataset.adminManageIndex), button.dataset.adminManageKey || "");
+      });
+      document.getElementById("patchNotesPage").addEventListener("click", async event => {
+        const button = event.target.closest("[data-patch-admin-action]");
+        if (!button || !adminAccess) return;
+        const index = Number(button.dataset.patchIndex);
+        const note = (adminContent.patchNotes || [])[index];
+        if (!note) return;
+        if (button.dataset.patchAdminAction === "edit") openPatchNoteEditor({ kind: "patch", index }, note.body || "", note.title || "");
+        if (button.dataset.patchAdminAction === "delete" && window.confirm("Supprimer définitivement ce Patch Note ?")) {
+          const notes = (adminContent.patchNotes || []).filter((_, noteIndex) => noteIndex !== index);
+          adminDraft = normalizeAdminContent({ ...adminContent, patchNotes: notes, updatedAtMs: Date.now() });
+          adminDraftDirty = true;
+          await publishAdminContent();
+          showToast("Patch Note supprimé");
+        }
+      });
 
       authToggleButton.addEventListener("click", () => {
         if (firebaseUser || (firebaseAuth && firebaseAuth.currentUser)) disconnectGoogleAccount();
@@ -7383,7 +8665,17 @@
         }
       }
 
+      applyAppearance();
+      if (!localStorage.getItem(ADMIN_DRAFT_KEY) && adminContent.updatedAtMs) adminDraft = normalizeAdminContent(adminContent);
+      applyAdminContent(adminContent);
+      renderAppearanceControls();
+      renderGuide();
+      populateAdminSelectors();
+      renderAdminAccess();
+      document.getElementById("adminPatchForm").elements.date.value = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16);
       applyStaticTranslations();
+      setupMobileDockSwipe();
+      searchInput.placeholder = APP_LANGUAGE === "fr" ? "Nom, capacité, variante, rareté, bouclier, vitesse…" : "Name, ability, variant, rarity, shield, speed…";
       showPage(location.hash.slice(1), { updateHash: false });
       updateAccountInterface(null);
       scheduleFirebaseInitialization();
