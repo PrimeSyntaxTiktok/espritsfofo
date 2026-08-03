@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Sprite Locker">
+  <defs>
+    <linearGradient id="background" x1="24" y1="20" x2="488" y2="492" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1d2460"/>
+      <stop offset="1" stop-color="#07091a"/>
+    </linearGradient>
+    <linearGradient id="card" x1="158" y1="138" x2="354" y2="378" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5ff6d0"/>
+      <stop offset="0.52" stop-color="#d9ec45"/>
+      <stop offset="1" stop-color="#ffdf43"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#background)"/>
+  <circle cx="256" cy="256" r="202" fill="#151c4b" stroke="#28e6c1" stroke-opacity=".26" stroke-width="4"/>
+  <path d="M167 137h208l-23 248H144z" fill="#168fca" opacity=".72" transform="translate(13 10)"/>
+  <path d="M150 122h220l-24 263H126z" fill="url(#card)" stroke="#f7fbff" stroke-width="10"/>
+  <path d="M232 186h86l-7 44h-40l-5 31h35l-7 43h-36l-13 74h-56l35-192h8z" fill="#07091a"/>
+</svg>
