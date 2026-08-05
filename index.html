@@ -4389,6 +4389,7 @@
       border-radius: 18px;
       background: rgba(10, 15, 39, .86);
       box-shadow: 0 18px 50px rgba(0, 0, 0, .24), inset 0 1px 0 rgba(255, 255, 255, .05);
+      margin-bottom: 60px;
     }
     .patch-simple-head {
       display: flex;
@@ -5018,6 +5019,477 @@
 
     .admin-guard-state { display: inline-flex; padding: 8px 11px; align-items: center; gap: 7px; border: 1px solid rgba(255,214,74,.2); border-radius: 999px; background: rgba(255,214,74,.08); color: #ffdc6b; font-size: .61rem; font-weight: 900; white-space: nowrap; }
     .admin-guard-state.is-ready { border-color: rgba(69,229,154,.2); background: rgba(69,229,154,.08); color: #72efb3; }
+    /* --- REVIEWS PAGE & MODAL --- */
+    .reviews-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 16px;
+    }
+    .reviews-hero-action {
+      margin-top: 6px;
+    }
+    .review-trigger-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 28px;
+      font-size: 0.92rem;
+      font-weight: 800;
+      border-radius: 999px;
+      box-shadow: 0 10px 30px rgba(var(--accent-rgb), 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+      border: 0;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .review-trigger-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 16px 40px rgba(var(--accent-rgb), 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    }
+    .review-trigger-btn:active {
+      transform: translateY(1px) scale(0.98);
+    }
+    .review-trigger-btn .btn-sparkle {
+      font-size: 1.15rem;
+      filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.8));
+    }
+    .review-trigger-btn .btn-arrow {
+      font-size: 0.9rem;
+      transition: transform 0.2s;
+    }
+    .review-trigger-btn:hover .btn-arrow {
+      transform: translateX(4px);
+    }
+
+    .reviews-layout {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 20px 50px;
+    }
+    .reviews-list-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .reviews-list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .reviews-list-header h3 {
+      font-size: 1.4rem;
+      margin: 0;
+      text-transform: uppercase;
+      font-style: italic;
+      color: var(--accent-light);
+      letter-spacing: 0.5px;
+    }
+    .reviews-counter-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(var(--accent-rgb), 0.12);
+      border: 1px solid rgba(var(--accent-rgb), 0.25);
+      color: var(--accent-light);
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .reviews-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .review-card {
+      background: rgba(14, 20, 48, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: left;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .review-card:hover {
+      border-color: rgba(var(--accent-rgb), 0.35);
+      transform: translateY(-2px);
+    }
+    .review-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .review-card-user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .review-card-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(var(--accent-rgb), 0.4);
+      background: rgba(255, 255, 255, 0.05);
+      flex-shrink: 0;
+    }
+    .review-card-avatar-fallback {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.4), rgba(255, 255, 255, 0.1));
+      border: 2px solid rgba(var(--accent-rgb), 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 0.9rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .review-card-user-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .review-card-name {
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: #fff;
+    }
+    .review-card-country {
+      font-size: 0.76rem;
+      color: rgba(255, 255, 255, 0.65);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      width: fit-content;
+    }
+    .review-card-header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: auto;
+      flex-wrap: wrap;
+    }
+    .review-card-date-time {
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .review-admin-delete-btn {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: #fca5a5;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+    }
+    .review-admin-delete-btn:hover {
+      background: rgba(239, 68, 68, 0.32);
+      border-color: rgba(239, 68, 68, 0.7);
+      color: #fff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+    }
+    .review-admin-delete-btn:active {
+      transform: scale(0.96);
+    }
+    .review-time-icon {
+      opacity: 0.6;
+    }
+    .review-card-stars {
+      letter-spacing: 3px;
+      font-size: 1.15rem;
+      color: #ffd64a;
+      filter: drop-shadow(0 0 4px rgba(255, 214, 74, 0.4));
+    }
+    .review-card-text {
+      color: rgba(240, 243, 255, 0.92);
+      font-size: 0.92rem;
+      line-height: 1.55;
+      margin: 0;
+      word-break: break-word;
+      white-space: pre-wrap;
+    }
+
+    /* Modal Dialog for Reviews */
+    .review-modal-dialog {
+      width: min(520px, calc(100% - 32px));
+      padding: 0;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 24px;
+      background: linear-gradient(170deg, rgba(14, 21, 51, 0.97), rgba(8, 12, 30, 0.98));
+      color: #fff;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+    }
+    .review-modal-dialog::backdrop {
+      background: rgba(3, 6, 18, 0.82);
+      backdrop-filter: blur(10px);
+    }
+    .review-modal-shell {
+      position: relative;
+      padding: 28px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .review-modal-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.06);
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .review-modal-close:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      transform: scale(1.08);
+    }
+    .review-modal-head {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .review-modal-badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      color: var(--accent-light);
+      background: rgba(var(--accent-rgb), 0.12);
+      padding: 4px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(var(--accent-rgb), 0.25);
+    }
+    .review-modal-head h2 {
+      margin: 0;
+      font-size: 1.6rem;
+      font-family: var(--display, sans-serif);
+      font-style: italic;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .review-modal-head h2 span {
+      color: var(--accent-light);
+    }
+    .review-modal-copy {
+      margin: 0;
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.65);
+      max-width: 380px;
+      line-height: 1.4;
+    }
+
+    .review-modal-gate {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 24px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+    .review-gate-icon {
+      font-size: 2.2rem;
+    }
+    .review-modal-gate p {
+      margin: 0;
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.45;
+    }
+
+    .review-modal-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .review-user-preview {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 10px 14px;
+    }
+    .review-user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(var(--accent-rgb), 0.4);
+    }
+    .review-user-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      text-align: left;
+    }
+    .review-user-name {
+      font-weight: 800;
+      font-size: 0.88rem;
+      color: #fff;
+    }
+    .review-user-country-tag {
+      font-size: 0.74rem;
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    .review-form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-align: left;
+    }
+    .review-field-label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .star-rating-input {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      font-size: 2.2rem;
+      padding: 6px 0;
+    }
+    .star-rating-input button {
+      background: none;
+      border: none;
+      font-size: inherit;
+      padding: 0 4px;
+      cursor: pointer;
+      transition: transform 0.18s, filter 0.18s;
+      filter: grayscale(1) opacity(0.25);
+    }
+    .star-rating-input button:hover {
+      transform: scale(1.25);
+    }
+    .star-rating-input button.active,
+    .star-rating-input button.hover-preview {
+      filter: drop-shadow(0 0 8px rgba(255, 214, 74, 0.7)) grayscale(0) opacity(1);
+    }
+    .review-rating-hint {
+      font-size: 0.76rem;
+      color: rgba(255, 255, 255, 0.5);
+      text-align: center;
+    }
+
+    #reviewTextInput {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: white;
+      font-family: inherit;
+      font-size: 0.88rem;
+      resize: vertical;
+      min-height: 90px;
+      box-sizing: border-box;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    #reviewTextInput:focus {
+      outline: none;
+      border-color: rgba(var(--accent-rgb), 0.6);
+      box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.15);
+    }
+    .review-counter-row {
+      display: flex;
+      justify-content: flex-end;
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .review-modal-actions {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .review-btn-secondary {
+      min-height: 44px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      color: #c5cee6;
+      font-weight: 800;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .review-btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+    .review-btn-submit {
+      min-height: 44px;
+      border-radius: 12px;
+      font-weight: 900;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .review-auth-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.15);
+      padding: 12px 24px;
+      border-radius: 30px;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .review-auth-btn:hover {
+      background: rgba(255,255,255,.14);
+      transform: translateY(-1px);
+    }
+
     .admin-workspace { display: grid; gap: 12px; }
     .admin-tabs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; padding: 6px; border: 1px solid var(--feature-line); border-radius: 14px; background: rgba(8,13,32,.76); }
     .admin-tabs button { min-height: 42px; border: 0; border-radius: 9px; background: transparent; color: #8b97b7; font-size: .64rem; font-weight: 900; cursor: pointer; }
@@ -5878,8 +6350,405 @@
       .pwa-cache-progress i { transition: none; }
     }
   </style>
+  <style id="settings-redesign-css">
+    /* Nouveaux styles premium pour la page Paramètres */
+    #settingsPage {
+      padding-top: 2rem;
+    }
+    
+    .settings-hero {
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+    
+    .settings-hero h1 {
+      font-family: var(--display);
+      font-size: 3rem;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+      color: #fff;
+    }
+    
+    .settings-hero h1 span {
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent);
+    }
+    
+    .settings-hero p {
+      color: rgba(255, 255, 255, 0.7);
+      margin-top: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .settings-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      align-items: start;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .settings-preview-panel {
+      perspective: 1000px;
+    }
+    
+    .preview-glass {
+      background: rgba(10, 15, 30, 0.6);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-top: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(255,255,255,0.05);
+      border-radius: 24px;
+      padding: 2rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+    }
+    
+    .preview-glass:hover {
+      transform: translateY(-5px) rotateX(2deg) rotateY(-2deg);
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255,255,255,0.05);
+    }
+    
+    .preview-glass h3 {
+      font-family: var(--display);
+      text-transform: uppercase;
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 2rem;
+      letter-spacing: 1px;
+    }
+
+    .settings-groups {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .settings-group {
+      background: rgba(15, 20, 35, 0.4);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .settings-group::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    }
+    
+    .group-title {
+      font-family: var(--display);
+      font-size: 1.4rem;
+      color: #fff;
+      margin: 0 0 1.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .group-title i {
+      font-style: normal;
+      font-size: 1.6rem;
+      filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
+    }
+
+    .setting-item {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      margin-bottom: 20px;
+    }
+    
+    .setting-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+    
+    .setting-item-header {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .setting-item-header h4 {
+      font-size: 1.1rem;
+      color: #fff;
+      margin: 0 0 4px 0;
+      font-weight: 600;
+    }
+    
+    .setting-item-header p {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.6);
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    /* 3D Color Spheres */
+    .color-spheres {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .color-sphere {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      background: radial-gradient(circle at 30% 30%, var(--swatch) 0%, #000 120%);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5), inset 0 2px 4px rgba(255,255,255,0.4);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    .color-sphere:hover {
+      transform: translateY(-3px) scale(1.1);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.6), inset 0 2px 4px rgba(255,255,255,0.5);
+    }
+    
+    .color-sphere[aria-pressed="true"] {
+      transform: scale(1.15);
+      box-shadow: 0 0 20px var(--swatch), inset 0 2px 4px rgba(255,255,255,0.6);
+      border: 2px solid #fff;
+    }
+    
+    .color-sphere[aria-pressed="true"]::after {
+      content: "";
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 1px solid var(--swatch);
+      opacity: 0.6;
+      animation: pulse-ring 2s infinite;
+    }
+    
+    @keyframes pulse-ring {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(1.3); opacity: 0; }
+    }
+    
+    /* Background Tiles */
+    .bg-tiles {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+    }
+    
+    .bg-tile {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .bg-tile::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 0;
+    }
+    
+    .bg-tile[aria-pressed="true"] {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px rgba(24, 169, 255, 0.3); /* Default fallback */
+      transform: translateY(-2px);
+    }
+    
+    .bg-tile[aria-pressed="true"]::before {
+      opacity: 0.15;
+    }
+    
+    .bg-tile i {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      position: relative;
+      z-index: 1;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .bg-tile span {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #fff;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Segmented Controls Premium */
+    .segmented-premium {
+      display: flex;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 12px;
+      padding: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+    }
+    
+    .segmented-premium button {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.6);
+      padding: 10px 0;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s;
+      z-index: 1;
+    }
+    
+    .segmented-premium button[aria-pressed="true"] {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    /* Switch Premium */
+    .switch-premium {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      background: rgba(0,0,0,0.2);
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: background 0.2s;
+    }
+    .switch-premium:hover {
+      background: rgba(255,255,255,0.05);
+    }
+    .switch-premium strong {
+      font-weight: 600;
+      color: #fff;
+    }
+    .switch-premium input {
+      appearance: none;
+      width: 48px;
+      height: 26px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      position: relative;
+      outline: none;
+      cursor: pointer;
+      transition: background 0.3s, box-shadow 0.3s;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
+    }
+    .switch-premium input::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .switch-premium input:checked {
+      background: var(--accent);
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.1), 0 0 10px var(--accent);
+    }
+    .switch-premium input:checked::after {
+      transform: translateX(22px);
+    }
+
+    /* Admin Button */
+    .admin-entry-premium {
+      background: linear-gradient(135deg, rgba(30,10,10,0.6) 0%, rgba(50,20,20,0.6) 100%);
+      border-color: rgba(255, 50, 50, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    .admin-entry-premium::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,0,0,0.02) 10px, rgba(255,0,0,0.02) 20px);
+      pointer-events: none;
+    }
+    .admin-btn-premium {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 12px 24px;
+      background: rgba(255, 50, 50, 0.2);
+      color: #ff6b6b;
+      border: 1px solid rgba(255, 50, 50, 0.5);
+      border-radius: 8px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .admin-btn-premium:hover {
+      background: rgba(255, 50, 50, 0.4);
+      color: #fff;
+      box-shadow: 0 0 15px rgba(255, 50, 50, 0.5);
+    }
+    
+    #resetAppearance {
+      margin-top: 1.5rem;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.7);
+      padding: 8px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    #resetAppearance:hover {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+    }
+    
+    /* Specific ID styling for JS compatibility */
+    #accentColorValue {
+      display: none; /* Hide the hex text value */
+    }
+    #accentColor {
+      position: absolute;
+      opacity: 0;
+      width: 0; height: 0;
+    }
+  </style>
 </head>
 <body>
+  <canvas id="vfxCanvas" style="position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; z-index:9999;"></canvas>
   <div class="app" id="top">
     <nav class="topbar" aria-label="Navigation principale">
       <a class="brand" href="#home" data-page-target="home" aria-label="Sprite Locker, accueil">
@@ -5892,6 +6761,7 @@
           <a href="#catalog" data-page-target="catalog">Catalogue</a>
           <a href="#guide" data-page-target="guide">Guide</a>
           <a href="#settings" data-page-target="settings">Réglages</a>
+          <a href="#reviews" data-page-target="reviews">Avis</a>
           <a href="#patch-notes" data-page-target="patch-notes">Patch Notes</a>
           <a href="#admin" data-page-target="admin" data-admin-link hidden>Admin</a>
         </div>
@@ -5930,6 +6800,7 @@
         </div>
         <button class="auth-toggle" id="authToggleBtn" type="button" data-connected="false" disabled><span class="auth-google" aria-hidden="true">G</span><span>Connexion Google</span></button>
       </div>
+
       <div class="hud-grid">
         <div class="progress-wrap" style="--progress:0">
           <div class="progress-copy">
@@ -6008,6 +6879,8 @@
     </section>
     </main>
 
+
+
     <section class="collection-area app-page" id="collectionPage" data-page="collection" aria-labelledby="collectionTitle">
       <div class="collection-heading">
         <div>
@@ -6084,55 +6957,132 @@
     </section>
 
     <section class="feature-page app-page" id="settingsPage" data-page="settings" aria-labelledby="settingsTitle">
-      <header class="feature-hero feature-hero-settings">
-        <div>
-          <span class="feature-eyebrow">Ton casier, ton style</span>
-          <h1 id="settingsTitle">Personnalise <span>Sprite Locker</span></h1>
-          <p>Adapte les couleurs, l’ambiance et la densité du catalogue à ton écran et à tes préférences.</p>
-        </div>
-        <button class="feature-secondary" id="resetAppearance" type="button">Réglages par défaut</button>
+      <header class="settings-hero">
+        <span class="feature-eyebrow">Ton casier, ton style</span>
+        <h1 id="settingsTitle">Personnalise <span>Sprite Locker</span></h1>
+        <p>Ajuste l'interface pour une expérience de collection sur-mesure.</p>
+        <button id="resetAppearance" type="button">Réglages par défaut</button>
       </header>
-      <div class="settings-grid">
-        <section class="panel-card setting-card">
-          <div class="setting-icon">◉</div><div class="setting-copy"><span>Identité visuelle</span><h2>Couleur principale</h2><p>Cette couleur souligne les boutons, les progressions et les éléments actifs.</p></div>
-          <div class="color-setting"><input id="accentColor" type="color" value="#24a9ff" aria-label="Couleur principale"><span id="accentColorValue">#24A9FF</span></div>
-          <div class="preset-colors" id="presetColors"><button type="button" data-color="#24a9ff" style="--swatch:#24a9ff" aria-label="Bleu"></button><button type="button" data-color="#8b5cf6" style="--swatch:#8b5cf6" aria-label="Violet"></button><button type="button" data-color="#14d9a7" style="--swatch:#14d9a7" aria-label="Vert"></button><button type="button" data-color="#ff4d9d" style="--swatch:#ff4d9d" aria-label="Rose"></button><button type="button" data-color="#ffd84a" style="--swatch:#ffd84a" aria-label="Jaune"></button></div>
-        </section>
-        <section class="panel-card setting-card setting-wide">
-          <div class="setting-icon">▧</div><div class="setting-copy"><span>Ambiance</span><h2>Fond Fortnite</h2><p>Choisis une atmosphère sans gêner la lisibilité de ta collection.</p></div>
-          <div class="background-picker" id="backgroundPicker">
-            <button type="button" data-background="night" aria-pressed="true"><i class="bg-night"></i><span>Nuit Royale</span></button>
-            <button type="button" data-background="galaxy" aria-pressed="false"><i class="bg-galaxy"></i><span>Galaxie</span></button>
-            <button type="button" data-background="storm" aria-pressed="false"><i class="bg-storm"></i><span>Tempête</span></button>
-            <button type="button" data-background="zero" aria-pressed="false"><i class="bg-zero"></i><span>Point Zéro</span></button>
+      
+      <div class="settings-layout">
+
+        <div class="settings-groups">
+          
+          <!-- Apparence -->
+          <div class="settings-group">
+            <h3 class="group-title"><i>🎨</i> Apparence</h3>
+            
+            <div class="setting-item">
+              <div class="setting-item-header">
+                <h4>Couleur Principale</h4>
+                <p>Détermine la couleur d'accentuation des boutons et éléments actifs.</p>
+              </div>
+              <div class="color-spheres" id="presetColors">
+                <input id="accentColor" type="color" value="#24a9ff" aria-label="Couleur personnalisée">
+                <span id="accentColorValue">#24A9FF</span>
+                <button type="button" class="color-sphere" data-color="#24a9ff" style="--swatch:#24a9ff" aria-label="Bleu" aria-pressed="true"></button>
+                <button type="button" class="color-sphere" data-color="#8b5cf6" style="--swatch:#8b5cf6" aria-label="Violet" aria-pressed="false"></button>
+                <button type="button" class="color-sphere" data-color="#14d9a7" style="--swatch:#14d9a7" aria-label="Vert" aria-pressed="false"></button>
+                <button type="button" class="color-sphere" data-color="#ff4d9d" style="--swatch:#ff4d9d" aria-label="Rose" aria-pressed="false"></button>
+                <button type="button" class="color-sphere" data-color="#ffd84a" style="--swatch:#ffd84a" aria-label="Jaune" aria-pressed="false"></button>
+              </div>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-item-header">
+                <h4>Ambiance Visuelle</h4>
+                <p>Choisis le fond qui mettra le mieux en valeur ta collection.</p>
+              </div>
+              <div class="bg-tiles" id="backgroundPicker">
+                <button type="button" class="bg-tile" data-background="night" aria-pressed="true">
+                  <i class="bg-night"></i>
+                  <span>Nuit Royale</span>
+                </button>
+                <button type="button" class="bg-tile" data-background="galaxy" aria-pressed="false">
+                  <i class="bg-galaxy"></i>
+                  <span>Galaxie</span>
+                </button>
+                <button type="button" class="bg-tile" data-background="storm" aria-pressed="false">
+                  <i class="bg-storm"></i>
+                  <span>Tempête</span>
+                </button>
+                <button type="button" class="bg-tile" data-background="zero" aria-pressed="false">
+                  <i class="bg-zero"></i>
+                  <span>Point Zéro</span>
+                </button>
+              </div>
+            </div>
           </div>
-        </section>
-        <section class="panel-card setting-card">
-          <div class="setting-icon">▦</div><div class="setting-copy"><span>Catalogue</span><h2>Taille des cartes</h2><p>Ajuste la place accordée à chaque esprit.</p></div>
-          <div class="segmented" id="cardSizePicker"><button type="button" data-card-size="small">Petites</button><button type="button" data-card-size="medium" aria-pressed="true">Standard</button><button type="button" data-card-size="large">Grandes</button></div>
-        </section>
-        <section class="panel-card setting-card">
-          <div class="setting-icon">⌗</div><div class="setting-copy"><span>Espacement</span><h2>Densité de la grille</h2><p>Affiche davantage de cartes ou laisse-les respirer.</p></div>
-          <div class="segmented" id="gridDensityPicker"><button type="button" data-density="dense">Dense</button><button type="button" data-density="balanced" aria-pressed="true">Équilibrée</button><button type="button" data-density="airy">Aérée</button></div>
-        </section>
-        <section class="panel-card setting-card setting-motion">
-          <div class="setting-icon">≈</div><div class="setting-copy"><span>Confort</span><h2>Animations réduites</h2><p>Limite les transitions et les mouvements décoratifs.</p></div>
-          <label class="switch-row compact"><span><strong>Réduire les animations</strong></span><input id="reducedMotion" type="checkbox" role="switch"></label>
-        </section>
-        <section class="panel-card admin-entry" id="adminEntry">
-          <div><span class="feature-eyebrow">Espace protégé</span><h2>Tableau d’administration</h2><p id="adminEntryCopy">Connecte ton compte administrateur pour gérer le catalogue et les Patch Notes.</p></div>
-          <button type="button" data-page-target="admin">Ouvrir l’administration</button>
-        </section>
+
+          <!-- Affichage -->
+          <div class="settings-group">
+            <h3 class="group-title"><i>📱</i> Affichage</h3>
+            
+            <div class="setting-item">
+              <div class="setting-item-header">
+                <h4>Taille des cartes</h4>
+                <p>Ajuste les dimensions des esprits dans le catalogue.</p>
+              </div>
+              <div class="segmented-premium" id="cardSizePicker">
+                <button type="button" data-card-size="small">Petites</button>
+                <button type="button" data-card-size="medium" aria-pressed="true">Standard</button>
+                <button type="button" data-card-size="large">Grandes</button>
+              </div>
+            </div>
+            
+            <div class="setting-item">
+              <div class="setting-item-header">
+                <h4>Densité de la grille</h4>
+                <p>Espacement entre les éléments.</p>
+              </div>
+              <div class="segmented-premium" id="gridDensityPicker">
+                <button type="button" data-density="dense">Dense</button>
+                <button type="button" data-density="balanced" aria-pressed="true">Équilibrée</button>
+                <button type="button" data-density="airy">Aérée</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Accessibilité & Admin -->
+          <div class="settings-group">
+            <h3 class="group-title"><i>⚙️</i> Système</h3>
+            
+            <div class="setting-item">
+              <div class="setting-item-header">
+                <h4>Confort Visuel</h4>
+                <p>Limite les mouvements décoratifs et les effets de brillance.</p>
+              </div>
+              <label class="switch-premium">
+                <span><strong>Réduire les animations</strong></span>
+                <input id="reducedMotion" type="checkbox" role="switch">
+              </label>
+            </div>
+          </div>
+          
+          <div class="settings-group admin-entry-premium" id="adminEntry">
+            <div class="setting-item" style="border: none;">
+              <div class="setting-item-header">
+                <span class="feature-eyebrow" style="color:#ff6b6b; margin-bottom:5px;">Espace protégé</span>
+                <h4>Tableau d’administration</h4>
+                <p id="adminEntryCopy" style="color: rgba(255,200,200,0.8);">Gère le catalogue de manière sécurisée.</p>
+              </div>
+              <div>
+                <button class="admin-btn-premium" type="button" data-page-target="admin">Ouvrir l'Administration</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
 
     <section class="feature-page app-page" id="adminPage" data-page="admin" aria-labelledby="adminTitle">
       <header class="feature-hero feature-hero-admin">
-        <div><span class="feature-eyebrow">Espace privé</span><h1 id="adminTitle">Tableau <span>d’administration</span></h1><p>Publie les nouveautés du catalogue sans modifier manuellement le fichier HTML.</p></div>
+        <div><span class="feature-eyebrow">Espace privé</span><h1 id="adminTitle">Tableau <span>d’administration</span></h1><p>Publie les nouveautés du catalogue sans modifier le code.</p></div>
         <span class="admin-guard-state" id="adminGuardState">Vérification du compte</span>
       </header>
       <div class="admin-locked" id="adminLocked">
-        <span aria-hidden="true">◇</span><h2>Accès administrateur requis</h2><p>Cette page s’ouvre uniquement avec un compte autorisé dans Firebase.</p><button type="button" id="adminConnectBtn">Connexion Google</button>
+        <span class="admin-icon-3d" aria-hidden="true" style="font-size: 2.5rem; text-shadow: 0 4px 10px rgba(0,0,0,0.5); display: inline-block; margin-bottom: 15px; filter: drop-shadow(0 0 8px rgba(255, 60, 60, 0.4));">🛡️</span><h2>Accès administrateur requis</h2><p></p><button type="button" id="adminConnectBtn">Connexion Google</button>
       </div>
       <div class="admin-workspace" id="adminWorkspace" hidden>
         <nav class="admin-tabs" role="tablist" aria-label="Outils d’administration">
@@ -6173,7 +7123,10 @@
         <form class="panel-card admin-form" id="adminPatchForm" data-admin-panel="patch">
           <div class="panel-heading"><div><span>Actualité</span><h2>Publier un Patch Note</h2></div></div>
           <div class="form-grid"><label class="field-label field-span">Titre<input name="title" required maxlength="100"></label><label class="field-label field-span">Contenu<textarea name="body" required maxlength="1800" rows="7" placeholder="Une ligne par nouveauté…"></textarea></label><label class="field-label">Date de publication<input name="date" required type="datetime-local"></label></div>
-          <button class="feature-primary" type="submit">Ajouter le Patch Note</button>
+          <div class="admin-patch-form-actions" style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 6px;">
+            <button class="feature-primary" type="submit" name="submitAction" value="publish" style="display: inline-flex; align-items: center; gap: 8px;"><span aria-hidden="true">🚀</span> Publier directement sur le site</button>
+            <button type="submit" name="submitAction" value="draft" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: #fff; padding: 12px 18px; border-radius: 12px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;"><span aria-hidden="true">📝</span> Enregistrer en brouillon</button>
+          </div>
           <section class="admin-patch-quick" aria-labelledby="adminPatchQuickTitle">
             <header><div><span>Gestion directe</span><h3 id="adminPatchQuickTitle">Mes Patch Notes</h3></div><small>Modifier ou supprimer</small></header>
             <div class="admin-patch-quick-list" id="adminPatchQuickList" aria-live="polite"></div>
@@ -6193,11 +7146,89 @@
       <article class="patch-entry">
         <header class="patch-simple-head">
           <div>
+            <span class="patch-kicker">Nouvelle Fonctionnalité</span>
+            <h1>Page Avis &amp; <span>Livre d'Or</span></h1>
+          </div>
+          <time class="patch-date" datetime="2026-08-05T02:00:00+02:00">
+            <span>5 août 2026 · 02h00 (heure de Paris)</span>
+          </time>
+        </header>
+
+        <div class="patch-grid">
+          <section class="patch-card">
+            <h2>Livre d'Or &amp; Avis Publics</h2>
+            <ul class="patch-list">
+              <li>Nouvelle section dédiée "Avis" accessible depuis le menu principal et le dock mobile.</li>
+              <li>Affichage public et en direct des avis, commentaires et retours laissés par la communauté.</li>
+              <li>Cartes d'avis élégantes affichant la note en étoiles, l'avatar Google et la date de publication.</li>
+            </ul>
+          </section>
+          <section class="patch-card">
+            <h2>Système de Notation 5 Étoiles</h2>
+            <ul class="patch-list">
+              <li>Système interactif de vote par étoiles dorées pour noter l'application de 1 à 5 étoiles.</li>
+              <li>Zone de texte pour rédiger vos commentaires, suggestions et encouragements.</li>
+              <li>Connexion simplifiée et sécurisée via compte Google pour garantir l'authenticité de chaque avis.</li>
+            </ul>
+          </section>
+          <section class="patch-card">
+            <h2>Synchronisation &amp; Sécurité Cloud</h2>
+            <ul class="patch-list">
+              <li>Enregistrement instantané des avis sur la base de données Firestore.</li>
+              <li>Règles de sécurité Firestore dédiées assurant la lecture publique et la protection contre le spam.</li>
+              <li>Rafraîchissement automatique de la liste dès qu'un nouvel avis est posté.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+
+      <article class="patch-entry">
+        <header class="patch-simple-head">
+          <div>
+            <span class="patch-kicker">Mise à jour Récente</span>
+            <h1>Refonte Premium <span>UI & VFX</span></h1>
+          </div>
+          <time class="patch-date" datetime="2026-08-05T23:00:00+02:00">
+            <span>5 août 2026 · 23h00 (heure de Paris)</span>
+          </time>
+        </header>
+
+        <div class="patch-grid">
+          <section class="patch-card">
+            <h2>Paramètres "Glassmorphism"</h2>
+            <ul class="patch-list">
+              <li>Refonte totale de la page Réglages avec un design premium tout en transparence (Glassmorphism 3.0).</li>
+              <li>Nouveaux boutons segmentés ultra-fluides pour ajuster la taille des cartes et la densité.</li>
+              <li>Sphères 3D lumineuses pour le choix de la couleur d'accentuation en temps réel.</li>
+              <li>Tuiles de fonds interactives reprenant le dégradé visuel exact.</li>
+            </ul>
+          </section>
+          <section class="patch-card">
+            <h2>VFX et Typographie</h2>
+            <ul class="patch-list">
+              <li>Intégration d'un système de particules d'étoiles 3D ultra-réaliste déclenché lors de la maîtrise.</li>
+              <li>Nouvelle typographie audacieuse "Jeu Vidéo Premium" pour les titres de section.</li>
+              <li>Nouvelle icône de sécurité 3D 🛡️ lumineuse pour l'accès administrateur.</li>
+            </ul>
+          </section>
+          <section class="patch-card">
+            <h2>Qualité de Vie</h2>
+            <ul class="patch-list">
+              <li>L'interface d'administration bénéficie d'une ambiance "Hack Terminal" très sécurisée.</li>
+              <li>Suppression des panneaux inutiles pour recentrer l'interface sur l'essentiel.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+
+      <article class="patch-entry">
+        <header class="patch-simple-head">
+          <div>
             <span class="patch-kicker" id="patchKicker">Mise à jour v41.35</span>
             <h1 id="patchNotesTitle">Nouvelle interface <span>Catalogue & Guide</span></h1>
           </div>
-          <time class="patch-date" id="patchDate" datetime="2026-08-04T00:00:00+02:00">
-            <span id="patchDateText">4 août 2026 · heure de Paris</span>
+          <time class="patch-date" id="patchDate" datetime="2026-08-04T14:30:00+02:00">
+            <span id="patchDateText">4 août 2026 · 14h30 (heure de Paris)</span>
           </time>
         </header>
 
@@ -6234,7 +7265,35 @@
         </aside>
       </article>
     </section>
+    <section class="feature-page app-page" id="reviewsPage" data-page="reviews" aria-labelledby="reviewsTitle">
+      <header class="feature-hero reviews-hero">
+        <div>
+          <span class="feature-eyebrow">Avis de la communauté</span>
+          <h1 id="reviewsTitle">Livre <span>d'Or</span></h1>
+          <p>Laissez votre avis sur Sprite Locker et découvrez les retours des autres joueurs.</p>
+        </div>
+        <div class="reviews-hero-action">
+          <button class="feature-primary review-trigger-btn" type="button" id="openReviewModalBtn">
+            <span class="btn-sparkle" aria-hidden="true">⭐</span>
+            <span>Donnez votre avis</span>
+            <span class="btn-arrow" aria-hidden="true">➔</span>
+          </button>
+        </div>
+      </header>
 
+      <div class="reviews-layout">
+        <!-- Liste des avis -->
+        <div class="reviews-list-container">
+          <div class="reviews-list-header">
+            <h3>Avis de la communauté</h3>
+            <span class="reviews-counter-badge" id="reviewsCountBadge">En direct</span>
+          </div>
+          <div id="reviewsList" class="reviews-list">
+            <p class="reviews-loading">Chargement des avis...</p>
+          </div>
+        </div>
+      </div>
+    </section>
     <footer class="footer">
       <p class="developer-credit"><span class="developer-signal" aria-hidden="true"></span>Développé par <strong>PrimeSyntax</strong> <span aria-hidden="true">.</span></p>
     </footer>
@@ -6256,6 +7315,10 @@
     <a class="mobile-dock-item" href="#settings" data-page-target="settings">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .4 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.4 1.7 1.7 0 0 0-1 1.6v.1h-4v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.4l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .4-1.9 1.7 1.7 0 0 0-1.6-1H3v-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.4-1.9L4.2 7l2.9-2.8.1.1a1.7 1.7 0 0 0 1.9.4 1.7 1.7 0 0 0 1-1.6V3h4v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.4l.1-.1L19.9 7l-.1.1a1.7 1.7 0 0 0-.4 1.9 1.7 1.7 0 0 0 1.6 1h.1v4H21a1.7 1.7 0 0 0-1.6 1Z"></path></svg>
       <span>Réglages</span>
+    </a>
+    <a class="mobile-dock-item" href="#reviews" data-page-target="reviews">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+      <span>Avis</span>
     </a>
     <a class="mobile-dock-item" href="#patch-notes" data-page-target="patch-notes">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"></path><path d="M14 3v5h5M9 12h7M9 16h7"></path></svg>
@@ -6298,7 +7361,11 @@
     <h2 id="patchNoteEditorTitle">Modifier le Patch Note</h2>
     <label class="field-label">Titre<input id="patchEditorTitle" type="text" maxlength="120"></label>
     <label class="field-label">Contenu<textarea id="patchEditorBody" maxlength="1800" rows="7" required></textarea></label>
-    <div class="admin-editor-actions"><button type="button" data-patch-editor-action="close">Annuler</button><button class="is-primary" type="button" data-patch-editor-action="save">Enregistrer</button></div>
+    <div class="admin-editor-actions">
+      <button type="button" data-patch-editor-action="close">Annuler</button>
+      <button class="btn-subtle" type="button" data-patch-editor-action="save-draft" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 10px 16px; border-radius: 10px; font-weight: 700; cursor: pointer;">Enregistrer en brouillon</button>
+      <button class="is-primary" type="button" data-patch-editor-action="save-publish">Publier sur le site</button>
+    </div>
   </dialog>
 
   <button class="top-btn" id="topBtn" type="button" aria-label="Revenir en haut">↑</button>
@@ -6399,11 +7466,142 @@
     </div>
   </dialog>
 
+  <dialog class="review-modal-dialog" id="reviewModalDialog" aria-labelledby="reviewModalTitle">
+    <div class="review-modal-shell">
+      <button class="review-modal-close" id="closeReviewModalBtn" type="button" aria-label="Fermer la fenêtre">✕</button>
+      
+      <div class="review-modal-head">
+        <span class="review-modal-badge">⭐ LIVRE D'OR</span>
+        <h2 id="reviewModalTitle">Donnez votre <span>avis</span></h2>
+        <p class="review-modal-copy">Partagez votre expérience pour faire grandir la communauté Sprite Locker.</p>
+      </div>
+
+      <!-- Auth gate si non connecté -->
+      <div id="reviewAuthGate" class="review-modal-gate">
+        <div class="review-gate-icon" aria-hidden="true">🔐</div>
+        <p>Connectez-vous avec Google pour publier un avis certifié avec votre pseudo et votre pays.</p>
+        <button class="review-auth-btn" type="button" id="reviewConnectBtn">
+          <span class="auth-google" aria-hidden="true">G</span>
+          <span>Connexion avec Google</span>
+        </button>
+      </div>
+
+      <!-- Formulaire si connecté -->
+      <form id="reviewForm" class="review-modal-form" hidden>
+        <div class="review-user-preview">
+          <img id="reviewUserAvatar" class="review-user-avatar" src="" alt="Avatar" hidden>
+          <div id="reviewUserAvatarFallback" class="review-card-avatar-fallback">J</div>
+          <div class="review-user-info">
+            <span class="review-user-name" id="reviewUserName">Joueur</span>
+            <span class="review-user-country-tag" id="reviewUserCountryTag">📍 Détection du pays...</span>
+          </div>
+        </div>
+
+        <div class="review-form-group">
+          <label class="review-field-label">Votre note globale</label>
+          <div class="star-rating-input" id="starRatingInput">
+            <button type="button" data-val="1" aria-label="1 étoile">⭐</button>
+            <button type="button" data-val="2" aria-label="2 étoiles">⭐</button>
+            <button type="button" data-val="3" aria-label="3 étoiles">⭐</button>
+            <button type="button" data-val="4" aria-label="4 étoiles">⭐</button>
+            <button type="button" data-val="5" aria-label="5 étoiles">⭐</button>
+          </div>
+          <span class="review-rating-hint" id="reviewRatingHint">Cliquez sur une étoile pour attribuer votre note (1 à 5)</span>
+        </div>
+
+        <div class="review-form-group">
+          <label class="review-field-label" for="reviewTextInput">Votre message</label>
+          <textarea id="reviewTextInput" placeholder="Donnez vos impressions, suggestions ou encouragements..." rows="4" maxlength="500" required></textarea>
+          <div class="review-counter-row">
+            <span id="reviewCharCounter">0 / 500</span>
+          </div>
+        </div>
+
+        <div class="review-modal-actions">
+          <button type="button" id="cancelReviewModalBtn" class="review-btn-secondary">Annuler</button>
+          <button type="submit" id="submitReviewBtn" class="feature-primary review-btn-submit" disabled>Publier mon avis</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
     (() => {
       "use strict";
+
+      function createStarExplosion(x, y) {
+        const reducedMotion = document.getElementById("reducedMotion");
+        if (reducedMotion && reducedMotion.checked) return;
+        const canvas = document.getElementById("vfxCanvas");
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        if (canvas.width !== window.innerWidth || canvas.height !== window.innerHeight) {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        }
+        
+        const particles = [];
+        const colors = ['#f7ed38', '#ffd700', '#ffffff', '#49efa0', '#ff007f', '#00e5ff'];
+        
+        for (let i = 0; i < 150; i++) {
+          particles.push({
+            x: x,
+            y: y,
+            vx: (Math.random() - 0.5) * 60, // Énorme vitesse horizontale
+            vy: (Math.random() - 0.5) * 60 - 10, // Énorme vitesse verticale vers le haut
+            size: Math.random() * 8 + 3,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            life: 1,
+            decay: Math.random() * 0.008 + 0.005, // Disparaît plus lentement
+            rotation: Math.random() * Math.PI * 2,
+            rotSpeed: (Math.random() - 0.5) * 0.4
+          });
+        }
+        
+        function drawStar(cx, cy, spikes, outerRadius, innerRadius, color, rot) {
+          let rot_step = Math.PI / spikes;
+          let r_x = cx, r_y = cy, angle = rot;
+          ctx.beginPath();
+          for (let i = 0; i < spikes; i++) {
+            r_x = cx + Math.cos(angle) * outerRadius;
+            r_y = cy + Math.sin(angle) * outerRadius;
+            ctx.lineTo(r_x, r_y);
+            angle += rot_step;
+            r_x = cx + Math.cos(angle) * innerRadius;
+            r_y = cy + Math.sin(angle) * innerRadius;
+            ctx.lineTo(r_x, r_y);
+            angle += rot_step;
+          }
+          ctx.lineTo(cx + Math.cos(rot) * outerRadius, cy + Math.sin(rot) * outerRadius);
+          ctx.closePath();
+          ctx.fillStyle = color;
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = color;
+          ctx.fill();
+        }
+
+        function animate() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          let stillAlive = false;
+          particles.forEach(p => {
+            if (p.life <= 0) return;
+            stillAlive = true;
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.35;
+            p.life -= p.decay;
+            p.rotation += p.rotSpeed;
+            ctx.globalAlpha = Math.max(0, p.life);
+            drawStar(p.x, p.y, 5, p.size * 2, p.size, p.color, p.rotation);
+          });
+          if (stillAlive) requestAnimationFrame(animate);
+          else ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        animate();
+      }
+
 
       const IMAGE_ROOT = "https://fortnite.gg/img/x/sprites/icons/";
       const STORAGE_KEY = "prime-fortnite-esprits-v41-20";
@@ -6413,7 +7611,7 @@
       const VISITOR_HOUR_KEY = "sprite-locker-visitor-hour";
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
-      const PATCH_RELEASED_AT = "2026-08-04T00:00:00+02:00";
+      const PATCH_RELEASED_AT = "2026-08-04T14:30:00+02:00";
       const PWA_VERSION = "2026-08-03-v2";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
@@ -7549,13 +8747,16 @@
         setAttribute(".brand", "aria-label", "brandHome");
         setText(".brand-copy small", "brandSubtitle");
         setAttribute(".topbar-links", "aria-label", "quickAccess");
-        const quickLinks = document.querySelectorAll(".topbar-links a");
-        if (quickLinks[0]) quickLinks[0].textContent = t("home");
-        if (quickLinks[1]) quickLinks[1].textContent = t("catalogNav");
-        if (quickLinks[2]) quickLinks[2].textContent = APP_LANGUAGE === "fr" ? "Guide" : "Guide";
-        if (quickLinks[3]) quickLinks[3].textContent = APP_LANGUAGE === "fr" ? "Réglages" : "Settings";
-        if (quickLinks[4]) quickLinks[4].textContent = t("patchNotesNav");
-        if (quickLinks[5]) quickLinks[5].textContent = "Admin";
+        document.querySelectorAll(".topbar-links a").forEach(link => {
+          const target = link.dataset.pageTarget;
+          if (target === "home") link.textContent = t("home");
+          else if (target === "catalog") link.textContent = t("catalogNav");
+          else if (target === "guide") link.textContent = "Guide";
+          else if (target === "settings") link.textContent = APP_LANGUAGE === "fr" ? "Réglages" : "Settings";
+          else if (target === "reviews") link.textContent = APP_LANGUAGE === "fr" ? "Avis" : "Reviews";
+          else if (target === "patch-notes") link.textContent = t("patchNotesNav");
+          else if (target === "admin") link.textContent = "Admin";
+        });
         const heroTitle = document.querySelector(".hero-text h1");
         if (heroTitle) heroTitle.innerHTML = t("heroTitleHtml");
 
@@ -7625,13 +8826,18 @@
         const developerCredit = document.querySelector(".developer-credit");
         if (developerCredit) developerCredit.innerHTML = `<span class="developer-signal" aria-hidden="true"></span>${t("developedBy")} <strong>PrimeSyntax</strong> <span aria-hidden="true">.</span>`;
         setAttribute(".mobile-dock", "aria-label", "mobileNav");
-        const mobileLabels = document.querySelectorAll(".mobile-dock-item span");
-        if (mobileLabels[0]) mobileLabels[0].textContent = t("home");
-        if (mobileLabels[1]) mobileLabels[1].textContent = t("catalogNav");
-        if (mobileLabels[2]) mobileLabels[2].textContent = APP_LANGUAGE === "fr" ? "Guide" : "Guide";
-        if (mobileLabels[3]) mobileLabels[3].textContent = APP_LANGUAGE === "fr" ? "Réglages" : "Settings";
-        if (mobileLabels[4]) mobileLabels[4].textContent = t("patchNotesNav");
-        if (mobileLabels[5]) mobileLabels[5].textContent = "Admin";
+        document.querySelectorAll(".mobile-dock-item").forEach(item => {
+          const target = item.dataset.pageTarget;
+          const span = item.querySelector("span");
+          if (!span) return;
+          if (target === "home") span.textContent = t("home");
+          else if (target === "catalog") span.textContent = t("catalogNav");
+          else if (target === "guide") span.textContent = "Guide";
+          else if (target === "settings") span.textContent = APP_LANGUAGE === "fr" ? "Réglages" : "Settings";
+          else if (target === "reviews") span.textContent = APP_LANGUAGE === "fr" ? "Avis" : "Reviews";
+          else if (target === "patch-notes") span.textContent = t("patchNotesNav");
+          else if (target === "admin") span.textContent = "Admin";
+        });
         setAttribute("#topBtn", "aria-label", "backToTop");
 
         setText("#patchKicker", "patchKicker");
@@ -7873,7 +9079,7 @@
       function normalizedPage(value) {
         const route = String(value || "").split("/")[0];
         if (route === "inventory") return "catalog";
-        return ["home", "catalog", "guide", "settings", "admin", "patch-notes"].includes(route) ? route : "home";
+        return ["home", "catalog", "guide", "settings", "admin", "patch-notes", "reviews"].includes(route) ? route : "home";
       }
 
       function updateCollectionPageCopy() {
@@ -7891,6 +9097,7 @@
         const guideVisible = activePage === "guide";
         const settingsVisible = activePage === "settings";
         const adminVisible = activePage === "admin";
+        const reviewsVisible = activePage === "reviews";
 
         document.documentElement.dataset.appPage = activePage;
         document.getElementById("homePage").classList.toggle("is-active", homeVisible);
@@ -7899,6 +9106,9 @@
         document.getElementById("guidePage").classList.toggle("is-active", guideVisible);
         document.getElementById("settingsPage").classList.toggle("is-active", settingsVisible);
         document.getElementById("adminPage").classList.toggle("is-active", adminVisible);
+        if (document.getElementById("reviewsPage")) {
+          document.getElementById("reviewsPage").classList.toggle("is-active", reviewsVisible);
+        }
 
         document.querySelectorAll("[data-page-target]").forEach(link => {
           if (link.dataset.pageTarget === activePage) link.setAttribute("aria-current", "page");
@@ -7926,6 +9136,9 @@
           updateStats();
         } else if (adminVisible) {
           renderAdminAccess();
+          updateStats();
+        } else if (reviewsVisible) {
+          if (typeof fetchReviews === "function") fetchReviews();
           updateStats();
         } else {
           updateStats();
@@ -8632,11 +9845,12 @@
         restorePendingControls(id);
       }
 
-      function confirmAddSprite() {
+      function confirmAddSprite(event) {
         const id = pendingLockerId;
         const sprite = sprites.find(item => item.id === id);
         if (!sprite) return;
         const entry = state[id] || blankEntry();
+        const wasMastered = entry.mastered;
         entry.owned = true;
         entry.mastered = pendingMastered;
         state[id] = touchEntry(entry);
@@ -8646,6 +9860,13 @@
         refreshAfterStateChange(id);
         if (activeDialogId === id && detailDialog.open) syncDialogButtons();
         showToast(t("spriteAddedToast", { name: localizedName(sprite) }));
+        if (pendingMastered && !wasMastered) {
+          if (event && typeof event.clientX === "number" && event.clientX > 0) {
+            createStarExplosion(event.clientX, event.clientY);
+          } else {
+            createStarExplosion(window.innerWidth / 2, window.innerHeight / 2);
+          }
+        }
       }
 
       function confirmRemoveSprite() {
@@ -8785,6 +10006,16 @@
           ? `<span class="auth-power" aria-hidden="true">↪</span><span>${t("signOut")}</span>`
           : `<span class="auth-google" aria-hidden="true">G</span><span>${t("connect")}</span>`;
         authToggleButton.setAttribute("aria-label", t(connected ? "signOutAria" : "signIn"));
+
+        const reviewGate = document.getElementById("reviewAuthGate");
+        const reviewForm = document.getElementById("reviewForm");
+        if (reviewGate && reviewForm) {
+          reviewGate.hidden = connected;
+          reviewForm.hidden = !connected;
+        }
+        if (typeof updateReviewModalUserPreview === "function") {
+          updateReviewModalUserPreview();
+        }
 
         if (!connected) {
           accountAvatar.hidden = true;
@@ -9029,6 +10260,12 @@
             doc: firestoreModule.doc,
             getDoc: firestoreModule.getDoc,
             setDoc: firestoreModule.setDoc,
+            deleteDoc: firestoreModule.deleteDoc,
+            collection: firestoreModule.collection,
+            getDocs: firestoreModule.getDocs,
+            query: firestoreModule.query,
+            orderBy: firestoreModule.orderBy,
+            limit: firestoreModule.limit,
             writeBatch: firestoreModule.writeBatch,
             increment: firestoreModule.increment,
             onSnapshot: firestoreModule.onSnapshot,
@@ -9049,6 +10286,7 @@
 
           firebaseReady = true;
           loadPublishedContent();
+          fetchReviews();
           setTimeout(() => { try { startPublicVisitorCounter(); } catch (_) {} }, 0);
           const hadRedirectPending = redirectWasPending();
           let redirectResult = null;
@@ -9362,6 +10600,7 @@
         color.value = appearanceSettings.accent;
         document.getElementById("accentColorValue").textContent = appearanceSettings.accent.toUpperCase();
         document.getElementById("reducedMotion").checked = appearanceSettings.reducedMotion;
+        document.querySelectorAll("[data-color]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.color.toLowerCase() === appearanceSettings.accent.toLowerCase())));
         document.querySelectorAll("[data-background]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.background === appearanceSettings.background)));
         document.querySelectorAll("[data-card-size]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.cardSize === appearanceSettings.cardSize)));
         document.querySelectorAll("[data-density]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.density === appearanceSettings.density)));
@@ -9675,28 +10914,58 @@
         if (!dialog.open) dialog.showModal();
       }
 
-      async function savePatchNoteEditor() {
+      async function savePatchNoteEditor({ publish = true } = {}) {
         if (!patchEditorContext || !adminAccess) return;
         const body = document.getElementById("patchEditorBody").value.trim();
         const title = document.getElementById("patchEditorTitle").value.trim().slice(0, 100) || "Mise à jour Sprite Locker";
         if (!body) return showToast("Le contenu ne peut pas être vide");
         const context = patchEditorContext;
         try {
-          if (context.kind === "patch") {
-            const notes = [...(adminContent.patchNotes || [])];
-            if (!notes[context.index]) return;
-            notes[context.index] = { ...notes[context.index], title, body: body.slice(0, 1800), updatedAtMs: Date.now() };
-            adminDraft = normalizeAdminContent({ ...adminContent, patchNotes: notes, updatedAtMs: Date.now() });
-            adminDraftDirty = true;
+          let currentNotes = Array.isArray(adminDraft.patchNotes) && adminDraft.patchNotes.length
+            ? [...adminDraft.patchNotes]
+            : [...(adminContent.patchNotes || [])];
+
+          let targetIndex = -1;
+          if (context.id) {
+            targetIndex = currentNotes.findIndex(n => n.id === context.id);
+          }
+          if (targetIndex < 0 && Number.isFinite(context.index)) {
+            targetIndex = context.index;
+          }
+
+          if (targetIndex >= 0 && currentNotes[targetIndex]) {
+            currentNotes[targetIndex] = {
+              ...currentNotes[targetIndex],
+              title,
+              body: body.slice(0, 1800),
+              updatedAtMs: Date.now()
+            };
+          } else {
+            currentNotes.push({
+              id: context.id || `patch-${Date.now().toString(36)}`,
+              title,
+              body: body.slice(0, 1800),
+              date: new Date().toISOString(),
+              createdAtMs: Date.now(),
+              updatedAtMs: Date.now()
+            });
+          }
+
+          adminDraft = normalizeAdminContent({
+            ...adminDraft,
+            patchNotes: currentNotes,
+            updatedAtMs: Date.now()
+          });
+
+          if (publish) {
             await publishAdminContent();
-          } else if (context.kind === "draftPatch") {
-            if (!adminDraft.patchNotes[context.index]) return;
-            adminDraft.patchNotes[context.index] = { ...adminDraft.patchNotes[context.index], title, body: body.slice(0, 1800), updatedAtMs: Date.now() };
+            showToast("Patch Note mis à jour et publié !");
+          } else {
             markAdminDraft("Patch Note modifié dans le brouillon");
+            showToast("Modification enregistrée dans le brouillon");
           }
           document.getElementById("patchNoteEditor").close();
           patchEditorContext = null;
-          showToast("Modification enregistrée");
         } catch (error) {
           showToast(friendlyFirebaseError(error));
         }
@@ -9815,28 +11084,41 @@
           feed.className = "published-patch-feed";
           document.getElementById("patchNotesPage").prepend(feed);
         }
-        feed.innerHTML = notes.map((note, index) => ({ note, index })).sort((a, b) => String(b.note.date).localeCompare(String(a.note.date))).map(({ note, index }) => `
-          <article class="patch-entry custom-patch-entry">
-            <header class="patch-simple-head"><div><span class="patch-kicker">Patch Note publié</span><h1>${esc(note.title || "Mise à jour Sprite Locker")}</h1></div><time class="patch-date">${esc(new Date(note.date || Date.now()).toLocaleString(APP_LOCALE, { dateStyle: "long", timeStyle: "short" }))}</time></header>
+        const sortedNotes = [...(notes || [])].sort((a, b) => String(b.date || b.createdAtMs || 0).localeCompare(String(a.date || a.createdAtMs || 0)));
+        feed.innerHTML = sortedNotes.map((note, index) => {
+          const noteId = note.id || `patch-${index}`;
+          const dateVal = note.date || note.createdAtMs || Date.now();
+          const parsedDate = new Date(dateVal);
+          const dateLabel = Number.isNaN(parsedDate.getTime()) ? "Date récente" : parsedDate.toLocaleString(APP_LOCALE, { dateStyle: "long", timeStyle: "short" });
+          return `
+          <article class="patch-entry custom-patch-entry" data-patch-id="${esc(noteId)}">
+            <header class="patch-simple-head"><div><span class="patch-kicker">Patch Note publié</span><h1>${esc(note.title || "Mise à jour Sprite Locker")}</h1></div><time class="patch-date">${esc(dateLabel)}</time></header>
             <section class="patch-card"><ul class="patch-list">${String(note.body || "").split(/\n+/).filter(Boolean).map(line => `<li>${esc(line)}</li>`).join("")}</ul></section>
-            ${adminAccess ? `<div class="patch-admin-actions"><button type="button" data-patch-admin-action="edit" data-patch-index="${index}"><span aria-hidden="true">✎</span>Modifier</button><button class="is-danger" type="button" data-patch-admin-action="delete" data-patch-index="${index}"><span aria-hidden="true">×</span>Supprimer</button></div>` : ""}
-          </article>`).join("");
+            ${adminAccess ? `<div class="patch-admin-actions"><button type="button" data-patch-admin-action="edit" data-patch-id="${esc(noteId)}"><span aria-hidden="true">✎</span>Modifier</button><button class="is-danger" type="button" data-patch-admin-action="delete" data-patch-id="${esc(noteId)}"><span aria-hidden="true">×</span>Supprimer</button></div>` : ""}
+          </article>`;
+        }).join("");
       }
 
-      async function loadPublishedContent() {
+      function loadPublishedContent() {
         if (!firebaseSdk || !firebaseDb) return;
         try {
-          const snapshot = await firebaseSdk.getDoc(firebaseSdk.doc(firebaseDb, "spriteLockerContent", "catalog"));
-          if (snapshot.exists()) {
-            const remote = normalizeAdminContent(snapshot.data());
-            if (remote.updatedAtMs >= adminContent.updatedAtMs) {
+          const catalogRef = firebaseSdk.doc(firebaseDb, "spriteLockerContent", "catalog");
+          firebaseSdk.onSnapshot(catalogRef, snapshot => {
+            if (snapshot.exists()) {
+              const remote = normalizeAdminContent(snapshot.data());
               adminContent = remote;
               try { localStorage.setItem(ADMIN_CONTENT_KEY, JSON.stringify(adminContent)); } catch (_) {}
-              if (!adminDraftDirty && !localStorage.getItem(ADMIN_DRAFT_KEY)) adminDraft = normalizeAdminContent(adminContent);
+              if (!adminDraftDirty && !localStorage.getItem(ADMIN_DRAFT_KEY)) {
+                adminDraft = normalizeAdminContent(adminContent);
+              }
+              applyAdminContent(adminContent);
             }
-          }
-        } catch (_) {}
-        applyAdminContent(adminContent);
+          }, error => {
+            console.warn("Erreur écoute catalogue distant:", error);
+          });
+        } catch (err) {
+          console.error("Erreur initialisation catalogue:", err);
+        }
       }
 
       function setAdminAccess(allowed) {
@@ -9844,6 +11126,9 @@
         document.querySelectorAll("[data-admin-link]").forEach(link => { link.hidden = !adminAccess; });
         renderPublishedPatchNotes(adminContent.patchNotes || []);
         renderAdminAccess();
+        if (typeof fetchReviews === "function" && firebaseReady) {
+          fetchReviews();
+        }
       }
 
       async function checkAdminAccess(user) {
@@ -10007,23 +11292,35 @@
       function renderAdminPatchQuickList() {
         const list = document.getElementById("adminPatchQuickList");
         if (!list) return;
-        const notes = adminDraft && Array.isArray(adminDraft.patchNotes) ? adminDraft.patchNotes : [];
+        const notes = adminDraft && Array.isArray(adminDraft.patchNotes) && adminDraft.patchNotes.length
+          ? adminDraft.patchNotes
+          : (adminContent.patchNotes || []);
         list.innerHTML = notes.length ? notes.map((note, index) => {
           const parsedDate = new Date(note.date || note.createdAtMs || Date.now());
           const dateLabel = Number.isNaN(parsedDate.getTime()) ? "Date non définie" : parsedDate.toLocaleString(APP_LOCALE, { dateStyle: "medium", timeStyle: "short" });
-          const published = (adminContent.patchNotes || []).some(publishedNote => publishedNote.id && publishedNote.id === note.id);
+          const published = (adminContent.patchNotes || []).some(publishedNote => (publishedNote.id && publishedNote.id === note.id) || (publishedNote.title === note.title && publishedNote.body === note.body));
+          const noteId = note.id || `patch-${index}`;
           return `<article class="admin-patch-quick-row">
             <div><strong>${esc(note.title || "Mise à jour Sprite Locker")}</strong><small>${esc(dateLabel)} · ${published ? "publié" : "brouillon à publier"}</small></div>
-            <div class="admin-patch-quick-actions"><button type="button" data-admin-manage-action="edit" data-admin-manage-type="patch" data-admin-manage-index="${index}"><span aria-hidden="true">✎</span>Modifier</button><button class="is-danger" type="button" data-admin-manage-action="delete" data-admin-manage-type="patch" data-admin-manage-index="${index}"><span aria-hidden="true">×</span>Supprimer</button></div>
+            <div class="admin-patch-quick-actions">
+              <button type="button" data-admin-manage-action="edit" data-admin-manage-type="patch" data-admin-manage-index="${index}" data-patch-id="${esc(noteId)}"><span aria-hidden="true">✎</span>Modifier</button>
+              <button class="is-danger" type="button" data-admin-manage-action="delete" data-admin-manage-type="patch" data-admin-manage-index="${index}" data-patch-id="${esc(noteId)}"><span aria-hidden="true">×</span>Supprimer</button>
+            </div>
           </article>`;
         }).join("") : `<div class="empty-state"><strong>Aucun Patch Note</strong>Les Patch Notes ajoutés apparaîtront ici avec leurs boutons de gestion.</div>`;
       }
 
-      function manageAdminContent(action, type, index, key) {
+      function manageAdminContent(action, type, index, key, targetId) {
         if (!adminAccess) return;
         if (action === "edit" && type === "patch") {
-          const note = (adminDraft.patchNotes || [])[index];
-          if (note) openPatchNoteEditor({ kind: "draftPatch", index }, note.body || "", note.title || "");
+          let note = null;
+          if (targetId) {
+            note = (adminDraft.patchNotes || []).find(n => n.id === targetId) || (adminContent.patchNotes || []).find(n => n.id === targetId);
+          }
+          if (!note && Number.isFinite(index)) {
+            note = (adminDraft.patchNotes || [])[index] || (adminContent.patchNotes || [])[index];
+          }
+          if (note) openPatchNoteEditor({ kind: "patch", index, id: note.id || targetId }, note.body || "", note.title || "");
           return;
         }
         if (action === "edit" && type === "variantMeta" && baseVariantSnapshot[key]) {
@@ -10034,8 +11331,14 @@
           document.getElementById("adminVariantEditForm").scrollIntoView({ behavior: "smooth", block: "start" });
           return;
         }
-        if (action !== "delete" || !window.confirm("Supprimer cet élément du contenu publié ?")) return;
-        if (type === "patch") adminDraft.patchNotes.splice(index, 1);
+        if (action !== "delete" || !window.confirm("Supprimer cet élément du contenu ?")) return;
+        if (type === "patch") {
+          if (targetId) {
+            adminDraft.patchNotes = (adminDraft.patchNotes || []).filter(n => n.id !== targetId);
+          } else if (Number.isFinite(index)) {
+            adminDraft.patchNotes.splice(index, 1);
+          }
+        }
         if (type === "addition") adminDraft.additions.splice(index, 1);
         if (type === "variant") adminDraft.variants.splice(index, 1);
         if (type === "override" && key) delete adminDraft.overrides[key];
@@ -10099,7 +11402,10 @@
           patchEditorContext = null;
           document.getElementById("patchNoteEditor").close();
         }
-        if (button.dataset.patchEditorAction === "save") savePatchNoteEditor();
+        if (button.dataset.patchEditorAction === "save") {
+          const publish = button.dataset.publish !== "false";
+          savePatchNoteEditor({ publish });
+        }
       });
 
       document.getElementById("accentColor").addEventListener("input", event => {
@@ -10200,35 +11506,84 @@
         markAdminDraft(`Variante ${adminDraft.variantOverrides[key].fr} modifiée`);
         showToast("Modification de variante ajoutée au brouillon");
       });
-      document.getElementById("adminPatchForm").addEventListener("submit", event => {
+      document.getElementById("adminPatchForm").addEventListener("submit", async event => {
         event.preventDefault();
-        const data = Object.fromEntries(new FormData(event.currentTarget));
-        adminDraft.patchNotes.push({ ...data, id: `patch-${Date.now().toString(36)}`, createdAtMs: Date.now() });
-        markAdminDraft(`Patch Note : ${data.title}`);
-        event.currentTarget.reset();
-        event.currentTarget.elements.date.value = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16);
-        showToast("Patch Note ajouté au brouillon");
+        const submitter = event.submitter;
+        const shouldPublish = submitter ? submitter.value === "publish" : true;
+        const form = event.currentTarget;
+        const data = Object.fromEntries(new FormData(form));
+        if (!data.title || !data.body) {
+          return showToast("Le titre et le contenu sont requis");
+        }
+        const newPatch = {
+          ...data,
+          id: `patch-${Date.now().toString(36)}`,
+          date: data.date ? new Date(data.date).toISOString() : new Date().toISOString(),
+          createdAtMs: Date.now(),
+          updatedAtMs: Date.now()
+        };
+
+        if (shouldPublish) {
+          let currentNotes = Array.isArray(adminDraft.patchNotes) && adminDraft.patchNotes.length
+            ? [...adminDraft.patchNotes]
+            : [...(adminContent.patchNotes || [])];
+          currentNotes.unshift(newPatch);
+          adminDraft = normalizeAdminContent({
+            ...adminDraft,
+            patchNotes: currentNotes,
+            updatedAtMs: Date.now()
+          });
+          await publishAdminContent();
+          showToast("Patch Note publié avec succès !");
+        } else {
+          adminDraft.patchNotes.unshift(newPatch);
+          markAdminDraft(`Patch Note : ${data.title}`);
+          showToast("Patch Note ajouté au brouillon");
+        }
+        form.reset();
+        form.elements.date.value = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16);
       });
       document.getElementById("adminPreviewBtn").addEventListener("click", () => applyAdminContent(adminDraft, { announce: true }));
       document.getElementById("adminPublishBtn").addEventListener("click", publishAdminContent);
       document.getElementById("adminConnectBtn").addEventListener("click", connectGoogleAccount);
       document.getElementById("adminWorkspace").addEventListener("click", event => {
         const button = event.target.closest("[data-admin-manage-action]");
-        if (button) manageAdminContent(button.dataset.adminManageAction, button.dataset.adminManageType, Number(button.dataset.adminManageIndex), button.dataset.adminManageKey || "");
+        if (button) {
+          manageAdminContent(
+            button.dataset.adminManageAction,
+            button.dataset.adminManageType,
+            button.dataset.adminManageIndex !== undefined ? Number(button.dataset.adminManageIndex) : undefined,
+            button.dataset.adminManageKey || "",
+            button.dataset.patchId || ""
+          );
+        }
       });
       document.getElementById("patchNotesPage").addEventListener("click", async event => {
         const button = event.target.closest("[data-patch-admin-action]");
         if (!button || !adminAccess) return;
+        const patchId = button.dataset.patchId;
         const index = Number(button.dataset.patchIndex);
-        const note = (adminContent.patchNotes || [])[index];
+        let note = null;
+        let noteIndex = -1;
+        const currentNotes = [...(adminContent.patchNotes || [])];
+        if (patchId) {
+          noteIndex = currentNotes.findIndex(n => n.id === patchId);
+          if (noteIndex >= 0) note = currentNotes[noteIndex];
+        }
+        if (!note && Number.isFinite(index) && currentNotes[index]) {
+          noteIndex = index;
+          note = currentNotes[index];
+        }
         if (!note) return;
-        if (button.dataset.patchAdminAction === "edit") openPatchNoteEditor({ kind: "patch", index }, note.body || "", note.title || "");
+        if (button.dataset.patchAdminAction === "edit") {
+          openPatchNoteEditor({ kind: "patch", index: noteIndex, id: note.id || patchId }, note.body || "", note.title || "");
+        }
         if (button.dataset.patchAdminAction === "delete" && window.confirm("Supprimer définitivement ce Patch Note ?")) {
-          const notes = (adminContent.patchNotes || []).filter((_, noteIndex) => noteIndex !== index);
+          const notes = currentNotes.filter((_, idx) => idx !== noteIndex);
           adminDraft = normalizeAdminContent({ ...adminContent, patchNotes: notes, updatedAtMs: Date.now() });
           adminDraftDirty = true;
           await publishAdminContent();
-          showToast("Patch Note supprimé");
+          showToast("Patch Note supprimé avec succès !");
         }
       });
 
@@ -10400,15 +11755,19 @@
         requestLockerChange(activeDialogId);
       });
 
-      document.getElementById("dialogMastered").addEventListener("click", () => {
+      document.getElementById("dialogMastered").addEventListener("click", (event) => {
         if (!activeDialogId) return;
         const entry = state[activeDialogId] || blankEntry();
         if (!entry.owned) {
           openAddSpriteDialog(activeDialogId, { mastered: true });
         } else {
-          setMastered(activeDialogId, !entry.mastered);
+          const isNewlyMastered = !entry.mastered;
+          setMastered(activeDialogId, isNewlyMastered);
           syncDialogButtons();
           refreshAfterStateChange(activeDialogId);
+          if (isNewlyMastered) {
+            createStarExplosion(event.clientX, event.clientY);
+          }
         }
       });
 
@@ -10458,8 +11817,479 @@
       populateAdminSelectors();
       renderAdminAccess();
       document.getElementById("adminPatchForm").elements.date.value = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+      let userDetectedCountry = null;
+      let userDetectedCountryCode = null;
+      let reviewsUnsubscribe = null;
+
+      const COUNTRY_FLAG_EMOJIS = {
+        FR: "🇫🇷", BE: "🇧🇪", CH: "🇨🇭", CA: "🇨🇦", US: "🇺🇸", GB: "🇬🇧", DE: "🇩🇪", ES: "🇪🇸", IT: "🇮🇹",
+        PT: "🇵🇹", NL: "🇳🇱", BR: "🇧🇷", JP: "🇯🇵", MA: "🇲🇦", DZ: "🇩🇿", TN: "🇹🇳", SN: "🇸🇳", CI: "🇨🇮",
+        LU: "🇱🇺", RE: "🇷🇪", GP: "🇬🇵", MQ: "🇲🇶", NC: "🇳🇨", PF: "🇵🇫", MG: "🇲🇬", CM: "🇨🇲"
+      };
+
+      function getCountryFlag(code) {
+        if (!code || code.length !== 2) return "🌍";
+        const upper = code.toUpperCase();
+        if (COUNTRY_FLAG_EMOJIS[upper]) return COUNTRY_FLAG_EMOJIS[upper];
+        try {
+          const codePoints = [...upper].map(c => 127397 + c.charCodeAt(0));
+          return String.fromCodePoint(...codePoints);
+        } catch (_) {
+          return "🌍";
+        }
+      }
+
+      function getCountryName(code) {
+        if (!code) return "France";
+        try {
+          if (typeof Intl !== "undefined" && Intl.DisplayNames) {
+            const dn = new Intl.DisplayNames([APP_LANGUAGE || "fr", "en"], { type: "region" });
+            return dn.of(code.toUpperCase()) || code;
+          }
+        } catch (_) {}
+        const fallback = {
+          FR: "France", BE: "Belgique", CH: "Suisse", CA: "Canada", US: "États-Unis",
+          GB: "Royaume-Uni", DE: "Allemagne", ES: "Espagne", IT: "Italie", PT: "Portugal",
+          NL: "Pays-Bas", MA: "Maroc", DZ: "Algérie", TN: "Tunisie", SN: "Sénégal",
+          CI: "Côte d'Ivoire", LU: "Luxembourg"
+        };
+        return fallback[code.toUpperCase()] || code;
+      }
+
+      function guessCountryFromTimezone() {
+        try {
+          const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+          if (tz.includes("Paris")) return { code: "FR", name: "France" };
+          if (tz.includes("Brussels")) return { code: "BE", name: "Belgique" };
+          if (tz.includes("Zurich") || tz.includes("Geneva")) return { code: "CH", name: "Suisse" };
+          if (tz.includes("Montreal") || tz.includes("Toronto") || tz.includes("Vancouver")) return { code: "CA", name: "Canada" };
+          if (tz.includes("London")) return { code: "GB", name: "Royaume-Uni" };
+          if (tz.includes("Berlin")) return { code: "DE", name: "Allemagne" };
+          if (tz.includes("Madrid")) return { code: "ES", name: "Espagne" };
+          if (tz.includes("Rome")) return { code: "IT", name: "Italie" };
+          if (tz.includes("Casablanca")) return { code: "MA", name: "Maroc" };
+          if (tz.includes("Algiers")) return { code: "DZ", name: "Algérie" };
+          if (tz.includes("Tunis")) return { code: "TN", name: "Tunisie" };
+          if (tz.includes("New_York") || tz.includes("Chicago") || tz.includes("Los_Angeles")) return { code: "US", name: "États-Unis" };
+          if (tz.includes("Reunion")) return { code: "RE", name: "La Réunion" };
+          if (tz.includes("Guadeloupe")) return { code: "GP", name: "Guadeloupe" };
+          if (tz.includes("Martinique")) return { code: "MQ", name: "Martinique" };
+          if (tz.includes("Tahiti")) return { code: "PF", name: "Polynésie" };
+        } catch (_) {}
+        const lang = (navigator.language || "fr").toLowerCase();
+        if (lang.includes("fr")) return { code: "FR", name: "France" };
+        return { code: "FR", name: "France" };
+      }
+
+      async function detectUserCountry() {
+        if (userDetectedCountry && userDetectedCountryCode) {
+          return { country: userDetectedCountry, code: userDetectedCountryCode, flag: getCountryFlag(userDetectedCountryCode) };
+        }
+        const cached = localStorage.getItem("sprite-locker-user-country");
+        const cachedCode = localStorage.getItem("sprite-locker-user-country-code");
+        if (cached && cachedCode) {
+          userDetectedCountry = cached;
+          userDetectedCountryCode = cachedCode;
+          return { country: cached, code: cachedCode, flag: getCountryFlag(cachedCode) };
+        }
+
+        const fallback = guessCountryFromTimezone();
+        userDetectedCountry = fallback.name;
+        userDetectedCountryCode = fallback.code;
+
+        try {
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), 2000);
+          const res = await fetch("https://api.country.is", { signal: controller.signal });
+          clearTimeout(timer);
+          if (res.ok) {
+            const data = await res.json();
+            if (data && data.country) {
+              const code = data.country.toUpperCase();
+              const name = getCountryName(code);
+              userDetectedCountry = name;
+              userDetectedCountryCode = code;
+              localStorage.setItem("sprite-locker-user-country", name);
+              localStorage.setItem("sprite-locker-user-country-code", code);
+            }
+          }
+        } catch (_) {}
+
+        return { country: userDetectedCountry, code: userDetectedCountryCode, flag: getCountryFlag(userDetectedCountryCode) };
+      }
+
+      function formatReviewDateTime(timestamp) {
+        if (!timestamp) return "";
+        let dateObj;
+        if (typeof timestamp.toMillis === "function") {
+          dateObj = new Date(timestamp.toMillis());
+        } else if (typeof timestamp.toDate === "function") {
+          dateObj = timestamp.toDate();
+        } else if (typeof timestamp === "number" || typeof timestamp === "string") {
+          dateObj = new Date(timestamp);
+        } else {
+          dateObj = new Date();
+        }
+        if (Number.isNaN(dateObj.getTime())) return "";
+
+        const formattedDate = new Intl.DateTimeFormat(APP_LOCALE, {
+          day: "numeric",
+          month: "short",
+          year: "numeric"
+        }).format(dateObj);
+
+        const formattedTime = new Intl.DateTimeFormat(APP_LOCALE, {
+          hour: "2-digit",
+          minute: "2-digit"
+        }).format(dateObj);
+
+        return `${formattedDate} · ${formattedTime}`;
+      }
+
+      async function updateReviewModalUserPreview() {
+        const currentUser = firebaseUser || (firebaseAuth && firebaseAuth.currentUser);
+        const userAvatar = document.getElementById("reviewUserAvatar");
+        const userFallback = document.getElementById("reviewUserAvatarFallback");
+        const userName = document.getElementById("reviewUserName");
+        const countryTag = document.getElementById("reviewUserCountryTag");
+        const reviewGate = document.getElementById("reviewAuthGate");
+        const reviewForm = document.getElementById("reviewForm");
+
+        if (currentUser) {
+          if (reviewGate) reviewGate.hidden = true;
+          if (reviewForm) reviewForm.hidden = false;
+          const displayName = currentUser.displayName || (APP_LANGUAGE === "fr" ? "Joueur" : "Player");
+          if (userName) userName.textContent = displayName;
+          if (currentUser.photoURL) {
+            if (userAvatar) {
+              userAvatar.src = currentUser.photoURL;
+              userAvatar.hidden = false;
+              userAvatar.onerror = () => {
+                userAvatar.hidden = true;
+                if (userFallback) userFallback.hidden = false;
+              };
+            }
+            if (userFallback) userFallback.hidden = true;
+          } else {
+            if (userAvatar) userAvatar.hidden = true;
+            if (userFallback) {
+              userFallback.hidden = false;
+              userFallback.textContent = displayName.trim().charAt(0).toUpperCase() || "J";
+            }
+          }
+
+          if (countryTag) {
+            countryTag.textContent = "📍 Détection du pays...";
+            const loc = await detectUserCountry();
+            countryTag.textContent = `${loc.flag} ${loc.country}`;
+          }
+        } else {
+          if (reviewGate) reviewGate.hidden = false;
+          if (reviewForm) reviewForm.hidden = true;
+        }
+      }
+
+      function renderReviewCardHtml(data, docId = "") {
+        const id = docId || data.id || "";
+        const dateTimeStr = formatReviewDateTime(data.createdAt || data.createdAtMs);
+        const rating = Math.max(1, Math.min(5, Number(data.rating) || 5));
+        const stars = "⭐".repeat(rating) + "☆".repeat(5 - rating);
+        const safeAuthor = esc(data.displayName || (APP_LANGUAGE === "fr" ? "Joueur" : "Player"));
+        const safeText = esc(data.text || "");
+        const countryName = data.country ? esc(data.country) : "";
+        const countryFlag = data.countryFlag || (data.countryCode ? getCountryFlag(data.countryCode) : "📍");
+        const countryBadge = countryName
+          ? `<span class="review-card-country" title="${countryName}">${countryFlag} ${countryName}</span>`
+          : "";
+
+        const authorPhoto = data.photoURL && typeof data.photoURL === "string" && data.photoURL.startsWith("http")
+          ? `<img class="review-card-avatar" src="${esc(data.photoURL)}" alt="${safeAuthor}" onerror="this.style.display='none';this.nextElementSibling.hidden=false;"><div class="review-card-avatar-fallback" hidden>${safeAuthor.charAt(0).toUpperCase() || "J"}</div>`
+          : `<div class="review-card-avatar-fallback">${safeAuthor.charAt(0).toUpperCase() || "J"}</div>`;
+
+        const adminDeleteBtn = adminAccess && id
+          ? `<button class="review-admin-delete-btn" type="button" data-review-delete-id="${esc(id)}" title="Supprimer cet avis (Admin)" aria-label="Supprimer cet avis"><span aria-hidden="true">🗑️</span> Supprimer</button>`
+          : "";
+
+        return `
+          <article class="review-card" data-review-id="${esc(id)}">
+            <div class="review-card-top">
+              <div class="review-card-user">
+                ${authorPhoto}
+                <div class="review-card-user-meta">
+                  <span class="review-card-name">${safeAuthor}</span>
+                  ${countryBadge}
+                </div>
+              </div>
+              <div class="review-card-header-right">
+                <div class="review-card-date-time">
+                  <span class="review-time-icon" aria-hidden="true">🕒</span>
+                  <span>${dateTimeStr}</span>
+                </div>
+                ${adminDeleteBtn}
+              </div>
+            </div>
+            <div class="review-card-stars" aria-label="${rating} étoiles sur 5">${stars}</div>
+            <p class="review-card-text">${safeText}</p>
+          </article>
+        `;
+      }
+
+      function renderReviewsFromSnapshot(querySnapshot) {
+        const listContainer = document.getElementById("reviewsList");
+        const badge = document.getElementById("reviewsCountBadge");
+        if (!listContainer) return;
+
+        if (querySnapshot.empty) {
+          if (badge) badge.textContent = "0 avis";
+          listContainer.innerHTML = `
+            <div class="empty-state" style="padding: 34px 16px; text-align: center; border: 1px dashed rgba(255,255,255,0.12); border-radius: 16px; background: rgba(255,255,255,0.02);">
+              <strong style="display:block; font-size:1.1rem; margin-bottom:6px;">Soyez le premier à donner votre avis !</strong>
+              <span style="color: rgba(255,255,255,0.6); font-size:0.85rem;">Cliquez sur « Donnez votre avis » ci-dessus pour laisser votre commentaire.</span>
+            </div>`;
+          return;
+        }
+
+        const count = querySnapshot.size;
+        if (badge) badge.textContent = `${count} avis`;
+
+        const cards = [];
+        querySnapshot.forEach(doc => {
+          cards.push(renderReviewCardHtml(doc.data(), doc.id));
+        });
+        listContainer.innerHTML = cards.join("");
+      }
+
+      async function fetchReviews() {
+        const listContainer = document.getElementById("reviewsList");
+        if (!listContainer) return;
+
+        if (!firebaseReady || !firebaseDb || !firebaseSdk) {
+          listContainer.innerHTML = `<p class="reviews-loading">Connexion au serveur des avis...</p>`;
+          return;
+        }
+
+        try {
+          const q = firebaseSdk.query(
+            firebaseSdk.collection(firebaseDb, "reviews"),
+            firebaseSdk.orderBy("createdAt", "desc"),
+            firebaseSdk.limit(50)
+          );
+
+          if (reviewsUnsubscribe) {
+            reviewsUnsubscribe();
+            reviewsUnsubscribe = null;
+          }
+
+          reviewsUnsubscribe = firebaseSdk.onSnapshot(q, snapshot => {
+            renderReviewsFromSnapshot(snapshot);
+          }, error => {
+            console.error("Erreur écoute avis", error);
+            listContainer.innerHTML = `<p class="reviews-loading">Impossible de charger les avis (${friendlyFirebaseError(error)}).</p>`;
+          });
+        } catch (e) {
+          console.error("Erreur de chargement des avis", e);
+          listContainer.innerHTML = `<p class="reviews-loading">Impossible de charger les avis. Vérifiez votre connexion.</p>`;
+        }
+      }
+
+      function setupReviews() {
+        const openModalBtn = document.getElementById("openReviewModalBtn");
+        const modalDialog = document.getElementById("reviewModalDialog");
+        const closeModalBtn = document.getElementById("closeReviewModalBtn");
+        const cancelModalBtn = document.getElementById("cancelReviewModalBtn");
+        const connectBtn = document.getElementById("reviewConnectBtn");
+        const reviewsList = document.getElementById("reviewsList");
+
+        if (reviewsList) {
+          reviewsList.addEventListener("click", async event => {
+            const deleteBtn = event.target.closest("[data-review-delete-id]");
+            if (!deleteBtn) return;
+            const reviewId = deleteBtn.dataset.reviewDeleteId;
+            if (!reviewId || !adminAccess) return;
+
+            if (!firebaseSdk || !firebaseDb || !firebaseSdk.deleteDoc) {
+              showToast("Service Firebase indisponible.");
+              return;
+            }
+
+            if (!window.confirm("Êtes-vous sûr de vouloir supprimer définitivement cet avis ?")) {
+              return;
+            }
+
+            deleteBtn.disabled = true;
+            deleteBtn.textContent = "Suppression...";
+            try {
+              const reviewRef = firebaseSdk.doc(firebaseDb, "reviews", reviewId);
+              await firebaseSdk.deleteDoc(reviewRef);
+              showToast("Avis supprimé avec succès.");
+              const card = deleteBtn.closest(".review-card");
+              if (card) card.remove();
+            } catch (error) {
+              console.error("Erreur lors de la suppression de l'avis:", error);
+              showToast("Erreur lors de la suppression : " + friendlyFirebaseError(error));
+              deleteBtn.disabled = false;
+              deleteBtn.innerHTML = `<span aria-hidden="true">🗑️</span> Supprimer`;
+            }
+          });
+        }
+
+        if (connectBtn) {
+          connectBtn.addEventListener("click", () => {
+            connectGoogleAccount();
+          });
+        }
+
+        if (openModalBtn && modalDialog) {
+          openModalBtn.addEventListener("click", () => {
+            updateReviewModalUserPreview();
+            if (typeof modalDialog.showModal === "function") {
+              modalDialog.showModal();
+            } else {
+              modalDialog.setAttribute("open", "");
+            }
+          });
+        }
+
+        if (closeModalBtn && modalDialog) {
+          closeModalBtn.addEventListener("click", () => modalDialog.close());
+        }
+        if (cancelModalBtn && modalDialog) {
+          cancelModalBtn.addEventListener("click", () => modalDialog.close());
+        }
+        if (modalDialog) {
+          modalDialog.addEventListener("click", (e) => {
+            if (e.target === modalDialog) modalDialog.close();
+          });
+        }
+
+        const RATING_HINTS = {
+          1: "⭐☆☆☆☆ · Décevant",
+          2: "⭐⭐☆☆☆ · Moyen",
+          3: "⭐⭐⭐☆☆ · Bon",
+          4: "⭐⭐⭐⭐☆ · Très bon",
+          5: "⭐⭐⭐⭐⭐ · Excellent !"
+        };
+
+        const stars = document.querySelectorAll(".star-rating-input button");
+        const submitBtn = document.getElementById("submitReviewBtn");
+        const textInput = document.getElementById("reviewTextInput");
+        const charCounter = document.getElementById("reviewCharCounter");
+        const ratingHint = document.getElementById("reviewRatingHint");
+        let currentRating = 0;
+
+        function updateStarDisplay(rating) {
+          stars.forEach(s => {
+            const val = parseInt(s.dataset.val, 10);
+            if (val <= rating) {
+              s.classList.add("active");
+            } else {
+              s.classList.remove("active");
+            }
+          });
+          if (ratingHint) {
+            ratingHint.textContent = RATING_HINTS[rating] || "Cliquez sur une étoile pour attribuer votre note (1 à 5)";
+          }
+        }
+
+        function validateReviewForm() {
+          const hasRating = currentRating > 0;
+          const hasText = Boolean(textInput && textInput.value.trim().length > 0);
+          if (submitBtn) {
+            submitBtn.disabled = !(hasRating && hasText);
+          }
+        }
+
+        stars.forEach(star => {
+          star.addEventListener("mouseenter", () => {
+            const hoverVal = parseInt(star.dataset.val, 10);
+            stars.forEach(s => {
+              const val = parseInt(s.dataset.val, 10);
+              s.classList.toggle("hover-preview", val <= hoverVal);
+            });
+            if (ratingHint) {
+              ratingHint.textContent = RATING_HINTS[hoverVal] || "";
+            }
+          });
+
+          star.addEventListener("mouseleave", () => {
+            stars.forEach(s => s.classList.remove("hover-preview"));
+            updateStarDisplay(currentRating);
+          });
+
+          star.addEventListener("click", () => {
+            currentRating = parseInt(star.dataset.val, 10);
+            updateStarDisplay(currentRating);
+            validateReviewForm();
+          });
+        });
+
+        if (textInput) {
+          textInput.addEventListener("input", () => {
+            const len = textInput.value.length;
+            if (charCounter) charCounter.textContent = `${len} / 500`;
+            validateReviewForm();
+          });
+        }
+
+        const form = document.getElementById("reviewForm");
+        if (form) {
+          form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const currentUser = firebaseUser || (firebaseAuth && firebaseAuth.currentUser);
+            if (!currentUser || !firebaseDb || !firebaseSdk) {
+              showToast("Vous devez être connecté avec Google.");
+              return;
+            }
+            const text = textInput ? textInput.value.trim() : "";
+            if (!text) {
+              showToast("Veuillez écrire un commentaire.");
+              return;
+            }
+            if (currentRating === 0) {
+              showToast("Veuillez choisir une note (1 à 5 étoiles).");
+              return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Publication en cours...";
+            try {
+              const loc = await detectUserCountry();
+              const reviewRef = firebaseSdk.doc(firebaseSdk.collection(firebaseDb, "reviews"));
+              await firebaseSdk.setDoc(reviewRef, {
+                uid: currentUser.uid,
+                displayName: (currentUser.displayName || "Joueur").slice(0, 50),
+                photoURL: currentUser.photoURL || "",
+                rating: currentRating,
+                text: text.slice(0, 500),
+                country: loc.country,
+                countryCode: loc.code,
+                countryFlag: loc.flag,
+                createdAt: firebaseSdk.serverTimestamp(),
+                createdAtMs: Date.now()
+              });
+
+              if (textInput) textInput.value = "";
+              if (charCounter) charCounter.textContent = "0 / 500";
+              currentRating = 0;
+              updateStarDisplay(0);
+              if (modalDialog) modalDialog.close();
+              showToast("⭐ Merci pour votre avis !");
+              createStarExplosion(window.innerWidth / 2, window.innerHeight / 2);
+              await fetchReviews();
+            } catch (error) {
+              console.error("Erreur lors de l'envoi de l'avis", error);
+              showToast("Erreur lors de l'envoi de l'avis : " + friendlyFirebaseError(error));
+            } finally {
+              submitBtn.textContent = "Publier mon avis";
+              validateReviewForm();
+            }
+          });
+        }
+      }
+
       applyStaticTranslations();
       setupMobileDockSwipe();
+      setupReviews();
       initializePwa();
       searchInput.placeholder = APP_LANGUAGE === "fr" ? "Nom, capacité, variante, rareté, bouclier, vitesse…" : "Name, ability, variant, rarity, shield, speed…";
       showPage(location.hash.slice(1), { updateHash: false });
