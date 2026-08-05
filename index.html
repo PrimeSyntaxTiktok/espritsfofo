@@ -8154,6 +8154,7 @@
             gummy: "T_Icon_BR_Creature_Sprite_Water_Candy_ui_L.webp",
             galaxy: "T_Icon_BR_Creature_Sprite_Water_Galaxy_ui_L.webp",
             holofoil: "T_Icon_BR_Creature_Sprite_Water_Holofoil_ui_L.webp",
+            gem: "T_Icon_BR_Creature_Sprite_Water_Gem_ui_L.webp",
             quack: "T_Icon_BR_Creature_Sprite_Water_Quack_ui_L.webp"
           }
         },
@@ -8169,6 +8170,7 @@
             gummy: "T_Icon_BR_Creature_Sprite_Earth_Candy_ui_L.webp",
             galaxy: "T_Icon_BR_Creature_Sprite_Earth_Galaxy_ui_L.webp",
             cube: "T_Icon_BR_Creature_Sprite_Earth_Cube_ui_L.webp",
+            gem: "T_Icon_BR_Creature_Sprite_Earth_Gem_ui_L.webp",
             quack: "T_Icon_BR_Creature_Sprite_Earth_Quack_ui_L.webp"
           }
         },
@@ -8199,7 +8201,8 @@
             base: "T_Icon_BR_Duck_Default_L.webp",
             gold: "T_Icon_BR_Duck_Gold_L.webp",
             gummy: "T_Icon_BR_Duck_Candy_L.webp",
-            galaxy: "T_Icon_BR_Duck_Galaxy_L.webp"
+            galaxy: "T_Icon_BR_Duck_Galaxy_L.webp",
+            gem: "T_Icon_BR_Duck_Gem_L.webp"
           }
         },
         {
@@ -8242,7 +8245,8 @@
             base: "T_Icon_BR_RedDemon_Default_L.webp",
             gold: "T_Icon_BR_RedDemon_Gold_L.webp",
             gummy: "T_Icon_BR_RedDemon_Candy_L.webp",
-            galaxy: "T_Icon_BR_RedDemon_Galaxy_L.webp"
+            galaxy: "T_Icon_BR_RedDemon_Galaxy_L.webp",
+            gem: "T_Icon_BR_RedDemon_Gem_L.webp"
           }
         },
         {
@@ -8257,7 +8261,8 @@
             gold: "T_Icon_BR_Creature_Sprite_Punk_Gold_ui_L.webp",
             gummy: "T_Icon_BR_Creature_Sprite_Punk_Candy_ui_L.webp",
             galaxy: "T_Icon_BR_Creature_Sprite_Punk_Galaxy_ui_L.webp",
-            cube: "T_Icon_BR_Creature_Sprite_Punk_Cube_ui_L.webp"
+            cube: "T_Icon_BR_Creature_Sprite_Punk_Cube_ui_L.webp",
+            gem: "T_Icon_BR_Creature_Sprite_Punk_Gem_ui_L.webp"
           }
         },
         {
@@ -8307,6 +8312,7 @@
             galaxy: "T_Icon_BR_Creature_Sprite_ZeroPoint_Galaxy_ui_L.webp",
             holofoil: "T_Icon_BR_Creature_Sprite_ZeroPoint_Holofoil_ui_L.webp",
             cube: "T_Icon_BR_Creature_Sprite_ZeroPoint_Cube_ui_L.webp",
+            gem: "T_Icon_BR_Creature_Sprite_ZeroPoint_Gem_ui_L.webp",
             quack: "T_Icon_BR_Creature_Sprite_ZeroPoint_Quack_ui_L.webp"
           }
         },
@@ -8351,7 +8357,8 @@
             base: "T_Icon_BR_Creature_Sprite_Drifter_ui_L.webp",
             gold: "T_Icon_BR_Creature_Sprite_Drifter_Gold_ui_L.webp",
             gummy: "T_Icon_BR_Creature_Sprite_Drifter_Candy_ui_L.webp",
-            galaxy: "T_Icon_BR_Creature_Sprite_Drifter_Galaxy_ui_L.webp"
+            galaxy: "T_Icon_BR_Creature_Sprite_Drifter_Galaxy_ui_L.webp",
+            gem: "T_Icon_BR_Creature_Sprite_Drifter_Gem_ui_L.webp"
           }
         },
         {
@@ -8382,7 +8389,8 @@
             gummy: "T_Icon_BR_GrimReaper_Candy_L.webp",
             galaxy: "T_Icon_BR_GrimReaper_Galaxy_L.webp",
             cube: "T_Icon_BR_GrimReaper_Cube_L.webp",
-            holofoil: "T_Icon_BR_GrimReaper_Holofoil_L.webp"
+            holofoil: "T_Icon_BR_GrimReaper_Holofoil_L.webp",
+            gem: "T_Icon_BR_GrimReaper_Gem_L.webp"
           }
         },
         {
@@ -8462,6 +8470,15 @@
             galaxy: "T_Icon_BR_Creature_Sprite_Peely_Galaxy_ui_L.webp",
             holofoil: "T_Icon_BR_Creature_Sprite_Peely_Holofoil_ui_L.webp"
           }
+        },
+        {
+          key: "ironmouse", fr: "Esprit d'Ironmouse", en: "Ironmouse Sprite", rarity: "mythic",
+          aliases: ["Esprit Ironmouse", "Ironmouse", "Esprit d'Ironmouse"],
+          effect: {
+            fr: "Régénère la santé quand tes PV sont bas, tout en accordant un effet de camouflage et une gravité réduite.",
+            en: "Regenerates Health when health is low, while granting a Cloak effect and low gravity."
+          },
+          images: { base: "T_Icon_BR_Ironmouse_Default_L.webp" }
         }
       ];
 
@@ -8590,6 +8607,12 @@
           category: "loot", summonCost: 4500,
           ability: { fr: "Émet une détection des joueurs transportant des esprits rares à proximité, mais te marque aussi sur la carte.", en: "Pings nearby players carrying rare Sprites, but also marks you on the map." },
           levelCaption: { fr: "Rayon de détection", en: "Ping radius" }, levels: ["40 m", "50 m", "60 m", "70 m", "80 m"]
+        },
+        ironmouse: {
+          category: "healing", summonCost: 6750,
+          ability: { fr: "Régénère progressivement la santé quand tes PV sont bas, tout en t'accordant la gravité réduite et le camouflage.", en: "Regenerates Health over time when low, while granting low gravity and cloaking." },
+          levelCaption: { fr: "Régénération & Camouflage", en: "Regen & Cloak" }, levels: ["Actif", "Actif", "Actif", "Actif", "Actif"],
+          note: { fr: "Disponible dans les coffres à Esprits et coffres de relique (2.14 % de chance).", en: "Found in Sprite Chests and Relic Chests (2.14% drop chance)." }
         }
       });
 
