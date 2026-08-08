@@ -11145,26 +11145,52 @@
       }
 
       function renderPublishedPatchNotes(notes) {
-        let feed = document.getElementById("publishedPatchFeed");
-        if (!feed) {
-          feed = document.createElement("div");
-          feed.id = "publishedPatchFeed";
-          feed.className = "published-patch-feed";
-          document.getElementById("patchNotesPage").prepend(feed);
-        }
-        const sortedNotes = [...(notes || [])].sort((a, b) => String(b.date || b.createdAtMs || 0).localeCompare(String(a.date || a.createdAtMs || 0)));
-        feed.innerHTML = sortedNotes.map((note, index) => {
+        document.querySelectorAll(".custom-patch-entry").forEach(el => el.remove());
+        const page = document.getElementById("patchNotesPage");
+        if (!page) return;
+
+        (notes || []).forEach((note, index) => {
           const noteId = note.id || `patch-${index}`;
           const dateVal = note.date || note.createdAtMs || Date.now();
           const parsedDate = new Date(dateVal);
           const dateLabel = Number.isNaN(parsedDate.getTime()) ? "Date récente" : parsedDate.toLocaleString(APP_LOCALE, { dateStyle: "long", timeStyle: "short" });
-          return `
-          <article class="patch-entry custom-patch-entry" data-patch-id="${esc(noteId)}">
+          
+          const article = document.createElement("article");
+          article.className = "patch-entry custom-patch-entry";
+          article.setAttribute("data-patch-id", noteId);
+          article.setAttribute("data-timestamp", parsedDate.getTime() || 0);
+          
+          article.innerHTML = `
             <header class="patch-simple-head"><div><span class="patch-kicker">Patch Note publié</span><h1>${esc(note.title || "Mise à jour Sprite Locker")}</h1></div><time class="patch-date">${esc(dateLabel)}</time></header>
             <section class="patch-card"><ul class="patch-list">${String(note.body || "").split(/\n+/).filter(Boolean).map(line => `<li>${esc(line)}</li>`).join("")}</ul></section>
             ${adminAccess ? `<div class="patch-admin-actions"><button type="button" data-patch-admin-action="edit" data-patch-id="${esc(noteId)}"><span aria-hidden="true">✎</span>Modifier</button><button class="is-danger" type="button" data-patch-admin-action="delete" data-patch-id="${esc(noteId)}"><span aria-hidden="true">×</span>Supprimer</button></div>` : ""}
-          </article>`;
-        }).join("");
+          `;
+          page.appendChild(article);
+        });
+
+        const allEntries = Array.from(page.querySelectorAll(".patch-entry"));
+        allEntries.forEach(entry => {
+          if (!entry.hasAttribute("data-timestamp")) {
+            const timeEl = entry.querySelector("time[datetime]");
+            if (timeEl) {
+              const ts = new Date(timeEl.getAttribute("datetime")).getTime();
+              entry.setAttribute("data-timestamp", ts || 0);
+            } else {
+              entry.setAttribute("data-timestamp", 0);
+            }
+          }
+        });
+
+        allEntries.sort((a, b) => {
+          const tsA = Number(a.getAttribute("data-timestamp")) || 0;
+          const tsB = Number(b.getAttribute("data-timestamp")) || 0;
+          return tsB - tsA;
+        });
+
+        allEntries.forEach(entry => page.appendChild(entry));
+        
+        const oldFeed = document.getElementById("publishedPatchFeed");
+        if (oldFeed) oldFeed.remove();
       }
 
       function loadPublishedContent() {
