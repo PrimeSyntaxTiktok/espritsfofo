@@ -7612,7 +7612,7 @@
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
       const PATCH_RELEASED_AT = "2026-08-04T14:30:00+02:00";
-      const PWA_VERSION = "2026-08-03-v2";
+      const PWA_VERSION = "2026-08-08-v1";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
@@ -8478,7 +8478,7 @@
             fr: "Régénère la santé quand tes PV sont bas, tout en accordant un effet de camouflage et une gravité réduite.",
             en: "Regenerates Health when health is low, while granting a Cloak effect and low gravity."
           },
-          images: { base: "T_Icon_BR_Ironmouse_Default_L.webp" }
+          images: { base: "https://static.wikia.nocookie.net/fortnite/images/a/ad/Ironmouse_Sprite_-_Item_-_Fortnite.png/revision/latest" }
         }
       ];
 
@@ -8653,7 +8653,7 @@
             effect: guideProfile?.ability || family.effect,
             guideCategory: guideProfile?.category || "combat",
             guideProfile,
-            image: IMAGE_ROOT + filename
+            image: filename.startsWith("http") ? filename : (IMAGE_ROOT + filename)
           });
         });
       });
@@ -9613,6 +9613,12 @@
         }
 
         try {
+          let refreshing = false;
+          navigator.serviceWorker.addEventListener("controllerchange", () => {
+            if (refreshing) return;
+            refreshing = true;
+            window.location.reload();
+          });
           navigator.serviceWorker.addEventListener("message", handleOfflineWorkerMessage);
           offlineRegistration = await navigator.serviceWorker.register("./service-worker.js", { scope: "./", updateViaCache: "none" });
           const ready = await navigator.serviceWorker.ready;
@@ -10649,28 +10655,30 @@
         return token;
       }
 
-      function isOneEditAway(left, right) {
-        if (left === right) return true;
-        if (Math.abs(left.length - right.length) > 1) return false;
-        let i = 0;
-        let j = 0;
-        let edits = 0;
-        while (i < left.length && j < right.length) {
-          if (left[i] === right[j]) {
-            i++;
-            j++;
-            continue;
-          }
-          edits++;
-          if (edits > 1) return false;
-          if (left.length > right.length) i++;
-          else if (right.length > left.length) j++;
-          else {
-            i++;
-            j++;
+      function damerauLevenshtein(a, b) {
+        if (a === b) return 0;
+        if (a.length === 0) return b.length;
+        if (b.length === 0) return a.length;
+        
+        const matrix = Array.from({ length: a.length + 1 }, () => Array(b.length + 1).fill(0));
+        
+        for (let i = 0; i <= a.length; i++) matrix[i][0] = i;
+        for (let j = 0; j <= b.length; j++) matrix[0][j] = j;
+        
+        for (let i = 1; i <= a.length; i++) {
+          for (let j = 1; j <= b.length; j++) {
+            const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+            matrix[i][j] = Math.min(
+              matrix[i - 1][j] + 1,
+              matrix[i][j - 1] + 1,
+              matrix[i - 1][j - 1] + cost
+            );
+            if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) {
+              matrix[i][j] = Math.min(matrix[i][j], matrix[i - 2][j - 2] + cost);
+            }
           }
         }
-        return edits + Number(i < left.length || j < right.length) <= 1;
+        return matrix[a.length][b.length];
       }
 
       function tokenMatchQuality(queryToken, candidateToken) {
@@ -10681,7 +10689,13 @@
           if (queryToken.length === 2) return 2.5;
           return 3;
         }
-        if (queryToken.length >= 5 && candidateToken.length >= 4 && isOneEditAway(queryToken, candidateToken)) return 2.4;
+        
+        const distance = damerauLevenshtein(queryToken, candidateToken);
+        if (queryToken.length >= 3 && queryToken.length <= 5 && distance === 1) return 2.4;
+        if (queryToken.length >= 6) {
+          if (distance === 1) return 2.6;
+          if (distance === 2) return 1.8;
+        }
         return 0;
       }
 
