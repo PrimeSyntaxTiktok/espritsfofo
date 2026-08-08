@@ -9652,6 +9652,14 @@
           });
           navigator.serviceWorker.addEventListener("message", handleOfflineWorkerMessage);
           offlineRegistration = await navigator.serviceWorker.register("./service-worker.js", { scope: "./", updateViaCache: "none" });
+          
+          try { offlineRegistration.update(); } catch(e) {}
+          document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible' && offlineRegistration) {
+              try { offlineRegistration.update(); } catch(e) {}
+            }
+          });
+
           const ready = await navigator.serviceWorker.ready;
           const urls = await collectOfflineAssetUrls();
           const worker = ready.active || offlineRegistration.active || offlineRegistration.waiting || offlineRegistration.installing;
