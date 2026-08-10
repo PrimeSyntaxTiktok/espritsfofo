@@ -7057,6 +7057,17 @@
                 <input id="reducedMotion" type="checkbox" role="switch">
               </label>
             </div>
+
+            <div class="setting-item">
+              <div class="setting-item-header">
+                <h4>Effets Sonores (SFX)</h4>
+                <p>Joue des sons au clic, à l'ajout d'esprits et lors des maîtrises.</p>
+              </div>
+              <label class="switch-premium">
+                <span><strong>Activer les sons</strong></span>
+                <input id="sfxEnabled" type="checkbox" role="switch" checked>
+              </label>
+            </div>
           </div>
           
           <div class="settings-group admin-entry-premium" id="adminEntry">
@@ -7216,6 +7227,38 @@
             <ul class="patch-list">
               <li>L'interface d'administration bénéficie d'une ambiance "Hack Terminal" très sécurisée.</li>
               <li>Suppression des panneaux inutiles pour recentrer l'interface sur l'essentiel.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+
+      <article class="patch-entry">
+        <header class="patch-simple-head">
+          <div>
+            <span class="patch-kicker">Mise à jour v41.37</span>
+            <h1>Effets Sonores <span>(SFX)</span></h1>
+          </div>
+          <time class="patch-date" datetime="2026-08-11T01:30:00+02:00">
+            <span>11 août 2026 · 01h30 (heure de Paris)</span>
+          </time>
+        </header>
+
+        <div class="patch-grid">
+          <section class="patch-card">
+            <h2>Sons Interactifs</h2>
+            <ul class="patch-list">
+              <li>Sons tactiles discrets sur chaque clic de bouton ou d'interface.</li>
+              <li>Carillon harmonieux lors du déverrouillage d'un esprit.</li>
+              <li>Fanfare héroïque d'étoiles 🌟 lors de l'obtention d'une Maîtrise.</li>
+              <li>Son d'annulation lors du retrait d'un esprit.</li>
+            </ul>
+          </section>
+          <section class="patch-card">
+            <h2>Réglages Audio</h2>
+            <ul class="patch-list">
+              <li>Commutateur <strong>Activer les sons</strong> ajouté dans Réglages → Système.</li>
+              <li>Préférences sauvegardées automatiquement.</li>
+              <li>Synthèse Web Audio API 100% zéro latence et ultra-léger.</li>
             </ul>
           </section>
         </div>
@@ -7643,7 +7686,7 @@
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
       const PATCH_RELEASED_AT = "2026-08-04T14:30:00+02:00";
-      const PWA_VERSION = "2026-08-08-v1";
+      const PWA_VERSION = "2026-08-11-v1";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
@@ -9929,11 +9972,14 @@
         if (activeDialogId === id && detailDialog.open) syncDialogButtons();
         showToast(t("spriteAddedToast", { name: localizedName(sprite) }));
         if (pendingMastered && !wasMastered) {
+          playSfx("mastery");
           if (event && typeof event.clientX === "number" && event.clientX > 0) {
             createStarExplosion(event.clientX, event.clientY);
           } else {
             createStarExplosion(window.innerWidth / 2, window.innerHeight / 2);
           }
+        } else {
+          playSfx("add");
         }
       }
 
@@ -9957,6 +10003,7 @@
         }
         state[id] = touchEntry(entry);
         saveState();
+        playSfx(owned ? "add" : "remove");
       }
 
       function setMastered(id, mastered) {
@@ -9967,6 +10014,7 @@
         }
         state[id] = touchEntry(entry);
         saveState();
+        playSfx(mastered ? "mastery" : "remove");
       }
 
       function openDetails(id) {
@@ -10557,7 +10605,83 @@
       const APPEARANCE_KEY = "sprite-locker-appearance-v1";
       const ADMIN_CONTENT_KEY = "sprite-locker-admin-content-v1";
       const ADMIN_DRAFT_KEY = "sprite-locker-admin-draft-v1";
-      const DEFAULT_APPEARANCE = Object.freeze({ accent: "#24a9ff", background: "night", cardSize: "medium", density: "balanced", reducedMotion: false });
+      const DEFAULT_APPEARANCE = Object.freeze({ accent: "#24a9ff", background: "night", cardSize: "medium", density: "balanced", reducedMotion: false, sfxEnabled: true });
+      
+      let sfxAudioCtx = null;
+      function getSfxAudioContext() {
+        if (!sfxAudioCtx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (AudioCtx) sfxAudioCtx = new AudioCtx();
+        }
+        if (sfxAudioCtx && sfxAudioCtx.state === "suspended") {
+          sfxAudioCtx.resume().catch(() => {});
+        }
+        return sfxAudioCtx;
+      }
+
+      function playSfx(type) {
+        if (!appearanceSettings.sfxEnabled) return;
+        const ctx = getSfxAudioContext();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+
+        try {
+          if (type === "click") {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = "sine";
+            osc.frequency.setValueAtTime(650, now);
+            osc.frequency.exponentialRampToValueAtTime(180, now + 0.04);
+            gain.gain.setValueAtTime(0.08, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now);
+            osc.stop(now + 0.04);
+          } else if (type === "add") {
+            [659.25, 987.77].forEach((freq, idx) => {
+              const startTime = now + idx * 0.06;
+              const osc = ctx.createOscillator();
+              const gain = ctx.createGain();
+              osc.type = "triangle";
+              osc.frequency.setValueAtTime(freq, startTime);
+              gain.gain.setValueAtTime(0.16, startTime);
+              gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.22);
+              osc.connect(gain);
+              gain.connect(ctx.destination);
+              osc.start(startTime);
+              osc.stop(startTime + 0.22);
+            });
+          } else if (type === "mastery") {
+            const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98];
+            notes.forEach((freq, idx) => {
+              const startTime = now + idx * 0.045;
+              const osc = ctx.createOscillator();
+              const gain = ctx.createGain();
+              osc.type = "sine";
+              osc.frequency.setValueAtTime(freq, startTime);
+              gain.gain.setValueAtTime(0.2, startTime);
+              gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.35);
+              osc.connect(gain);
+              gain.connect(ctx.destination);
+              osc.start(startTime);
+              osc.stop(startTime + 0.35);
+            });
+          } else if (type === "remove") {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = "sine";
+            osc.frequency.setValueAtTime(380, now);
+            osc.frequency.exponentialRampToValueAtTime(80, now + 0.09);
+            gain.gain.setValueAtTime(0.14, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now);
+            osc.stop(now + 0.09);
+          }
+        } catch (_) {}
+      }
       const capabilityMeta = {
         healing: {
           label: "Soins", icon: "＋", color: "#4fe29a", copy: "Régénération directe de PV ou de bouclier.",
@@ -10613,7 +10737,8 @@
             background: ["night", "galaxy", "storm", "zero"].includes(saved.background) ? saved.background : DEFAULT_APPEARANCE.background,
             cardSize: ["small", "medium", "large"].includes(saved.cardSize) ? saved.cardSize : DEFAULT_APPEARANCE.cardSize,
             density: ["dense", "balanced", "airy"].includes(saved.density) ? saved.density : DEFAULT_APPEARANCE.density,
-            reducedMotion: Boolean(saved.reducedMotion)
+            reducedMotion: Boolean(saved.reducedMotion),
+            sfxEnabled: saved.sfxEnabled !== undefined ? Boolean(saved.sfxEnabled) : DEFAULT_APPEARANCE.sfxEnabled
           };
         } catch (_) { return { ...DEFAULT_APPEARANCE }; }
       }
@@ -10668,6 +10793,8 @@
         color.value = appearanceSettings.accent;
         document.getElementById("accentColorValue").textContent = appearanceSettings.accent.toUpperCase();
         document.getElementById("reducedMotion").checked = appearanceSettings.reducedMotion;
+        const sfxInput = document.getElementById("sfxEnabled");
+        if (sfxInput) sfxInput.checked = Boolean(appearanceSettings.sfxEnabled);
         document.querySelectorAll("[data-color]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.color.toLowerCase() === appearanceSettings.accent.toLowerCase())));
         document.querySelectorAll("[data-background]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.background === appearanceSettings.background)));
         document.querySelectorAll("[data-card-size]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.cardSize === appearanceSettings.cardSize)));
@@ -11542,6 +11669,11 @@
         appearanceSettings.reducedMotion = event.target.checked;
         saveAppearance();
       });
+      document.getElementById("sfxEnabled")?.addEventListener("change", event => {
+        appearanceSettings.sfxEnabled = event.target.checked;
+        saveAppearance();
+        if (event.target.checked) playSfx("click");
+      });
       document.getElementById("resetAppearance").addEventListener("click", () => {
         appearanceSettings = { ...DEFAULT_APPEARANCE };
         saveAppearance();
@@ -11872,6 +12004,13 @@
           }
         }
       });
+
+      document.addEventListener("click", event => {
+        const interactive = event.target.closest("button, a, input[type='checkbox'], input[type='radio'], .color-sphere, .bg-tile, .segmented-premium button, .family-variant-action, [role='button']");
+        if (interactive && interactive.id !== "confirmAddSprite" && interactive.id !== "confirmRemoveSprite") {
+          playSfx("click");
+        }
+      }, { passive: true });
 
       document.getElementById("dialogNote").addEventListener("input", event => {
         if (!activeDialogId) return;
