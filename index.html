@@ -8679,7 +8679,7 @@
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
       const PATCH_RELEASED_AT = "2026-08-04T14:30:00+02:00";
-      const PWA_VERSION = "2026-08-12-v1";
+      const PWA_VERSION = "2026-08-12-v2";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
@@ -12736,53 +12736,107 @@
 
       async function fetchAdminUsersList() {
         const grid = document.getElementById("adminUsersGrid");
-        if (!grid || !adminAccess || !firebaseDb || !firebaseSdk) return;
+        if (!grid) return;
 
         grid.innerHTML = `<p class="admin-users-loading" style="grid-column:1/-1; color:#8b97b7;">Recherche des comptes joueurs dans la communauté…</p>`;
 
-        try {
-          const usersCol = firebaseSdk.collection(firebaseDb, "spriteLockerUsers");
-          const q = firebaseSdk.query(usersCol, firebaseSdk.limit(50));
-          const snapshot = await firebaseSdk.getDocs(q);
+        const usersMap = new Map();
 
-          const users = [];
-          snapshot.forEach(doc => {
-            users.push({ id: doc.id, ...doc.data() });
+        // 1. Inclure l'utilisateur actuel (Admin)
+        if (firebaseUser) {
+          let ownedCount = 0;
+          let masteredCount = 0;
+          Object.values(state).forEach(raw => {
+            const entry = normalizeEntry(raw);
+            if (entry.owned) ownedCount++;
+            if (entry.mastered) masteredCount++;
           });
+          usersMap.set(firebaseUser.uid, {
+            uid: firebaseUser.uid,
+            displayName: (firebaseUser.displayName || "Vous (Admin)").slice(0, 50),
+            email: firebaseUser.email || "",
+            photoURL: firebaseUser.photoURL || "",
+            ownedCount,
+            masteredCount
+          });
+        }
 
-          if (users.length === 0) {
-            grid.innerHTML = `<p style="grid-column:1/-1; color:#8b97b7;">Aucun compte joueur trouvé pour l'instant. Les joueurs s'inscriront automatiquement à leur première connexion.</p>`;
-            return;
+        // 2. Récupérer depuis spriteLockerUsers
+        if (firebaseDb && firebaseSdk && typeof firebaseSdk.getDocs === "function") {
+          try {
+            const usersCol = firebaseSdk.collection(firebaseDb, "spriteLockerUsers");
+            const snapshot = await firebaseSdk.getDocs(usersCol);
+            snapshot.forEach(doc => {
+              const data = doc.data();
+              if (data && data.uid) {
+                usersMap.set(data.uid, {
+                  uid: data.uid,
+                  displayName: data.displayName || "Joueur",
+                  email: data.email || "",
+                  photoURL: data.photoURL || "",
+                  ownedCount: Number(data.ownedCount) || 0,
+                  masteredCount: Number(data.masteredCount) || 0
+                });
+              }
+            });
+          } catch (err) {
+            console.warn("spriteLockerUsers fetch info:", err);
           }
 
-          grid.innerHTML = users.map(u => {
-            const name = esc(u.displayName || "Joueur Anonyme");
-            const initial = esc((name[0] || "J").toUpperCase());
-            const owned = Number(u.ownedCount || 0);
-            const mastered = Number(u.masteredCount || 0);
-            const avatarHtml = u.photoURL
-              ? `<img class="admin-user-avatar" src="${esc(u.photoURL)}" alt="${name}" onerror="this.onerror=null;this.style.display='none';">`
-              : "";
-            const fallbackHtml = `<div class="admin-user-avatar-fallback">${initial}</div>`;
-            
-            return `
-              <div class="admin-user-card" data-user-id="${esc(u.uid)}">
-                <div class="admin-user-info">
-                  ${avatarHtml || fallbackHtml}
-                  <div class="admin-user-details">
-                    <span class="admin-user-name">${name}</span>
-                    <span class="admin-user-meta">🎮 ${owned} possédés · ★ ${mastered}</span>
-                  </div>
-                </div>
-                <button class="admin-inspect-btn" type="button" data-action="inspect-user" data-user-id="${esc(u.uid)}" data-user-name="${name}" data-user-photo="${esc(u.photoURL || '')}">
-                  Inspecter 🔍
-                </button>
-              </div>
-            `;
-          }).join("");
-        } catch (err) {
-          grid.innerHTML = `<p style="grid-column:1/-1; color:#ff6b6b;">Erreur lors du chargement des joueurs.</p>`;
+          // 3. Découvrir également des comptes depuis les avis déposés
+          try {
+            const reviewsCol = firebaseSdk.collection(firebaseDb, "spriteLockerReviews");
+            const snapshot = await firebaseSdk.getDocs(reviewsCol);
+            snapshot.forEach(doc => {
+              const data = doc.data();
+              if (data && data.userId && !usersMap.has(data.userId)) {
+                usersMap.set(data.userId, {
+                  uid: data.userId,
+                  displayName: data.userName || "Joueur",
+                  email: "",
+                  photoURL: data.userPhoto || "",
+                  ownedCount: "?",
+                  masteredCount: "?"
+                });
+              }
+            });
+          } catch (err) {
+            console.warn("spriteLockerReviews user discovery info:", err);
+          }
         }
+
+        const users = Array.from(usersMap.values());
+
+        if (users.length === 0) {
+          grid.innerHTML = `<p style="grid-column:1/-1; color:#8b97b7;">Aucun compte joueur trouvé pour l'instant. Connectez-vous avec Google ou attendez la première connexion d'un joueur.</p>`;
+          return;
+        }
+
+        grid.innerHTML = users.map(u => {
+          const name = esc(u.displayName || "Joueur Anonyme");
+          const initial = esc((name[0] || "J").toUpperCase());
+          const owned = u.ownedCount;
+          const mastered = u.masteredCount;
+          const avatarHtml = u.photoURL
+            ? `<img class="admin-user-avatar" src="${esc(u.photoURL)}" alt="${name}" onerror="this.onerror=null;this.style.display='none';">`
+            : "";
+          const fallbackHtml = `<div class="admin-user-avatar-fallback">${initial}</div>`;
+          
+          return `
+            <div class="admin-user-card" data-user-id="${esc(u.uid)}">
+              <div class="admin-user-info">
+                ${avatarHtml || fallbackHtml}
+                <div class="admin-user-details">
+                  <span class="admin-user-name">${name}</span>
+                  <span class="admin-user-meta">🎮 ${owned} possédés · ★ ${mastered}</span>
+                </div>
+              </div>
+              <button class="admin-inspect-btn" type="button" data-action="inspect-user" data-user-id="${esc(u.uid)}" data-user-name="${name}" data-user-photo="${esc(u.photoURL || '')}">
+                Inspecter 🔍
+              </button>
+            </div>
+          `;
+        }).join("");
       }
 
       async function saveUserProfileToCommunity(user, lockerState) {
