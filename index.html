@@ -7167,11 +7167,301 @@
       gap: 6px;
       transition: all 0.2s ease;
     }
-    .map-copy-btn:hover {
-      background: var(--accent, #24a9ff);
-      color: #000;
-      border-color: var(--accent, #24a9ff);
-      box-shadow: 0 0 14px rgba(var(--accent-rgb, 36, 169, 255), 0.4);
+    /* ==========================================================================
+       ÉCRAN D'ACCUEIL STYLÉ / SPLASH SCREEN D'ENTRÉE
+       ========================================================================== */
+    .splash-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 100000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #050814;
+      color: #fff;
+      font-family: inherit;
+      overflow: hidden;
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s;
+    }
+
+    .splash-screen.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: scale(1.05);
+    }
+
+    .splash-backdrop {
+      position: absolute;
+      inset: -50px;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(36, 169, 255, 0.25) 0%, transparent 60%),
+        radial-gradient(circle at 20% 80%, rgba(255, 0, 127, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.15) 0%, transparent 50%),
+        linear-gradient(180deg, #060919 0%, #03040c 100%);
+      filter: blur(10px);
+      z-index: 1;
+      animation: splashPulse 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes splashPulse {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.08); }
+    }
+
+    .splash-glow-fx {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 450px;
+      height: 450px;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(0, 243, 255, 0.3) 0%, rgba(0, 102, 255, 0.1) 40%, transparent 70%);
+      border-radius: 50%;
+      z-index: 2;
+      pointer-events: none;
+      animation: splashGlowRotate 12s linear infinite;
+    }
+
+    @keyframes splashGlowRotate {
+      0% { transform: translate(-50%, -50%) rotate(0deg) scale(0.9); }
+      50% { transform: translate(-50%, -50%) rotate(180deg) scale(1.1); }
+      100% { transform: translate(-50%, -50%) rotate(360deg) scale(0.9); }
+    }
+
+    .splash-content {
+      position: relative;
+      z-index: 10;
+      width: 90%;
+      max-width: 420px;
+      padding: 36px 24px;
+      background: rgba(10, 15, 35, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 28px;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .splash-brand {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .splash-logo-ring {
+      width: 96px;
+      height: 96px;
+      margin-bottom: 14px;
+      padding: 6px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00f3ff, #ff007f, #ffd700);
+      box-shadow: 0 0 30px rgba(0, 243, 255, 0.5);
+      animation: logoFloat 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes logoFloat {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-6px); }
+    }
+
+    .splash-logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      background: #080d24;
+      display: block;
+    }
+
+    .splash-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(0, 243, 255, 0.12);
+      border: 1px solid rgba(0, 243, 255, 0.3);
+      border-radius: 20px;
+      color: #00f3ff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .splash-title {
+      margin: 0;
+      font-size: 1.85rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, #ffffff 0%, #a5c7ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .splash-subtitle {
+      margin: 6px 0 0;
+      font-size: 0.88rem;
+      color: #8b97b7;
+      font-weight: 500;
+    }
+
+    .splash-action-mobile, .splash-action-desktop {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .swipe-track {
+      position: relative;
+      width: 100%;
+      height: 60px;
+      background: rgba(6, 11, 28, 0.85);
+      border: 1px solid rgba(0, 243, 255, 0.35);
+      border-radius: 32px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: none;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 243, 255, 0.15);
+    }
+
+    .swipe-track-text {
+      width: 100%;
+      text-align: center;
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: rgba(255, 255, 255, 0.85);
+      pointer-events: none;
+      padding-left: 40px;
+      text-transform: uppercase;
+      animation: swipeTextPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes swipeTextPulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; text-shadow: 0 0 10px rgba(0, 243, 255, 0.8); }
+    }
+
+    .swipe-progress {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 0%;
+      background: linear-gradient(90deg, rgba(0, 243, 255, 0.25), rgba(0, 102, 255, 0.5));
+      border-radius: 32px;
+      pointer-events: none;
+      transition: width 0.05s linear;
+    }
+
+    .swipe-thumb {
+      position: absolute;
+      left: 4px;
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, #00f3ff, #0066ff);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      box-shadow: 0 0 20px rgba(0, 243, 255, 0.7);
+      cursor: grab;
+      z-index: 5;
+    }
+
+    .swipe-thumb:active {
+      cursor: grabbing;
+      transform: scale(1.05);
+    }
+
+    .swipe-thumb svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .splash-enter-btn {
+      position: relative;
+      width: 100%;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #00f3ff 0%, #0055ff 100%);
+      border: none;
+      border-radius: 16px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 8px 24px rgba(0, 102, 255, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+    }
+
+    .splash-enter-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 12px 32px rgba(0, 243, 255, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+    }
+
+    .splash-enter-btn:active {
+      transform: translateY(1px) scale(0.98);
+    }
+
+    .splash-btn-glow {
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .splash-enter-btn:hover .splash-btn-glow {
+      opacity: 1;
+    }
+
+    .splash-footer {
+      margin-top: 4px;
+    }
+
+    .splash-status-text {
+      font-size: 0.78rem;
+      color: #8b97b7;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .splash-status-dot {
+      width: 8px;
+      height: 8px;
+      background: #4fe29a;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #4fe29a;
+      display: inline-block;
+      animation: dotPulse 1.5s infinite alternate;
+    }
+
+    @keyframes dotPulse {
+      0% { opacity: 0.4; }
+      100% { opacity: 1; }
     }
   </style>
 </head>
@@ -7870,6 +8160,10 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 5.5h6a3 3 0 0 1 3 3v10H7a3 3 0 0 0-3 3z"></path><path d="M20 5.5h-4a3 3 0 0 0-3 3v10h4a3 3 0 0 1 3 3z"></path></svg>
       <span>Guide</span>
     </a>
+    <a class="mobile-dock-item" href="#maps" data-page-target="maps">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21 3 6"></polygon><line x1="9" y1="3" x2="9" y2="18"></line><line x1="15" y1="6" x2="15" y2="21"></line></svg>
+      <span>Maps</span>
+    </a>
     <a class="mobile-dock-item" href="#settings" data-page-target="settings">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .4 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.4 1.7 1.7 0 0 0-1 1.6v.1h-4v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.4l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .4-1.9 1.7 1.7 0 0 0-1.6-1H3v-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.4-1.9L4.2 7l2.9-2.8.1.1a1.7 1.7 0 0 0 1.9.4 1.7 1.7 0 0 0 1-1.6V3h4v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.4l.1-.1L19.9 7l-.1.1a1.7 1.7 0 0 0-.4 1.9 1.7 1.7 0 0 0 1.6 1h.1v4H21a1.7 1.7 0 0 0-1.6 1Z"></path></svg>
       <span>Réglages</span>
@@ -8081,7 +8375,48 @@
         </div>
       </form>
     </div>
-  </dialog>
+  <!-- Écran d'accueil / Splash Screen d'entrée stylé -->
+  <div class="splash-screen" id="splashScreen" role="dialog" aria-label="Écran d'entrée Sprite Locker">
+    <div class="splash-backdrop"></div>
+    <div class="splash-glow-fx"></div>
+    <div class="splash-content">
+      <div class="splash-brand">
+        <div class="splash-logo-ring">
+          <img src="./icons/icon.svg" alt="Sprite Locker" class="splash-logo-img" onerror="this.onerror=null;this.src='https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_CokeParmesan_Default_L.webp';">
+        </div>
+        <span class="splash-badge">V41.39 · ESPRITS FORTNITE</span>
+        <h1 class="splash-title">SPRITE LOCKER</h1>
+        <p class="splash-subtitle">Collection officielle & Maps Créatives</p>
+      </div>
+
+      <!-- Action sur Téléphone (Glisser / Swipe to enter) -->
+      <div class="splash-action-mobile" id="splashActionMobile">
+        <div class="swipe-track" id="swipeTrack">
+          <span class="swipe-track-text">GLISSER POUR ENTRER ➔</span>
+          <div class="swipe-progress" id="swipeProgress"></div>
+          <div class="swipe-thumb" id="swipeThumb" role="button" aria-label="Glisser pour entrer dans l'application">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action sur PC (Cliquer / Click button) -->
+      <div class="splash-action-desktop" id="splashActionDesktop">
+        <button class="splash-enter-btn" id="splashEnterBtn" type="button">
+          <span class="splash-btn-glow"></span>
+          <span class="splash-btn-icon">⚡</span>
+          <span>ENTRER SUR L'APPLICATION</span>
+          <span class="splash-btn-arrow">➔</span>
+        </button>
+      </div>
+
+      <div class="splash-footer">
+        <span class="splash-status-text" id="splashStatusText">
+          <i class="splash-status-dot"></i> Synchronisation & Actualisation automatique
+        </span>
+      </div>
+    </div>
+  </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -8170,7 +8505,7 @@
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
       const PATCH_RELEASED_AT = "2026-08-04T14:30:00+02:00";
-      const PWA_VERSION = "2026-08-11-v8";
+      const PWA_VERSION = "2026-08-11-v9";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
@@ -13263,7 +13598,127 @@
         }
       }
 
+      function initSplashScreen() {
+        const splash = document.getElementById("splashScreen");
+        if (!splash) return;
+
+        const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || (window.innerWidth <= 768 && "ontouchstart" in window);
+
+        const mobileContainer = document.getElementById("splashActionMobile");
+        const desktopContainer = document.getElementById("splashActionDesktop");
+        const statusText = document.getElementById("splashStatusText");
+
+        if (isMobileDevice) {
+          if (mobileContainer) mobileContainer.style.display = "flex";
+          if (desktopContainer) desktopContainer.style.display = "none";
+        } else {
+          if (mobileContainer) mobileContainer.style.display = "none";
+          if (desktopContainer) desktopContainer.style.display = "flex";
+        }
+
+        if (sessionStorage.getItem("sprite_locker_refreshed_on_entry") === "true") {
+          sessionStorage.removeItem("sprite_locker_refreshed_on_entry");
+          splash.classList.add("is-hidden");
+          setTimeout(() => { splash.style.display = "none"; }, 550);
+          showToast("Application synchronisée & actualisée ✓");
+          return;
+        }
+
+        const executeCompulsoryEntry = async () => {
+          playSfx("click");
+          if (statusText) statusText.innerHTML = `<i class="splash-status-dot"></i> Actualisation & chargement des données… ⚡`;
+          
+          sessionStorage.setItem("sprite_locker_refreshed_on_entry", "true");
+
+          if ("serviceWorker" in navigator) {
+            try {
+              const registrations = await navigator.serviceWorker.getRegistrations();
+              for (const reg of registrations) {
+                await reg.update();
+              }
+            } catch (_) {}
+          }
+
+          setTimeout(() => {
+            window.location.reload(true);
+          }, 350);
+        };
+
+        const enterBtn = document.getElementById("splashEnterBtn");
+        if (enterBtn) {
+          enterBtn.addEventListener("click", () => {
+            executeCompulsoryEntry();
+          });
+        }
+
+        const track = document.getElementById("swipeTrack");
+        const thumb = document.getElementById("swipeThumb");
+        const progress = document.getElementById("swipeProgress");
+
+        if (track && thumb && progress) {
+          let startX = 0;
+          let currentX = 0;
+          let isDragging = false;
+
+          const getTrackBounds = () => {
+            const rect = track.getBoundingClientRect();
+            const thumbWidth = thumb.offsetWidth || 52;
+            const maxDrag = rect.width - thumbWidth - 8;
+            return { rect, maxDrag };
+          };
+
+          const onStart = (e) => {
+            isDragging = true;
+            startX = e.touches ? e.touches[0].clientX : e.clientX;
+          };
+
+          const onMove = (e) => {
+            if (!isDragging) return;
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const deltaX = clientX - startX;
+            const { maxDrag } = getTrackBounds();
+
+            currentX = Math.max(0, Math.min(deltaX, maxDrag));
+            thumb.style.transform = `translateX(${currentX}px)`;
+            const percent = (currentX / maxDrag) * 100;
+            progress.style.width = `${percent}%`;
+
+            if (percent >= 85) {
+              isDragging = false;
+              thumb.style.transform = `translateX(${maxDrag}px)`;
+              progress.style.width = "100%";
+              executeCompulsoryEntry();
+            }
+          };
+
+          const onEnd = () => {
+            if (!isDragging) return;
+            isDragging = false;
+            const { maxDrag } = getTrackBounds();
+            if (currentX < maxDrag * 0.85) {
+              thumb.style.transition = "transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)";
+              progress.style.transition = "width 0.3s cubic-bezier(0.16, 1, 0.3, 1)";
+              thumb.style.transform = "translateX(0px)";
+              progress.style.width = "0%";
+              setTimeout(() => {
+                thumb.style.transition = "";
+                progress.style.transition = "";
+              }, 300);
+            }
+          };
+
+          thumb.addEventListener("touchstart", onStart, { passive: true });
+          window.addEventListener("touchmove", onMove, { passive: true });
+          window.addEventListener("touchend", onEnd, { passive: true });
+
+          thumb.addEventListener("mousedown", onStart);
+          window.addEventListener("mousemove", onMove);
+          window.addEventListener("mouseup", onEnd);
+        }
+      }
+
       applyStaticTranslations();
+      initSplashScreen();
       setupMobileDockSwipe();
       setupReviews();
       initializePwa();
