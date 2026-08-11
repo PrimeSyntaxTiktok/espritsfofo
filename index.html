@@ -8679,7 +8679,7 @@
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
       const PATCH_RELEASED_AT = "2026-08-04T14:30:00+02:00";
-      const PWA_VERSION = "2026-08-12-v2";
+      const PWA_VERSION = "2026-08-12-v3";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
@@ -12792,7 +12792,7 @@
               if (data && data.userId && !usersMap.has(data.userId)) {
                 usersMap.set(data.userId, {
                   uid: data.userId,
-                  displayName: data.userName || "Joueur",
+                  displayName: data.userName || "Joueur Communauté",
                   email: "",
                   photoURL: data.userPhoto || "",
                   ownedCount: "?",
@@ -12802,6 +12802,28 @@
             });
           } catch (err) {
             console.warn("spriteLockerReviews user discovery info:", err);
+          }
+
+          // 4. Scanner la collection d'origine users
+          try {
+            const rootUsersCol = firebaseSdk.collection(firebaseDb, "users");
+            const snapshot = await firebaseSdk.getDocs(rootUsersCol);
+            snapshot.forEach(doc => {
+              const data = doc.data() || {};
+              const uid = doc.id;
+              if (uid && !usersMap.has(uid)) {
+                usersMap.set(uid, {
+                  uid: uid,
+                  displayName: data.displayName || "Joueur Communauté",
+                  email: data.email || "",
+                  photoURL: data.photoURL || "",
+                  ownedCount: "?",
+                  masteredCount: "?"
+                });
+              }
+            });
+          } catch (err) {
+            console.warn("root users discovery info:", err);
           }
         }
 
