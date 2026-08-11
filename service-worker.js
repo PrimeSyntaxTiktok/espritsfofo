@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_VERSION = "2026-08-11-v9";
+const CACHE_VERSION = "2026-08-11-v10";
 const CACHE_PREFIX = "sprite-locker-";
 const SHELL_CACHE = `${CACHE_PREFIX}shell-${CACHE_VERSION}`;
 const ASSET_CACHE = `${CACHE_PREFIX}assets-${CACHE_VERSION}`;
@@ -106,23 +106,21 @@ async function updateInBackground(request, cacheName) {
 
 async function serveNavigation(event) {
   const shellCache = await caches.open(SHELL_CACHE);
-  const cached = await shellCache.match(INDEX_URL, { ignoreSearch: true, ignoreVary: true })
-    || await shellCache.match(new URL("./", SCOPE_URL).href, { ignoreSearch: true, ignoreVary: true });
-  const refresh = (async () => {
-    try {
-      const preload = await event.preloadResponse;
-      const response = preload || await fetch(event.request);
-      if (isCacheableResponse(response)) await shellCache.put(INDEX_URL, response.clone());
-      return response;
-    } catch (_) {
-      return null;
+  try {
+    const preload = await event.preloadResponse;
+    const response = preload || await fetch(event.request);
+    if (isCacheableResponse(response)) {
+      await shellCache.put(INDEX_URL, response.clone());
     }
-  })();
-  event.waitUntil(refresh);
-  return cached || await refresh || new Response("Sprite Locker n’est pas encore disponible hors connexion. Ouvre une première fois le site avec Internet.", {
-    status: 503,
-    headers: { "Content-Type": "text/plain; charset=utf-8" }
-  });
+    return response;
+  } catch (_) {
+    const cached = await shellCache.match(INDEX_URL, { ignoreSearch: true, ignoreVary: true })
+      || await shellCache.match(new URL("./", SCOPE_URL).href, { ignoreSearch: true, ignoreVary: true });
+    return cached || new Response("Sprite Locker n’est pas disponible hors connexion. Veuillez vous connecter une première fois à Internet.", {
+      status: 503,
+      headers: { "Content-Type": "text/plain; charset=utf-8" }
+    });
+  }
 }
 
 async function cacheFirst(request, cacheName) {
