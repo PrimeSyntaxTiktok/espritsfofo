@@ -7449,19 +7449,175 @@
       gap: 6px;
     }
 
-    .splash-status-dot {
-      width: 8px;
-      height: 8px;
-      background: #4fe29a;
+    /* --- MAPS FAVORITES BUTTON --- */
+    .map-card-thumb { position: relative; }
+    .map-fav-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 5;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
-      box-shadow: 0 0 8px #4fe29a;
-      display: inline-block;
-      animation: dotPulse 1.5s infinite alternate;
+      background: rgba(10, 15, 30, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .map-fav-btn:hover {
+      transform: scale(1.15);
+      background: rgba(0, 0, 0, 0.9);
+      color: #ffd700;
+    }
+    .map-fav-btn.is-fav {
+      background: rgba(255, 215, 0, 0.25);
+      border-color: #ffd700;
+      color: #ffd700;
+      box-shadow: 0 0 14px rgba(255, 215, 0, 0.6);
     }
 
-    @keyframes dotPulse {
-      0% { opacity: 0.4; }
-      100% { opacity: 1; }
+    /* --- ADMIN USER LOCKER INSPECTION BANNER --- */
+    .inspection-banner {
+      position: sticky;
+      top: 60px;
+      z-index: 900;
+      width: 100%;
+      background: linear-gradient(90deg, #ff007f, #9900ff, #00f3ff);
+      background-size: 200% 200%;
+      animation: gradientShift 6s ease infinite;
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      font-size: 0.88rem;
+    }
+    .inspection-banner[hidden] { display: none !important; }
+    .inspection-banner-content {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .inspection-pulse-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 10px #fff;
+      animation: dotPulse 1s infinite alternate;
+    }
+    .inspection-stats-badge {
+      background: rgba(0, 0, 0, 0.35);
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+    .inspection-exit-btn {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .inspection-exit-btn:hover {
+      background: #ff4757;
+      border-color: #ff4757;
+      transform: scale(1.05);
+    }
+
+    /* --- ADMIN USERS LIST PANEL --- */
+    .admin-users-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .admin-user-card {
+      background: rgba(12, 18, 38, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      transition: border-color 0.2s ease;
+    }
+    .admin-user-card:hover {
+      border-color: rgba(0, 243, 255, 0.4);
+    }
+    .admin-user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow: hidden;
+    }
+    .admin-user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(0, 243, 255, 0.4);
+    }
+    .admin-user-avatar-fallback {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00f3ff, #0066ff);
+      color: #fff;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+    .admin-user-details {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .admin-user-name {
+      font-weight: 800;
+      color: #fff;
+      font-size: 0.92rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .admin-user-meta {
+      font-size: 0.76rem;
+      color: #8b97b7;
+    }
+    .admin-inspect-btn {
+      background: linear-gradient(135deg, #00f3ff, #0066ff);
+      border: none;
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.78rem;
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .admin-inspect-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(0, 243, 255, 0.5);
     }
   </style>
 </head>
@@ -7486,6 +7642,16 @@
         </div>
       </div>
     </nav>
+
+    <!-- Bandeau d'inspection de casier utilisateur pour l'admin -->
+    <div class="inspection-banner" id="inspectionBanner" hidden>
+      <div class="inspection-banner-content">
+        <span class="inspection-pulse-dot" aria-hidden="true"></span>
+        <span>🔍 <strong>Mode Inspection Admin :</strong> Vous visualisez le casier de <u id="inspectionUserName">Joueur</u></span>
+        <span class="inspection-stats-badge" id="inspectionUserStats">0 esprits</span>
+      </div>
+      <button type="button" class="inspection-exit-btn" id="inspectionExitBtn" data-action="exit-inspection">✖ Quitter l'inspection</button>
+    </div>
 
     <main class="app-page is-active" id="homePage" data-page="home">
     <header class="hero hero-minimal">
@@ -7847,6 +8013,7 @@
           <button type="button" data-admin-tab="variant" aria-selected="false">Nouvelle variante</button>
           <button type="button" data-admin-tab="variant-edit" aria-selected="false">Modifier les variantes</button>
           <button type="button" data-admin-tab="map" aria-selected="false">Maps Créatives</button>
+          <button type="button" data-admin-tab="users" aria-selected="false">👥 Casiers Joueurs</button>
           <button type="button" data-admin-tab="patch" aria-selected="false">Patch Note</button>
           <button type="button" data-admin-tab="manage" aria-selected="false">Gérer / supprimer</button>
         </nav>
@@ -7905,6 +8072,13 @@
             <div class="admin-patch-quick-list" id="adminMapQuickList" aria-live="polite"></div>
           </section>
         </form>
+        <section class="panel-card admin-form" id="adminUsersPanel" data-admin-panel="users">
+          <div class="panel-heading"><div><span>Communauté</span><h2>Inspection des Casiers Joueurs</h2></div></div>
+          <p class="admin-manage-copy">Consultez en temps réel les casiers et collections des joueurs enregistrés sur le site. Cliquez sur un joueur pour afficher son casier complet dans le Catalogue.</p>
+          <div class="admin-users-grid" id="adminUsersGrid">
+            <p class="admin-users-loading">Chargement des comptes utilisateurs…</p>
+          </div>
+        </section>
         <form class="panel-card admin-form" id="adminPatchForm" data-admin-panel="patch">
           <div class="panel-heading"><div><span>Actualité</span><h2>Publier un Patch Note</h2></div></div>
           <div class="form-grid"><label class="field-label field-span">Titre<input name="title" required maxlength="100"></label><label class="field-label field-span">Contenu<textarea name="body" required maxlength="1800" rows="7" placeholder="Une ligne par nouveauté…"></textarea></label><label class="field-label">Date de publication<input name="date" required type="datetime-local"></label></div>
@@ -8505,7 +8679,7 @@
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
       const PATCH_RELEASED_AT = "2026-08-04T14:30:00+02:00";
-      const PWA_VERSION = "2026-08-11-v10";
+      const PWA_VERSION = "2026-08-12-v1";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
@@ -9894,6 +10068,11 @@
         }));
       }
 
+      let inspectedUser = null;
+      function getActiveState() {
+        return inspectedUser ? inspectedUser.state : state;
+      }
+
       function esc(value) {
         return String(value).replace(/[&<>'"]/g, char => ({
           "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;"
@@ -9901,7 +10080,7 @@
       }
 
       function cardTemplate(sprite, index) {
-        const entry = state[sprite.id] || blankEntry();
+        const entry = getActiveState()[sprite.id] || blankEntry();
         const variant = variants[sprite.variant];
         const name = localizedName(sprite);
         const immediateImage = index < 8;
@@ -9938,7 +10117,7 @@
       }
 
       function syncSpriteCardState(card, sprite) {
-        const entry = state[sprite.id] || blankEntry();
+        const entry = getActiveState()[sprite.id] || blankEntry();
         const stateSignature = `${Number(entry.owned)}:${Number(entry.mastered)}`;
         if (card.dataset.stateSignature === stateSignature) return;
         card.classList.toggle("owned", entry.owned);
@@ -9957,12 +10136,13 @@
       }
 
       function spriteCardElement(sprite, index) {
+        if (inspectedUser) spriteCardCache.clear();
         let card = spriteCardCache.get(sprite.id);
         if (!card) {
           const template = document.createElement("template");
           template.innerHTML = cardTemplate(sprite, index).trim();
           card = template.content.firstElementChild;
-          spriteCardCache.set(sprite.id, card);
+          if (!inspectedUser) spriteCardCache.set(sprite.id, card);
         }
         syncSpriteCardState(card, sprite);
         return card;
@@ -9996,6 +10176,34 @@
       let currentMapsSearch = "";
       let editingMapId = null;
 
+      const MAP_FAVORITES_KEY = "sprite-locker-maps-favorites-v1";
+      let mapFavorites = new Set();
+      function loadMapFavorites() {
+        try {
+          const raw = localStorage.getItem(MAP_FAVORITES_KEY);
+          if (raw) mapFavorites = new Set(JSON.parse(raw));
+        } catch (_) {}
+      }
+      function saveMapFavorites() {
+        try {
+          localStorage.setItem(MAP_FAVORITES_KEY, JSON.stringify(Array.from(mapFavorites)));
+        } catch (_) {}
+      }
+      function toggleMapFavorite(mapId) {
+        if (!mapId) return;
+        if (mapFavorites.has(mapId)) {
+          mapFavorites.delete(mapId);
+          showToast("Map retirée des favoris");
+        } else {
+          mapFavorites.add(mapId);
+          showToast("Map ajoutée aux favoris ⭐");
+        }
+        playSfx("click");
+        saveMapFavorites();
+        renderMaps();
+      }
+      loadMapFavorites();
+
       function copyMapCode(code, buttonEl) {
         if (!code) return;
         try {
@@ -10026,6 +10234,14 @@
           return;
         }
 
+        const favMapBtn = event.target.closest("[data-action='toggle-fav-map']");
+        if (favMapBtn) {
+          event.preventDefault();
+          event.stopPropagation();
+          toggleMapFavorite(favMapBtn.dataset.mapId);
+          return;
+        }
+
         const mapCatBtn = event.target.closest("[data-maps-category]");
         if (mapCatBtn) {
           document.querySelectorAll("[data-maps-category]").forEach(b => b.classList.remove("is-active"));
@@ -10033,6 +10249,23 @@
           mapCatBtn.classList.add("is-active");
           playSfx("click");
           renderMaps();
+          return;
+        }
+
+        const inspectBtn = event.target.closest("[data-action='inspect-user']");
+        if (inspectBtn) {
+          event.preventDefault();
+          const uid = inspectBtn.dataset.userId;
+          const name = inspectBtn.dataset.userName;
+          const photo = inspectBtn.dataset.userPhoto;
+          startAdminInspection(uid, name, photo);
+          return;
+        }
+
+        const exitInspectBtn = event.target.closest("[data-action='exit-inspection']");
+        if (exitInspectBtn) {
+          event.preventDefault();
+          stopAdminInspection();
           return;
         }
       });
@@ -10058,11 +10291,18 @@
           new Set(mapsList.map(m => String(m.category || "Général").trim()).filter(Boolean))
         );
 
-        if (currentMapsCategory !== "all" && !availableCategories.includes(currentMapsCategory)) {
+        const favCount = mapsList.filter(m => mapFavorites.has(m.id)).length;
+
+        if (currentMapsCategory !== "all" && currentMapsCategory !== "favorites" && !availableCategories.includes(currentMapsCategory)) {
           currentMapsCategory = "all";
         }
 
         let html = `<button class="tips-chip${currentMapsCategory === "all" ? " is-active" : ""}" data-maps-category="all" type="button">Toutes les maps 🗺️ (${mapsList.length})</button>`;
+
+        if (favCount > 0) {
+          const isFavActive = currentMapsCategory === "favorites";
+          html += `<button class="tips-chip${isFavActive ? " is-active" : ""}" data-maps-category="favorites" type="button" style="border-color:#ffd700; color:#ffd700;">⭐ Favoris (${favCount})</button>`;
+        }
 
         availableCategories.forEach(cat => {
           const count = mapsList.filter(m => String(m.category || "Général").trim() === cat).length;
@@ -10088,7 +10328,11 @@
 
         const filtered = mapsList.filter(map => {
           const cat = String(map.category || "Général").trim();
-          if (currentMapsCategory !== "all" && cat !== currentMapsCategory) return false;
+          if (currentMapsCategory === "favorites") {
+            if (!mapFavorites.has(map.id)) return false;
+          } else if (currentMapsCategory !== "all" && cat !== currentMapsCategory) {
+            return false;
+          }
           if (!query) return true;
           const titleMatch = normalizedText(map.title).includes(query);
           const codeMatch = normalizedText(map.code).includes(query);
@@ -10100,11 +10344,11 @@
         if (filtered.length === 0) {
           const emptyCopy = mapsList.length === 0
             ? "L'administrateur n'a pas encore publié de carte sur le site."
-            : "Aucune carte ne correspond à ta recherche dans cette catégorie.";
+            : (currentMapsCategory === "favorites" ? "Tu n'as pas encore de map ajoutée aux favoris. Clique sur l'étoile ★ d'une map pour la conserver ici !" : "Aucune carte ne correspond à ta recherche dans cette catégorie.");
           grid.innerHTML = `
             <div style="grid-column: 1 / -1; text-align: center; padding: 50px 20px; background: rgba(8,13,32,0.6); border: 1px dashed rgba(255,255,255,0.15); border-radius: 18px;">
-              <span style="font-size: 2.5rem; display: block; margin-bottom: 10px;">🗺️</span>
-              <h3 style="margin: 0 0 6px; color: #fff; font-size: 1.1rem;">${mapsList.length === 0 ? "Aucune map disponible" : "Aucune map trouvée"}</h3>
+              <span style="font-size: 2.5rem; display: block; margin-bottom: 10px;">${currentMapsCategory === "favorites" ? "⭐" : "🗺️"}</span>
+              <h3 style="margin: 0 0 6px; color: #fff; font-size: 1.1rem;">${mapsList.length === 0 ? "Aucune map disponible" : (currentMapsCategory === "favorites" ? "Aucun favori" : "Aucune map trouvée")}</h3>
               <p style="margin: 0; color: #8b97b7; font-size: 0.88rem;">${emptyCopy}</p>
             </div>
           `;
@@ -10113,11 +10357,15 @@
 
         grid.innerHTML = filtered.map(map => {
           const badgeLabel = map.category ? String(map.category).trim() : "🗺️ Carte Créative";
+          const isFav = mapFavorites.has(map.id);
           return `
             <article class="map-card" data-map-id="${esc(map.id)}">
               <div class="map-card-thumb">
                 <img src="${esc(map.image)}" alt="${esc(map.title)}" loading="lazy" onerror="this.onerror=null;this.src='https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_CokeParmesan_Default_L.webp';">
                 <span class="map-card-badge">${esc(badgeLabel)}</span>
+                <button class="map-fav-btn${isFav ? " is-fav" : ""}" type="button" data-action="toggle-fav-map" data-map-id="${esc(map.id)}" aria-label="${isFav ? 'Retirer des favoris' : 'Ajouter aux favoris'}">
+                  <span aria-hidden="true">${isFav ? '★' : '☆'}</span>
+                </button>
               </div>
               <div class="map-card-content">
                 <h3 class="map-card-title">${esc(map.title)}</h3>
@@ -10293,7 +10541,7 @@
         const selectedRarity = rarityFilter.value;
 
         const result = sprites.map(sprite => {
-          const entry = state[sprite.id] || blankEntry();
+          const entry = getActiveState()[sprite.id] || blankEntry();
           const searchScore = query ? scoreSpriteSearch(sprite, rawQuery) : 1;
           const matchesVariant = selectedVariant === "all" || sprite.variant === selectedVariant;
           const matchesRarity = selectedRarity === "all" || sprite.rarity === selectedRarity;
@@ -10319,7 +10567,7 @@
       }
 
       function familyVariantTileTemplate(sprite, imageIndex) {
-        const entry = state[sprite.id] || blankEntry();
+        const entry = getActiveState()[sprite.id] || blankEntry();
         const variant = variants[sprite.variant];
         const name = localizedName(sprite);
         const immediateImage = imageIndex < 12;
@@ -10865,7 +11113,7 @@
       }
 
       function updateStats() {
-        const entries = sprites.map(sprite => state[sprite.id] || blankEntry());
+        const entries = sprites.map(sprite => getActiveState()[sprite.id] || blankEntry());
         const owned = entries.filter(entry => entry.owned);
         const mastered = entries.filter(entry => entry.mastered).length;
         const percent = Math.round((owned.length / sprites.length) * 100);
@@ -11333,6 +11581,7 @@
         }
         setSyncStatus("loading", t("firebaseConnecting"));
         await synchronizeCloud({ pull: true });
+        saveUserProfileToCommunity(firebaseUser, state);
         await checkAdminAccess(firebaseUser);
         if (sequence === authSequence && firebaseUser && firebaseUser.uid === user.uid) {
           startCloudListener();
@@ -12427,12 +12676,147 @@
         form.elements.effectEn.value = override.effectEn || fallback.effect.en;
       }
 
+      async function startAdminInspection(userId, userName, userPhoto = "") {
+        if (!firebaseDb || !firebaseSdk) {
+          showToast("Connexion à la base de données requise.");
+          return;
+        }
+        showToast(`Chargement du casier de ${userName}… ⏳`);
+        try {
+          const userDocRef = firebaseSdk.doc(firebaseDb, "users", userId, "primebudget", "fortniteEsprits");
+          const snapshot = await firebaseSdk.getDoc(userDocRef);
+          let targetState = {};
+          if (snapshot.exists()) {
+            const data = snapshot.data();
+            targetState = data && typeof data === "object" ? (data.collection || data.entries || data.sprites || {}) : {};
+          }
+          
+          inspectedUser = {
+            uid: userId,
+            displayName: userName,
+            photoURL: userPhoto,
+            state: targetState
+          };
+
+          let owned = 0;
+          let mastered = 0;
+          Object.values(targetState).forEach(raw => {
+            const entry = normalizeEntry(raw);
+            if (entry.owned) owned++;
+            if (entry.mastered) mastered++;
+          });
+
+          const banner = document.getElementById("inspectionBanner");
+          const nameEl = document.getElementById("inspectionUserName");
+          const statsEl = document.getElementById("inspectionUserStats");
+          if (banner && nameEl && statsEl) {
+            nameEl.textContent = userName;
+            statsEl.textContent = `${owned} possédés · ${mastered} maîtrisés`;
+            banner.removeAttribute("hidden");
+          }
+
+          render();
+          updateStats();
+          showPage("catalog");
+          showToast(`🔍 Mode inspection : Casier de ${userName}`);
+        } catch (err) {
+          showToast("Impossible de charger le casier de cet utilisateur.");
+        }
+      }
+
+      function stopAdminInspection() {
+        if (!inspectedUser) return;
+        inspectedUser = null;
+        const banner = document.getElementById("inspectionBanner");
+        if (banner) banner.setAttribute("hidden", "true");
+        render();
+        updateStats();
+        showToast("Mode inspection quitté. Retour à votre casier. ✓");
+      }
+
+      async function fetchAdminUsersList() {
+        const grid = document.getElementById("adminUsersGrid");
+        if (!grid || !adminAccess || !firebaseDb || !firebaseSdk) return;
+
+        grid.innerHTML = `<p class="admin-users-loading" style="grid-column:1/-1; color:#8b97b7;">Recherche des comptes joueurs dans la communauté…</p>`;
+
+        try {
+          const usersCol = firebaseSdk.collection(firebaseDb, "spriteLockerUsers");
+          const q = firebaseSdk.query(usersCol, firebaseSdk.limit(50));
+          const snapshot = await firebaseSdk.getDocs(q);
+
+          const users = [];
+          snapshot.forEach(doc => {
+            users.push({ id: doc.id, ...doc.data() });
+          });
+
+          if (users.length === 0) {
+            grid.innerHTML = `<p style="grid-column:1/-1; color:#8b97b7;">Aucun compte joueur trouvé pour l'instant. Les joueurs s'inscriront automatiquement à leur première connexion.</p>`;
+            return;
+          }
+
+          grid.innerHTML = users.map(u => {
+            const name = esc(u.displayName || "Joueur Anonyme");
+            const initial = esc((name[0] || "J").toUpperCase());
+            const owned = Number(u.ownedCount || 0);
+            const mastered = Number(u.masteredCount || 0);
+            const avatarHtml = u.photoURL
+              ? `<img class="admin-user-avatar" src="${esc(u.photoURL)}" alt="${name}" onerror="this.onerror=null;this.style.display='none';">`
+              : "";
+            const fallbackHtml = `<div class="admin-user-avatar-fallback">${initial}</div>`;
+            
+            return `
+              <div class="admin-user-card" data-user-id="${esc(u.uid)}">
+                <div class="admin-user-info">
+                  ${avatarHtml || fallbackHtml}
+                  <div class="admin-user-details">
+                    <span class="admin-user-name">${name}</span>
+                    <span class="admin-user-meta">🎮 ${owned} possédés · ★ ${mastered}</span>
+                  </div>
+                </div>
+                <button class="admin-inspect-btn" type="button" data-action="inspect-user" data-user-id="${esc(u.uid)}" data-user-name="${name}" data-user-photo="${esc(u.photoURL || '')}">
+                  Inspecter 🔍
+                </button>
+              </div>
+            `;
+          }).join("");
+        } catch (err) {
+          grid.innerHTML = `<p style="grid-column:1/-1; color:#ff6b6b;">Erreur lors du chargement des joueurs.</p>`;
+        }
+      }
+
+      async function saveUserProfileToCommunity(user, lockerState) {
+        if (!user || !firebaseDb || !firebaseSdk) return;
+        try {
+          const userDocRef = firebaseSdk.doc(firebaseDb, "spriteLockerUsers", user.uid);
+          let ownedCount = 0;
+          let masteredCount = 0;
+          if (lockerState) {
+            Object.values(lockerState).forEach(raw => {
+              const entry = normalizeEntry(raw);
+              if (entry.owned) ownedCount++;
+              if (entry.mastered) masteredCount++;
+            });
+          }
+          await firebaseSdk.setDoc(userDocRef, {
+            uid: user.uid,
+            displayName: (user.displayName || "Joueur").slice(0, 50),
+            email: user.email || "",
+            photoURL: user.photoURL || "",
+            ownedCount,
+            masteredCount,
+            updatedAt: firebaseSdk.serverTimestamp()
+          }, { merge: true });
+        } catch (_) {}
+      }
+
       function activateAdminTab(tab) {
         const selected = document.querySelector(`[data-admin-tab="${tab}"]`);
         if (!selected) return;
         document.querySelectorAll("[data-admin-tab]").forEach(item => item.setAttribute("aria-selected", String(item === selected)));
         document.querySelectorAll("[data-admin-panel]").forEach(panel => panel.classList.toggle("is-active", panel.dataset.adminPanel === tab));
         if (tab === "variant-edit") fillAdminVariantEditForm();
+        if (tab === "users") fetchAdminUsersList();
       }
 
       function markAdminDraft(message) {
