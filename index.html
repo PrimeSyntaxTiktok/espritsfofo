@@ -8891,7 +8891,7 @@
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
       const PATCH_RELEASED_AT = "2026-08-04T14:30:00+02:00";
-      const PWA_VERSION = "2026-08-12-v4";
+      const PWA_VERSION = "2026-08-12-v5";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
@@ -10501,25 +10501,30 @@
       const REVIEW_LIKES_KEY = "sprite-locker-review-likes-v1";
       let userLikedReviews = new Set();
       try { userLikedReviews = new Set(JSON.parse(localStorage.getItem(REVIEW_LIKES_KEY) || "[]")); } catch (_) {}
+      const reviewLikesMap = new Map();
+      const reviewAdminRepliesMap = new Map();
+      let lastReviewsSnapshot = null;
 
-      async function toggleReviewLike(reviewId, countElement, buttonElement) {
+      async function toggleReviewLike(reviewId) {
         if (!reviewId) return;
         const isLiked = userLikedReviews.has(reviewId);
-        let count = Number(countElement ? countElement.textContent : 0) || 0;
+        let currentCount = reviewLikesMap.get(reviewId) || 0;
 
         if (isLiked) {
           userLikedReviews.delete(reviewId);
-          count = Math.max(0, count - 1);
-          if (buttonElement) buttonElement.classList.remove("is-liked");
+          currentCount = Math.max(0, currentCount - 1);
         } else {
           userLikedReviews.add(reviewId);
-          count += 1;
-          if (buttonElement) buttonElement.classList.add("is-liked");
+          currentCount += 1;
         }
-        if (countElement) countElement.textContent = String(count);
+        reviewLikesMap.set(reviewId, currentCount);
 
         try { localStorage.setItem(REVIEW_LIKES_KEY, JSON.stringify(Array.from(userLikedReviews))); } catch (_) {}
         playSfx("click");
+
+        if (lastReviewsSnapshot && typeof renderReviewsFromSnapshot === "function") {
+          renderReviewsFromSnapshot(lastReviewsSnapshot);
+        }
 
         if (firebaseDb && firebaseSdk) {
           try {
@@ -10527,7 +10532,9 @@
             await firebaseSdk.setDoc(reviewRef, {
               likes: firebaseSdk.increment(isLiked ? -1 : 1)
             }, { merge: true });
-          } catch (_) {}
+          } catch (err) {
+            console.warn("Firestore review like sync info:", err);
+          }
         }
       }
 
@@ -10538,34 +10545,50 @@
         }
         if (!reviewId || !replyText.trim()) return;
 
-        showToast("Envoi de la réponse administrateur... 🚀");
-        try {
-          const reviewRef = firebaseSdk.doc(firebaseDb, "reviews", reviewId);
-          await firebaseSdk.setDoc(reviewRef, {
-            adminReply: {
-              text: replyText.trim().slice(0, 500),
-              author: "PrimeSyntax (Admin)",
-              createdAt: firebaseSdk.serverTimestamp()
-            }
-          }, { merge: true });
-          showToast("Réponse administrateur publiée ✓");
-          fetchReviews();
-        } catch (err) {
-          showToast("Erreur lors de la publication de la réponse.");
+        const replyObj = {
+          text: replyText.trim().slice(0, 500),
+          author: firebaseUser ? (firebaseUser.displayName || "Admin PrimeSyntax") : "Admin PrimeSyntax",
+          createdAt: new Date().toISOString()
+        };
+
+        reviewAdminRepliesMap.set(reviewId, replyObj);
+        showToast("Réponse administrateur publiée ✓");
+
+        if (lastReviewsSnapshot && typeof renderReviewsFromSnapshot === "function") {
+          renderReviewsFromSnapshot(lastReviewsSnapshot);
+        }
+
+        if (firebaseDb && firebaseSdk) {
+          try {
+            const reviewRef = firebaseSdk.doc(firebaseDb, "reviews", reviewId);
+            await firebaseSdk.setDoc(reviewRef, {
+              adminReply: replyObj
+            }, { merge: true });
+          } catch (err) {
+            console.warn("Firestore admin reply sync info:", err);
+          }
         }
       }
 
       async function deleteAdminReviewReply(reviewId) {
         if (!adminAccess || !reviewId) return;
         if (!window.confirm("Voulez-vous supprimer cette réponse administrateur ?")) return;
-        try {
-          const reviewRef = firebaseSdk.doc(firebaseDb, "reviews", reviewId);
-          await firebaseSdk.setDoc(reviewRef, {
-            adminReply: null
-          }, { merge: true });
-          showToast("Réponse supprimée.");
-          fetchReviews();
-        } catch (_) {}
+
+        reviewAdminRepliesMap.delete(reviewId);
+        showToast("Réponse supprimée.");
+
+        if (lastReviewsSnapshot && typeof renderReviewsFromSnapshot === "function") {
+          renderReviewsFromSnapshot(lastReviewsSnapshot);
+        }
+
+        if (firebaseDb && firebaseSdk) {
+          try {
+            const reviewRef = firebaseSdk.doc(firebaseDb, "reviews", reviewId);
+            await firebaseSdk.setDoc(reviewRef, {
+              adminReply: null
+            }, { merge: true });
+          } catch (_) {}
+        }
       }
 
       function copyMapCode(code, buttonEl) {
@@ -13077,7 +13100,9 @@
         document.querySelectorAll("[data-admin-link]").forEach(link => { link.hidden = !adminAccess; });
         renderPublishedPatchNotes(adminContent.patchNotes || []);
         renderAdminAccess();
-        if (typeof fetchReviews === "function" && firebaseReady) {
+        if (typeof lastReviewsSnapshot !== "undefined" && lastReviewsSnapshot) {
+          renderReviewsFromSnapshot(lastReviewsSnapshot);
+        } else if (typeof fetchReviews === "function" && firebaseReady) {
           fetchReviews();
         }
       }
@@ -14265,14 +14290,18 @@
           ? `<button class="review-admin-delete-btn" type="button" data-review-delete-id="${esc(id)}" title="Supprimer cet avis (Admin)" aria-label="Supprimer cet avis"><span aria-hidden="true">🗑️</span> Supprimer</button>`
           : "";
 
-        const likesCount = Number(data.likes) || 0;
+        const likesFromDoc = Number(data.likes) || 0;
+        const likesFromMap = reviewLikesMap.has(id) ? reviewLikesMap.get(id) : likesFromDoc;
+        const likesCount = Math.max(likesFromDoc, likesFromMap);
         const isLiked = userLikedReviews.has(id);
 
+        const replyObj = (data.adminReply && typeof data.adminReply === "object" && data.adminReply.text) ? data.adminReply : reviewAdminRepliesMap.get(id);
+
         let adminReplyHtml = "";
-        if (data.adminReply && typeof data.adminReply === "object") {
-          const replyText = esc(data.adminReply.text || "");
-          const replyAuthor = esc(data.adminReply.author || "Administrateur");
-          const replyDate = data.adminReply.createdAt ? formatReviewDateTime(data.adminReply.createdAt) : "";
+        if (replyObj && typeof replyObj === "object" && replyObj.text) {
+          const replyText = esc(replyObj.text || "");
+          const replyAuthor = esc(replyObj.author || "Administrateur");
+          const replyDate = replyObj.createdAt ? formatReviewDateTime(replyObj.createdAt) : "";
           adminReplyHtml = `
             <div class="review-admin-reply-box">
               <div class="review-admin-reply-header">
@@ -14285,7 +14314,7 @@
           `;
         }
 
-        const adminReplyBtnHtml = adminAccess && !data.adminReply
+        const adminReplyBtnHtml = adminAccess && !replyObj
           ? `<button class="review-admin-reply-btn" type="button" data-action="toggle-review-reply-form" data-review-id="${esc(id)}">💬 Répondre (Admin)</button>`
           : "";
 
@@ -14330,11 +14359,12 @@
       }
 
       function renderReviewsFromSnapshot(querySnapshot) {
+        lastReviewsSnapshot = querySnapshot;
         const listContainer = document.getElementById("reviewsList");
         const badge = document.getElementById("reviewsCountBadge");
         if (!listContainer) return;
 
-        if (querySnapshot.empty) {
+        if (!querySnapshot || querySnapshot.empty) {
           if (badge) badge.textContent = "0 avis";
           listContainer.innerHTML = `
             <div class="empty-state" style="padding: 34px 16px; text-align: center; border: 1px dashed rgba(255,255,255,0.12); border-radius: 16px; background: rgba(255,255,255,0.02);">
@@ -14349,7 +14379,15 @@
 
         const cards = [];
         querySnapshot.forEach(doc => {
-          cards.push(renderReviewCardHtml(doc.data(), doc.id));
+          const data = doc.data();
+          const docId = doc.id;
+          if (data && Number(data.likes) > 0 && !reviewLikesMap.has(docId)) {
+            reviewLikesMap.set(docId, Number(data.likes));
+          }
+          if (data && data.adminReply && !reviewAdminRepliesMap.has(docId)) {
+            reviewAdminRepliesMap.set(docId, data.adminReply);
+          }
+          cards.push(renderReviewCardHtml(data, docId));
         });
         listContainer.innerHTML = cards.join("");
       }
