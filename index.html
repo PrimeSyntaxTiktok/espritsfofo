@@ -7619,6 +7619,218 @@
       transform: scale(1.05);
       box-shadow: 0 0 12px rgba(0, 243, 255, 0.5);
     }
+
+    /* --- MAP LIKES & COMMENTS --- */
+    .map-card-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      flex-wrap: wrap;
+    }
+    .map-action-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #b8c7eb;
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .map-action-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    .map-action-btn.is-liked {
+      background: rgba(255, 71, 87, 0.2);
+      border-color: #ff4757;
+      color: #ff4757;
+      box-shadow: 0 0 10px rgba(255, 71, 87, 0.4);
+    }
+
+    .map-comments-drawer {
+      margin-top: 12px;
+      padding: 12px;
+      background: rgba(6, 10, 24, 0.85);
+      border: 1px solid rgba(0, 243, 255, 0.2);
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .map-comments-drawer[hidden] { display: none !important; }
+    .map-comments-list {
+      max-height: 200px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .map-comment-item {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+    }
+    .map-comment-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .map-comment-author {
+      font-weight: 700;
+      color: #00f3ff;
+    }
+    .map-comment-time {
+      font-size: 0.72rem;
+      color: #8b97b7;
+    }
+    .map-comment-text {
+      color: #e0e8ff;
+      margin: 0;
+      word-break: break-word;
+    }
+    .map-comment-form {
+      display: flex;
+      gap: 8px;
+    }
+    .map-comment-form input {
+      flex: 1;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+    }
+    .map-comment-form button {
+      background: linear-gradient(135deg, #00f3ff, #0066ff);
+      border: none;
+      color: #fff;
+      font-weight: 800;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+
+    /* --- REVIEWS LIKES & ADMIN REPLIES --- */
+    .review-footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      flex-wrap: wrap;
+    }
+    .review-like-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #b8c7eb;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .review-like-btn:hover {
+      background: rgba(255, 71, 87, 0.15);
+      color: #ff4757;
+      border-color: rgba(255, 71, 87, 0.4);
+    }
+    .review-like-btn.is-liked {
+      background: rgba(255, 71, 87, 0.25);
+      border-color: #ff4757;
+      color: #ff4757;
+    }
+
+    .review-admin-reply-btn {
+      background: rgba(153, 0, 255, 0.2);
+      border: 1px solid rgba(153, 0, 255, 0.5);
+      color: #d699ff;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .review-admin-reply-btn:hover {
+      background: rgba(153, 0, 255, 0.4);
+      color: #fff;
+    }
+
+    .review-admin-reply-box {
+      margin-top: 12px;
+      padding: 12px 14px;
+      background: linear-gradient(135deg, rgba(153, 0, 255, 0.15), rgba(0, 243, 255, 0.1));
+      border-left: 3px solid #9900ff;
+      border-radius: 0 12px 12px 0;
+    }
+    .review-admin-reply-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .review-admin-badge {
+      font-weight: 800;
+      font-size: 0.78rem;
+      color: #d699ff;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .review-admin-reply-date {
+      font-size: 0.72rem;
+      color: #8b97b7;
+    }
+    .review-admin-reply-text {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #f0e6ff;
+      line-height: 1.4;
+    }
+
+    .review-admin-reply-form {
+      margin-top: 10px;
+      display: flex;
+      gap: 8px;
+    }
+    .review-admin-reply-form input {
+      flex: 1;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(153, 0, 255, 0.4);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+    }
+    .review-admin-reply-form button {
+      background: linear-gradient(135deg, #9900ff, #ff007f);
+      border: none;
+      color: #fff;
+      font-weight: 800;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -8679,7 +8891,7 @@
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
       const PATCH_RELEASED_AT = "2026-08-04T14:30:00+02:00";
-      const PWA_VERSION = "2026-08-12-v3";
+      const PWA_VERSION = "2026-08-12-v4";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
@@ -10204,6 +10416,158 @@
       }
       loadMapFavorites();
 
+      /* --- MAP LIKES & MAP COMMENTS LOGIC --- */
+      const MAP_LIKES_KEY = "sprite-locker-map-likes-v1";
+      let userLikedMaps = new Set();
+      try { userLikedMaps = new Set(JSON.parse(localStorage.getItem(MAP_LIKES_KEY) || "[]")); } catch (_) {}
+      const mapLikesMap = new Map();
+
+      async function toggleMapLike(mapId) {
+        if (!mapId) return;
+        const isLiked = userLikedMaps.has(mapId);
+        if (isLiked) {
+          userLikedMaps.delete(mapId);
+          mapLikesMap.set(mapId, Math.max(0, (mapLikesMap.get(mapId) || 1) - 1));
+        } else {
+          userLikedMaps.add(mapId);
+          mapLikesMap.set(mapId, (mapLikesMap.get(mapId) || 0) + 1);
+        }
+        try { localStorage.setItem(MAP_LIKES_KEY, JSON.stringify(Array.from(userLikedMaps))); } catch (_) {}
+        playSfx("click");
+        renderMaps();
+
+        if (firebaseDb && firebaseSdk) {
+          try {
+            const mapLikeDoc = firebaseSdk.doc(firebaseDb, "spriteLockerMapLikes", mapId);
+            await firebaseSdk.setDoc(mapLikeDoc, {
+              likes: firebaseSdk.increment(isLiked ? -1 : 1)
+            }, { merge: true });
+          } catch (_) {}
+        }
+      }
+
+      const mapCommentsMap = new Map();
+      async function fetchMapComments(mapId) {
+        if (!firebaseDb || !firebaseSdk) return;
+        try {
+          const q = firebaseSdk.query(
+            firebaseSdk.collection(firebaseDb, "spriteLockerMapComments"),
+            firebaseSdk.where("mapId", "==", mapId),
+            firebaseSdk.limit(50)
+          );
+          const snapshot = await firebaseSdk.getDocs(q);
+          const comments = [];
+          snapshot.forEach(doc => {
+            const data = doc.data();
+            const date = data.createdAt ? (typeof data.createdAt.toDate === "function" ? data.createdAt.toDate() : new Date()) : new Date();
+            const timeStr = new Intl.DateTimeFormat(APP_LOCALE, { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }).format(date);
+            comments.push({ id: doc.id, ...data, timeStr });
+          });
+          mapCommentsMap.set(mapId, comments);
+          renderMaps();
+        } catch (_) {}
+      }
+
+      async function submitMapComment(mapId, text) {
+        if (!mapId || !text.trim()) return;
+        const authorName = firebaseUser ? (firebaseUser.displayName || "Joueur") : "Joueur";
+        const authorPhoto = firebaseUser ? (firebaseUser.photoURL || "") : "";
+        showToast("Publication du commentaire... 💬");
+
+        const commentData = {
+          mapId,
+          text: text.trim().slice(0, 300),
+          authorName,
+          authorPhoto,
+          createdAt: firebaseSdk ? firebaseSdk.serverTimestamp() : new Date()
+        };
+
+        const existing = mapCommentsMap.get(mapId) || [];
+        existing.push({ ...commentData, timeStr: "À l'instant" });
+        mapCommentsMap.set(mapId, existing);
+        renderMaps();
+
+        if (firebaseDb && firebaseSdk) {
+          try {
+            await firebaseSdk.setDoc(firebaseSdk.doc(firebaseSdk.collection(firebaseDb, "spriteLockerMapComments")), commentData);
+            showToast("Commentaire publié avec succès ✓");
+          } catch (err) {
+            showToast("Erreur lors de la publication du commentaire.");
+          }
+        }
+      }
+
+      /* --- REVIEWS LIKES & ADMIN REPLIES LOGIC --- */
+      const REVIEW_LIKES_KEY = "sprite-locker-review-likes-v1";
+      let userLikedReviews = new Set();
+      try { userLikedReviews = new Set(JSON.parse(localStorage.getItem(REVIEW_LIKES_KEY) || "[]")); } catch (_) {}
+
+      async function toggleReviewLike(reviewId, countElement, buttonElement) {
+        if (!reviewId) return;
+        const isLiked = userLikedReviews.has(reviewId);
+        let count = Number(countElement ? countElement.textContent : 0) || 0;
+
+        if (isLiked) {
+          userLikedReviews.delete(reviewId);
+          count = Math.max(0, count - 1);
+          if (buttonElement) buttonElement.classList.remove("is-liked");
+        } else {
+          userLikedReviews.add(reviewId);
+          count += 1;
+          if (buttonElement) buttonElement.classList.add("is-liked");
+        }
+        if (countElement) countElement.textContent = String(count);
+
+        try { localStorage.setItem(REVIEW_LIKES_KEY, JSON.stringify(Array.from(userLikedReviews))); } catch (_) {}
+        playSfx("click");
+
+        if (firebaseDb && firebaseSdk) {
+          try {
+            const reviewRef = firebaseSdk.doc(firebaseDb, "reviews", reviewId);
+            await firebaseSdk.setDoc(reviewRef, {
+              likes: firebaseSdk.increment(isLiked ? -1 : 1)
+            }, { merge: true });
+          } catch (_) {}
+        }
+      }
+
+      async function submitAdminReviewReply(reviewId, replyText) {
+        if (!adminAccess) {
+          showToast("Seul un administrateur peut commenter un avis.");
+          return;
+        }
+        if (!reviewId || !replyText.trim()) return;
+
+        showToast("Envoi de la réponse administrateur... 🚀");
+        try {
+          const reviewRef = firebaseSdk.doc(firebaseDb, "reviews", reviewId);
+          await firebaseSdk.setDoc(reviewRef, {
+            adminReply: {
+              text: replyText.trim().slice(0, 500),
+              author: "PrimeSyntax (Admin)",
+              createdAt: firebaseSdk.serverTimestamp()
+            }
+          }, { merge: true });
+          showToast("Réponse administrateur publiée ✓");
+          fetchReviews();
+        } catch (err) {
+          showToast("Erreur lors de la publication de la réponse.");
+        }
+      }
+
+      async function deleteAdminReviewReply(reviewId) {
+        if (!adminAccess || !reviewId) return;
+        if (!window.confirm("Voulez-vous supprimer cette réponse administrateur ?")) return;
+        try {
+          const reviewRef = firebaseSdk.doc(firebaseDb, "reviews", reviewId);
+          await firebaseSdk.setDoc(reviewRef, {
+            adminReply: null
+          }, { merge: true });
+          showToast("Réponse supprimée.");
+          fetchReviews();
+        } catch (_) {}
+      }
+
       function copyMapCode(code, buttonEl) {
         if (!code) return;
         try {
@@ -10242,6 +10606,62 @@
           return;
         }
 
+        const likeMapBtn = event.target.closest("[data-action='like-map']");
+        if (likeMapBtn) {
+          event.preventDefault();
+          toggleMapLike(likeMapBtn.dataset.mapId);
+          return;
+        }
+
+        const toggleCommentsBtn = event.target.closest("[data-action='toggle-map-comments']");
+        if (toggleCommentsBtn) {
+          event.preventDefault();
+          const mapId = toggleCommentsBtn.dataset.mapId;
+          const drawer = document.getElementById(`mapCommentsDrawer-${mapId}`);
+          if (drawer) {
+            const isHidden = drawer.hasAttribute("hidden");
+            if (isHidden) {
+              drawer.removeAttribute("hidden");
+              fetchMapComments(mapId);
+            } else {
+              drawer.setAttribute("hidden", "true");
+            }
+          }
+          return;
+        }
+
+        const likeReviewBtn = event.target.closest("[data-action='like-review']");
+        if (likeReviewBtn) {
+          event.preventDefault();
+          const reviewId = likeReviewBtn.dataset.reviewId;
+          const countSpan = likeReviewBtn.querySelector("span");
+          toggleReviewLike(reviewId, countSpan, likeReviewBtn);
+          return;
+        }
+
+        const toggleReplyFormBtn = event.target.closest("[data-action='toggle-review-reply-form']");
+        if (toggleReplyFormBtn) {
+          event.preventDefault();
+          if (!adminAccess) {
+            showToast("Seul un administrateur peut commenter un avis.");
+            return;
+          }
+          const reviewId = toggleReplyFormBtn.dataset.reviewId;
+          const form = document.getElementById(`reviewReplyForm-${reviewId}`);
+          if (form) {
+            form.hidden = !form.hidden;
+            if (!form.hidden) form.querySelector("input")?.focus();
+          }
+          return;
+        }
+
+        const deleteReplyBtn = event.target.closest("[data-action='delete-review-reply']");
+        if (deleteReplyBtn) {
+          event.preventDefault();
+          deleteAdminReviewReply(deleteReplyBtn.dataset.reviewId);
+          return;
+        }
+
         const mapCatBtn = event.target.closest("[data-maps-category]");
         if (mapCatBtn) {
           document.querySelectorAll("[data-maps-category]").forEach(b => b.classList.remove("is-active"));
@@ -10266,6 +10686,36 @@
         if (exitInspectBtn) {
           event.preventDefault();
           stopAdminInspection();
+          return;
+        }
+      });
+
+      document.addEventListener("submit", event => {
+        const commentForm = event.target.closest(".map-comment-form");
+        if (commentForm) {
+          event.preventDefault();
+          const mapId = commentForm.dataset.mapId;
+          const input = commentForm.elements.commentText;
+          if (input && input.value.trim()) {
+            submitMapComment(mapId, input.value);
+            input.value = "";
+          }
+          return;
+        }
+
+        const replyForm = event.target.closest(".review-admin-reply-form");
+        if (replyForm) {
+          event.preventDefault();
+          if (!adminAccess) {
+            showToast("Seul un administrateur peut commenter un avis.");
+            return;
+          }
+          const reviewId = replyForm.dataset.reviewId;
+          const input = replyForm.elements.replyText;
+          if (input && input.value.trim()) {
+            submitAdminReviewReply(reviewId, input.value);
+            input.value = "";
+          }
           return;
         }
       });
@@ -10358,6 +10808,13 @@
         grid.innerHTML = filtered.map(map => {
           const badgeLabel = map.category ? String(map.category).trim() : "🗺️ Carte Créative";
           const isFav = mapFavorites.has(map.id);
+
+          const likesCount = mapLikesMap.get(map.id) || 0;
+          const isLiked = userLikedMaps.has(map.id);
+
+          const mapComments = mapCommentsMap.get(map.id) || [];
+          const commentsCount = mapComments.length;
+
           return `
             <article class="map-card" data-map-id="${esc(map.id)}">
               <div class="map-card-thumb">
@@ -10379,6 +10836,33 @@
                     <span aria-hidden="true">📋</span>
                     <span>Copier</span>
                   </button>
+                </div>
+
+                <div class="map-card-actions">
+                  <button class="map-action-btn${isLiked ? ' is-liked' : ''}" type="button" data-action="like-map" data-map-id="${esc(map.id)}">
+                    ❤️ <span>${likesCount}</span> J'aime
+                  </button>
+                  <button class="map-action-btn" type="button" data-action="toggle-map-comments" data-map-id="${esc(map.id)}">
+                    💬 <span>${commentsCount}</span> commentaires
+                  </button>
+                </div>
+
+                <div class="map-comments-drawer" id="mapCommentsDrawer-${esc(map.id)}" hidden>
+                  <div class="map-comments-list" id="mapCommentsList-${esc(map.id)}">
+                    ${mapComments.length === 0 ? '<p style="color:#8b97b7; font-size:0.8rem; margin:0;">Aucun commentaire pour le moment. Soyez le premier !</p>' : mapComments.map(c => `
+                      <div class="map-comment-item">
+                        <div class="map-comment-header">
+                          <span class="map-comment-author">${esc(c.authorName)}</span>
+                          <span class="map-comment-time">${esc(c.timeStr || '')}</span>
+                        </div>
+                        <p class="map-comment-text">${esc(c.text)}</p>
+                      </div>
+                    `).join('')}
+                  </div>
+                  <form class="map-comment-form" data-map-id="${esc(map.id)}">
+                    <input type="text" name="commentText" placeholder="Ajouter un commentaire..." required maxlength="300" autocomplete="off">
+                    <button type="submit">Envoyer</button>
+                  </form>
                 </div>
               </div>
             </article>
@@ -13781,6 +14265,30 @@
           ? `<button class="review-admin-delete-btn" type="button" data-review-delete-id="${esc(id)}" title="Supprimer cet avis (Admin)" aria-label="Supprimer cet avis"><span aria-hidden="true">🗑️</span> Supprimer</button>`
           : "";
 
+        const likesCount = Number(data.likes) || 0;
+        const isLiked = userLikedReviews.has(id);
+
+        let adminReplyHtml = "";
+        if (data.adminReply && typeof data.adminReply === "object") {
+          const replyText = esc(data.adminReply.text || "");
+          const replyAuthor = esc(data.adminReply.author || "Administrateur");
+          const replyDate = data.adminReply.createdAt ? formatReviewDateTime(data.adminReply.createdAt) : "";
+          adminReplyHtml = `
+            <div class="review-admin-reply-box">
+              <div class="review-admin-reply-header">
+                <span class="review-admin-badge">🛡️ ${replyAuthor}</span>
+                ${replyDate ? `<span class="review-admin-reply-date">${replyDate}</span>` : ""}
+              </div>
+              <p class="review-admin-reply-text">${replyText}</p>
+              ${adminAccess ? `<button type="button" style="background:none; border:none; color:#ff4757; font-size:0.75rem; cursor:pointer; margin-top:6px;" data-action="delete-review-reply" data-review-id="${esc(id)}">× Supprimer la réponse</button>` : ""}
+            </div>
+          `;
+        }
+
+        const adminReplyBtnHtml = adminAccess && !data.adminReply
+          ? `<button class="review-admin-reply-btn" type="button" data-action="toggle-review-reply-form" data-review-id="${esc(id)}">💬 Répondre (Admin)</button>`
+          : "";
+
         return `
           <article class="review-card" data-review-id="${esc(id)}">
             <div class="review-card-top">
@@ -13801,6 +14309,22 @@
             </div>
             <div class="review-card-stars" aria-label="${rating} étoiles sur 5">${stars}</div>
             <p class="review-card-text">${safeText}</p>
+
+            ${adminReplyHtml}
+
+            <div class="review-footer-row">
+              <button class="review-like-btn${isLiked ? ' is-liked' : ''}" type="button" data-action="like-review" data-review-id="${esc(id)}">
+                ❤️ <span>${likesCount}</span> J'aime
+              </button>
+              ${adminReplyBtnHtml}
+            </div>
+
+            ${adminAccess ? `
+              <form class="review-admin-reply-form" id="reviewReplyForm-${esc(id)}" data-review-id="${esc(id)}" hidden>
+                <input type="text" name="replyText" placeholder="Écrire une réponse officielle (Admin)..." required maxlength="400" autocomplete="off">
+                <button type="submit">Envoyer 🚀</button>
+              </form>
+            ` : ''}
           </article>
         `;
       }
