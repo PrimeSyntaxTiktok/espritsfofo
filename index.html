@@ -8891,7 +8891,7 @@
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
       const PATCH_RELEASED_AT = "2026-08-04T14:30:00+02:00";
-      const PWA_VERSION = "2026-08-12-v5";
+      const PWA_VERSION = "2026-08-12-v6";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
@@ -10497,13 +10497,171 @@
         }
       }
 
-      /* --- REVIEWS LIKES & ADMIN REPLIES LOGIC --- */
+      /* --- SOCIAL STATE PERSISTENCE MANAGER --- */
+      const MAP_LIKES_KEY = "sprite-locker-map-likes-v1";
+      const MAP_LIKES_COUNTS_KEY = "sprite-locker-map-likes-counts-v1";
+      const MAP_COMMENTS_KEY = "sprite-locker-map-comments-v1";
       const REVIEW_LIKES_KEY = "sprite-locker-review-likes-v1";
+      const REVIEW_LIKES_COUNTS_KEY = "sprite-locker-review-likes-counts-v1";
+      const REVIEW_ADMIN_REPLIES_KEY = "sprite-locker-review-admin-replies-v1";
+
+      let userLikedMaps = new Set();
+      try { userLikedMaps = new Set(JSON.parse(localStorage.getItem(MAP_LIKES_KEY) || "[]")); } catch (_) {}
+
       let userLikedReviews = new Set();
       try { userLikedReviews = new Set(JSON.parse(localStorage.getItem(REVIEW_LIKES_KEY) || "[]")); } catch (_) {}
+
+      const mapLikesMap = new Map();
+      const mapCommentsMap = new Map();
       const reviewLikesMap = new Map();
       const reviewAdminRepliesMap = new Map();
       let lastReviewsSnapshot = null;
+
+      function saveSocialStateToStorage() {
+        try {
+          localStorage.setItem(MAP_LIKES_KEY, JSON.stringify(Array.from(userLikedMaps)));
+          localStorage.setItem(REVIEW_LIKES_KEY, JSON.stringify(Array.from(userLikedReviews)));
+          localStorage.setItem(MAP_LIKES_COUNTS_KEY, JSON.stringify(Object.fromEntries(mapLikesMap)));
+          localStorage.setItem(MAP_COMMENTS_KEY, JSON.stringify(Object.fromEntries(mapCommentsMap)));
+          localStorage.setItem(REVIEW_LIKES_COUNTS_KEY, JSON.stringify(Object.fromEntries(reviewLikesMap)));
+          localStorage.setItem(REVIEW_ADMIN_REPLIES_KEY, JSON.stringify(Object.fromEntries(reviewAdminRepliesMap)));
+        } catch (_) {}
+      }
+
+      function loadSocialStateFromStorage() {
+        try {
+          const mapLikesData = JSON.parse(localStorage.getItem(MAP_LIKES_COUNTS_KEY) || "{}");
+          Object.entries(mapLikesData).forEach(([k, v]) => mapLikesMap.set(k, Number(v) || 0));
+
+          const mapCommentsData = JSON.parse(localStorage.getItem(MAP_COMMENTS_KEY) || "{}");
+          Object.entries(mapCommentsData).forEach(([k, v]) => {
+            if (Array.isArray(v)) mapCommentsMap.set(k, v);
+          });
+
+          const reviewLikesData = JSON.parse(localStorage.getItem(REVIEW_LIKES_COUNTS_KEY) || "{}");
+          Object.entries(reviewLikesData).forEach(([k, v]) => reviewLikesMap.set(k, Number(v) || 0));
+
+          const reviewRepliesData = JSON.parse(localStorage.getItem(REVIEW_ADMIN_REPLIES_KEY) || "{}");
+          Object.entries(reviewRepliesData).forEach(([k, v]) => {
+            if (v && typeof v === "object") reviewAdminRepliesMap.set(k, v);
+          });
+        } catch (_) {}
+      }
+      loadSocialStateFromStorage();
+
+      async function fetchAllSocialDataFromFirestore() {
+        if (!firebaseReady || !firebaseDb || !firebaseSdk) return;
+
+        try {
+          const mapLikesCol = firebaseSdk.collection(firebaseDb, "spriteLockerMapLikes");
+          const snapshot = await firebaseSdk.getDocs(mapLikesCol);
+          snapshot.forEach(doc => {
+            const data = doc.data();
+            if (data && doc.id) {
+              const val = Number(data.likes) || 0;
+              mapLikesMap.set(doc.id, Math.max(val, mapLikesMap.get(doc.id) || 0));
+            }
+          });
+        } catch (_) {}
+
+        try {
+          const mapCommentsCol = firebaseSdk.collection(firebaseDb, "spriteLockerMapComments");
+          const snapshot = await firebaseSdk.getDocs(mapCommentsCol);
+          const grouped = new Map();
+          snapshot.forEach(doc => {
+            const data = doc.data();
+            if (data && data.mapId) {
+              const date = data.createdAt ? (typeof data.createdAt.toDate === "function" ? data.createdAt.toDate() : new Date()) : new Date();
+              const timeStr = new Intl.DateTimeFormat(APP_LOCALE, { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }).format(date);
+              const list = grouped.get(data.mapId) || [];
+              list.push({ id: doc.id, ...data, timeStr });
+              grouped.set(data.mapId, list);
+            }
+          });
+          grouped.forEach((comments, mapId) => {
+            mapCommentsMap.set(mapId, comments);
+          });
+        } catch (_) {}
+
+        saveSocialStateToStorage();
+        if (typeof renderMaps === "function") renderMaps();
+      }
+
+      async function toggleMapLike(mapId) {
+        if (!mapId) return;
+        const isLiked = userLikedMaps.has(mapId);
+        if (isLiked) {
+          userLikedMaps.delete(mapId);
+          mapLikesMap.set(mapId, Math.max(0, (mapLikesMap.get(mapId) || 1) - 1));
+        } else {
+          userLikedMaps.add(mapId);
+          mapLikesMap.set(mapId, (mapLikesMap.get(mapId) || 0) + 1);
+        }
+        saveSocialStateToStorage();
+        playSfx("click");
+        renderMaps();
+
+        if (firebaseDb && firebaseSdk) {
+          try {
+            const mapLikeDoc = firebaseSdk.doc(firebaseDb, "spriteLockerMapLikes", mapId);
+            await firebaseSdk.setDoc(mapLikeDoc, {
+              likes: firebaseSdk.increment(isLiked ? -1 : 1)
+            }, { merge: true });
+          } catch (_) {}
+        }
+      }
+
+      async function fetchMapComments(mapId) {
+        if (!firebaseDb || !firebaseSdk) return;
+        try {
+          const q = firebaseSdk.query(
+            firebaseSdk.collection(firebaseDb, "spriteLockerMapComments"),
+            firebaseSdk.where("mapId", "==", mapId),
+            firebaseSdk.limit(50)
+          );
+          const snapshot = await firebaseSdk.getDocs(q);
+          const comments = [];
+          snapshot.forEach(doc => {
+            const data = doc.data();
+            const date = data.createdAt ? (typeof data.createdAt.toDate === "function" ? data.createdAt.toDate() : new Date()) : new Date();
+            const timeStr = new Intl.DateTimeFormat(APP_LOCALE, { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }).format(date);
+            comments.push({ id: doc.id, ...data, timeStr });
+          });
+          mapCommentsMap.set(mapId, comments);
+          saveSocialStateToStorage();
+          renderMaps();
+        } catch (_) {}
+      }
+
+      async function submitMapComment(mapId, text) {
+        if (!mapId || !text.trim()) return;
+        const authorName = firebaseUser ? (firebaseUser.displayName || "Joueur") : "Joueur";
+        const authorPhoto = firebaseUser ? (firebaseUser.photoURL || "") : "";
+        showToast("Publication du commentaire... 💬");
+
+        const commentData = {
+          mapId,
+          text: text.trim().slice(0, 300),
+          authorName,
+          authorPhoto,
+          createdAt: firebaseSdk ? firebaseSdk.serverTimestamp() : new Date()
+        };
+
+        const existing = mapCommentsMap.get(mapId) || [];
+        existing.push({ ...commentData, timeStr: "À l'instant" });
+        mapCommentsMap.set(mapId, existing);
+        saveSocialStateToStorage();
+        renderMaps();
+
+        if (firebaseDb && firebaseSdk) {
+          try {
+            await firebaseSdk.setDoc(firebaseSdk.doc(firebaseSdk.collection(firebaseDb, "spriteLockerMapComments")), commentData);
+            showToast("Commentaire publié avec succès ✓");
+          } catch (err) {
+            showToast("Erreur lors de la publication du commentaire.");
+          }
+        }
+      }
 
       async function toggleReviewLike(reviewId) {
         if (!reviewId) return;
@@ -10518,8 +10676,8 @@
           currentCount += 1;
         }
         reviewLikesMap.set(reviewId, currentCount);
+        saveSocialStateToStorage();
 
-        try { localStorage.setItem(REVIEW_LIKES_KEY, JSON.stringify(Array.from(userLikedReviews))); } catch (_) {}
         playSfx("click");
 
         if (lastReviewsSnapshot && typeof renderReviewsFromSnapshot === "function") {
@@ -10552,6 +10710,7 @@
         };
 
         reviewAdminRepliesMap.set(reviewId, replyObj);
+        saveSocialStateToStorage();
         showToast("Réponse administrateur publiée ✓");
 
         if (lastReviewsSnapshot && typeof renderReviewsFromSnapshot === "function") {
@@ -10575,6 +10734,7 @@
         if (!window.confirm("Voulez-vous supprimer cette réponse administrateur ?")) return;
 
         reviewAdminRepliesMap.delete(reviewId);
+        saveSocialStateToStorage();
         showToast("Réponse supprimée.");
 
         if (lastReviewsSnapshot && typeof renderReviewsFromSnapshot === "function") {
@@ -12147,6 +12307,7 @@
           firebaseReady = true;
           loadPublishedContent();
           fetchReviews();
+          setTimeout(() => { try { fetchAllSocialDataFromFirestore(); } catch (_) {} }, 100);
           setTimeout(() => { try { startPublicVisitorCounter(); } catch (_) {} }, 0);
           const hadRedirectPending = redirectWasPending();
           let redirectResult = null;
