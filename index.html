@@ -6745,6 +6745,434 @@
       opacity: 0;
       width: 0; height: 0;
     }
+    /* Astuces Fortnite Hub Styling */
+    .tips-hero {
+      background: linear-gradient(135deg, rgba(36,169,255,0.15) 0%, rgba(139,92,246,0.15) 50%, rgba(255,77,157,0.12) 100%);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 24px;
+      padding: 32px 24px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+      backdrop-filter: blur(12px);
+    }
+    .tips-hero::before {
+      content: "";
+      position: absolute;
+      top: -50%; right: -20%;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, var(--accent, #24a9ff) 0%, transparent 70%);
+      opacity: 0.2;
+      filter: blur(50px);
+      pointer-events: none;
+    }
+    .tips-hero-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .tips-hero-title {
+      max-width: 650px;
+    }
+    .tips-hero-title h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin: 4px 0 10px;
+      color: #fff;
+    }
+    .tips-hero-title h1 span {
+      background: linear-gradient(135deg, var(--accent, #24a9ff), #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .tips-hero-stats {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .tips-stat-badge {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 8px 16px;
+      border-radius: 14px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.9);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tips-stat-badge strong {
+      color: var(--accent, #24a9ff);
+      font-size: 1.1rem;
+    }
+
+    .tips-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .tips-search-wrap {
+      position: relative;
+      width: 100%;
+    }
+    .tips-search-input {
+      width: 100%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 16px;
+      padding: 14px 20px 14px 48px;
+      font-size: 0.95rem;
+      color: #fff;
+      outline: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+    .tips-search-input:focus {
+      border-color: var(--accent, #24a9ff);
+      background: rgba(255,255,255,0.09);
+      box-shadow: 0 0 20px rgba(36,169,255,0.25);
+    }
+    .tips-search-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.1rem;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .tips-filters-row {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      scrollbar-width: none;
+    }
+    .tips-filters-row::-webkit-scrollbar { display: none; }
+
+    .tips-chip {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.8);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tips-chip:hover {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.25);
+      color: #fff;
+    }
+    .tips-chip.is-active {
+      background: var(--accent, #24a9ff);
+      border-color: var(--accent, #24a9ff);
+      color: #000;
+      font-weight: 800;
+      box-shadow: 0 4px 14px rgba(36,169,255,0.35);
+    }
+    .tips-chip.is-fav-active {
+      background: #ffd84a;
+      border-color: #ffd84a;
+      color: #000;
+      font-weight: 800;
+      box-shadow: 0 4px 14px rgba(255,216,74,0.35);
+    }
+
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+    .tip-card {
+      background: rgba(20,22,32,0.65);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: all 0.25s cubic-bezier(0.2,0.8,0.2,1);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    }
+    .tip-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255,255,255,0.28);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.4), 0 0 20px rgba(var(--accent-rgb, 36,169,255), 0.15);
+    }
+    .tip-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .tip-badge-category {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--accent, #24a9ff);
+    }
+    .tip-badge-level {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .tip-level-beginner { background: rgba(79,226,154,0.15); color: #4fe29a; border: 1px solid rgba(79,226,154,0.3); }
+    .tip-level-intermediate { background: rgba(255,209,92,0.15); color: #ffd15c; border: 1px solid rgba(255,209,92,0.3); }
+    .tip-level-pro { background: rgba(255,111,135,0.15); color: #ff6f87; border: 1px solid rgba(255,111,135,0.3); }
+
+    .tip-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .tip-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.3;
+      margin: 0;
+    }
+    .tip-fav-btn {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.4);
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+    .tip-fav-btn:hover {
+      color: #ffd84a;
+      background: rgba(255,216,74,0.15);
+      border-color: rgba(255,216,74,0.4);
+    }
+    .tip-fav-btn.is-favorite {
+      color: #ffd84a;
+      background: rgba(255,216,74,0.2);
+      border-color: #ffd84a;
+      box-shadow: 0 0 12px rgba(255,216,74,0.3);
+    }
+
+    .tip-content {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.55;
+      margin-bottom: 12px;
+    }
+
+    .tip-pro-callout {
+      background: rgba(36,169,255,0.08);
+      border-left: 3px solid var(--accent, #24a9ff);
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-top: 10px;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.92);
+      line-height: 1.45;
+    }
+    .tip-pro-callout strong {
+      color: var(--accent, #24a9ff);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 2px;
+    }
+
+    .tip-code-box {
+      margin-top: 10px;
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 10px;
+      padding: 8px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .tip-code-text {
+      font-family: monospace;
+      font-size: 0.88rem;
+      color: #ffd15c;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .tip-copy-btn {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .tip-copy-btn:hover {
+      background: var(--accent, #24a9ff);
+      color: #000;
+    }
+
+    .tip-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+    .tip-tag {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.04);
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    /* Cartes Créatives (Maps) Styling */
+    .map-card {
+      background: rgba(14, 20, 42, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(12px);
+    }
+    .map-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(var(--accent-rgb, 36, 169, 255), 0.5);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(var(--accent-rgb, 36, 169, 255), 0.15);
+    }
+    .map-card-thumb {
+      position: relative;
+      width: 100%;
+      height: 180px;
+      background: rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+    }
+    .map-card-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .map-card:hover .map-card-thumb img {
+      transform: scale(1.05);
+    }
+    .map-card-badge {
+      position: absolute;
+      top: 12px; left: 12px;
+      background: rgba(10, 15, 30, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    .map-card-content {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    .map-card-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #fff;
+      margin: 0 0 8px;
+      line-height: 1.3;
+    }
+    .map-card-desc {
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.5;
+      margin: 0 0 16px;
+      flex-grow: 1;
+    }
+    .map-card-code-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin-top: auto;
+    }
+    .map-code-box {
+      display: flex;
+      flex-direction: column;
+    }
+    .map-code-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: rgba(255, 255, 255, 0.5);
+    }
+    .map-code-value {
+      font-family: monospace;
+      font-size: 1rem;
+      font-weight: 900;
+      color: var(--accent, #24a9ff);
+      letter-spacing: 0.05em;
+    }
+    .map-copy-btn {
+      background: rgba(var(--accent-rgb, 36, 169, 255), 0.15);
+      border: 1px solid rgba(var(--accent-rgb, 36, 169, 255), 0.35);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .map-copy-btn:hover {
+      background: var(--accent, #24a9ff);
+      color: #000;
+      border-color: var(--accent, #24a9ff);
+      box-shadow: 0 0 14px rgba(var(--accent-rgb, 36, 169, 255), 0.4);
+    }
   </style>
 </head>
 <body>
@@ -6760,6 +7188,7 @@
           <a href="#home" data-page-target="home">Accueil</a>
           <a href="#catalog" data-page-target="catalog">Catalogue</a>
           <a href="#guide" data-page-target="guide">Guide</a>
+          <a href="#maps" data-page-target="maps">Maps</a>
           <a href="#settings" data-page-target="settings">Réglages</a>
           <a href="#reviews" data-page-target="reviews">Avis</a>
           <a href="#patch-notes" data-page-target="patch-notes">Patch Notes</a>
@@ -6956,6 +7385,32 @@
       <div class="guide-grid" id="guideGrid"></div>
     </section>
 
+    <section class="feature-page app-page" id="mapsPage" data-page="maps" aria-labelledby="mapsTitle">
+      <header class="tips-hero">
+        <div class="tips-hero-header">
+          <div class="tips-hero-title">
+            <span class="feature-eyebrow">Sélection Créative Fortnite</span>
+            <h1 id="mapsTitle">Cartes &amp; <span>Maps Créatives</span></h1>
+            <p>Découvre les meilleures cartes d'entraînement, duels, warmup et mini-jeux publiées par l'administrateur avec codes directs en 1 clic.</p>
+          </div>
+          <div class="tips-hero-stats">
+            <div class="tips-stat-badge"><span>Maps disponibles</span> <strong id="mapsCountTotal">0</strong></div>
+          </div>
+        </div>
+      </header>
+
+      <div class="tips-controls">
+        <div class="tips-search-wrap">
+          <span class="tips-search-icon" aria-hidden="true">🔍</span>
+          <input type="search" class="tips-search-input" id="mapsSearchInput" placeholder="Rechercher une map (ex: 1v1, aim, edit, warmup, code...)..." aria-label="Rechercher une map">
+        </div>
+        
+        <div class="tips-filters-row" id="mapsCategoryFilters"></div>
+      </div>
+
+      <div class="tips-grid" id="mapsGrid"></div>
+    </section>
+
     <section class="feature-page app-page" id="settingsPage" data-page="settings" aria-labelledby="settingsTitle">
       <header class="settings-hero">
         <span class="feature-eyebrow">Ton casier, ton style</span>
@@ -7101,6 +7556,7 @@
           <button type="button" data-admin-tab="edit" aria-selected="false">Modifier</button>
           <button type="button" data-admin-tab="variant" aria-selected="false">Nouvelle variante</button>
           <button type="button" data-admin-tab="variant-edit" aria-selected="false">Modifier les variantes</button>
+          <button type="button" data-admin-tab="map" aria-selected="false">Maps Créatives</button>
           <button type="button" data-admin-tab="patch" aria-selected="false">Patch Note</button>
           <button type="button" data-admin-tab="manage" aria-selected="false">Gérer / supprimer</button>
         </nav>
@@ -7130,6 +7586,34 @@
             <label class="field-label field-span">Bonus de variante en anglais<textarea name="effectEn" required maxlength="500" rows="4"></textarea></label>
           </div>
           <button class="feature-primary" type="submit">Enregistrer la variante</button>
+        </form>
+        <form class="panel-card admin-form" id="adminMapForm" data-admin-panel="map">
+          <div class="panel-heading"><div><span>Créatif</span><h2>Publier / Gérer une Map Créative</h2></div></div>
+          <div class="form-grid">
+            <label class="field-label field-span">Nom de la map<input name="title" required maxlength="80" placeholder="ex: 1v1 Build Fight, Aim Trainer 2026..."></label>
+            <label class="field-label">Code de la map<input name="code" required maxlength="30" placeholder="9040-8664-9099"></label>
+            <label class="field-label">Catégorie de la map
+              <input name="category" required maxlength="50" list="adminMapCatSuggestions" placeholder="ex: Aim, Edit, Boxfight, 1v1, Warmup, XP...">
+              <datalist id="adminMapCatSuggestions">
+                <option value="🎯 Aim & Visée">
+                <option value="🏗️ Edit & Construction">
+                <option value="⚔️ Boxfight & Zone Wars">
+                <option value="⚔️ 1v1 Speed Run">
+                <option value="🔥 Échauffement / Warmup">
+                <option value="⭐ Gain d'XP & Farm">
+                <option value="🎮 Mini-jeux & Fun">
+              </datalist>
+            </label>
+            <label class="field-label field-span">URL de l’image d’illustration<input name="image" required type="url" placeholder="https://... ou URL d'image"></label>
+            <label class="field-label field-span">Description de la map (facultatif)<textarea name="description" maxlength="800" rows="4" placeholder="Explique les spécificités de la map, les règles ou comment l'utiliser..."></textarea></label>
+          </div>
+          <div class="admin-patch-form-actions" style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 6px;">
+            <button class="feature-primary" type="submit" name="submitAction" value="publish" style="display: inline-flex; align-items: center; gap: 8px;"><span aria-hidden="true">🚀</span> Publier la Map sur le site</button>
+          </div>
+          <section class="admin-patch-quick" aria-labelledby="adminMapQuickTitle">
+            <header><div><span>Gestion directe</span><h3 id="adminMapQuickTitle">Mes Maps Publiées</h3></div><small>Modifier ou supprimer</small></header>
+            <div class="admin-patch-quick-list" id="adminMapQuickList" aria-live="polite"></div>
+          </section>
         </form>
         <form class="panel-card admin-form" id="adminPatchForm" data-admin-panel="patch">
           <div class="panel-heading"><div><span>Actualité</span><h2>Publier un Patch Note</h2></div></div>
@@ -7686,7 +8170,7 @@
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
       const PATCH_RELEASED_AT = "2026-08-04T14:30:00+02:00";
-      const PWA_VERSION = "2026-08-11-v1";
+      const PWA_VERSION = "2026-08-11-v8";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
@@ -9173,10 +9657,176 @@
         return meaningful.length ? meaningful : tokens;
       }
 
+      let currentMapsCategory = "all";
+      let currentMapsSearch = "";
+      let editingMapId = null;
+
+      function copyMapCode(code, buttonEl) {
+        if (!code) return;
+        try {
+          navigator.clipboard.writeText(code);
+          playSfx("click");
+          if (buttonEl) {
+            const prevText = buttonEl.textContent;
+            buttonEl.textContent = "Copié ! ✓";
+            buttonEl.style.background = "#4fe29a";
+            buttonEl.style.color = "#000";
+            setTimeout(() => {
+              buttonEl.textContent = prevText;
+              buttonEl.style.background = "";
+              buttonEl.style.color = "";
+            }, 1800);
+          }
+          showToast(`Code d'île copié : ${code}`);
+        } catch (_) {
+          showToast(`Code : ${code}`);
+        }
+      }
+
+      document.addEventListener("click", event => {
+        const copyBtn = event.target.closest("[data-action='copy-code']");
+        if (copyBtn) {
+          event.preventDefault();
+          copyMapCode(copyBtn.dataset.code, copyBtn);
+          return;
+        }
+
+        const mapCatBtn = event.target.closest("[data-maps-category]");
+        if (mapCatBtn) {
+          document.querySelectorAll("[data-maps-category]").forEach(b => b.classList.remove("is-active"));
+          currentMapsCategory = mapCatBtn.dataset.mapsCategory;
+          mapCatBtn.classList.add("is-active");
+          playSfx("click");
+          renderMaps();
+          return;
+        }
+      });
+
+      document.getElementById("mapsSearchInput")?.addEventListener("input", event => {
+        currentMapsSearch = event.target.value;
+        renderMaps();
+      });
+
+      function renderMapCategoryFilters(mapsList) {
+        const container = document.getElementById("mapsCategoryFilters");
+        if (!container) return;
+
+        if (!mapsList || mapsList.length === 0) {
+          container.innerHTML = "";
+          container.style.display = "none";
+          return;
+        }
+
+        container.style.display = "flex";
+
+        const availableCategories = Array.from(
+          new Set(mapsList.map(m => String(m.category || "Général").trim()).filter(Boolean))
+        );
+
+        if (currentMapsCategory !== "all" && !availableCategories.includes(currentMapsCategory)) {
+          currentMapsCategory = "all";
+        }
+
+        let html = `<button class="tips-chip${currentMapsCategory === "all" ? " is-active" : ""}" data-maps-category="all" type="button">Toutes les maps 🗺️ (${mapsList.length})</button>`;
+
+        availableCategories.forEach(cat => {
+          const count = mapsList.filter(m => String(m.category || "Général").trim() === cat).length;
+          const isActive = currentMapsCategory === cat;
+          html += `<button class="tips-chip${isActive ? " is-active" : ""}" data-maps-category="${esc(cat)}" type="button">${esc(cat)} (${count})</button>`;
+        });
+
+        container.innerHTML = html;
+      }
+
+      function renderMaps() {
+        const grid = document.getElementById("mapsGrid");
+        const countTotal = document.getElementById("mapsCountTotal");
+        if (!grid) return;
+
+        const mapsList = Array.isArray(adminContent.creativeMaps) ? adminContent.creativeMaps : [];
+
+        if (countTotal) countTotal.textContent = String(mapsList.length);
+
+        renderMapCategoryFilters(mapsList);
+
+        const query = normalizedText(currentMapsSearch);
+
+        const filtered = mapsList.filter(map => {
+          const cat = String(map.category || "Général").trim();
+          if (currentMapsCategory !== "all" && cat !== currentMapsCategory) return false;
+          if (!query) return true;
+          const titleMatch = normalizedText(map.title).includes(query);
+          const codeMatch = normalizedText(map.code).includes(query);
+          const descMatch = normalizedText(map.description || "").includes(query);
+          const catMatch = normalizedText(cat).includes(query);
+          return titleMatch || codeMatch || descMatch || catMatch;
+        });
+
+        if (filtered.length === 0) {
+          const emptyCopy = mapsList.length === 0
+            ? "L'administrateur n'a pas encore publié de carte sur le site."
+            : "Aucune carte ne correspond à ta recherche dans cette catégorie.";
+          grid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 50px 20px; background: rgba(8,13,32,0.6); border: 1px dashed rgba(255,255,255,0.15); border-radius: 18px;">
+              <span style="font-size: 2.5rem; display: block; margin-bottom: 10px;">🗺️</span>
+              <h3 style="margin: 0 0 6px; color: #fff; font-size: 1.1rem;">${mapsList.length === 0 ? "Aucune map disponible" : "Aucune map trouvée"}</h3>
+              <p style="margin: 0; color: #8b97b7; font-size: 0.88rem;">${emptyCopy}</p>
+            </div>
+          `;
+          return;
+        }
+
+        grid.innerHTML = filtered.map(map => {
+          const badgeLabel = map.category ? String(map.category).trim() : "🗺️ Carte Créative";
+          return `
+            <article class="map-card" data-map-id="${esc(map.id)}">
+              <div class="map-card-thumb">
+                <img src="${esc(map.image)}" alt="${esc(map.title)}" loading="lazy" onerror="this.onerror=null;this.src='https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_CokeParmesan_Default_L.webp';">
+                <span class="map-card-badge">${esc(badgeLabel)}</span>
+              </div>
+              <div class="map-card-content">
+                <h3 class="map-card-title">${esc(map.title)}</h3>
+                ${map.description ? `<p class="map-card-desc">${esc(map.description)}</p>` : ""}
+                <div class="map-card-code-row">
+                  <div class="map-code-box">
+                    <span class="map-code-label">Code d'île</span>
+                    <strong class="map-code-value">${esc(map.code)}</strong>
+                  </div>
+                  <button class="map-copy-btn" type="button" data-action="copy-code" data-code="${esc(map.code)}">
+                    <span aria-hidden="true">📋</span>
+                    <span>Copier</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+          `;
+        }).join("");
+      }
+
+      function renderAdminMapQuickList() {
+        const list = document.getElementById("adminMapQuickList");
+        if (!list) return;
+        const maps = adminDraft && Array.isArray(adminDraft.creativeMaps) && adminDraft.creativeMaps.length
+          ? adminDraft.creativeMaps
+          : (adminContent.creativeMaps || []);
+
+        list.innerHTML = maps.length ? maps.map((map, index) => {
+          const published = (adminContent.creativeMaps || []).some(m => m.id === map.id || (m.code === map.code && m.title === map.title));
+          const mapId = map.id || `map-${index}`;
+          return `<article class="admin-patch-quick-row">
+            <div><strong>${esc(map.title || "Map Créative")}</strong><small>${esc(map.code || "Sans code")} · ${published ? "publiée" : "brouillon"}</small></div>
+            <div class="admin-patch-quick-actions">
+              <button type="button" data-admin-manage-action="edit" data-admin-manage-type="map" data-admin-manage-index="${index}" data-map-id="${esc(mapId)}"><span aria-hidden="true">✎</span>Modifier</button>
+              <button class="is-danger" type="button" data-admin-manage-action="delete" data-admin-manage-type="map" data-admin-manage-index="${index}" data-map-id="${esc(mapId)}"><span aria-hidden="true">×</span>Supprimer</button>
+            </div>
+          </article>`;
+        }).join("") : `<div class="empty-state"><strong>Aucune Map enregistrée</strong>Les maps publiées apparaîtront ici avec leurs boutons de gestion.</div>`;
+      }
+
       function normalizedPage(value) {
         const route = String(value || "").split("/")[0];
         if (route === "inventory") return "catalog";
-        return ["home", "catalog", "guide", "settings", "admin", "patch-notes", "reviews"].includes(route) ? route : "home";
+        return ["home", "catalog", "guide", "maps", "settings", "admin", "patch-notes", "reviews"].includes(route) ? route : "home";
       }
 
       function updateCollectionPageCopy() {
@@ -9192,20 +9842,20 @@
         const collectionVisible = activePage === "catalog";
         const patchNotesVisible = activePage === "patch-notes";
         const guideVisible = activePage === "guide";
+        const mapsVisible = activePage === "maps";
         const settingsVisible = activePage === "settings";
         const adminVisible = activePage === "admin";
         const reviewsVisible = activePage === "reviews";
 
         document.documentElement.dataset.appPage = activePage;
-        document.getElementById("homePage").classList.toggle("is-active", homeVisible);
-        document.getElementById("collectionPage").classList.toggle("is-active", collectionVisible);
-        document.getElementById("patchNotesPage").classList.toggle("is-active", patchNotesVisible);
-        document.getElementById("guidePage").classList.toggle("is-active", guideVisible);
-        document.getElementById("settingsPage").classList.toggle("is-active", settingsVisible);
-        document.getElementById("adminPage").classList.toggle("is-active", adminVisible);
-        if (document.getElementById("reviewsPage")) {
-          document.getElementById("reviewsPage").classList.toggle("is-active", reviewsVisible);
-        }
+        document.getElementById("homePage")?.classList.toggle("is-active", homeVisible);
+        document.getElementById("collectionPage")?.classList.toggle("is-active", collectionVisible);
+        document.getElementById("patchNotesPage")?.classList.toggle("is-active", patchNotesVisible);
+        document.getElementById("guidePage")?.classList.toggle("is-active", guideVisible);
+        document.getElementById("mapsPage")?.classList.toggle("is-active", mapsVisible);
+        document.getElementById("settingsPage")?.classList.toggle("is-active", settingsVisible);
+        document.getElementById("adminPage")?.classList.toggle("is-active", adminVisible);
+        document.getElementById("reviewsPage")?.classList.toggle("is-active", reviewsVisible);
 
         document.querySelectorAll("[data-page-target]").forEach(link => {
           if (link.dataset.pageTarget === activePage) link.setAttribute("aria-current", "page");
@@ -9227,6 +9877,9 @@
           render();
         } else if (guideVisible) {
           renderGuide();
+          updateStats();
+        } else if (mapsVisible) {
+          renderMaps();
           updateStats();
         } else if (settingsVisible) {
           renderAppearanceControls();
@@ -10750,6 +11403,7 @@
           overrides: value.overrides && typeof value.overrides === "object" ? value.overrides : {},
           variantOverrides: value.variantOverrides && typeof value.variantOverrides === "object" ? value.variantOverrides : {},
           patchNotes: Array.isArray(value.patchNotes) ? value.patchNotes : [],
+          creativeMaps: Array.isArray(value.creativeMaps) ? value.creativeMaps : [],
           updatedAtMs: Math.max(0, Number(value.updatedAtMs) || 0)
         };
       }
@@ -11493,6 +12147,7 @@
         history.innerHTML = items.length ? items.slice().reverse().map(item => `<article><strong>${esc(item.title)}</strong><span>${esc(item.type)} · brouillon</span></article>`).join("") : "";
         renderAdminContentManager();
         renderAdminPatchQuickList();
+        renderAdminMapQuickList();
       }
 
       function renderAdminContentManager() {
@@ -11552,6 +12207,30 @@
           if (note) openPatchNoteEditor({ kind: "patch", index, id: note.id || targetId }, note.body || "", note.title || "");
           return;
         }
+        if (action === "edit" && type === "map") {
+          let map = null;
+          if (targetId) {
+            map = (adminDraft.creativeMaps || []).find(m => m.id === targetId) || (adminContent.creativeMaps || []).find(m => m.id === targetId);
+          }
+          if (!map && Number.isFinite(index)) {
+            map = (adminDraft.creativeMaps || [])[index] || (adminContent.creativeMaps || [])[index];
+          }
+          if (map) {
+            activateAdminTab("map");
+            const form = document.getElementById("adminMapForm");
+            if (form) {
+              form.elements["title"].value = map.title || "";
+              form.elements["code"].value = map.code || "";
+              form.elements["category"].value = map.category || "aim";
+              form.elements["image"].value = map.image || "";
+              form.elements["description"].value = map.description || "";
+              editingMapId = map.id || targetId;
+              form.scrollIntoView({ behavior: "smooth", block: "start" });
+              showToast("Map chargée pour modification ✎");
+            }
+          }
+          return;
+        }
         if (action === "edit" && type === "variantMeta" && baseVariantSnapshot[key]) {
           activateAdminTab("variant-edit");
           const select = document.getElementById("adminVariantEditSelect");
@@ -11568,12 +12247,19 @@
             adminDraft.patchNotes.splice(index, 1);
           }
         }
+        if (type === "map") {
+          if (targetId) {
+            adminDraft.creativeMaps = (adminDraft.creativeMaps || []).filter(m => m.id !== targetId);
+          } else if (Number.isFinite(index)) {
+            adminDraft.creativeMaps.splice(index, 1);
+          }
+        }
         if (type === "addition") adminDraft.additions.splice(index, 1);
         if (type === "variant") adminDraft.variants.splice(index, 1);
         if (type === "override" && key) delete adminDraft.overrides[key];
         if (type === "variantMeta" && key) delete adminDraft.variantOverrides[key];
         markAdminDraft("Suppression ajoutée au brouillon");
-        showToast(type === "patch" ? "Patch Note supprimé du brouillon · clique sur Publier" : "Suppression prête à être publiée");
+        showToast((type === "patch" || type === "map") ? "Élément supprimé du brouillon · clique sur Publier" : "Suppression prête à être publiée");
       }
 
       function slugForAdmin(value) {
@@ -11777,6 +12463,55 @@
         form.reset();
         form.elements.date.value = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16);
       });
+      document.getElementById("adminMapForm")?.addEventListener("submit", async event => {
+        event.preventDefault();
+        if (!adminAccess) return showToast("Accès administrateur requis");
+        const form = event.target;
+        const formData = new FormData(form);
+        const title = String(formData.get("title") || "").trim();
+        const code = String(formData.get("code") || "").trim();
+        const category = String(formData.get("category") || "aim").trim();
+        const image = String(formData.get("image") || "").trim();
+        const description = String(formData.get("description") || "").trim();
+
+        if (!title || !code || !image) {
+          return showToast("Veuillez remplir le titre, le code et l'image");
+        }
+
+        const mapObj = {
+          id: editingMapId || `map-${Date.now().toString(36)}`,
+          title,
+          code,
+          category,
+          image,
+          description,
+          createdAtMs: Date.now()
+        };
+
+        const currentMaps = Array.isArray(adminDraft.creativeMaps) && adminDraft.creativeMaps.length
+          ? [...adminDraft.creativeMaps]
+          : [...(adminContent.creativeMaps || [])];
+
+        if (editingMapId) {
+          const idx = currentMaps.findIndex(m => m.id === editingMapId);
+          if (idx >= 0) currentMaps[idx] = mapObj;
+          else currentMaps.unshift(mapObj);
+          editingMapId = null;
+        } else {
+          currentMaps.unshift(mapObj);
+        }
+
+        adminDraft = normalizeAdminContent({
+          ...adminDraft,
+          creativeMaps: currentMaps,
+          updatedAtMs: Date.now()
+        });
+        await publishAdminContent();
+        form.reset();
+        showToast("Map Créative publiée avec succès ! 🚀");
+        renderMaps();
+        renderAdminMapQuickList();
+      });
       document.getElementById("adminPreviewBtn").addEventListener("click", () => applyAdminContent(adminDraft, { announce: true }));
       document.getElementById("adminPublishBtn").addEventListener("click", publishAdminContent);
       document.getElementById("adminConnectBtn").addEventListener("click", connectGoogleAccount);
@@ -11788,7 +12523,7 @@
             button.dataset.adminManageType,
             button.dataset.adminManageIndex !== undefined ? Number(button.dataset.adminManageIndex) : undefined,
             button.dataset.adminManageKey || "",
-            button.dataset.patchId || ""
+            button.dataset.patchId || button.dataset.mapId || ""
           );
         }
       });
