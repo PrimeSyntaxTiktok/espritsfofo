@@ -7620,6 +7620,77 @@
       box-shadow: 0 0 12px rgba(0, 243, 255, 0.5);
     }
 
+    /* --- MAPS CATEGORY DROPDOWN & FAVORITES BUTTON --- */
+    .maps-filters-bar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+    .maps-fav-filter-btn {
+      background: rgba(255, 215, 0, 0.1);
+      border: 1px solid rgba(255, 215, 0, 0.35);
+      color: #ffd700;
+      padding: 9px 18px;
+      border-radius: 14px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+    .maps-fav-filter-btn:hover {
+      background: rgba(255, 215, 0, 0.2);
+      border-color: #ffd700;
+      transform: translateY(-1px);
+      box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
+    }
+    .maps-fav-filter-btn.is-active {
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.35), rgba(255, 170, 0, 0.25));
+      border-color: #ffd700;
+      color: #fff;
+      box-shadow: 0 0 16px rgba(255, 215, 0, 0.5);
+    }
+    .maps-category-select-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(12, 18, 42, 0.8);
+      border: 1px solid rgba(0, 243, 255, 0.25);
+      padding: 4px 6px 4px 14px;
+      border-radius: 14px;
+      transition: all 0.2s ease;
+    }
+    .maps-category-select-group:focus-within,
+    .maps-category-select-group:hover {
+      border-color: #00f3ff;
+      box-shadow: 0 0 14px rgba(0, 243, 255, 0.25);
+    }
+    .maps-select-label {
+      color: #b8c7eb;
+      font-size: 0.85rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .maps-category-select {
+      background: transparent;
+      border: none;
+      color: #00f3ff;
+      font-size: 0.88rem;
+      font-weight: 800;
+      padding: 6px 12px;
+      cursor: pointer;
+      outline: none;
+    }
+    .maps-category-select option {
+      background: #090e24;
+      color: #fff;
+      font-weight: 700;
+    }
+
     /* --- MAP & REVIEWS LIKES --- */
     .map-card-actions {
       display: flex;
@@ -8753,7 +8824,7 @@
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
       const PATCH_RELEASED_AT = "2026-08-04T14:30:00+02:00";
-      const PWA_VERSION = "2026-08-12-v8";
+      const PWA_VERSION = "2026-08-12-v9";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
@@ -10442,11 +10513,10 @@
           return;
         }
 
-        const mapCatBtn = event.target.closest("[data-maps-category]");
-        if (mapCatBtn) {
-          document.querySelectorAll("[data-maps-category]").forEach(b => b.classList.remove("is-active"));
-          currentMapsCategory = mapCatBtn.dataset.mapsCategory;
-          mapCatBtn.classList.add("is-active");
+        const favFilterBtn = event.target.closest("[data-action='toggle-fav-filter']");
+        if (favFilterBtn) {
+          event.preventDefault();
+          currentMapsCategory = currentMapsCategory === "favorites" ? "all" : "favorites";
           playSfx("click");
           renderMaps();
           return;
@@ -10486,6 +10556,7 @@
         }
 
         container.style.display = "flex";
+        container.className = "maps-filters-bar";
 
         const availableCategories = Array.from(
           new Set(mapsList.map(m => String(m.category || "Général").trim()).filter(Boolean))
@@ -10497,20 +10568,35 @@
           currentMapsCategory = "all";
         }
 
-        let html = `<button class="tips-chip${currentMapsCategory === "all" ? " is-active" : ""}" data-maps-category="all" type="button">Toutes les maps 🗺️ (${mapsList.length})</button>`;
+        const isFavActive = currentMapsCategory === "favorites";
 
-        if (favCount > 0) {
-          const isFavActive = currentMapsCategory === "favorites";
-          html += `<button class="tips-chip${isFavActive ? " is-active" : ""}" data-maps-category="favorites" type="button" style="border-color:#ffd700; color:#ffd700;">⭐ Favoris (${favCount})</button>`;
-        }
-
+        let optionsHtml = `<option value="all"${currentMapsCategory === "all" ? " selected" : ""}>Toutes les maps 🗺️ (${mapsList.length})</option>`;
         availableCategories.forEach(cat => {
           const count = mapsList.filter(m => String(m.category || "Général").trim() === cat).length;
-          const isActive = currentMapsCategory === cat;
-          html += `<button class="tips-chip${isActive ? " is-active" : ""}" data-maps-category="${esc(cat)}" type="button">${esc(cat)} (${count})</button>`;
+          const isSelected = currentMapsCategory === cat;
+          optionsHtml += `<option value="${esc(cat)}"${isSelected ? " selected" : ""}>${esc(cat)} (${count})</option>`;
         });
 
-        container.innerHTML = html;
+        container.innerHTML = `
+          <button class="maps-fav-filter-btn${isFavActive ? " is-active" : ""}" id="mapsFavFilterBtn" type="button" data-action="toggle-fav-filter">
+            ⭐ Favoris (${favCount})
+          </button>
+          <div class="maps-category-select-group">
+            <label for="mapsCategorySelect" class="maps-select-label">Catégories :</label>
+            <select id="mapsCategorySelect" class="maps-category-select">
+              ${optionsHtml}
+            </select>
+          </div>
+        `;
+
+        const selectEl = document.getElementById("mapsCategorySelect");
+        if (selectEl) {
+          selectEl.addEventListener("change", e => {
+            currentMapsCategory = e.target.value;
+            playSfx("click");
+            renderMaps();
+          });
+        }
       }
 
       function renderMaps() {
