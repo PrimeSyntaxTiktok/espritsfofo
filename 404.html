@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Sprite Locker — Redirection</title>
+  <script>
+    // GitHub Pages SPA redirect: converts the path into a hash and redirects to index.html
+    var path = window.location.pathname;
+    var repo = path.split('/').filter(Boolean)[0] || '';
+    var hash = window.location.hash || '#home';
+    window.location.replace('/' + (repo ? repo + '/' : '') + hash);
+  </script>
+</head>
+<body></body>
+</html>

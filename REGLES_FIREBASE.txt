@@ -1,0 +1,470 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isSpriteLockerAdmin() {
+      return isSignedIn()
+             && get(/databases/$(database)/documents/spriteLockerAdmins/$(request.auth.uid)).data.active == true;
+    }
+
+    function validProfileStats(stats) {
+      return stats is map
+             && stats.keys().hasAll([
+               'owned',
+               'mastered',
+               'missing',
+               'total',
+               'percent'
+             ])
+             && stats.keys().hasOnly([
+               'owned',
+               'mastered',
+               'missing',
+               'total',
+               'percent'
+             ])
+             && stats.owned is int
+             && stats.mastered is int
+             && stats.missing is int
+             && stats.total is int
+             && stats.percent is int
+             && stats.owned >= 0
+             && stats.mastered >= 0
+             && stats.missing >= 0
+             && stats.total >= 0
+             && stats.percent >= 0
+             && stats.percent <= 100;
+    }
+
+    function validSpriteLockerProfile(data, handle) {
+      return data.keys().hasAll([
+               'pseudo',
+               'handle',
+               'private',
+               'privacyChoiceMade',
+               'favoriteVariants',
+               'favoriteSprites',
+               'stats',
+               'avatar',
+               'ownerUid',
+               'updatedAt',
+               'updatedAtMs'
+             ])
+             && data.keys().hasOnly([
+               'pseudo',
+               'handle',
+               'private',
+               'privacyChoiceMade',
+               'favoriteVariants',
+               'favoriteSprites',
+               'stats',
+               'avatar',
+               'ownerUid',
+               'updatedAt',
+               'updatedAtMs'
+             ])
+             && data.pseudo is string
+             && data.pseudo.size() > 0
+             && data.pseudo.size() <= 28
+             && data.handle is string
+             && data.handle == handle
+             && data.handle.size() > 0
+             && data.handle.size() <= 24
+             && data.private is bool
+             && data.private == false
+             && data.privacyChoiceMade == true
+             && data.favoriteVariants is list
+             && data.favoriteVariants.size() <= 4
+             && data.favoriteSprites is list
+             && data.favoriteSprites.size() <= 4
+             && validProfileStats(data.stats)
+             && data.avatar is string
+             && data.avatar.size() <= 600
+             && data.ownerUid is string
+             && data.ownerUid == request.auth.uid
+             && data.updatedAt == request.time
+             && data.updatedAtMs is int;
+    }
+
+    function validFriendProfile(profile, uid) {
+      return profile is map
+             && profile.keys().hasAll([
+               'uid',
+               'pseudo',
+               'handle',
+               'avatar',
+               'stats'
+             ])
+             && profile.keys().hasOnly([
+               'uid',
+               'pseudo',
+               'handle',
+               'avatar',
+               'stats'
+             ])
+             && profile.uid == uid
+             && profile.pseudo is string
+             && profile.pseudo.size() > 0
+             && profile.pseudo.size() <= 28
+             && profile.handle is string
+             && profile.handle.size() > 0
+             && profile.handle.size() <= 24
+             && profile.avatar is string
+             && profile.avatar.size() <= 600
+             && validProfileStats(profile.stats);
+    }
+
+    function isFriendRequestParticipant(data) {
+      return isSignedIn()
+             && (
+               request.auth.uid == data.senderUid
+               || request.auth.uid == data.receiverUid
+             );
+    }
+
+    function isAcceptedFriend(requestId) {
+      return isSignedIn()
+             && get(/databases/$(database)/documents/spriteLockerFriendRequests/$(requestId)).data.status == 'accepted'
+             && (
+               request.auth.uid == get(/databases/$(database)/documents/spriteLockerFriendRequests/$(requestId)).data.senderUid
+               || request.auth.uid == get(/databases/$(database)/documents/spriteLockerFriendRequests/$(requestId)).data.receiverUid
+             );
+    }
+
+    match /users/{userId}/primebudget/{docId} {
+      allow read, write: if isSignedIn()
+                         && request.auth.uid == userId;
+    }
+
+    match /primebudgetShareCodes/{shareCode} {
+      allow get: if isSignedIn();
+      allow list: if false;
+
+      allow create: if isSignedIn()
+                    && request.resource.data.ownerUid == request.auth.uid;
+
+      allow update: if isSignedIn()
+                    && resource.data.ownerUid == request.auth.uid
+                    && request.resource.data.ownerUid == request.auth.uid;
+
+      allow delete: if isSignedIn()
+                    && resource.data.ownerUid == request.auth.uid;
+    }
+
+    match /primebudgetPairCodes/{pairCode} {
+      allow get: if isSignedIn();
+      allow list: if false;
+
+      allow create: if isSignedIn()
+                    && request.resource.data.ownerUid == request.auth.uid;
+
+      allow update, delete: if isSignedIn()
+                            && resource.data.ownerUid == request.auth.uid;
+    }
+
+    match /primebudgetPairRooms/{roomId} {
+      allow create: if isSignedIn()
+                    && request.auth.uid in request.resource.data.memberUids;
+
+      allow read: if isSignedIn()
+                  && request.auth.uid in resource.data.memberUids;
+
+      allow update: if isSignedIn() && (
+        request.auth.uid in resource.data.memberUids
+        ||
+        (
+          !(request.auth.uid in resource.data.memberUids)
+          && request.auth.uid in request.resource.data.memberUids
+          && request.resource.data
+               .diff(resource.data)
+               .affectedKeys()
+               .hasOnly([
+                 'memberUids',
+                 'memberEmails',
+                 'updatedAt'
+               ])
+        )
+      );
+
+      allow delete: if isSignedIn()
+                    && resource.data.ownerUid == request.auth.uid;
+    }
+
+    /*
+     * Profils publics Sprite Locker.
+     * Un profil privé n'est jamais conservé dans cette collection.
+     */
+    match /spriteLockerProfiles/{handle} {
+      allow get, list: if resource.data.private == false
+                       && resource.data.privacyChoiceMade == true;
+
+      allow create: if isSignedIn()
+                    && validSpriteLockerProfile(request.resource.data, handle);
+
+      allow update: if isSignedIn()
+                    && resource.data.ownerUid == request.auth.uid
+                    && validSpriteLockerProfile(request.resource.data, handle);
+
+      allow delete: if isSignedIn()
+                    && resource.data.ownerUid == request.auth.uid;
+    }
+
+    /*
+     * Comptes autorisés à ouvrir l'administration Sprite Locker.
+     * Les documents sont créés manuellement depuis la console Firebase.
+     */
+    match /spriteLockerAdmins/{userId} {
+      allow get: if isSignedIn()
+                 && request.auth.uid == userId;
+      allow list, create, update, delete: if false;
+    }
+
+    /*
+     * Catalogue et Patch Notes publiés par l'administrateur.
+     */
+    match /spriteLockerContent/{docId} {
+      allow read: if true;
+      allow create, update, delete: if isSpriteLockerAdmin();
+    }
+
+    /*
+     * Demandes d'ami Sprite Locker.
+     * Une demande acceptée devient la relation d'amitié.
+     */
+    match /spriteLockerFriendRequests/{requestId} {
+      allow get, list: if isFriendRequestParticipant(resource.data);
+
+      allow create: if isSignedIn()
+                    && request.resource.data.keys().hasAll([
+                      'senderUid',
+                      'receiverUid',
+                      'senderProfile',
+                      'receiverProfile',
+                      'status',
+                      'createdAt',
+                      'createdAtMs',
+                      'updatedAt',
+                      'updatedAtMs'
+                    ])
+                    && request.resource.data.keys().hasOnly([
+                      'senderUid',
+                      'receiverUid',
+                      'senderProfile',
+                      'receiverProfile',
+                      'status',
+                      'createdAt',
+                      'createdAtMs',
+                      'updatedAt',
+                      'updatedAtMs'
+                    ])
+                    && request.resource.data.senderUid == request.auth.uid
+                    && request.resource.data.receiverUid is string
+                    && request.resource.data.receiverUid != request.auth.uid
+                    && request.resource.data.status == 'pending'
+                    && validFriendProfile(
+                      request.resource.data.senderProfile,
+                      request.resource.data.senderUid
+                    )
+                    && validFriendProfile(
+                      request.resource.data.receiverProfile,
+                      request.resource.data.receiverUid
+                    )
+                    && exists(/databases/$(database)/documents/spriteLockerProfiles/$(request.resource.data.senderProfile.handle))
+                    && get(/databases/$(database)/documents/spriteLockerProfiles/$(request.resource.data.senderProfile.handle)).data.ownerUid == request.auth.uid
+                    && exists(/databases/$(database)/documents/spriteLockerProfiles/$(request.resource.data.receiverProfile.handle))
+                    && get(/databases/$(database)/documents/spriteLockerProfiles/$(request.resource.data.receiverProfile.handle)).data.ownerUid == request.resource.data.receiverUid
+                    && request.resource.data.createdAt == request.time
+                    && request.resource.data.updatedAt == request.time
+                    && request.resource.data.createdAtMs is int
+                    && request.resource.data.updatedAtMs is int;
+
+      allow update: if isSignedIn()
+                    && request.auth.uid == resource.data.receiverUid
+                    && resource.data.status == 'pending'
+                    && request.resource.data.status in ['accepted', 'declined']
+                    && request.resource.data
+                         .diff(resource.data)
+                         .affectedKeys()
+                         .hasOnly([
+                           'status',
+                           'updatedAt',
+                           'updatedAtMs'
+                         ])
+                    && request.resource.data.updatedAt == request.time
+                    && request.resource.data.updatedAtMs is int;
+
+      allow delete: if isFriendRequestParticipant(resource.data);
+
+      match /messages/{messageId} {
+        allow get, list: if isAcceptedFriend(requestId);
+
+        allow create: if isAcceptedFriend(requestId)
+                      && request.resource.data.keys().hasAll([
+                        'senderUid',
+                        'text',
+                        'createdAt',
+                        'createdAtMs'
+                      ])
+                      && request.resource.data.keys().hasOnly([
+                        'senderUid',
+                        'text',
+                        'createdAt',
+                        'createdAtMs'
+                      ])
+                      && request.resource.data.senderUid == request.auth.uid
+                      && request.resource.data.text is string
+                      && request.resource.data.text.size() > 0
+                      && request.resource.data.text.size() <= 500
+                      && request.resource.data.createdAt == request.time
+                      && request.resource.data.createdAtMs is int;
+
+        allow update, delete: if false;
+      }
+    }
+
+    /*
+     * Compteur public Sprite Locker.
+     * Total : /publicStats/traffic
+     */
+    match /publicStats/traffic {
+      allow get: if true;
+      allow list: if false;
+
+      allow create: if
+        request.resource.data.keys().hasOnly([
+          'count',
+          'updatedAt'
+        ])
+        && request.resource.data.count is int
+        && request.resource.data.count == 1
+        && request.resource.data.updatedAt == request.time;
+
+      allow update: if
+        request.resource.data
+          .diff(resource.data)
+          .affectedKeys()
+          .hasOnly([
+            'count',
+            'updatedAt'
+          ])
+        && resource.data.count is int
+        && request.resource.data.count is int
+        && request.resource.data.count == resource.data.count + 1
+        && request.resource.data.updatedAt == request.time;
+
+      allow delete: if false;
+    }
+
+    /*
+     * Compteurs quotidiens : /publicStats/traffic/days/{dayId}
+     */
+    match /publicStats/traffic/days/{dayId} {
+      allow get: if true;
+      allow list: if false;
+
+      allow create: if
+        request.resource.data.keys().hasOnly([
+          'count',
+          'date',
+          'updatedAt'
+        ])
+        && request.resource.data.count is int
+        && request.resource.data.count == 1
+        && request.resource.data.date is string
+        && request.resource.data.date == dayId
+        && request.resource.data.updatedAt == request.time;
+
+      allow update: if
+        request.resource.data
+          .diff(resource.data)
+          .affectedKeys()
+          .hasOnly([
+            'count',
+            'updatedAt'
+          ])
+        && resource.data.count is int
+        && request.resource.data.count is int
+        && request.resource.data.count == resource.data.count + 1
+        && request.resource.data.date == resource.data.date
+        && request.resource.data.date == dayId
+        && request.resource.data.updatedAt == request.time;
+
+      allow delete: if false;
+    }
+
+    /*
+     * Compteurs horaires : /publicStats/traffic/hours/{hourId}
+     */
+    match /publicStats/traffic/hours/{hourId} {
+      allow get: if true;
+      allow list: if false;
+
+      allow create: if
+        request.resource.data.keys().hasOnly([
+          'count',
+          'period',
+          'updatedAt'
+        ])
+        && request.resource.data.count is int
+        && request.resource.data.count == 1
+        && request.resource.data.period is string
+        && request.resource.data.period == hourId
+        && request.resource.data.updatedAt == request.time;
+
+      allow update: if
+        request.resource.data
+          .diff(resource.data)
+          .affectedKeys()
+          .hasOnly([
+            'count',
+            'updatedAt'
+          ])
+        && resource.data.count is int
+        && request.resource.data.count is int
+        && request.resource.data.count == resource.data.count + 1
+        && request.resource.data.period == resource.data.period
+        && request.resource.data.period == hourId
+        && request.resource.data.updatedAt == request.time;
+
+      allow delete: if false;
+    }
+
+    /*
+     * Avis publics de la communauté (Livre d'or Sprite Locker).
+     * Lecture publique pour tous les visiteurs.
+     * Création autorisée pour tout utilisateur connecté avec son propre UID.
+     * Modification / Suppression par l'auteur ou un administrateur.
+     */
+    match /reviews/{reviewId} {
+      allow read: if true;
+
+      allow create: if isSignedIn()
+                    && request.resource.data.uid == request.auth.uid
+                    && request.resource.data.rating is int
+                    && request.resource.data.rating >= 1
+                    && request.resource.data.rating <= 5
+                    && request.resource.data.text is string
+                    && request.resource.data.text.size() > 0
+                    && request.resource.data.text.size() <= 500
+                    && (request.resource.data.createdAt == request.time || request.resource.data.createdAt is timestamp);
+
+      allow update: if isSignedIn()
+                    && resource.data.uid == request.auth.uid
+                    && request.resource.data.uid == request.auth.uid
+                    && request.resource.data.rating is int
+                    && request.resource.data.rating >= 1
+                    && request.resource.data.rating <= 5
+                    && request.resource.data.text is string
+                    && request.resource.data.text.size() > 0
+                    && request.resource.data.text.size() <= 500;
+
+      allow delete: if isSignedIn()
+                    && (resource.data.uid == request.auth.uid || isSpriteLockerAdmin());
+    }
+  }
+}

@@ -1,0 +1,141 @@
+====================================================================
+               SPRITE LOCKER - PATCH NOTES DE LA MISE À JOUR v41.35
+====================================================================
+
+--------------------------------------------------------------------
+1. NOUVELLE INTERFACE : CATALOGUE ET GUIDE PAR CARTES DÉROULANTES
+--------------------------------------------------------------------
+• Cartes dédiées par Esprit :
+  Chaque Esprit (Batman, Eau, etc.) dispose désormais de sa propre 
+  carte interactive avec toutes ses caractéristiques.
+
+• Navigation par défilement horizontal (Slide) :
+  Fais glisser de gauche à droite sur la carte pour découvrir toutes 
+  les variantes disponibles de l'esprit (Normal, Or, Gélifiée, 
+  Galaxie, Iridescent, Cubique, etc.).
+
+• Visibilité et suivi de la collection :
+  Affichage clair de l'image de l'esprit, du compteur de variantes 
+  débloquées (ex: 3/6 variantes), de la maîtrise et de la progression.
+
+
+--------------------------------------------------------------------
+2. CORRECTION D'AFFICHAGE & NAVIGATION PC
+--------------------------------------------------------------------
+• Repositionnement des flèches de défilement :
+  Les flèches de navigation gauche (‹) et droite (›) sur version PC 
+  ont été intégrées proprement dans l'en-tête de chaque carte.
+
+• Résolution du chevauchement du texte :
+  Les flèches ne recouvrent plus le compteur de variantes (ex: "3/6 variantes"), 
+  offrant une lisibilité et un confort visuel optimaux sur ordinateur.
+
+
+--------------------------------------------------------------------
+3. AMÉLIORATIONS DE L'APPLICATION (PWA)
+--------------------------------------------------------------------
+• Installation automatique instantanée :
+  Le bouton d'installation PWA déclenche directement l'invite 
+  d'installation native sur tous les navigateurs compatibles 
+  (Chrome, Edge, Samsung Internet, Android, PC).
+
+• Affichage du logo garanti :
+  Chargement prioritaire de l'icône SVG dans la bannière d'installation 
+  pour un rendu immédiat et sans logo manquant.
+
+• Guide interactif iOS / Safari :
+  Guidage étape par étape dédié pour les appareils Apple ne 
+  supportant pas l'installation automatique en un clic.
+
+====================================================================
+               SPRITE LOCKER - PATCH NOTES DE LA MISE À JOUR v41.36
+====================================================================
+
+--------------------------------------------------------------------
+1. MOTEUR DE RECHERCHE FLOU INTELLIGENT ("FUZZY SEARCH")
+--------------------------------------------------------------------
+• Tolérance aux fautes de frappe :
+  L'application tolère désormais les erreurs de saisie ! 
+  Si tu tapes "irnmouse", l'app trouvera quand même "Ironmouse". 
+  Idem pour "balkman" (Batman) ou d'autres fautes.
+  
+• Algorithme adaptatif :
+  - 1 faute autorisée pour les mots de 3 à 5 caractères.
+  - Jusqu'à 2 fautes autorisées pour les mots longs (6+ lettres).
+  - Gère les lettres oubliées, en trop, remplacées ou inversées.
+
+• Résultats toujours pertinents :
+  Les correspondances exactes ou partielles sans faute sont toujours 
+  affichées en premier pour ne jamais polluer la recherche.
+
+
+--------------------------------------------------------------------
+2. ACTUALISATION AUTOMATIQUE TRANSPARENTE
+--------------------------------------------------------------------
+• Mises à jour instantanées de l'application :
+  Le site et l'application PWA détectent désormais instantanément 
+  toute nouvelle mise à jour publiée sur le serveur.
+  
+• Rechargement automatique :
+  L'application se recharge toute seule (et sans perturber) lorsqu'une 
+  nouvelle version du catalogue ou des fonctionnalités est disponible. 
+  Plus besoin de fermer toutes les fenêtres pour avoir les nouveautés !
+
+====================================================================
+               SPRITE LOCKER - PATCH NOTES DE LA MISE À JOUR v41.37
+====================================================================
+
+--------------------------------------------------------------------
+1. EFFETS SONORES INTERACTIFS (SFX)
+--------------------------------------------------------------------
+• Effets sonores dynamiques :
+  - Son de clic tactile discret sur les boutons et éléments interactifs.
+  - Carillon de déverrouillage harmonieux lors de l'ajout d'un esprit/variante.
+  - Fanfare de maîtrise triomphale lors du passage en statut Maîtrisé 🌟.
+  - Son d'annulation/suppression doux lors du retrait d'un esprit.
+
+• Synthèse audio 100% Web Audio API :
+  - Génération audio en temps réel sans aucun fichier MP3 externe à télécharger.
+  - Ultra léger, réactif et 0 milliseconde de latence.
+
+• Option Activable / Désactivable dans les Réglages :
+  - Nouveau commutateur "Activer les sons" sous l'onglet Réglages -> Système.
+  - Préférence sauvegardée automatiquement dans le stockage local.
+
+====================================================================
+               SPRITE LOCKER - PATCH NOTES DE LA MISE À JOUR v41.38
+====================================================================
+
+--------------------------------------------------------------------
+1. GUIDE COMPLET & ERREURS À ÉVITER EN ZERO BUILD (SANS CONSTRUCTION)
+--------------------------------------------------------------------
+• Plus de 50+ Astuces Réelles et Concrètes :
+  - Gestion optimale de l'Overshield (reset 5s).
+  - Guide d'utilisation des abris naturels et des Bunkers de poche.
+  - Règle d'or du déplacement et de la couverture (Règle des 2 secondes).
+  - Guide des 13 erreurs majeures à éviter (Rester immobile en soin, courir tout droit, se cacher sous un arbre fin...).
+
+====================================================================
+               SPRITE LOCKER - PATCH NOTES DE LA MISE À JOUR v41.39
+====================================================================
+
+--------------------------------------------------------------------
+1. PAGE DÉDIÉE MAPS CRÉATIVES & PUBLICATION ADMIN
+--------------------------------------------------------------------
+• Nouvelle Page Dédiée "Maps" (#mapsPage) :
+  - Accessible depuis le menu principal et le dock mobile.
+  - Affichage sous forme de cartes d'îles créatives élégantes avec illustration HD, titre, badge de catégorie et description.
+  - Bouton "Copier le code" 📋 en 1 clic.
+  - Filtres par catégories (Aim, Edit, Boxfight, Warmup, XP, Fun) et recherche par mot-clé/code.
+
+• Module d'Administration de Maps :
+  - Formulaire dédié dans l'Espace Admin pour publier de nouvelles cartes avec :
+    - Nom de la map
+    - Code d'île Fortnite (ex: 9040-8664-9099)
+    - Catégorie
+    - Lien d'image d'illustration (URL)
+    - Description explicative (facultative)
+  - Gestionnaire rapide avec possibilité de modifier ou supprimer n'importe quelle map en 1 clic.
+  - Synchronisation Firebase Firestore instantanée pour tous les visiteurs du site !
+
+====================================================================
