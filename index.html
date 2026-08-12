@@ -8753,7 +8753,7 @@
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
       const PATCH_RELEASED_AT = "2026-08-04T14:30:00+02:00";
-      const PWA_VERSION = "2026-08-12-v11";
+      const PWA_VERSION = "2026-08-12-v12";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
@@ -10680,7 +10680,8 @@
         const allFamilySprites = sprites.filter(sprite => sprite.familyKey === familyKey).sort((a, b) => a.variantIndex - b.variantIndex);
         const representative = allFamilySprites.find(sprite => sprite.variant === "base") || allFamilySprites[0] || familySprites[0];
         const familyName = localizedName(representative);
-        const ownedCount = allFamilySprites.filter(sprite => (state[sprite.id] || blankEntry()).owned).length;
+        const activeState = getActiveState();
+        const ownedCount = allFamilySprites.filter(sprite => (activeState[sprite.id] || blankEntry()).owned).length;
         const totalCount = allFamilySprites.length;
         const progress = totalCount ? Math.round((ownedCount / totalCount) * 100) : 0;
         const trackId = `family-track-${String(familyKey).replace(/[^a-z0-9_-]/gi, "-")}`;
@@ -11131,7 +11132,8 @@
         }
         const sprite = sprites.find(item => item.id === id);
         if (!sprite) return;
-        const entry = state[id] || blankEntry();
+        const activeState = getActiveState();
+        const entry = activeState[id] || blankEntry();
         tile.classList.toggle("is-owned", entry.owned);
         tile.classList.toggle("is-missing", !entry.owned);
         tile.classList.toggle("is-mastered", entry.mastered);
@@ -11148,7 +11150,7 @@
         const row = tile.closest(".family-row");
         if (row) {
           const familySprites = sprites.filter(item => item.familyKey === sprite.familyKey);
-          const ownedCount = familySprites.filter(item => (state[item.id] || blankEntry()).owned).length;
+          const ownedCount = familySprites.filter(item => (activeState[item.id] || blankEntry()).owned).length;
           const count = row.querySelector(".family-row-count strong");
           const progress = row.querySelector(".family-row-progress");
           if (count) count.textContent = `${ownedCount}/${familySprites.length}`;
