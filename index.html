@@ -7690,77 +7690,6 @@
       color: #fff;
       font-weight: 700;
     }
-
-    /* --- MAP & REVIEWS LIKES --- */
-    .map-card-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      flex-wrap: wrap;
-    }
-    .map-action-btn {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      color: #b8c7eb;
-      padding: 6px 12px;
-      border-radius: 12px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-    }
-    .map-action-btn:hover {
-      background: rgba(255, 255, 255, 0.12);
-      color: #fff;
-      transform: translateY(-1px);
-    }
-    .map-action-btn.is-liked {
-      background: rgba(255, 71, 87, 0.2);
-      border-color: #ff4757;
-      color: #ff4757;
-      box-shadow: 0 0 10px rgba(255, 71, 87, 0.4);
-    }
-
-    .review-footer-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-top: 12px;
-      padding-top: 10px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      flex-wrap: wrap;
-    }
-    .review-like-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #b8c7eb;
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-    }
-    .review-like-btn:hover {
-      background: rgba(255, 71, 87, 0.15);
-      color: #ff4757;
-      border-color: rgba(255, 71, 87, 0.4);
-    }
-    .review-like-btn.is-liked {
-      background: rgba(255, 71, 87, 0.25);
-      border-color: #ff4757;
-      color: #ff4757;
-    }
       font-size: 0.82rem;
       cursor: pointer;
     }
@@ -8824,7 +8753,7 @@
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
       const PATCH_RELEASED_AT = "2026-08-04T14:30:00+02:00";
-      const PWA_VERSION = "2026-08-12-v9";
+      const PWA_VERSION = "2026-08-12-v10";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
@@ -10349,117 +10278,7 @@
       }
       loadMapFavorites();
 
-      /* --- LIKES PERSISTENCE MANAGER --- */
-      const MAP_LIKES_KEY = "sprite-locker-map-likes-v1";
-      const MAP_LIKES_COUNTS_KEY = "sprite-locker-map-likes-counts-v1";
-      const REVIEW_LIKES_KEY = "sprite-locker-review-likes-v1";
-      const REVIEW_LIKES_COUNTS_KEY = "sprite-locker-review-likes-counts-v1";
-
-      let userLikedMaps = new Set();
-      try { userLikedMaps = new Set(JSON.parse(localStorage.getItem(MAP_LIKES_KEY) || "[]")); } catch (_) {}
-
-      let userLikedReviews = new Set();
-      try { userLikedReviews = new Set(JSON.parse(localStorage.getItem(REVIEW_LIKES_KEY) || "[]")); } catch (_) {}
-
-      const mapLikesMap = new Map();
-      const reviewLikesMap = new Map();
       let lastReviewsSnapshot = null;
-
-      function saveSocialStateToStorage() {
-        try {
-          localStorage.setItem(MAP_LIKES_KEY, JSON.stringify(Array.from(userLikedMaps)));
-          localStorage.setItem(REVIEW_LIKES_KEY, JSON.stringify(Array.from(userLikedReviews)));
-          localStorage.setItem(MAP_LIKES_COUNTS_KEY, JSON.stringify(Object.fromEntries(mapLikesMap)));
-          localStorage.setItem(REVIEW_LIKES_COUNTS_KEY, JSON.stringify(Object.fromEntries(reviewLikesMap)));
-        } catch (_) {}
-      }
-
-      function loadSocialStateFromStorage() {
-        try {
-          const mapLikesData = JSON.parse(localStorage.getItem(MAP_LIKES_COUNTS_KEY) || "{}");
-          Object.entries(mapLikesData).forEach(([k, v]) => mapLikesMap.set(k, Number(v) || 0));
-
-          const reviewLikesData = JSON.parse(localStorage.getItem(REVIEW_LIKES_COUNTS_KEY) || "{}");
-          Object.entries(reviewLikesData).forEach(([k, v]) => reviewLikesMap.set(k, Number(v) || 0));
-        } catch (_) {}
-      }
-      loadSocialStateFromStorage();
-
-      async function fetchAllSocialDataFromFirestore() {
-        if (!firebaseReady || !firebaseDb || !firebaseSdk) return;
-
-        try {
-          const mapLikesCol = firebaseSdk.collection(firebaseDb, "spriteLockerMapLikes");
-          const snapshot = await firebaseSdk.getDocs(mapLikesCol);
-          snapshot.forEach(doc => {
-            const data = doc.data();
-            if (data && doc.id) {
-              const val = Number(data.likes) || 0;
-              mapLikesMap.set(doc.id, Math.max(val, mapLikesMap.get(doc.id) || 0));
-            }
-          });
-        } catch (_) {}
-
-        saveSocialStateToStorage();
-        if (typeof renderMaps === "function") renderMaps();
-      }
-
-      async function toggleMapLike(mapId) {
-        if (!mapId) return;
-        const isLiked = userLikedMaps.has(mapId);
-        if (isLiked) {
-          userLikedMaps.delete(mapId);
-          mapLikesMap.set(mapId, Math.max(0, (mapLikesMap.get(mapId) || 1) - 1));
-        } else {
-          userLikedMaps.add(mapId);
-          mapLikesMap.set(mapId, (mapLikesMap.get(mapId) || 0) + 1);
-        }
-        saveSocialStateToStorage();
-        playSfx("click");
-        renderMaps();
-
-        if (firebaseDb && firebaseSdk) {
-          try {
-            const mapLikeDoc = firebaseSdk.doc(firebaseDb, "spriteLockerMapLikes", mapId);
-            await firebaseSdk.setDoc(mapLikeDoc, {
-              likes: firebaseSdk.increment(isLiked ? -1 : 1)
-            }, { merge: true });
-          } catch (_) {}
-        }
-      }
-
-      async function toggleReviewLike(reviewId) {
-        if (!reviewId) return;
-        const isLiked = userLikedReviews.has(reviewId);
-        let currentCount = reviewLikesMap.get(reviewId) || 0;
-
-        if (isLiked) {
-          userLikedReviews.delete(reviewId);
-          currentCount = Math.max(0, currentCount - 1);
-        } else {
-          userLikedReviews.add(reviewId);
-          currentCount += 1;
-        }
-        reviewLikesMap.set(reviewId, currentCount);
-        saveSocialStateToStorage();
-
-        playSfx("click");
-
-        if (lastReviewsSnapshot && typeof renderReviewsFromSnapshot === "function") {
-          renderReviewsFromSnapshot(lastReviewsSnapshot);
-        }
-
-        if (firebaseDb && firebaseSdk) {
-          try {
-            const reviewRef = firebaseSdk.doc(firebaseDb, "reviews", reviewId);
-            await firebaseSdk.setDoc(reviewRef, {
-              likes: firebaseSdk.increment(isLiked ? -1 : 1)
-            }, { merge: true });
-          } catch (err) {
-            console.warn("Firestore review like sync info:", err);
-          }
-        }
-      }
 
       function copyMapCode(code, buttonEl) {
         if (!code) return;
@@ -10496,20 +10315,6 @@
           event.preventDefault();
           event.stopPropagation();
           toggleMapFavorite(favMapBtn.dataset.mapId);
-          return;
-        }
-
-        const likeMapBtn = event.target.closest("[data-action='like-map']");
-        if (likeMapBtn) {
-          event.preventDefault();
-          toggleMapLike(likeMapBtn.dataset.mapId);
-          return;
-        }
-
-        const likeReviewBtn = event.target.closest("[data-action='like-review']");
-        if (likeReviewBtn) {
-          event.preventDefault();
-          toggleReviewLike(likeReviewBtn.dataset.reviewId);
           return;
         }
 
@@ -10645,9 +10450,6 @@
           const badgeLabel = map.category ? String(map.category).trim() : "🗺️ Carte Créative";
           const isFav = mapFavorites.has(map.id);
 
-          const likesCount = mapLikesMap.get(map.id) || 0;
-          const isLiked = userLikedMaps.has(map.id);
-
           return `
             <article class="map-card" data-map-id="${esc(map.id)}">
               <div class="map-card-thumb">
@@ -10668,12 +10470,6 @@
                   <button class="map-copy-btn" type="button" data-action="copy-code" data-code="${esc(map.code)}">
                     <span aria-hidden="true">📋</span>
                     <span>Copier</span>
-                  </button>
-                </div>
-
-                <div class="map-card-actions">
-                  <button class="map-action-btn${isLiked ? ' is-liked' : ''}" type="button" data-action="like-map" data-map-id="${esc(map.id)}">
-                    ❤️ <span>${likesCount}</span> J'aime
                   </button>
                 </div>
               </div>
@@ -14080,11 +13876,6 @@
           ? `<button class="review-admin-delete-btn" type="button" data-review-delete-id="${esc(id)}" title="Supprimer cet avis (Admin)" aria-label="Supprimer cet avis"><span aria-hidden="true">🗑️</span> Supprimer</button>`
           : "";
 
-        const likesFromDoc = Number(data.likes) || 0;
-        const likesFromMap = reviewLikesMap.has(id) ? reviewLikesMap.get(id) : likesFromDoc;
-        const likesCount = Math.max(likesFromDoc, likesFromMap);
-        const isLiked = userLikedReviews.has(id);
-
         return `
           <article class="review-card" data-review-id="${esc(id)}">
             <div class="review-card-top">
@@ -14105,12 +13896,6 @@
             </div>
             <div class="review-card-stars" aria-label="${rating} étoiles sur 5">${stars}</div>
             <p class="review-card-text">${safeText}</p>
-
-            <div class="review-footer-row">
-              <button class="review-like-btn${isLiked ? ' is-liked' : ''}" type="button" data-action="like-review" data-review-id="${esc(id)}">
-                ❤️ <span>${likesCount}</span> J'aime
-              </button>
-            </div>
           </article>
         `;
       }
@@ -14138,9 +13923,6 @@
         querySnapshot.forEach(doc => {
           const data = doc.data();
           const docId = doc.id;
-          if (data && Number(data.likes) > 0 && !reviewLikesMap.has(docId)) {
-            reviewLikesMap.set(docId, Number(data.likes));
-          }
           cards.push(renderReviewCardHtml(data, docId));
         });
         listContainer.innerHTML = cards.join("");
