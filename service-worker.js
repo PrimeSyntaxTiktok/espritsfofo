@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_VERSION = "2026-08-13-v10";
+const CACHE_VERSION = "2026-08-13-v11";
 const CACHE_PREFIX = "sprite-locker-";
 const SHELL_CACHE = `${CACHE_PREFIX}shell-${CACHE_VERSION}`;
 const ASSET_CACHE = `${CACHE_PREFIX}assets-${CACHE_VERSION}`;
@@ -22,7 +22,9 @@ const SHELL_FILES = [
   "./icons/prime-logo-white-transparent.png",
   "./icons/prime-logo-black-transparent.png",
   "./share-card.jpg",
-  "./share-card.svg"
+  "./share-card.svg",
+  "./bg-desktop.jpg",
+  "./bg-mobile.jpg"
 ].map(path => new URL(path, SCOPE_URL).href);
 
 const BYPASS_HOSTS = new Set([

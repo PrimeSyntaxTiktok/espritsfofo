@@ -1084,13 +1084,24 @@
       margin: 0;
       overflow-x: hidden;
       color: var(--text);
-      background:
-        radial-gradient(circle at 82% 2%, rgba(36, 169, 255, .19), transparent 30rem),
-        radial-gradient(circle at 8% 21%, rgba(143, 103, 255, .18), transparent 28rem),
-        linear-gradient(180deg, #0a0d25 0%, var(--bg) 38%, var(--bg-deep) 100%);
+      background-image:
+        linear-gradient(180deg, rgba(8, 10, 28, 0.74) 0%, rgba(7, 9, 24, 0.88) 100%),
+        url("./bg-desktop.jpg");
+      background-position: center top;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
       font-family: var(--body);
       -webkit-font-smoothing: antialiased;
       -webkit-tap-highlight-color: transparent;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        background-image:
+          linear-gradient(180deg, rgba(8, 10, 28, 0.72) 0%, rgba(7, 9, 24, 0.86) 100%),
+          url("./bg-mobile.jpg");
+      }
     }
 
     body::before {
@@ -4783,28 +4794,63 @@
     }
 
     html[data-background="galaxy"] body {
-      background:
+      background-image:
         radial-gradient(circle at 18% 5%, rgba(127, 75, 255, .38), transparent 31rem),
         radial-gradient(circle at 88% 24%, rgba(255, 72, 186, .17), transparent 27rem),
-        linear-gradient(145deg, #070719, #100b2c 55%, #071225);
+        linear-gradient(145deg, rgba(7,7,25,.75), rgba(16,11,44,.85)),
+        url("./bg-desktop.jpg");
     }
     html[data-background="storm"] body {
-      background:
-        radial-gradient(circle at 15% 4%, rgba(84, 60, 181, .38), transparent 29rem),
-        radial-gradient(circle at 95% 35%, rgba(52, 84, 169, .24), transparent 30rem),
-        linear-gradient(155deg, #080914, #11142b 60%, #080a16);
+      background-image:
+        radial-gradient(circle at 15% 4%, rgba(138, 43, 226, .45), transparent 29rem),
+        radial-gradient(circle at 95% 35%, rgba(75, 0, 130, .35), transparent 30rem),
+        linear-gradient(155deg, rgba(8,9,20,.72), rgba(17,20,43,.84)),
+        url("./bg-desktop.jpg");
     }
     html[data-background="zero"] body {
-      background:
+      background-image:
         radial-gradient(circle at 50% -5%, rgba(92, 234, 255, .3), transparent 27rem),
         radial-gradient(circle at 85% 26%, rgba(156, 87, 255, .23), transparent 25rem),
-        linear-gradient(160deg, #05131f, #0b102d 62%, #09091c);
+        linear-gradient(160deg, rgba(5,19,31,.75), rgba(9,9,28,.86)),
+        url("./bg-desktop.jpg");
     }
     html[data-background="night"] body {
-      background:
+      background-image:
         radial-gradient(circle at 14% -8%, rgba(var(--accent-rgb), .3), transparent 30rem),
         radial-gradient(circle at 100% 18%, rgba(61, 230, 239, .1), transparent 25rem),
-        linear-gradient(180deg, #0b0e20 0%, var(--bg) 65%);
+        linear-gradient(180deg, rgba(11,14,32,.75) 0%, rgba(7,9,24,.88) 100%),
+        url("./bg-desktop.jpg");
+    }
+
+    @media (max-width: 768px) {
+      html[data-background="galaxy"] body {
+        background-image:
+          radial-gradient(circle at 18% 5%, rgba(127, 75, 255, .38), transparent 31rem),
+          radial-gradient(circle at 88% 24%, rgba(255, 72, 186, .17), transparent 27rem),
+          linear-gradient(145deg, rgba(7,7,25,.75), rgba(16,11,44,.85)),
+          url("./bg-mobile.jpg");
+      }
+      html[data-background="storm"] body {
+        background-image:
+          radial-gradient(circle at 15% 4%, rgba(138, 43, 226, .45), transparent 29rem),
+          radial-gradient(circle at 95% 35%, rgba(75, 0, 130, .35), transparent 30rem),
+          linear-gradient(155deg, rgba(8,9,20,.72), rgba(17,20,43,.84)),
+          url("./bg-mobile.jpg");
+      }
+      html[data-background="zero"] body {
+        background-image:
+          radial-gradient(circle at 50% -5%, rgba(92, 234, 255, .3), transparent 27rem),
+          radial-gradient(circle at 85% 26%, rgba(156, 87, 255, .23), transparent 25rem),
+          linear-gradient(160deg, rgba(5,19,31,.75), rgba(9,9,28,.86)),
+          url("./bg-mobile.jpg");
+      }
+      html[data-background="night"] body {
+        background-image:
+          radial-gradient(circle at 14% -8%, rgba(var(--accent-rgb), .3), transparent 30rem),
+          radial-gradient(circle at 100% 18%, rgba(61, 230, 239, .1), transparent 25rem),
+          linear-gradient(180deg, rgba(11,14,32,.75) 0%, rgba(7,9,24,.88) 100%),
+          url("./bg-mobile.jpg");
+      }
     }
 
     .topbar-links { flex-wrap: wrap; justify-content: flex-end; }
@@ -8844,7 +8890,7 @@
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
       const PATCH_RELEASED_AT = "2026-08-04T14:30:00+02:00";
-      const PWA_VERSION = "2026-08-13-v10";
+      const PWA_VERSION = "2026-08-13-v11";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
