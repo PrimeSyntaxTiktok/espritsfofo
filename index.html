@@ -74,14 +74,25 @@
       min-height: 100vh;
       min-height: 100dvh;
       color: var(--text);
-      background:
-        radial-gradient(circle at 14% -8%, rgba(145,103,255,.35), transparent 30rem),
-        radial-gradient(circle at 100% 18%, rgba(61,230,239,.12), transparent 25rem),
-        linear-gradient(180deg, #0b0e20 0%, var(--bg) 65%);
+      background-image:
+        linear-gradient(180deg, rgba(8, 10, 28, 0.68) 0%, rgba(7, 9, 24, 0.82) 100%),
+        url("./bg-desktop.jpg");
+      background-position: center top;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       -webkit-font-smoothing: antialiased;
       -webkit-tap-highlight-color: transparent;
       overscroll-behavior-y: none;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        background-image:
+          linear-gradient(180deg, rgba(8, 10, 28, 0.65) 0%, rgba(7, 9, 24, 0.80) 100%),
+          url("./bg-mobile.jpg");
+      }
     }
 
     button, input, select, textarea { font: inherit; }
@@ -5727,30 +5738,39 @@
     .admin-patch-quick-actions button.is-danger, .patch-admin-actions button.is-danger, .patch-admin-actions button:last-child { border-color: rgba(255,96,119,.28); background: rgba(255,96,119,.1); color: #ff8a9a; }
     .patch-admin-actions { margin: 0; padding: 13px 18px; justify-content: flex-end; border-top: 1px solid rgba(255,255,255,.08); background: rgba(3,7,21,.28); }
     .patch-admin-actions::before { margin-right: auto; align-self: center; color: var(--accent); content: "Commandes administrateur"; font-size: .49rem; font-weight: 950; letter-spacing: .08em; text-transform: uppercase; }
+    :root {
+      --theme-body-img: url("./bg-desktop.jpg");
+    }
+    @media (max-width: 768px) {
+      :root {
+        --theme-body-img: url("./bg-mobile.jpg");
+      }
+    }
+
     /* Le thème choisi pilote désormais les surfaces de toutes les pages. */
     html[data-background="night"] {
       --theme-deep: #050817;
       --theme-surface: #111832;
       --theme-surface-2: #182044;
-      --theme-body: radial-gradient(circle at 14% -8%, rgba(var(--accent-rgb), .32), transparent 30rem), radial-gradient(circle at 100% 18%, rgba(var(--accent-rgb), .1), transparent 25rem), linear-gradient(180deg, #0b0e20 0%, #050817 72%);
+      --theme-body: radial-gradient(circle at 14% -8%, rgba(var(--accent-rgb), .32), transparent 30rem), radial-gradient(circle at 100% 18%, rgba(var(--accent-rgb), .1), transparent 25rem), linear-gradient(180deg, rgba(11,14,32,.72) 0%, rgba(5,8,23,.86) 72%), var(--theme-body-img);
     }
     html[data-background="galaxy"] {
       --theme-deep: #070519;
       --theme-surface: #181036;
       --theme-surface-2: #26164b;
-      --theme-body: radial-gradient(circle at 18% 5%, rgba(127,75,255,.4), transparent 31rem), radial-gradient(circle at 88% 24%, rgba(255,72,186,.19), transparent 27rem), radial-gradient(circle at 52% 86%, rgba(var(--accent-rgb),.14), transparent 25rem), linear-gradient(145deg, #070719, #100b2c 55%, #071225);
+      --theme-body: radial-gradient(circle at 18% 5%, rgba(127,75,255,.4), transparent 31rem), radial-gradient(circle at 88% 24%, rgba(255,72,186,.19), transparent 27rem), radial-gradient(circle at 52% 86%, rgba(var(--accent-rgb),.14), transparent 25rem), linear-gradient(145deg, rgba(7,7,25,.72), rgba(16,11,44,.84) 55%, rgba(7,18,37,.88)), var(--theme-body-img);
     }
     html[data-background="storm"] {
       --theme-deep: #070812;
       --theme-surface: #15182c;
       --theme-surface-2: #202644;
-      --theme-body: radial-gradient(circle at 15% 4%, rgba(84,60,181,.4), transparent 29rem), radial-gradient(circle at 95% 35%, rgba(var(--accent-rgb),.24), transparent 30rem), linear-gradient(155deg, #080914, #11142b 60%, #080a16);
+      --theme-body: radial-gradient(circle at 15% 4%, rgba(84,60,181,.4), transparent 29rem), radial-gradient(circle at 95% 35%, rgba(var(--accent-rgb),.24), transparent 30rem), linear-gradient(155deg, rgba(8,9,20,.7), rgba(17,20,43,.82) 60%, rgba(8,10,22,.86)), var(--theme-body-img);
     }
     html[data-background="zero"] {
       --theme-deep: #041019;
       --theme-surface: #0b1d2d;
       --theme-surface-2: #102b42;
-      --theme-body: radial-gradient(circle at 50% -5%, rgba(92,234,255,.34), transparent 27rem), radial-gradient(circle at 85% 26%, rgba(156,87,255,.24), transparent 25rem), radial-gradient(circle at 10% 75%, rgba(var(--accent-rgb),.13), transparent 26rem), linear-gradient(160deg, #05131f, #0b102d 62%, #09091c);
+      --theme-body: radial-gradient(circle at 50% -5%, rgba(92,234,255,.34), transparent 27rem), radial-gradient(circle at 85% 26%, rgba(156,87,255,.24), transparent 25rem), radial-gradient(circle at 10% 75%, rgba(var(--accent-rgb),.13), transparent 26rem), linear-gradient(160deg, rgba(5,19,31,.72), rgba(11,16,45,.84) 62%, rgba(9,9,28,.88)), var(--theme-body-img);
     }
     html[data-background] {
       --bg: var(--theme-deep);
@@ -5768,7 +5788,13 @@
       --feature-surface: color-mix(in srgb, var(--theme-surface) 90%, transparent);
       --feature-line: rgba(var(--accent-rgb), .2);
     }
-    html[data-background] body { background: var(--theme-body); background-attachment: fixed; }
+    html[data-background] body {
+      background-image: var(--theme-body);
+      background-position: center top;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
     html[data-background] :is(.topbar, .mobile-dock) { border-color: rgba(var(--accent-rgb), .2); background: color-mix(in srgb, var(--theme-surface) 92%, transparent); box-shadow: 0 18px 50px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.06); }
     html[data-background] :is(.sync-card, .progress-wrap, .stat, .variant-overview, .toolbar, .panel-card, .guide-summary, .guide-integrity, .guide-card, .admin-publish-bar, .admin-history article, .admin-manage-row, .admin-patch-quick-row, .patch-entry, .patch-card, dialog) { border-color: rgba(var(--accent-rgb), .16); background: linear-gradient(145deg, color-mix(in srgb, var(--theme-surface-2) 90%, transparent), color-mix(in srgb, var(--theme-deep) 94%, transparent)); }
     html[data-background] :is(.feature-hero, .patch-simple-head) { border-color: rgba(var(--accent-rgb), .22); background: radial-gradient(circle at 88% 8%, rgba(var(--accent-rgb), .19), transparent 23rem), linear-gradient(135deg, color-mix(in srgb, var(--theme-surface-2) 92%, transparent), color-mix(in srgb, var(--theme-deep) 96%, transparent)); }
@@ -8890,7 +8916,7 @@
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
       const PATCH_RELEASED_AT = "2026-08-04T14:30:00+02:00";
-      const PWA_VERSION = "2026-08-13-v11";
+      const PWA_VERSION = "2026-08-13-v12";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
