@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "Prime Sprites — Collection Fortnite",
-  "short_name": "Prime Sprites",
+  "name": "Prime Sprites 1.2 — Collection Fortnite",
+  "short_name": "Prime Sprites 1.2",
   "description": "Suis les 109 variantes d’esprits Fortnite sorties, consulte le guide et gère ta collection même hors connexion.",
   "lang": "fr",
   "dir": "ltr",
@@ -58,7 +58,7 @@
     {
       "name": "Réglages",
       "short_name": "Réglages",
-      "description": "Personnaliser Prime Sprites",
+      "description": "Personnaliser Prime Sprites 1.2",
       "url": "./#settings",
       "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     }

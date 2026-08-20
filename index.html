@@ -9,27 +9,27 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Prime Sprites">
-  <meta name="application-name" content="Prime Sprites">
+  <meta name="apple-mobile-web-app-title" content="Prime Sprites 1.2">
+  <meta name="application-name" content="Prime Sprites 1.2">
   <meta name="msapplication-TileColor" content="#07091a">
   <meta name="msapplication-TileImage" content="./icons/icon-192.png">
-  <meta name="description" content="Suivi mobile des 109 versions d’esprits récupérables dans Fortnite Chapitre 7 Saison 3.">
-  <title>Prime Sprites — Collection Fortnite</title>
+  <meta name="description" content="Suivi mobile des esprits et préparation de la nouvelle saison Override Chapitre 7 Saison 4.">
+  <title>Prime Sprites 1.2 — Collection Fortnite</title>
   <meta property="og:locale" content="fr_FR">
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Prime Sprites">
-  <meta property="og:title" content="Prime Sprites — Collection Fortnite">
-  <meta property="og:description" content="Suis les 109 versions d’esprits Fortnite récupérables, leurs variantes et leur maîtrise.">
+  <meta property="og:site_name" content="Prime Sprites 1.2">
+  <meta property="og:title" content="Prime Sprites 1.2 — Collection Fortnite">
+  <meta property="og:description" content="Suis la collection d'esprits Fortnite, prépare-toi pour la saison Override et découvre les crossovers Gaming Legends.">
   <meta property="og:image" content="./share-card.jpg">
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Logo P de Prime Sprites sur un fond Fortnite">
+  <meta property="og:image:alt" content="Logo P de Prime Sprites 1.2 sur un fond Fortnite">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Prime Sprites — Collection Fortnite">
-  <meta name="twitter:description" content="Suis les 109 versions d’esprits Fortnite récupérables, leurs variantes et leur maîtrise.">
+  <meta name="twitter:title" content="Prime Sprites 1.2 — Collection Fortnite">
+  <meta name="twitter:description" content="Suis la collection d'esprits Fortnite, prépare-toi pour la saison Override et découvre les crossovers Gaming Legends.">
   <meta name="twitter:image" content="./share-card.jpg">
-  <meta name="twitter:image:alt" content="Logo P de Prime Sprites sur un fond Fortnite">
+  <meta name="twitter:image:alt" content="Logo P de Prime Sprites 1.2 sur un fond Fortnite">
   <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
   <link rel="alternate icon" type="image/png" sizes="512x512" href="./icons/icon-512.png">
   <link rel="shortcut icon" type="image/png" href="./icons/icon-192.png">
@@ -43,6 +43,7 @@
   <link rel="dns-prefetch" href="//fortnite.gg">
   <link rel="preload" as="image" href="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_FossilMeal_Default_L.webp" fetchpriority="high">
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800;1,900&family=Russo+One&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <style>
     :root {
       --bg: #080b19;
@@ -4286,7 +4287,7 @@
     }
 
     /* Navigation multipage interne : un seul HTML, un écran à la fois. */
-    .app-page { display: none; animation: page-in .24s ease both; }
+    .app-page { display: none; animation: page-in .22s cubic-bezier(0.16, 1, 0.3, 1) both; contain: layout style; transform: translateZ(0); backface-visibility: hidden; }
     .app-page.is-active { display: block; }
     @keyframes page-in { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: none; } }
     .topbar-links a[aria-current="page"] { border-color: rgba(247,237,56,.38); background: rgba(247,237,56,.11); color: var(--yellow); }
@@ -5894,9 +5895,12 @@
     html[data-card-size="small"] { --family-tile-width: 124px; --family-visual-width: 114px; --family-visual-height: 104px; --guide-slide-width: 430px; }
     html[data-card-size="medium"] { --family-tile-width: 142px; --family-visual-width: 132px; --family-visual-height: 119px; --guide-slide-width: 510px; }
     html[data-card-size="large"] { --family-tile-width: 168px; --family-visual-width: 156px; --family-visual-height: 140px; --guide-slide-width: 590px; }
-    #spriteGrid.family-collection-grid {
-      display: grid;
+    .collection-area .grid:not(.family-collection-grid) { grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--catalog-min)), 1fr)); gap: var(--catalog-gap); }
+
+    .family-collection-grid {
+      display: grid !important;
       min-width: 0;
+      width: 100%;
       margin-top: 18px;
       grid-template-columns: minmax(0, 1fr) !important;
       gap: var(--catalog-gap, 14px) !important;
@@ -5913,6 +5917,11 @@
         radial-gradient(circle at 8% 50%, rgba(var(--accent-rgb), .14), transparent 24rem),
         linear-gradient(135deg, color-mix(in srgb, var(--theme-surface-2, #182044) 92%, transparent), color-mix(in srgb, var(--theme-deep, #050817) 96%, transparent));
       box-shadow: 0 16px 42px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.055), -12px 0 32px rgba(var(--accent-rgb), .08);
+      content-visibility: auto;
+      contain-intrinsic-size: 180px 220px;
+      contain: layout style paint;
+      transform: translateZ(0);
+      backface-visibility: hidden;
     }
     .family-row::before {
       position: absolute;
@@ -7802,28 +7811,555 @@
       cursor: pointer;
       outline: none;
     }
-    .maps-category-select option {
-      background: #090e24;
+    .scanner-dialog {
+      max-width: 680px;
+      width: 92vw;
+      border: 1px solid rgba(192, 132, 252, 0.4);
+      border-radius: 22px;
+      background: radial-gradient(circle at 50% 0%, rgba(30, 20, 60, 0.95), rgba(8, 11, 25, 0.98));
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(168, 85, 247, 0.2);
       color: #fff;
-      font-weight: 700;
+      padding: 0;
+      overflow: hidden;
     }
-      font-size: 0.82rem;
+    .scanner-dialog::backdrop {
+      background: rgba(4, 7, 20, 0.82);
+      backdrop-filter: blur(8px);
+    }
+    .scanner-dialog-inner {
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .scanner-description {
+      color: #b8c3df;
+      font-size: 0.94rem;
+      line-height: 1.5;
+      margin: 0;
+    }
+    .scanner-actions-bar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .scanner-action-btn {
+      flex: 1 1 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .scanner-action-btn.primary {
+      background: linear-gradient(135deg, #a855f7, #ec4899);
+      border: none;
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(168, 85, 247, 0.4);
+    }
+    .scanner-action-btn.secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #fff;
+    }
+    .scanner-canvas-wrap {
+      position: relative;
+      width: 100%;
+      max-height: 320px;
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .scanner-canvas-wrap canvas {
+      max-width: 100%;
+      max-height: 320px;
+      object-fit: contain;
+      display: block;
+    }
+    .scanner-laser-beam {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #c084fc, #38bdf8, #c084fc, transparent);
+      box-shadow: 0 0 15px #c084fc, 0 0 25px #38bdf8;
+      animation: scanLaser 2s ease-in-out infinite alternate;
+    }
+    @keyframes scanLaser {
+      0% { top: 0%; }
+      100% { top: 100%; }
+    }
+    .scanner-status-box {
+      margin-top: 12px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .scanner-progress-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .scanner-progress-bar i {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #a855f7, #38bdf8);
+      transition: width 0.2s ease;
+    }
+    .scanner-results-area {
+      margin-top: 12px;
+      background: rgba(10, 15, 36, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .scanner-results-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .scanner-results-head h3 {
+      margin: 0;
+      font-size: 1rem;
+      color: #fff;
+    }
+    .scanner-select-all-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #c084fc;
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 0.8rem;
       cursor: pointer;
     }
+    .scanner-results-list {
+      max-height: 200px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-right: 4px;
+    }
+    .scanner-item-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .scanner-item-row img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+    }
+    .scanner-item-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .scanner-item-name {
+      font-weight: 700;
+      color: #fff;
+      font-size: 0.9rem;
+    }
+    .scanner-item-variant {
+      font-size: 0.78rem;
+      color: #a855f7;
+    }
+    /* ==========================================
+       CHEATS PAGE - ULTRA PREMIUM STYLING
+       ========================================== */
+    .cheats-hero {
+      margin-bottom: 28px;
+      padding: 32px 28px;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 24px;
+      background: radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.15), rgba(15, 23, 42, 0.92) 65%);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .cheats-hero-inner { position: relative; z-index: 2; }
+    
+    .cheats-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #38bdf8;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+    }
+    
+    .cheats-pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #38bdf8;
+      box-shadow: 0 0 10px #38bdf8;
+      animation: neonPulse 1.5s ease-in-out infinite;
+    }
+    @keyframes neonPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.4; }
+    }
+
+    .cheats-hero-title {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #fff;
+      margin: 0 0 10px;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+    .cheats-hero-title span {
+      background: linear-gradient(135deg, #fde047, #38bdf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .cheats-hero-lead {
+      color: #cbd5e1;
+      font-size: 1rem;
+      line-height: 1.6;
+      max-width: 760px;
+      margin: 0 0 24px;
+    }
+
+    .cheats-stats-bar {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .cheats-stat-item { display: flex; flex-direction: column; gap: 2px; }
+    .cheats-stat-val { font-size: 1.4rem; font-weight: 900; color: #fde047; font-family: monospace; }
+    .cheats-stat-lbl { font-size: 0.76rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+    .cheats-stat-divider { width: 1px; height: 28px; background: rgba(255, 255, 255, 0.12); }
+
+    /* ADMIN TERMINAL */
+    .admin-terminal-card {
+      margin-bottom: 32px;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 20px;
+      background: #090d16;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.12);
+      overflow: hidden;
+    }
+    
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 18px;
+      background: rgba(15, 23, 42, 0.95);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .terminal-dots { display: flex; gap: 7px; }
+    .terminal-dots .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .terminal-dots .red { background: #ef4444; }
+    .terminal-dots .yellow { background: #f59e0b; }
+    .terminal-dots .green { background: #22c55e; }
+
+    .terminal-title { font-family: monospace; font-size: 0.8rem; font-weight: 800; color: #94a3b8; letter-spacing: 0.08em; }
+    .terminal-status { font-size: 0.74rem; font-weight: 800; color: #4ade80; display: flex; align-items: center; gap: 6px; }
+    .terminal-status .status-live { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 8px #4ade80; }
+
+    .terminal-body { padding: 22px 24px; }
+    .terminal-intro { color: #64748b; font-family: monospace; font-size: 0.82rem; margin: 0 0 14px; }
+
+    .terminal-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 6px 6px 6px 16px;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.9);
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .terminal-input-wrap:focus-within {
+      border-color: #38bdf8;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.35), inset 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+    .terminal-prompt { color: #38bdf8; font-family: monospace; font-size: 1.3rem; font-weight: 900; }
+    .terminal-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #fde047;
+      font-family: monospace, monospace;
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      outline: none;
+    }
+    .terminal-input::placeholder { color: #475569; font-weight: 600; text-transform: none; letter-spacing: 0; font-size: 0.95rem; }
+
+    .terminal-submit-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #0284c7, #38bdf8);
+      color: #0f172a;
+      font-size: 0.88rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .terminal-submit-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
+    }
+
+    .terminal-feedback {
+      margin-top: 14px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+    .terminal-feedback.success { background: rgba(34, 197, 94, 0.14); border: 1px solid rgba(34, 197, 94, 0.4); color: #4ade80; }
+    .terminal-feedback.error { background: rgba(239, 68, 68, 0.14); border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; }
+
+    .terminal-quick-chips {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+    .chips-label { font-size: 0.78rem; color: #64748b; font-weight: 700; }
+    .quick-chip-btn {
+      padding: 5px 11px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #cbd5e1;
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .quick-chip-btn:hover {
+      background: rgba(56, 189, 248, 0.2);
+      border-color: #38bdf8;
+      color: #fff;
+    }
+
+    /* FILTER TABS BAR */
+    .cheats-filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .cheat-filter-btn {
+      padding: 9px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.6);
+      color: #94a3b8;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .cheat-filter-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+    .cheat-filter-btn.is-active {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(253, 224, 71, 0.2));
+      border-color: #38bdf8;
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(56, 189, 248, 0.25);
+    }
+
+    /* CARDS GRID */
+    .cheats-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 18px;
+      margin-bottom: 40px;
+    }
+
+    .cheat-card-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 18px;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .cheat-card-item:hover {
+      transform: translateY(-3px);
+      border-color: rgba(56, 189, 248, 0.4);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), 0 0 20px rgba(56, 189, 248, 0.15);
+    }
+    .cheat-card-item.priority {
+      border-color: rgba(253, 224, 71, 0.45);
+      background: linear-gradient(135deg, rgba(253, 224, 71, 0.08), rgba(15, 23, 42, 0.85));
+    }
+
+    .cheat-card-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .cheat-card-code-val {
+      font-family: monospace, monospace;
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #fde047;
+      letter-spacing: 0.06em;
+    }
+    .copy-btn-action {
+      padding: 7px 14px;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 9px;
+      background: rgba(56, 189, 248, 0.12);
+      color: #38bdf8;
+      font-size: 0.76rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .copy-btn-action:hover {
+      background: #38bdf8;
+      color: #0f172a;
+      box-shadow: 0 4px 14px rgba(56, 189, 248, 0.4);
+    }
+
+    .cheat-card-reward-desc {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      line-height: 1.45;
+    }
+
+    .cheat-card-bottom-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .cheat-type-tag {
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 6px;
+      letter-spacing: 0.04em;
+    }
+    .cheat-type-tag.sprite { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+    .cheat-type-tag.xp { background: rgba(250, 204, 21, 0.2); color: #facc15; border: 1px solid rgba(250, 204, 21, 0.3); }
+    .cheat-type-tag.item { background: rgba(192, 132, 252, 0.2); color: #c084fc; border: 1px solid rgba(192, 132, 252, 0.3); }
+    .cheat-type-tag.hack { background: rgba(244, 114, 182, 0.2); color: #f472b6; border: 1px solid rgba(244, 114, 182, 0.3); }
+
+    .cheat-status-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #64748b;
+    }
+    .cheat-status-badge.unlocked { color: #4ade80; font-weight: 800; }
+
+    /* TUTORIAL ROADMAP */
+    .cheat-tutorial-section {
+      padding: 32px 28px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      background: rgba(15, 23, 42, 0.5);
+      margin-top: 20px;
+    }
+    .tutorial-head { margin-bottom: 24px; }
+    .tutorial-kicker { font-size: 0.76rem; font-weight: 800; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.08em; }
+    .tutorial-head h2 { font-size: 1.4rem; font-weight: 800; color: #fff; margin: 4px 0 6px; }
+    .tutorial-head p { color: #94a3b8; font-size: 0.9rem; margin: 0; }
+
+    .tutorial-steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .tutorial-step-card {
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      background: rgba(30, 41, 59, 0.5);
+      position: relative;
+    }
+    .step-num {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0284c7, #38bdf8);
+      color: #0f172a;
+      font-weight: 900;
+      display: grid;
+      place-items: center;
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+    }
+    .tutorial-step-card h3 { font-size: 1rem; font-weight: 800; color: #fff; margin: 0 0 6px; }
+    .tutorial-step-card p { font-size: 0.84rem; color: #94a3b8; margin: 0; line-height: 1.45; }
   </style>
 </head>
 <body>
   <canvas id="vfxCanvas" style="position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; z-index:9999;"></canvas>
   <div class="app" id="top">
     <nav class="topbar" aria-label="Navigation principale">
-      <a class="brand" href="#home" data-page-target="home" aria-label="Prime Sprites, accueil">
-        <span class="brand-mark" aria-hidden="true"><img src="./icons/prime-logo-white-transparent.png" alt="Prime Sprites" class="brand-logo-img"></span>
-        <span class="brand-copy"><strong>PRIME SPRITES</strong><small>Collection Fortnite</small></span>
+      <a class="brand" href="#home" data-page-target="home" aria-label="Prime Sprites 1.2, accueil">
+        <span class="brand-mark" aria-hidden="true"><img src="./icons/prime-logo-white-transparent.png" alt="Prime Sprites 1.2" class="brand-logo-img"></span>
+        <span class="brand-copy"><strong>PRIME SPRITES 1.2</strong><small>Saison Override</small></span>
       </a>
       <div class="topbar-actions">
         <div class="topbar-links" aria-label="Accès rapides">
           <a href="#home" data-page-target="home">Accueil</a>
-          <a href="#catalog" data-page-target="catalog">Catalogue</a>
+          <a href="#catalog" data-page-target="catalog">Collection</a>
+          <a href="#garden" data-page-target="garden">🌸 Jardin des Esprits</a>
+          <a href="#cheats" data-page-target="cheats">⚡ Cheat Codes</a>
           <a href="#guide" data-page-target="guide">Guide</a>
           <a href="#maps" data-page-target="maps">Maps</a>
           <a href="#settings" data-page-target="settings">Réglages</a>
@@ -7915,42 +8451,9 @@
             <span class="progress-overline">Analyse du casier</span>
             <h2 id="variantOverviewTitle">Progression par variante</h2>
           </div>
-          <span class="variant-overview-hint">8 collections à compléter</span>
+          <span class="variant-overview-hint">0 collection à compléter</span>
         </div>
-        <div class="variant-meter-grid">
-          <article class="variant-meter" data-variant="base">
-            <div class="variant-meter-top"><span><i aria-hidden="true"></i>Base</span><strong id="variantBaseStat">0/24</strong></div>
-            <div class="variant-meter-track" role="progressbar" aria-label="Variante Base complétée" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="variantBaseFill"></i></div>
-          </article>
-          <article class="variant-meter" data-variant="gold">
-            <div class="variant-meter-top"><span><i aria-hidden="true"></i>Or</span><strong id="variantGoldStat">0/20</strong></div>
-            <div class="variant-meter-track" role="progressbar" aria-label="Variante Or complétée" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="variantGoldFill"></i></div>
-          </article>
-          <article class="variant-meter" data-variant="gummy">
-            <div class="variant-meter-top"><span><i aria-hidden="true"></i>Gummy</span><strong id="variantGummyStat">0/20</strong></div>
-            <div class="variant-meter-track" role="progressbar" aria-label="Variante Gummy complétée" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="variantGummyFill"></i></div>
-          </article>
-          <article class="variant-meter" data-variant="galaxy">
-            <div class="variant-meter-top"><span><i aria-hidden="true"></i>Galaxie</span><strong id="variantGalaxyStat">0/20</strong></div>
-            <div class="variant-meter-track" role="progressbar" aria-label="Variante Galaxie complétée" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="variantGalaxyFill"></i></div>
-          </article>
-          <article class="variant-meter" data-variant="holofoil">
-            <div class="variant-meter-top"><span><i aria-hidden="true"></i>Holo Brillant</span><strong id="variantHolofoilStat">0/11</strong></div>
-            <div class="variant-meter-track" role="progressbar" aria-label="Variante Holo Brillant complétée" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="variantHolofoilFill"></i></div>
-          </article>
-          <article class="variant-meter" data-variant="cube">
-            <div class="variant-meter-top"><span><i aria-hidden="true"></i>Cube</span><strong id="variantCubeStat">0/9</strong></div>
-            <div class="variant-meter-track" role="progressbar" aria-label="Variante Cube complétée" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="variantCubeFill"></i></div>
-          </article>
-          <article class="variant-meter" data-variant="gem">
-            <div class="variant-meter-top"><span><i aria-hidden="true"></i>Gemme</span><strong id="variantGemStat">0/1</strong></div>
-            <div class="variant-meter-track" role="progressbar" aria-label="Variante Gemme complétée" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="variantGemFill"></i></div>
-          </article>
-          <article class="variant-meter" data-variant="quack">
-            <div class="variant-meter-top"><span><i aria-hidden="true"></i>Canardesque</span><strong id="variantQuackStat">0/4</strong></div>
-            <div class="variant-meter-track" role="progressbar" aria-label="Variante Canardesque complétée" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="variantQuackFill"></i></div>
-          </article>
-        </div>
+        <div class="variant-meter-grid"></div>
       </section>
     </section>
     </main>
@@ -7958,6 +8461,7 @@
 
 
     <section class="collection-area app-page" id="collectionPage" data-page="collection" aria-labelledby="collectionTitle">
+
       <div class="collection-heading">
         <div>
           <span class="section-kicker">Catalogue</span>
@@ -7986,14 +8490,8 @@
       <div class="selects">
         <select id="variantFilter" aria-label="Filtrer par variante">
           <option value="all">Toutes variantes</option>
-          <option value="base">Base</option>
-          <option value="gold">Or</option>
-          <option value="gummy">Gummy</option>
-          <option value="galaxy">Galaxie</option>
-          <option value="holofoil">Holo Brillant</option>
-          <option value="cube">Cube</option>
-          <option value="gem">Gemme</option>
-          <option value="quack">Canardesque</option>
+          <option value="base">Standard / Base</option>
+          <option value="upcoming">À venir (Inconnu pour le moment)</option>
         </select>
         <select id="rarityFilter" aria-label="Filtrer par rareté">
           <option value="all">Toutes raretés</option>
@@ -8010,6 +8508,7 @@
       </div>
 
       <div class="tools-panel" id="toolsPanel">
+        <button class="tool-btn" id="openScannerBtn" type="button" style="background: linear-gradient(135deg, rgba(168,85,247,0.3), rgba(236,72,153,0.3)); border: 1px solid rgba(216,180,254,0.4); color: #fff; font-weight: 700;">📸 Scanner mon casier (Photo/IA)</button>
         <button class="tool-btn" id="exportBtn" type="button">Exporter ma sauvegarde</button>
         <button class="tool-btn" id="importBtn" type="button">Importer une sauvegarde</button>
         <button class="tool-btn danger" id="resetBtn" type="button">Tout réinitialiser</button>
@@ -8020,12 +8519,81 @@
       <main class="grid" id="spriteGrid" aria-live="polite"></main>
     </section>
 
+    <!-- SECTION JARDIN DES ESPRITS (SAISON 3 IMMORTALISÉE) -->
+    <section class="collection-area app-page" id="gardenPage" data-page="garden" aria-labelledby="gardenTitle">
+      <header class="feature-hero" style="background: linear-gradient(135deg, rgba(168,85,247,0.22) 0%, rgba(236,72,153,0.18) 50%, rgba(59,130,246,0.22) 100%); border: 1px solid rgba(216,180,254,0.35); border-radius: 24px; padding: 32px 36px; margin-bottom: 28px; box-shadow: 0 12px 40px rgba(0,0,0,0.4); backdrop-filter: blur(14px);">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px;">
+          <div style="max-width: 680px;">
+            <span class="feature-eyebrow" style="color: #d8b4fe; background: rgba(168,85,247,0.25); border: 1px solid rgba(192,132,252,0.4); padding: 4px 14px; border-radius: 20px; font-weight: 700;">🌸 Mémorial Permanent · Saison 3</span>
+            <h1 id="gardenTitle" style="margin: 12px 0 8px; color: #fff; font-size: 2.1rem; font-weight: 800; tracking: -0.02em;">Jardin des <span style="background: linear-gradient(90deg, #c084fc, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Esprits</span></h1>
+            <p style="margin: 0; color: #e9d5ff; font-size: 1.02rem; line-height: 1.6;">
+              Vos 109 esprits et 117 variantes capturés lors du Chapitre 7 Saison 3 sont immortalisés ici à 100 %. Ils ne spawnent plus en partie Battle Royale, mais restent validés dans votre casier.
+            </p>
+          </div>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <div style="background: rgba(15,23,42,0.7); border: 1px solid rgba(192,132,252,0.3); border-radius: 16px; padding: 14px 20px; text-align: center;">
+              <span style="display: block; color: #a855f7; font-size: 0.78rem; font-weight: 700; text-transform: uppercase;">Familles</span>
+              <strong style="color: #fff; font-size: 1.5rem; font-weight: 800;">25</strong>
+            </div>
+            <div style="background: rgba(15,23,42,0.7); border: 1px solid rgba(192,132,252,0.3); border-radius: 16px; padding: 14px 20px; text-align: center;">
+              <span style="display: block; color: #f472b6; font-size: 0.78rem; font-weight: 700; text-transform: uppercase;">Variants</span>
+              <strong style="color: #fff; font-size: 1.5rem; font-weight: 800;">117</strong>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="collection-heading">
+        <div>
+          <span class="section-kicker">Collection Permanence</span>
+          <h2>Esprits du Jardin (Saison 3)</h2>
+        </div>
+        <div class="result-line"><span><strong id="gardenResultCount">109</strong> immortalisés</span><span id="gardenActiveHint">Sauvegardés à 100 %</span></div>
+      </div>
+
+      <section class="toolbar" aria-label="Recherche et filtres du jardin">
+        <div class="search-row">
+          <label class="search-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+            <input id="gardenSearchInput" type="search" placeholder="Rechercher un esprit dans le Jardin…" autocomplete="off" spellcheck="false" aria-label="Rechercher un esprit du jardin">
+          </label>
+        </div>
+
+        <div class="selects">
+          <select id="gardenVariantFilter" aria-label="Filtrer par variante">
+            <option value="all">Toutes variantes</option>
+            <option value="base">Base</option>
+            <option value="gold">Or</option>
+            <option value="gummy">Gummy</option>
+            <option value="galaxy">Galaxie</option>
+            <option value="holofoil">Holo Brillant</option>
+            <option value="cube">Cube</option>
+            <option value="gem">Gemme</option>
+            <option value="quack">Canardesque</option>
+          </select>
+          <select id="gardenRarityFilter" aria-label="Filtrer par rareté">
+            <option value="all">Toutes raretés</option>
+            <option value="rare">Rare</option>
+            <option value="epic">Épique</option>
+            <option value="legendary">Légendaire</option>
+            <option value="mythic">Mythique</option>
+          </select>
+        </div>
+      </section>
+
+      <main class="grid" id="gardenGrid" aria-live="polite"></main>
+    </section>
+
     <section class="feature-page app-page" id="guidePage" data-page="guide" aria-labelledby="guideTitle">
       <header class="feature-hero feature-hero-guide">
         <div>
           <span class="feature-eyebrow">Choisir le bon compagnon</span>
           <h1 id="guideTitle">Guide des <span>capacités</span></h1>
           <p>Retrouve instantanément les esprits adaptés à ton style de jeu, classés selon leur véritable utilité en partie.</p>
+          <div class="chips" id="guidePoolFilterWrap" style="margin-top: 14px; gap: 8px;">
+            <button class="chip" type="button" data-guide-pool="s4" aria-selected="true">⚡ Saison 4 Actifs (Nouveaux)</button>
+            <button class="chip" type="button" data-guide-pool="garden" aria-selected="false">🌸 Jardin des Esprits (Saison 3)</button>
+          </div>
         </div>
         <div class="feature-hero-orb" aria-hidden="true">✦</div>
       </header>
@@ -8296,6 +8864,44 @@
       <article class="patch-entry">
         <header class="patch-simple-head">
           <div>
+            <span class="patch-kicker">Nouvelle Saison · Chapitre 7 Saison 4</span>
+            <h1 id="patchNotesTitle">Prime Sprites <span>1.2 — Override</span></h1>
+          </div>
+          <time class="patch-date" datetime="2026-08-20T00:00:00+02:00">
+            <span>20 août 2026 · Lancement officiel</span>
+          </time>
+        </header>
+
+        <div class="patch-grid">
+          <section class="patch-card">
+            <h2>🎮 Nouvelle Saison « Override »</h2>
+            <ul class="patch-list">
+              <li>L'application passe officiellement en version <strong>Prime Sprites 1.2</strong> pour la nouvelle saison Fortnite.</li>
+              <li>Thématique officielle <strong>« Gaming Legends »</strong> &amp; Cybernétique : <em>Brisez les règles. Changez la donne.</em></li>
+              <li>Prise en charge des futurs esprits, compétences et variantes inspirés de l'univers cybernétique et des effets glitch.</li>
+            </ul>
+          </section>
+          <section class="patch-card">
+            <h2>⚡ Crossovers &amp; Légendes Confirmées</h2>
+            <ul class="patch-list">
+              <li>Préparation du catalogue pour l'arrivée des légendes : <strong>Sonic</strong>, <strong>Joker (Persona 5)</strong>, <strong>Sora (Kingdom Hearts)</strong>, <strong>Crash Bandicoot</strong> &amp; <strong>Spyro</strong>.</li>
+              <li>Intégration des éléments Pac-Man, Tetris et Mega Man dès leur déploiement dans le jeu.</li>
+              <li>Prise en charge des nouvelles mécaniques de piratage (Hacking) sur les cartes créatives et le catalogue.</li>
+            </ul>
+          </section>
+          <section class="patch-card">
+            <h2>🚀 Optimisations Prime Sprites 1.2</h2>
+            <ul class="patch-list">
+              <li>Refonte complète du système de versioning PWA et synchronisation instantanée du casier.</li>
+              <li>Mise à jour des icônes de raccourcis d'application et des métadonnées de partage social.</li>
+              <li>Performances accrues pour un chargement fluide sur tous les appareils mobile et PC.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+      <article class="patch-entry">
+        <header class="patch-simple-head">
+          <div>
             <span class="patch-kicker">Mise à jour majeure</span>
             <h1 id="patchNotesTitle">Prime Sprites <span>&amp; Design</span></h1>
           </div>
@@ -8306,6 +8912,14 @@
 
         <div class="patch-grid">
           <section class="patch-card">
+            <h2>⚡ Optimisations &amp; Performances</h2>
+            <ul class="patch-list">
+              <li>Mise à jour majeure du moteur applicatif et suppression des modules inutilisés.</li>
+              <li>Amélioration de la réactivité PWA et chargement instantané du catalogue.</li>
+              <li>Optimisation de la synchronisation du casier et du mode hors ligne.</li>
+            </ul>
+          </section>
+          <section class="patch-card">
             <h2>Nouveau Nom &amp; Logos Adaptatifs</h2>
             <ul class="patch-list">
               <li>L'application évolue officiellement sous le nouveau nom <strong>Prime Sprites</strong>.</li>
@@ -8314,19 +8928,11 @@
             </ul>
           </section>
           <section class="patch-card">
-            <h2>Interface Épurée &amp; Gain d'Espace</h2>
+            <h2>Fonds d'Écran Épiques &amp; Ergonomie</h2>
             <ul class="patch-list">
-              <li>Suppression des bannières d'en-tête pour un accès direct et instantané au catalogue d'esprits, au guide et aux cartes.</li>
-              <li>Nouvelle barre de statut compacte réunissant l'état de synchronisation et le compteur de visiteurs en direct.</li>
-              <li>Bouton direct « Donnez votre avis » intégré au sommet du Livre d'Or.</li>
-            </ul>
-          </section>
-          <section class="patch-card">
-            <h2>Finitions Visuelles &amp; Typographie</h2>
-            <ul class="patch-list">
-              <li>Suppression des conteneurs carrés autour des logos pour un rendu moderne et sans bordure.</li>
-              <li>Ajustement typographique global pour éliminer tout tronquage sur les chiffres et titres en italique.</li>
-              <li>Amélioration de la fluidité des transitions et du confort de navigation sur mobile et ordinateur.</li>
+              <li>Intégration des arrière-plans Fortnite personnalisés et réactifs pour PC (16:9) et Mobile (9:16).</li>
+              <li>Suppression des bannières d'en-tête pour un accès direct et instantané à toutes les fonctionnalités.</li>
+              <li>Barre de statut compacte réunissant l'état de synchronisation et les visiteurs en direct.</li>
             </ul>
           </section>
         </div>
@@ -8517,6 +9123,125 @@
         </aside>
       </article>
     </section>
+    <section class="feature-page app-page" id="cheatsPage" data-page="cheats" aria-labelledby="cheatsTitle">
+      <!-- HERO BANNER -->
+      <header class="cheats-hero">
+        <div class="cheats-hero-inner">
+          <div class="cheats-hero-badge">
+            <span class="cheats-pulse-dot" aria-hidden="true"></span>
+            <span>FORTNITE v42.00 // OVERRIDE CHEAT SYSTEM</span>
+          </div>
+          <h1 id="cheatsTitle" class="cheats-hero-title">
+            Cheat Codes <span>&amp; Lobby Hacks</span>
+          </h1>
+          <p class="cheats-hero-lead">
+            Injectez directement vos codes dans la console Admin Panel de Fortnite pour débloquer les esprits <strong>Cheat Master</strong>, des bonus d'EXP et des métamorphoses exclusives !
+          </p>
+          
+          <!-- QUICK STATS -->
+          <div class="cheats-stats-bar">
+            <div class="cheats-stat-item">
+              <span class="cheats-stat-val">19</span>
+              <span class="cheats-stat-lbl">Codes actifs</span>
+            </div>
+            <div class="cheats-stat-divider" aria-hidden="true"></div>
+            <div class="cheats-stat-item">
+              <span class="cheats-stat-val">5</span>
+              <span class="cheats-stat-lbl">Esprits Exclusifs</span>
+            </div>
+            <div class="cheats-stat-divider" aria-hidden="true"></div>
+            <div class="cheats-stat-item">
+              <span class="cheats-stat-val">+40K</span>
+              <span class="cheats-stat-lbl">EXP &amp; Bonus</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- ADMIN TERMINAL SIMULATOR -->
+      <div class="admin-terminal-card">
+        <div class="terminal-bar">
+          <div class="terminal-dots">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </div>
+          <div class="terminal-title">🎮 ADMIN PANEL INJECTOR v42.00</div>
+          <div class="terminal-status"><i class="status-live"></i> CONNECTÉ</div>
+        </div>
+
+        <div class="terminal-body">
+          <p class="terminal-intro">// Saisissez ou cliquez sur un code rapide ci-dessous pour le tester dans le simulateur :</p>
+
+          <div class="terminal-input-wrap">
+            <span class="terminal-prompt" aria-hidden="true">&gt;</span>
+            <input type="text" id="cheatCodeInput" class="terminal-input" placeholder="Ex: GOTTAGOFAST, OVERRIDEXP, 8BITBLAST..." autocomplete="off" spellcheck="false">
+            <button type="button" id="submitCheatBtn" class="terminal-submit-btn">
+              <span>INJECTER</span>
+              <span aria-hidden="true">➔</span>
+            </button>
+          </div>
+
+          <div id="cheatSimFeedback" class="terminal-feedback" hidden></div>
+
+          <div class="terminal-quick-chips">
+            <span class="chips-label">Tests rapides :</span>
+            <button type="button" class="quick-chip-btn" onclick="quickFillCheat('GOTTAGOFAST')">⚡ GOTTAGOFAST</button>
+            <button type="button" class="quick-chip-btn" onclick="quickFillCheat('IWANNAFLYHIGH')">🦊 IWANNAFLYHIGH</button>
+            <button type="button" class="quick-chip-btn" onclick="quickFillCheat('OVERRIDEXP')">⭐ OVERRIDEXP</button>
+            <button type="button" class="quick-chip-btn" onclick="quickFillCheat('8BITBLAST')">👾 8BITBLAST</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILTER TABS BAR -->
+      <div class="cheats-filter-bar" role="tablist" aria-label="Catégories de cheat codes">
+        <button type="button" class="cheat-filter-btn is-active" data-filter="all" onclick="filterCheatCategory('all')">Tous les codes (19)</button>
+        <button type="button" class="cheat-filter-btn" data-filter="sprite" onclick="filterCheatCategory('sprite')">🔥 Esprits Cheat Master (5)</button>
+        <button type="button" class="cheat-filter-btn" data-filter="xp" onclick="filterCheatCategory('xp')">⚡ XP &amp; Boosts (3)</button>
+        <button type="button" class="cheat-filter-btn" data-filter="item" onclick="filterCheatCategory('item')">🎁 Objets &amp; Extractions (5)</button>
+        <button type="button" class="cheat-filter-btn" data-filter="hack" onclick="filterCheatCategory('hack')">🕹️ Lobby Hacks &amp; Cosmetics (6)</button>
+      </div>
+
+      <!-- CHEATS GRID -->
+      <div class="cheats-cards-grid" id="allCheatsGrid"></div>
+
+      <!-- TUTORIAL STEP-BY-STEP ROADMAP -->
+      <div class="cheat-tutorial-section">
+        <div class="tutorial-head">
+          <span class="tutorial-kicker">Tutoriel Fortnite</span>
+          <h2>Comment injecter un Cheat Code en jeu ?</h2>
+          <p>Suivez ces 4 étapes simples directement dans Fortnite Battle Royale :</p>
+        </div>
+
+        <div class="tutorial-steps-grid">
+          <div class="tutorial-step-card">
+            <div class="step-num">01</div>
+            <h3>Ouvrez le Lobby</h3>
+            <p>Lancez Fortnite et rendez-vous dans l'écran principal du lobby Battle Royale.</p>
+          </div>
+
+          <div class="tutorial-step-card">
+            <div class="step-num">02</div>
+            <h3>Ouvrez l'Admin Panel</h3>
+            <p>Cliquez sur l'onglet <strong>« Admin Panel »</strong> situé dans le menu d'administration.</p>
+          </div>
+
+          <div class="tutorial-step-card">
+            <div class="step-num">03</div>
+            <h3>Saisissez le Code</h3>
+            <p>Copiez l'un des codes ci-dessus et collez-le exactement dans le champ texte.</p>
+          </div>
+
+          <div class="tutorial-step-card">
+            <div class="step-num">04</div>
+            <h3>Validez avec Submit</h3>
+            <p>Appuyez sur <strong>Submit</strong> pour débloquer immédiatement votre récompense en jeu !</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="feature-page app-page" id="reviewsPage" data-page="reviews" aria-labelledby="reviewsTitle">
       <header class="feature-hero reviews-hero">
         <div>
@@ -8553,6 +9278,7 @@
         </div>
       </div>
     </section>
+
     <footer class="footer">
       <p class="developer-credit"><span class="developer-signal" aria-hidden="true"></span>Développé par <strong>PrimeSyntax</strong> <span aria-hidden="true">.</span></p>
     </footer>
@@ -8565,7 +9291,15 @@
     </a>
     <a class="mobile-dock-item" href="#catalog" data-page-target="catalog">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 5.5h16v13H4z"></path><path d="M8 5.5v13M16 5.5v13M4 12h16"></path></svg>
-      <span>Catalogue</span>
+      <span>Collection</span>
+    </a>
+    <a class="mobile-dock-item" href="#garden" data-page-target="garden">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+      <span>Jardin</span>
+    </a>
+    <a class="mobile-dock-item" href="#cheats" data-page-target="cheats">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+      <span>Cheats</span>
     </a>
     <a class="mobile-dock-item" href="#guide" data-page-target="guide">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 5.5h6a3 3 0 0 1 3 3v10H7a3 3 0 0 0-3 3z"></path><path d="M20 5.5h-4a3 3 0 0 0-3 3v10h4a3 3 0 0 1 3 3z"></path></svg>
@@ -8673,6 +9407,59 @@
         </section>
         <p class="guide-dialog-note" id="guideDialogNote"></p>
         <div class="guide-dialog-cost"><span>Coût de rappel</span><strong id="guideDialogCost"></strong></div>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="scanner-dialog" id="scannerDialog" aria-labelledby="scannerTitle">
+    <div class="scanner-dialog-inner">
+      <div class="dialog-top">
+        <h2 id="scannerTitle">📸 Scanner de Casier (IA / Photo)</h2>
+        <button class="dialog-close" id="scannerCloseBtn" type="button" aria-label="Fermer">×</button>
+      </div>
+
+      <p class="scanner-description">
+        Importe une capture d'écran de ton casier Fortnite ou prends une photo directe avec ton smartphone pour cocher automatiquement tes esprits !
+      </p>
+
+      <div class="scanner-actions-bar">
+        <button class="scanner-action-btn primary" id="triggerCameraBtn" type="button">
+          <span aria-hidden="true">📷</span>
+          <span>Prendre une photo (Appareil photo)</span>
+        </button>
+        <button class="scanner-action-btn secondary" id="triggerUploadBtn" type="button">
+          <span aria-hidden="true">🖼️</span>
+          <span>Importer une image</span>
+        </button>
+        <input id="scannerFileInput" type="file" accept="image/*" hidden>
+        <input id="scannerCameraInput" type="file" accept="image/*" capture="environment" hidden>
+      </div>
+
+      <div class="scanner-preview-area" id="scannerPreviewArea" hidden>
+        <div class="scanner-canvas-wrap">
+          <canvas id="scannerCanvas"></canvas>
+          <div class="scanner-laser-beam" id="scannerLaserBeam" hidden></div>
+        </div>
+        <div class="scanner-status-box">
+          <span class="scanner-status-spinner" id="scannerSpinner" hidden>⚡</span>
+          <strong id="scannerStatusText">Prêt à numériser votre image…</strong>
+          <div class="scanner-progress-bar" id="scannerProgressBarWrap" hidden>
+            <i id="scannerProgressBar"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="scanner-results-area" id="scannerResultsArea" hidden>
+        <div class="scanner-results-head">
+          <h3>Esprits et Variantes Détectés (<span id="scannerMatchCount">0</span>)</h3>
+          <button type="button" class="scanner-select-all-btn" id="scannerToggleAllBtn">Tout sélectionner</button>
+        </div>
+        <div class="scanner-results-list" id="scannerResultsList"></div>
+        <div class="scanner-footer-actions">
+          <button type="button" class="scanner-apply-btn" id="scannerApplyBtn">
+            ✅ Valider et ajouter à mon casier
+          </button>
+        </div>
       </div>
     </div>
   </dialog>
@@ -8795,8 +9582,8 @@
         <div class="splash-logo-ring">
           <img src="./icons/prime-logo-white-transparent.png" alt="Prime Sprites" class="splash-logo-img">
         </div>
-        <span class="splash-badge">V41.39 · ESPRITS FORTNITE</span>
-        <h1 class="splash-title">PRIME SPRITES</h1>
+        <span class="splash-badge">SAISON OVERRIDE · PRIME SPRITES 1.2</span>
+        <h1 class="splash-title">PRIME SPRITES 1.2</h1>
         <p class="splash-subtitle">Collection officielle & Maps Créatives</p>
       </div>
 
@@ -8916,7 +9703,7 @@
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
       const PATCH_RELEASED_AT = "2026-08-04T14:30:00+02:00";
-      const PWA_VERSION = "2026-08-13-v12";
+      const PWA_VERSION = "2026-08-20-v7.3.0";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
@@ -8954,17 +9741,17 @@
 
       const COPY = {
         fr: {
-          title: "Prime Sprites — Collection Fortnite",
-          description: "Suivi mobile des 109 versions d’esprits récupérables dans Fortnite Chapitre 7 Saison 3.",
-          socialDescription: "Suis les 109 versions d’esprits Fortnite récupérables, leurs variantes et leur maîtrise.",
-          socialImageAlt: "Logo P de Prime Sprites sur un fond Fortnite",
+          title: "Prime Sprites 1.2 — Collection Fortnite",
+          description: "Suivi mobile des esprits et préparation de la nouvelle saison Override Chapitre 7 Saison 4.",
+          socialDescription: "Suis les esprits Fortnite, leurs variantes et leur maîtrise pour la saison Override.",
+          socialImageAlt: "Logo P de Prime Sprites 1.2 sur un fond Fortnite",
           navMain: "Navigation principale",
-          brandHome: "Prime Sprites, accueil",
-          brandSubtitle: "Collection Fortnite",
+          brandHome: "Prime Sprites 1.2, accueil",
+          brandSubtitle: "Saison Override",
           quickAccess: "Accès rapides",
           progress: "Progression",
           locker: "Casier",
-          season: "Chapitre 7 · Saison 3",
+          season: "Chapitre 7 · Saison 4 (Override)",
           heroEyebrow: "Collection officielle du joueur",
           heroTitleHtml: "Maîtrise ton <span>esprit</span>",
           heroCopy: "Rassemble chaque esprit, suis ta maîtrise et complète le casier ultime de la saison.",
@@ -9002,7 +9789,7 @@
           progressByVariant: "Progression par variante",
           fiveCollections: "8 collections à compléter",
           variantCompleted: "Variante {variant} complétée",
-          catalogNav: "Catalogue",
+          catalogNav: "Collection",
           patchNotesNav: "Patch Notes",
           patchKicker: "Mise à jour v41.35",
           patchTitleHtml: "Nouvelle interface <span>Catalogue &amp; Guide</span>",
@@ -9156,20 +9943,20 @@
           errorFirebase: "Firebase est momentanément indisponible",
           googleConnected: "Compte Google connecté",
           firebaseBackupActive: "Sauvegarde Firebase active",
-          chapterSeasonShort: "Chapitre 7 · Saison 3"
+          chapterSeasonShort: "Chapitre 7 · Saison 4"
         },
         en: {
-          title: "Prime Sprites — Fortnite Collection",
-          description: "Mobile tracker for all 109 obtainable Sprite versions in Fortnite Chapter 7 Season 3.",
-          socialDescription: "Track all 109 obtainable Fortnite Sprite versions, their variants, and mastery.",
-          socialImageAlt: "Prime Sprites P logo on a Fortnite background",
+          title: "Prime Sprites 1.2 — Fortnite Collection",
+          description: "Mobile tracker for Fortnite Sprites and preparation for Chapter 7 Season 4 (Override).",
+          socialDescription: "Track Fortnite Sprites, their variants, and mastery for the upcoming Override Season.",
+          socialImageAlt: "Prime Sprites 1.2 P logo on a Fortnite background",
           navMain: "Main navigation",
-          brandHome: "Prime Sprites, home",
-          brandSubtitle: "Fortnite Collection",
+          brandHome: "Prime Sprites 1.2, home",
+          brandSubtitle: "Override Season",
           quickAccess: "Quick links",
           progress: "Progress",
           locker: "Locker",
-          season: "Chapter 7 · Season 3",
+          season: "Chapter 7 · Season 4 (Override)",
           heroEyebrow: "Official player collection",
           heroTitleHtml: "Master your <span>Sprite</span>",
           heroCopy: "Collect every Sprite, track mastery, and complete the ultimate season locker.",
@@ -9426,10 +10213,201 @@
             fr: "Quand cet esprit gagne de la progression, chaque autre esprit transporté en reçoit 50 % supplémentaires.",
             en: "Whenever this Sprite gains progress, every other carried Sprite receives an extra 50% of that progress."
           }
+        },
+        prismatic: {
+          fr: "Prismatique", en: "Prismatic", color: "#f472b6",
+          effect: {
+            fr: "Reflète 15 % des dégâts subis et émet une aura arc-en-ciel scintillante.",
+            en: "Reflects 15% of incoming damage and emits a shimmering rainbow aura."
+          }
+        },
+        cyber: {
+          fr: "Cyber / Néon", en: "Cyber", color: "#22d3ee",
+          effect: {
+            fr: "Accorde la détection thermique et pirate les caméras de sécurité à proximité.",
+            en: "Grants thermal vision and hacks nearby security cameras."
+          }
+        },
+        celestial: {
+          fr: "Céleste", en: "Celestial", color: "#fbbf24",
+          effect: {
+            fr: "Variante mythique des boss : régénère 2 % du bouclier par seconde sous le ciel ouvert.",
+            en: "Mythic boss variant: regenerates 2% shield per second under open sky."
+          }
+        },
+        shadow: {
+          fr: "Shadow", en: "Shadow", color: "#94a3b8",
+          effect: {
+            fr: "Accorde la furtivité et camoufle les bruits de pas.",
+            en: "Grants stealth and silences footstep sounds."
+          }
+        },
+        cheatmaster: {
+          fr: "Cheat Master", en: "Cheat Master", color: "#38bdf8",
+          effect: {
+            fr: "Variante réseau débloquée par Cheat Code dans l'Admin Panel du lobby.",
+            en: "Network variant unlocked via Cheat Code in the lobby Admin Panel."
+          }
         }
       };
 
       const families = [
+        {
+          key: "bushranger", fr: "Bush Sprite", en: "Bush Sprite", rarity: "rare",
+          aliases: ["Esprit Buisson", "Bushranger"],
+          effect: {
+            fr: "Fait apparaître un buisson. Au niveau maximum, peut en faire apparaître après une élimination.",
+            en: "Spawns a bush. At max level, can spawn a bush after an elimination."
+          },
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_BushRanger_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_BushRanger_Gold_L.webp",
+            cheatmaster: "T_Icon_BR_Creature_Sprite_BushRanger_Cheatmaster_L.webp"
+          }
+        },
+        {
+          key: "eight-bit", fr: "8-Bit Sprite", en: "8-Bit Sprite", rarity: "rare",
+          aliases: ["Esprit 8-Bit", "8Bit"],
+          effect: {
+            fr: "Permet d'obtenir le 8-Bit Shotgun depuis le premier coffre et améliore son multiplicateur.",
+            en: "Grants the 8-Bit Shotgun from the first chest and increases its multiplier."
+          },
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_EightBitBlaster_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_EightBitBlaster_Gold_L.webp",
+            cheatmaster: "T_Icon_BR_Creature_Sprite_EightBitBlaster_Cheatmaster_L.webp"
+          }
+        },
+        {
+          key: "adventure", fr: "Adventure Sprite", en: "Adventure Sprite", rarity: "rare",
+          aliases: ["Esprit Aventure", "Nain"],
+          effect: {
+            fr: "Améliore un objet aléatoire de l'inventaire à chaque niveau.",
+            en: "Upgrades a random inventory item at each level."
+          },
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_Dwarf_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_Dwarf_Gold_L.webp",
+            cheatmaster: "T_Icon_BR_Creature_Sprite_Dwarf_Cheatmaster_L.webp"
+          }
+        },
+        {
+          key: "jonesy", fr: "Jonesy Sprite", en: "Jonesy Sprite", rarity: "rare",
+          aliases: ["Esprit Jonesy"],
+          effect: {
+            fr: "Régénère de la vie ou du bouclier après avoir subi des dégâts.",
+            en: "Regenerates Health or Shield after taking damage."
+          },
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_Jonesy_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_Jonesy_Gold_L.webp",
+            cheatmaster: "T_Icon_BR_Creature_Sprite_Jonesy_Cheatmaster_L.webp"
+          }
+        },
+        {
+          key: "shadow", fr: "Shadow Sprite", en: "Shadow Sprite", rarity: "epic",
+          aliases: ["Esprit Shadow", "Esprit Ombre"],
+          effect: {
+            fr: "Recharge automatiquement les armes, y compris celles qui ne sont pas équipées.",
+            en: "Automatically reloads weapons, including unequipped ones."
+          },
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_NarrowFlea_Scribe_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_NarrowFlea_Scribe_Gold_L.webp",
+            cheatmaster: "T_Icon_BR_Creature_Sprite_NarrowFlea_Scribe_Cheatmaster_L.webp"
+          }
+        },
+        {
+          key: "sonic", fr: "Sonic Sprite", en: "Sonic Sprite", rarity: "epic",
+          aliases: ["Esprit Sonic", "Sonic"],
+          effect: {
+            fr: "Augmente la vitesse de sprint.",
+            en: "Increases sprint speed."
+          },
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_NarrowFlea_Obsidian_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_NarrowFlea_Obsidian_Gold_L.webp",
+            cheatmaster: "T_Icon_BR_Creature_Sprite_NarrowFlea_Obsidian_Cheatmaster_L.webp"
+          }
+        },
+        {
+          key: "tails", fr: "Tails Sprite", en: "Tails Sprite", rarity: "epic",
+          aliases: ["Esprit Tails", "Tails"],
+          effect: {
+            fr: "Permet de planer dans les airs.",
+            en: "Allows hovering mid-air."
+          },
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_NarrowFlea_Monkey_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_NarrowFlea_Monkey_Gold_L.webp",
+            cheatmaster: "T_Icon_BR_Creature_Sprite_NarrowFlea_Monkey_Cheatmaster_L.webp"
+          }
+        },
+        {
+          key: "killswitch", fr: "Killswitch Sprite", en: "Killswitch Sprite", rarity: "epic",
+          aliases: ["Esprit Killswitch"],
+          effect: {
+            fr: "Active Hangtime avec une précision améliorée.",
+            en: "Activates Hangtime with improved accuracy."
+          },
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_Killswitch_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_Killswitch_Gold_L.webp",
+            cheatmaster: "T_Icon_BR_Creature_Sprite_Killswitch_Cheatmaster_L.webp"
+          }
+        },
+        {
+          key: "jackrabbit", fr: "Jackrabbit Sprite", en: "Jackrabbit Sprite", rarity: "legendary",
+          aliases: ["Esprit Jackrabbit", "Jazz Jackrabbit"],
+          effect: {
+            fr: "Permet d'effectuer un saut supplémentaire en plein vol.",
+            en: "Allows performing an extra jump mid-air."
+          },
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_JazzJackrabbit_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_JazzJackrabbit_Gold_L.webp",
+            cheatmaster: "T_Icon_BR_Creature_Sprite_JazzJackrabbit_Cheatmaster_L.webp"
+          }
+        },
+        {
+          key: "crown", fr: "Crown Sprite", en: "Crown Sprite", rarity: "mythic",
+          aliases: ["Esprit Couronne", "Couronne"],
+          effect: {
+            fr: "Permet d'obtenir des Crown Wins supplémentaires après une Victoire Royale.",
+            en: "Grants extra Crown Wins after a Victory Royale."
+          },
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_Crown_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_Crown_Gold_L.webp",
+            cheatmaster: "T_Icon_BR_Creature_Sprite_Crown_Cheatmaster_L.webp"
+          }
+        },
+        {
+          key: "klombo", fr: "Klombo Sprite", en: "Klombo Sprite", rarity: "mythic",
+          aliases: ["Esprit Klombo", "Klombo"],
+          effect: {
+            fr: "Donne des objets aléatoires à chaque niveau.",
+            en: "Grants random items at each level."
+          },
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_Klombo_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_Klombo_Gold_L.webp",
+            cheatmaster: "T_Icon_BR_Creature_Sprite_Klombo_Cheatmaster_L.webp"
+          }
+        },
+        {
+          key: "stormscout", fr: "Storm Scout Sprite", en: "Storm Scout Sprite", rarity: "rare",
+          aliases: ["Esprit Eclaireur de la Tempête", "Storm Scout"],
+          effect: {
+            fr: "Active Overdrive après avoir subi suffisamment de dégâts dans la tempête. Au niveau maximum, révèle les prochains cercles.",
+            en: "Activates Overdrive after taking enough storm damage. At max level, reveals future storm circles."
+          },
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_StormScout_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_StormScout_Gold_L.webp",
+            cheatmaster: "T_Icon_BR_Creature_Sprite_StormScout_Cheatmaster_L.webp"
+          }
+        },
         {
           key: "batman", fr: "Esprit de Batman", en: "Batman Sprite", rarity: "mythic",
           aliases: ["Esprit Batman"],
@@ -9783,7 +10761,10 @@
             en: "Regenerates Health when health is low, while granting a Cloak effect and low gravity."
           },
           images: { base: "https://static.wikia.nocookie.net/fortnite/images/a/ad/Ironmouse_Sprite_-_Item_-_Fortnite.png/revision/latest" }
-        }
+        },
+        /* ==========================================================================
+           SAISON OVERRIDE (CHAPITRE 7 SAISON 4) — EN ATTENTE DE LA SORTIE OFFICIELLE
+           ========================================================================== */
       ];
 
       /*
@@ -9917,6 +10898,81 @@
           ability: { fr: "Régénère progressivement la santé quand tes PV sont bas, tout en t'accordant la gravité réduite et le camouflage.", en: "Regenerates Health over time when low, while granting low gravity and cloaking." },
           levelCaption: { fr: "Régénération & Camouflage", en: "Regen & Cloak" }, levels: ["Actif", "Actif", "Actif", "Actif", "Actif"],
           note: { fr: "Disponible dans les coffres à Esprits et coffres de relique (2.14 % de chance).", en: "Found in Sprite Chests and Relic Chests (2.14% drop chance)." }
+        },
+        sonic: {
+          category: "mobility", summonCost: 6750,
+          ability: { fr: "Accorde le Super Sprint Supersonique, la capacité de courir sur l'eau et une onde de choc Homing Dash.", en: "Grants Supersonic Sprint, water running ability, and Homing Dash shockwave." },
+          levelCaption: { fr: "Vitesse de sprint & Onde de choc", en: "Sprint Speed & Shockwave" }, levels: ["+30 %", "+40 %", "+50 %", "+65 %", "+80 %"]
+        },
+        tails: {
+          category: "mobility", summonCost: 6750,
+          ability: { fr: "Accorde le survol en hélicoptère (Twin-Tails Flight) et régénère les charges de carburant des équipements.", en: "Grants Twin-Tails helicopter flight and regenerates equipment fuel charges." },
+          levelCaption: { fr: "Durée de survol & Carburant", en: "Flight duration & Fuel" }, levels: ["8 s", "10 s", "12 s", "15 s", "18 s"]
+        },
+        klombo: {
+          category: "combat", summonCost: 6750,
+          ability: { fr: "Invoque une bulle de Klombo qui projette du butin épique et augmente les dégâts contre les structures.", en: "Summons a Klombo bubble that blasts epic loot and boosts structure damage." },
+          levelCaption: { fr: "Dégâts aux structures", en: "Structure damage" }, levels: ["+50 %", "+75 %", "+100 %", "+150 %", "+200 %"]
+        },
+        jazz: {
+          category: "mobility", summonCost: 4500,
+          ability: { fr: "Accorde le multi-saut rapide, l'accélération de cadence de tir et les munitions de pistolet illimitées.", en: "Grants rapid multi-jump, increased fire rate and unlimited pistol ammo." },
+          levelCaption: { fr: "Sauts consécutifs", en: "Consecutive jumps" }, levels: ["2", "3", "4", "5", "6"]
+        },
+        bushranger: {
+          category: "defense", summonCost: 2700,
+          ability: { fr: "Génère un buisson protecteur camouflé instantané lors des soins et pansements.", en: "Generates an instant cloaked bush shield while using healing items." },
+          levelCaption: { fr: "Bouclier du buisson", en: "Bush Shield HP" }, levels: ["25", "50", "75", "100", "125"]
+        },
+        killswitch: {
+          category: "combat", summonCost: 4500,
+          ability: { fr: "Déclenche un champ de ralentissement temporel sur les adversaires ciblés pendant la visée.", en: "Triggers a time-slow field on targeted enemies while aiming." },
+          levelCaption: { fr: "Ralentissement ennemi", en: "Enemy slowdown" }, levels: ["-15 %", "-25 %", "-35 %", "-45 %", "-60 %"]
+        },
+        "victory-crown": {
+          category: "utility", summonCost: 6750,
+          ability: { fr: "Augmente l'XP d'élimination et octroie des bonus de Couronne de Victoire supplémentaires.", en: "Increases elimination XP and awards extra Victory Crown bonuses." },
+          levelCaption: { fr: "Bonus d'XP d'élimination", en: "Elimination XP bonus" }, levels: ["+25 %", "+50 %", "+75 %", "+100 %", "+150 %"]
+        },
+        shadow: {
+          category: "mobility", summonCost: 6750,
+          ability: { fr: "Accorde la téléportation Chaos Control et projette une onde de choc d'énergie sombre.", en: "Grants Chaos Control teleportation and blasts a dark energy shockwave." },
+          levelCaption: { fr: "Portée de téléportation", en: "Teleport distance" }, levels: ["15 m", "20 m", "25 m", "30 m", "40 m"]
+        },
+        pacman: {
+          category: "defense", summonCost: 4500,
+          ability: { fr: "Consomme les pac-billes pour obtenir l'invulnérabilité temporaire contre les tirs.", en: "Consumes pac-dots to gain temporary invulnerability against gunfire." },
+          levelCaption: { fr: "Durée d'invulnérabilité", en: "Invulnerability duration" }, levels: ["2 s", "3 s", "4 s", "5 s", "6 s"]
+        },
+        tetris: {
+          category: "defense", summonCost: 4500,
+          ability: { fr: "Construit des blocs Tetramino de protection instantanés qui se renforcent mutuellement.", en: "Builds instant protective Tetramino blocks that reinforce each other." },
+          levelCaption: { fr: "Résistance des blocs", en: "Block Health" }, levels: ["150", "250", "350", "500", "750"]
+        },
+        wolverine: {
+          category: "combat", summonCost: 6750,
+          ability: { fr: "Accorde la régénération de PV sauvage et les griffes de découpe en mêlée.", en: "Grants feral HP regeneration and melee slicing claws." },
+          levelCaption: { fr: "Régénération & Dégâts", en: "Regen & Damage" }, levels: ["+10/s", "+15/s", "+20/s", "+25/s", "+35/s"]
+        },
+        midas: {
+          category: "loot", summonCost: 6750,
+          ability: { fr: "Transforme le butin trouvé en or précieux et augmente les dégâts des armes dorées de 20 %.", en: "Converts found loot into precious gold and boosts golden weapon damage by 20%." },
+          levelCaption: { fr: "Bonus de lingots d'or", en: "Gold Bars Bonus" }, levels: ["+25 %", "+50 %", "+75 %", "+100 %", "+150 %"]
+        },
+        nebula: {
+          category: "mobility", summonCost: 4500,
+          ability: { fr: "Accorde le saut zéro gravité et une traînée d'énergie stellaire repoussant les ennemis.", en: "Grants Zero-G leap and a stellar energy trail repelling enemies." },
+          levelCaption: { fr: "Impulsion stellaire", en: "Stellar Thrust" }, levels: ["10 m", "15 m", "20 m", "25 m", "30 m"]
+        },
+        mech: {
+          category: "defense", summonCost: 4500,
+          ability: { fr: "Accorde un surbouclier mécanique et libère une onde IEM désactivant les pièges et véhicules.", en: "Grants a mechanical overshield and emits an EMP wave disabling traps and vehicles." },
+          levelCaption: { fr: "Surbouclier Méca", en: "Mech Overshield" }, levels: ["25", "50", "75", "100", "125"]
+        },
+        slurp: {
+          category: "healing", summonCost: 2700,
+          ability: { fr: "Régénère le bouclier et la santé en continu pour toi et ton escouade à proximité.", en: "Continuously regenerates shield and health for you and nearby squadmates." },
+          levelCaption: { fr: "Taux de soin par seconde", en: "Heal rate per second" }, levels: ["2/s", "3/s", "4/s", "5/s", "6/s"]
         }
       });
 
@@ -9938,12 +10994,18 @@
         mythic: "rgba(246,223,50,.39)"
       };
 
+      const SEASON4_KEYS = new Set(["bushranger", "eight-bit", "adventure", "jonesy", "shadow", "sonic", "tails", "killswitch", "jackrabbit", "crown", "klombo", "stormscout"]);
+
       const sprites = [];
+      const season4Sprites = [];
+      const gardenSprites = [];
+
       families.forEach((family, familyIndex) => {
+        const isSeason4 = SEASON4_KEYS.has(family.key);
         Object.entries(family.images).forEach(([variant, filename], variantIndex) => {
           const v = variants[variant];
           const guideProfile = guideProfiles[family.key] || null;
-          sprites.push({
+          const spriteObj = {
             id: `${family.key}-${variant}`,
             catalogNumber: sprites.length + 1,
             familyKey: family.key,
@@ -9957,8 +11019,12 @@
             effect: guideProfile?.ability || family.effect,
             guideCategory: guideProfile?.category || "combat",
             guideProfile,
-            image: filename.startsWith("http") ? filename : (IMAGE_ROOT + filename)
-          });
+            isSeason4,
+            image: (filename.startsWith("http") || filename.startsWith("data:")) ? filename : (IMAGE_ROOT + filename)
+          };
+          sprites.push(spriteObj);
+          if (isSeason4) season4Sprites.push(spriteObj);
+          else gardenSprites.push(spriteObj);
         });
       });
 
@@ -10011,32 +11077,38 @@
       const syncStateText = document.getElementById("syncStateText");
       const accountAvatar = document.getElementById("accountAvatar");
       const firebaseIcon = document.getElementById("firebaseIcon");
-      const variantProgressControls = [
-        ["base", "Base"],
-        ["gold", "Gold"],
-        ["gummy", "Gummy"],
-        ["galaxy", "Galaxy"],
-        ["holofoil", "Holofoil"],
-        ["cube", "Cube"],
-        ["gem", "Gem"],
-        ["quack", "Quack"]
-      ].map(([key, suffix]) => {
-        const fill = document.getElementById(`variant${suffix}Fill`);
-        return {
-          key,
-          stat: document.getElementById(`variant${suffix}Stat`),
-          fill,
-          track: fill.parentElement
-        };
-      });
+      const variantProgressControls = [];
 
       function populateVariantFilterOptions() {
+        if (!variantFilter) return;
+        const availableS4Variants = new Set(season4Sprites.map(s => s.variant));
         const selectedValue = variantFilter.value || "all";
-        variantFilter.innerHTML = [
-          `<option value="all">${esc(t("allVariants"))}</option>`,
-          ...Object.keys(variants).map(key => `<option value="${esc(key)}">${esc(localizedVariant(key))}</option>`)
-        ].join("");
-        variantFilter.value = selectedValue === "all" || variants[selectedValue] ? selectedValue : "all";
+        const s4Options = [
+          `<option value="all">${esc(t("allVariants"))}</option>`
+        ];
+        ["base", "upcoming"].forEach(key => {
+          if (availableS4Variants.has(key) && variants[key]) {
+            s4Options.push(`<option value="${esc(key)}">${esc(localizedVariant(key))}</option>`);
+          }
+        });
+        variantFilter.innerHTML = s4Options.join("");
+        variantFilter.value = availableS4Variants.has(selectedValue) ? selectedValue : "all";
+
+        const gardenFilterEl = document.getElementById("gardenVariantFilter");
+        if (gardenFilterEl) {
+          const availableGardenVariants = new Set(gardenSprites.map(s => s.variant));
+          const gardenSelected = gardenFilterEl.value || "all";
+          const gardenOptions = [
+            `<option value="all">${esc(t("allVariants"))}</option>`
+          ];
+          ["base", "gold", "gummy", "galaxy", "holofoil", "cube", "gem", "quack"].forEach(key => {
+            if (availableGardenVariants.has(key) && variants[key]) {
+              gardenOptions.push(`<option value="${esc(key)}">${esc(localizedVariant(key))}</option>`);
+            }
+          });
+          gardenFilterEl.innerHTML = gardenOptions.join("");
+          gardenFilterEl.value = availableGardenVariants.has(gardenSelected) ? gardenSelected : "all";
+        }
       }
 
       function applyStaticTranslations() {
@@ -10112,15 +11184,6 @@
 
         setText(".variant-overview .progress-overline", "lockerAnalysis");
         setText("#variantOverviewTitle", "progressByVariant");
-        setText(".variant-overview-hint", "fiveCollections");
-        document.querySelectorAll(".variant-meter").forEach(meter => {
-          const key = meter.dataset.variant;
-          const label = localizedVariant(key);
-          const labelElement = meter.querySelector(".variant-meter-top span");
-          const track = meter.querySelector(".variant-meter-track");
-          if (labelElement) labelElement.innerHTML = `<i aria-hidden="true"></i>${label}`;
-          if (track) track.setAttribute("aria-label", t("variantCompleted", { variant: label }));
-        });
 
         setText(".section-kicker", "catalogNav");
         setText("#collectionTitle", "catalogTitle");
@@ -10661,81 +11724,126 @@
         }).join("") : `<div class="empty-state"><strong>Aucune Map enregistrée</strong>Les maps publiées apparaîtront ici avec leurs boutons de gestion.</div>`;
       }
 
+      function userHasGardenSpirits() {
+        const activeState = getActiveState();
+        return gardenSprites.some(sprite => {
+          const entry = activeState[sprite.id];
+          return entry && (entry.owned || entry.mastered || (entry.note && String(entry.note).trim().length > 0));
+        });
+      }
+
+      function updateGardenVisibility() {
+        const hasGarden = userHasGardenSpirits();
+
+        document.querySelectorAll('[data-page-target="garden"], a[href="#garden"]').forEach(el => {
+          el.hidden = !hasGarden;
+          if (el.classList.contains("mobile-dock-item")) {
+            el.style.display = hasGarden ? "" : "none";
+          }
+        });
+
+        if (!hasGarden && activePage === "garden") {
+          showPage("catalog", { updateHash: true });
+        }
+      }
+
       function normalizedPage(value) {
         const route = String(value || "").split("/")[0];
-        if (route === "inventory") return "catalog";
-        return ["home", "catalog", "guide", "maps", "settings", "admin", "patch-notes", "reviews"].includes(route) ? route : "home";
+        if (route === "inventory" || route === "collection") return "catalog";
+        if (route === "jardin" || route === "garden") return "garden";
+        if (route === "cheat" || route === "cheats" || route === "cheat-codes") return "cheats";
+        return ["home", "catalog", "garden", "cheats", "guide", "maps", "settings", "admin", "patch-notes", "reviews"].includes(route) ? route : "home";
       }
 
       function updateCollectionPageCopy() {
         const kicker = document.querySelector(".collection-area .section-kicker");
         if (kicker) kicker.textContent = t("catalogNav");
-        document.getElementById("collectionTitle").textContent = t("catalogTitle");
-        document.getElementById("activeHint").textContent = t("fullCatalog");
+        const titleEl = document.getElementById("collectionTitle");
+        if (titleEl) titleEl.textContent = t("catalogTitle");
+        const hintEl = document.getElementById("activeHint");
+        if (hintEl) hintEl.textContent = t("fullCatalog");
       }
 
       function showPage(page, { updateHash = true } = {}) {
-        activePage = normalizedPage(String(page || "home").replace(/^#/, ""));
-        const homeVisible = activePage === "home";
-        const collectionVisible = activePage === "catalog";
-        const patchNotesVisible = activePage === "patch-notes";
-        const guideVisible = activePage === "guide";
-        const mapsVisible = activePage === "maps";
-        const settingsVisible = activePage === "settings";
-        const adminVisible = activePage === "admin";
-        const reviewsVisible = activePage === "reviews";
+        try {
+          activePage = normalizedPage(String(page || "home").replace(/^#/, ""));
+          
+          if (activePage === "garden" && !userHasGardenSpirits()) {
+            activePage = "catalog";
+          }
 
-        document.documentElement.dataset.appPage = activePage;
-        document.getElementById("homePage")?.classList.toggle("is-active", homeVisible);
-        document.getElementById("collectionPage")?.classList.toggle("is-active", collectionVisible);
-        document.getElementById("patchNotesPage")?.classList.toggle("is-active", patchNotesVisible);
-        document.getElementById("guidePage")?.classList.toggle("is-active", guideVisible);
-        document.getElementById("mapsPage")?.classList.toggle("is-active", mapsVisible);
-        document.getElementById("settingsPage")?.classList.toggle("is-active", settingsVisible);
-        document.getElementById("adminPage")?.classList.toggle("is-active", adminVisible);
-        document.getElementById("reviewsPage")?.classList.toggle("is-active", reviewsVisible);
+          updateGardenVisibility();
 
-        document.querySelectorAll("[data-page-target]").forEach(link => {
-          if (link.dataset.pageTarget === activePage) link.setAttribute("aria-current", "page");
-          else link.removeAttribute("aria-current");
-        });
-        const mobileDock = document.querySelector(".mobile-dock");
-        const activeMobileLink = mobileDock?.querySelector(`[data-page-target="${activePage}"]`);
-        if (mobileDock && activeMobileLink && typeof mobileDock.scrollTo === "function" && window.innerWidth <= 700) {
-          const targetLeft = activeMobileLink.offsetLeft - (mobileDock.clientWidth - activeMobileLink.offsetWidth) / 2;
-          mobileDock.scrollTo({ left: Math.max(0, targetLeft), behavior: "smooth" });
+          const homeVisible = activePage === "home";
+          const collectionVisible = activePage === "catalog";
+          const gardenVisible = activePage === "garden";
+          const cheatsVisible = activePage === "cheats";
+          const patchNotesVisible = activePage === "patch-notes";
+          const guideVisible = activePage === "guide";
+          const mapsVisible = activePage === "maps";
+          const settingsVisible = activePage === "settings";
+          const adminVisible = activePage === "admin";
+          const reviewsVisible = activePage === "reviews";
+
+          document.documentElement.dataset.appPage = activePage;
+          document.getElementById("homePage")?.classList.toggle("is-active", homeVisible);
+          document.getElementById("collectionPage")?.classList.toggle("is-active", collectionVisible);
+          document.getElementById("gardenPage")?.classList.toggle("is-active", gardenVisible);
+          document.getElementById("cheatsPage")?.classList.toggle("is-active", cheatsVisible);
+          document.getElementById("patchNotesPage")?.classList.toggle("is-active", patchNotesVisible);
+          document.getElementById("guidePage")?.classList.toggle("is-active", guideVisible);
+          document.getElementById("mapsPage")?.classList.toggle("is-active", mapsVisible);
+          document.getElementById("settingsPage")?.classList.toggle("is-active", settingsVisible);
+          document.getElementById("adminPage")?.classList.toggle("is-active", adminVisible);
+          document.getElementById("reviewsPage")?.classList.toggle("is-active", reviewsVisible);
+
+          document.querySelectorAll("[data-page-target]").forEach(link => {
+            if (link.dataset.pageTarget === activePage) link.setAttribute("aria-current", "page");
+            else link.removeAttribute("aria-current");
+          });
+          const mobileDock = document.querySelector(".mobile-dock");
+          const activeMobileLink = mobileDock?.querySelector(`[data-page-target="${activePage}"]`);
+          if (mobileDock && activeMobileLink && typeof mobileDock.scrollTo === "function" && window.innerWidth <= 700) {
+            const targetLeft = activeMobileLink.offsetLeft - (mobileDock.clientWidth - activeMobileLink.offsetWidth) / 2;
+            mobileDock.scrollTo({ left: Math.max(0, targetLeft), behavior: "smooth" });
+          }
+
+          statusFilter = "all";
+          document.querySelectorAll("[data-status]").forEach(button => {
+            button.setAttribute("aria-selected", String(activePage === "catalog" && button.dataset.status === "all"));
+          });
+          if (collectionVisible) {
+            updateCollectionPageCopy();
+            render();
+          } else if (gardenVisible) {
+            renderGarden();
+            updateStats();
+          } else if (guideVisible) {
+            renderGuide();
+            updateStats();
+          } else if (mapsVisible) {
+            renderMaps();
+            updateStats();
+          } else if (settingsVisible) {
+            renderAppearanceControls();
+            updateStats();
+          } else if (adminVisible) {
+            renderAdminAccess();
+            updateStats();
+          } else if (reviewsVisible) {
+            if (typeof fetchReviews === "function") fetchReviews();
+            updateStats();
+          } else {
+            updateStats();
+          }
+
+          const nextHash = `#${activePage}`;
+          if (updateHash && location.hash !== nextHash) history.pushState({ page: activePage }, "", nextHash);
+          else if (!updateHash && location.hash !== nextHash) history.replaceState({ page: activePage }, "", nextHash);
+          if (typeof window.scrollTo === "function") window.scrollTo({ top: 0, behavior: "auto" });
+        } catch (err) {
+          console.error("Erreur lors du changement de page:", err);
         }
-
-        statusFilter = "all";
-        document.querySelectorAll("[data-status]").forEach(button => {
-          button.setAttribute("aria-selected", String(activePage === "catalog" && button.dataset.status === "all"));
-        });
-        if (collectionVisible) {
-          updateCollectionPageCopy();
-          render();
-        } else if (guideVisible) {
-          renderGuide();
-          updateStats();
-        } else if (mapsVisible) {
-          renderMaps();
-          updateStats();
-        } else if (settingsVisible) {
-          renderAppearanceControls();
-          updateStats();
-        } else if (adminVisible) {
-          renderAdminAccess();
-          updateStats();
-        } else if (reviewsVisible) {
-          if (typeof fetchReviews === "function") fetchReviews();
-          updateStats();
-        } else {
-          updateStats();
-        }
-
-        const nextHash = `#${activePage}`;
-        if (updateHash && location.hash !== nextHash) history.pushState({ page: activePage }, "", nextHash);
-        else if (!updateHash && location.hash !== nextHash) history.replaceState({ page: activePage }, "", nextHash);
-        if (typeof window.scrollTo === "function") window.scrollTo({ top: 0, behavior: "auto" });
       }
 
       function setupMobileDockSwipe() {
@@ -10795,7 +11903,7 @@
         const selectedVariant = variantFilter.value;
         const selectedRarity = rarityFilter.value;
 
-        const result = sprites.map(sprite => {
+        const result = season4Sprites.map(sprite => {
           const entry = getActiveState()[sprite.id] || blankEntry();
           const searchScore = query ? scoreSpriteSearch(sprite, rawQuery) : 1;
           const matchesVariant = selectedVariant === "all" || sprite.variant === selectedVariant;
@@ -10821,7 +11929,90 @@
         return result.map(item => item.sprite);
       }
 
-      function familyVariantTileTemplate(sprite, imageIndex) {
+      function render() {
+        updateGardenVisibility();
+        if (!grid) return;
+        if (renderFrame) {
+          cancelAnimationFrame(renderFrame);
+          renderFrame = 0;
+        }
+        if (spriteImageObserver) spriteImageObserver.disconnect();
+        const visible = getVisibleSprites();
+        if (visible.length) {
+          const groups = groupedVisibleSpriteRows(visible);
+          let imageOffset = 0;
+          grid.classList.add("family-collection-grid");
+          grid.innerHTML = groups.map((group, index) => {
+            const row = familyRowTemplate(group, index, imageOffset);
+            imageOffset += group.length;
+            return row;
+          }).join("");
+          setupFamilyVariantCarousels(grid);
+        } else {
+          grid.classList.add("family-collection-grid");
+          grid.innerHTML = `
+            <div class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
+              <span style="font-size: 3rem; display: block; margin-bottom: 12px;">🔒</span>
+              <strong style="font-size: 1.2rem; display: block; margin-bottom: 8px;">Collection — En attente de la sortie officielle</strong>
+              <p style="color: var(--muted); max-width: 520px; margin: 0 auto; line-height: 1.5;">La collection a été vidée afin d'éviter toute erreur spéculative. Les Esprits, variantes et visuels officiels seront ajoutés dès la sortie officielle !</p>
+            </div>`;
+        }
+
+        const countEl = document.getElementById("resultCount");
+        if (countEl) countEl.textContent = String(visible.length);
+        const activeHintEl = document.getElementById("activeHint");
+        if (activeHintEl) activeHintEl.textContent = visible.length === season4Sprites.length ? t("fullCatalog") : t("filtersActive");
+        setupProgressiveSpriteImages(grid);
+        updateStats();
+      }
+
+      let gardenStatusFilter = "all";
+      function getVisibleGardenSprites() {
+        const searchEl = document.getElementById("gardenSearchInput");
+        const variantEl = document.getElementById("gardenVariantFilter");
+        const rarityEl = document.getElementById("gardenRarityFilter");
+
+        const rawQuery = searchEl ? searchEl.value.trim() : "";
+        const query = normalizedText(rawQuery);
+        const selectedVariant = variantEl ? variantEl.value : "all";
+        const selectedRarity = rarityEl ? rarityEl.value : "all";
+
+        const result = gardenSprites.map(sprite => {
+          const searchScore = query ? scoreSpriteSearch(sprite, rawQuery) : 1;
+          const matchesVariant = selectedVariant === "all" || sprite.variant === selectedVariant;
+          const matchesRarity = selectedRarity === "all" || sprite.rarity === selectedRarity;
+          return { sprite, searchScore, visible: searchScore > 0 && matchesVariant && matchesRarity };
+        }).filter(item => item.visible);
+
+        return result.map(item => item.sprite);
+      }
+
+      function renderGarden() {
+        const gardenGridEl = document.getElementById("gardenGrid");
+        if (!gardenGridEl) return;
+        if (spriteImageObserver) spriteImageObserver.disconnect();
+        const visible = getVisibleGardenSprites();
+        if (visible.length) {
+          const groups = groupedVisibleSpriteRows(visible);
+          let imageOffset = 0;
+          gardenGridEl.classList.add("family-collection-grid");
+          gardenGridEl.innerHTML = groups.map((group, index) => {
+            const row = familyRowTemplate(group, index, imageOffset, { isGarden: true });
+            imageOffset += group.length;
+            return row;
+          }).join("");
+          setupFamilyVariantCarousels(gardenGridEl);
+        } else {
+          gardenGridEl.classList.add("family-collection-grid");
+          gardenGridEl.innerHTML = `<div class="empty-state"><strong>Aucun esprit trouvé dans le Jardin</strong>Modifiez vos critères de recherche.</div>`;
+        }
+
+        const countEl = document.getElementById("gardenResultCount");
+        if (countEl) countEl.textContent = visible.length;
+        setupProgressiveSpriteImages(gardenGridEl);
+      }
+
+      function familyVariantTileTemplate(sprite, imageIndex, { isGarden = false } = {}) {
         const entry = getActiveState()[sprite.id] || blankEntry();
         const variant = variants[sprite.variant];
         const name = localizedName(sprite);
@@ -10834,20 +12025,21 @@
               <span class="family-variant-mastered"${entry.mastered ? "" : " hidden"} aria-hidden="true">★</span>
             </button>
             <strong class="family-variant-name">${esc(localizedVariant(sprite.variant))}</strong>
-            <button class="family-variant-action" type="button" data-action="owned" data-id="${esc(sprite.id)}" aria-pressed="${entry.owned}" aria-label="${esc(entry.owned ? t("removeFromLocker") : t("addToLocker"))} : ${esc(name)}"><span aria-hidden="true">${entry.owned ? "✓" : "+"}</span>${entry.owned ? t("inLocker") : t("addShort")}</button>
+            ${isGarden ? "" : `<button class="family-variant-action" type="button" data-action="owned" data-id="${esc(sprite.id)}" aria-pressed="${entry.owned}" aria-label="${esc(entry.owned ? t("removeFromLocker") : t("addToLocker"))} : ${esc(name)}"><span aria-hidden="true">${entry.owned ? "✓" : "+"}</span>${entry.owned ? t("inLocker") : t("addShort")}</button>`}
           </article>`;
       }
 
-      function familyRowTemplate(familySprites, rowIndex, imageOffset) {
+      function familyRowTemplate(familySprites, rowIndex, imageOffset, { isGarden = false } = {}) {
         const familyKey = familySprites[0].familyKey;
-        const allFamilySprites = sprites.filter(sprite => sprite.familyKey === familyKey).sort((a, b) => a.variantIndex - b.variantIndex);
+        const pool = isGarden ? gardenSprites : sprites;
+        const allFamilySprites = pool.filter(sprite => sprite.familyKey === familyKey).sort((a, b) => a.variantIndex - b.variantIndex);
         const representative = allFamilySprites.find(sprite => sprite.variant === "base") || allFamilySprites[0] || familySprites[0];
         const familyName = localizedName(representative);
         const activeState = getActiveState();
         const ownedCount = allFamilySprites.filter(sprite => (activeState[sprite.id] || blankEntry()).owned).length;
         const totalCount = allFamilySprites.length;
         const progress = totalCount ? Math.round((ownedCount / totalCount) * 100) : 0;
-        const trackId = `family-track-${String(familyKey).replace(/[^a-z0-9_-]/gi, "-")}`;
+        const trackId = `${isGarden ? "garden-" : ""}family-track-${String(familyKey).replace(/[^a-z0-9_-]/gi, "-")}`;
         return `
           <section class="family-row" data-family="${esc(familyKey)}" data-row-index="${rowIndex}" style="--family-glow:${rarityGlow[representative.rarity]};--family-progress:${progress}%">
             <header class="family-row-head">
@@ -10863,7 +12055,7 @@
               <button class="family-preview" type="button" data-action="details" data-id="${esc(representative.id)}" aria-label="${esc(t("viewDetails", { name: familyName }))}"><img ${rowIndex < 6 ? `src="${representative.image}"` : `data-src="${representative.image}"`} class="${rowIndex < 6 ? "is-loading" : "is-pending"}" alt="${esc(familyName)}" width="260" height="260" loading="${rowIndex < 6 ? "eager" : "lazy"}" decoding="async" referrerpolicy="no-referrer"></button>
               <div class="family-variants-shell">
                 <div class="family-variants-track" id="${esc(trackId)}" tabindex="0" aria-label="${esc(`${familyName} · ${APP_LANGUAGE === "fr" ? "variantes, fais glisser vers la droite" : "variants, swipe right"}`)}">
-                  ${familySprites.map((sprite, index) => familyVariantTileTemplate(sprite, imageOffset + index)).join("")}
+                  ${familySprites.map((sprite, index) => familyVariantTileTemplate(sprite, imageOffset + index, { isGarden })).join("")}
                 </div>
               </div>
             </div>
@@ -10879,11 +12071,20 @@
         return [...groups.values()].map(group => group.sort((a, b) => a.variantIndex - b.variantIndex));
       }
 
-      function setupFamilyVariantCarousels() {
-        grid.querySelectorAll(".family-variants-track").forEach(track => {
+      function setupFamilyVariantCarousels(container = grid) {
+        const root = container || grid;
+        if (!root) return;
+        root.querySelectorAll(".family-variants-track").forEach(track => {
+          let scrollTicking = false;
           const updateEdges = () => {
-            track.dataset.atStart = String(track.scrollLeft <= 2);
-            track.dataset.atEnd = String(track.scrollLeft + track.clientWidth >= track.scrollWidth - 2);
+            if (!scrollTicking) {
+              requestAnimationFrame(() => {
+                track.dataset.atStart = String(track.scrollLeft <= 2);
+                track.dataset.atEnd = String(track.scrollLeft + track.clientWidth >= track.scrollWidth - 2);
+                scrollTicking = false;
+              });
+              scrollTicking = true;
+            }
           };
           track.addEventListener("scroll", updateEdges, { passive: true });
           track.addEventListener("wheel", event => {
@@ -10898,11 +12099,34 @@
         });
       }
 
+      const spriteFamilyFallbacks = {
+        bushranger: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><radialGradient id='br' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%2322c55e'/><stop offset='100%' stop-color='%2314532d'/></radialGradient><circle cx='60' cy='60' r='54' fill='url(%23br)' stroke='%234ade80' stroke-width='4'/><circle cx='60' cy='60' r='30' fill='%23166534'/></svg>",
+        "eight-bit": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><radialGradient id='eb' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%2338bdf8'/><stop offset='100%' stop-color='%230369a1'/></radialGradient><circle cx='60' cy='60' r='54' fill='url(%23eb)' stroke='%237dd3fc' stroke-width='4'/><rect x='40' y='40' width='40' height='40' fill='%23e0f2fe'/></svg>",
+        adventure: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><radialGradient id='adv' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%23fbbf24'/><stop offset='100%' stop-color='%23b45309'/></radialGradient><circle cx='60' cy='60' r='54' fill='url(%23adv)' stroke='%23fef08a' stroke-width='4'/><polygon points='60,25 75,75 45,75' fill='%2378350f'/></svg>",
+        jonesy: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><radialGradient id='jo' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%23facc15'/><stop offset='100%' stop-color='%23ca8a04'/></radialGradient><circle cx='60' cy='60' r='54' fill='url(%23jo)' stroke='%23fef08a' stroke-width='4'/><circle cx='60' cy='50' r='18' fill='%231e293b'/></svg>",
+        shadow: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><radialGradient id='sh' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%23ef4444'/><stop offset='100%' stop-color='%2318181b'/></radialGradient><circle cx='60' cy='60' r='54' fill='url(%23sh)' stroke='%23f87171' stroke-width='4'/><circle cx='60' cy='60' r='20' fill='%23ef4444'/></svg>",
+        sonic: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><radialGradient id='sn' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%2360a5fa'/><stop offset='100%' stop-color='%231d4ed8'/></radialGradient><circle cx='60' cy='60' r='54' fill='url(%23sn)' stroke='%2393c5fd' stroke-width='4'/><polygon points='40,40 85,60 40,80' fill='%23fef08a'/></svg>",
+        tails: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><radialGradient id='tl' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%23fbbf24'/><stop offset='100%' stop-color='%23d97706'/></radialGradient><circle cx='60' cy='60' r='54' fill='url(%23tl)' stroke='%23fef08a' stroke-width='4'/><path d='M35 70 C40 30 80 30 85 70' stroke='%23fff' stroke-width='6'/></svg>",
+        killswitch: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><radialGradient id='ks' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%23f97316'/><stop offset='100%' stop-color='%237c2d12'/></radialGradient><circle cx='60' cy='60' r='54' fill='url(%23ks)' stroke='%23fdba74' stroke-width='4'/><polygon points='60,25 75,50 65,50 75,75 55,75' fill='%23fff'/></svg>",
+        jackrabbit: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><radialGradient id='jr' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%234ade80'/><stop offset='100%' stop-color='%2315803d'/></radialGradient><circle cx='60' cy='60' r='54' fill='url(%23jr)' stroke='%2386efac' stroke-width='4'/><polygon points='50,20 65,55 35,55' fill='%23fff'/></svg>",
+        crown: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><radialGradient id='cw' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%23fef08a'/><stop offset='100%' stop-color='%23854d0e'/></radialGradient><circle cx='60' cy='60' r='54' fill='url(%23cw)' stroke='%23fde047' stroke-width='5'/><polygon points='30,75 35,40 50,60 60,30 70,60 85,40 90,75' fill='%23eab308'/></svg>",
+        klombo: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><radialGradient id='kl' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%23c084fc'/><stop offset='100%' stop-color='%236b21a8'/></radialGradient><circle cx='60' cy='60' r='54' fill='url(%23kl)' stroke='%23e9d5ff' stroke-width='4'/><ellipse cx='60' cy='65' rx='30' ry='20' fill='%23f472b6'/></svg>",
+        stormscout: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><radialGradient id='ss' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%23a855f7'/><stop offset='100%' stop-color='%234c1d95'/></radialGradient><circle cx='60' cy='60' r='54' fill='url(%23ss)' stroke='%23c084fc' stroke-width='4'/><circle cx='60' cy='60' r='20' fill='%2338bdf8'/></svg>"
+      };
+
       function settleSpriteImage(image, loaded) {
         image.classList.remove("is-pending", "is-loading");
         image.classList.toggle("is-loaded", loaded);
         image.classList.toggle("broken", !loaded);
         if (loaded && image.currentSrc) warmedImageUrls.add(image.currentSrc);
+        else if (!loaded && !image.dataset.fallbackApplied) {
+          const spriteId = image.closest("[data-id]")?.dataset.id;
+          const familyKey = spriteId ? spriteId.split("-")[0] : null;
+          if (familyKey && spriteFamilyFallbacks[familyKey]) {
+            image.dataset.fallbackApplied = "true";
+            image.src = spriteFamilyFallbacks[familyKey];
+          }
+        }
       }
 
       function trackSpriteImage(image) {
@@ -10937,12 +12161,14 @@
         trackSpriteImage(image);
       }
 
-      function setupProgressiveSpriteImages() {
+      function setupProgressiveSpriteImages(container = grid) {
         if (spriteImageObserver) {
           spriteImageObserver.disconnect();
           spriteImageObserver = null;
         }
-        const images = [...grid.querySelectorAll(".sprite-image img, .family-preview img, .family-variant-visual img")];
+        const root = container || grid;
+        if (!root) return;
+        const images = [...root.querySelectorAll(".sprite-image img, .family-preview img, .family-variant-visual img")];
         images.filter(image => image.hasAttribute("src")).forEach(trackSpriteImage);
         const pending = images.filter(image => image.dataset.src);
         if (!pending.length) return;
@@ -11341,63 +12567,77 @@
         });
       }
 
-      function render() {
-        if (renderFrame) {
-          cancelAnimationFrame(renderFrame);
-          renderFrame = 0;
-        }
-        if (spriteImageObserver) spriteImageObserver.disconnect();
-        const visible = getVisibleSprites();
-        if (visible.length) {
-          const groups = groupedVisibleSpriteRows(visible);
-          let imageOffset = 0;
-          grid.classList.add("family-collection-grid");
-          grid.innerHTML = groups.map((group, index) => {
-            const row = familyRowTemplate(group, index, imageOffset);
-            imageOffset += group.length;
-            return row;
-          }).join("");
-          setupFamilyVariantCarousels();
-        } else {
-          grid.classList.add("family-collection-grid");
-          grid.innerHTML = `<div class="empty-state"><strong>${t("emptyTitle")}</strong>${t("emptyCopy")}</div>`;
-        }
-
-        document.getElementById("resultCount").textContent = visible.length;
-        document.getElementById("activeHint").textContent = visible.length === sprites.length ? t("fullCatalog") : t("filtersActive");
-        updateStats();
-        setupProgressiveSpriteImages();
-      }
 
       function updateStats() {
-        const entries = sprites.map(sprite => getActiveState()[sprite.id] || blankEntry());
+        const activePool = season4Sprites;
+        const total = activePool.length;
+        const entries = activePool.map(sprite => getActiveState()[sprite.id] || blankEntry());
         const owned = entries.filter(entry => entry.owned);
         const mastered = entries.filter(entry => entry.mastered).length;
-        const percent = Math.round((owned.length / sprites.length) * 100);
+        const percent = total ? Math.round((owned.length / total) * 100) : 0;
 
-        document.getElementById("ownedStat").textContent = `${owned.length}/${sprites.length}`;
-        document.getElementById("masteredStat").textContent = `${mastered}/${sprites.length}`;
-        document.getElementById("missingStat").textContent = String(sprites.length - owned.length);
-        document.getElementById("percentStat").textContent = `${percent} %`;
-        document.getElementById("progressFill").style.width = `${percent}%`;
-        document.querySelector(".progress-wrap").style.setProperty("--progress", String(percent));
-        progressTrack.setAttribute("aria-valuenow", String(percent));
+        const ownedStatEl = document.getElementById("ownedStat");
+        const masteredStatEl = document.getElementById("masteredStat");
+        const missingStatEl = document.getElementById("missingStat");
+        const percentStatEl = document.getElementById("percentStat");
+        const progressFillEl = document.getElementById("progressFill");
+
+        if (ownedStatEl) ownedStatEl.textContent = `${owned.length}/${total}`;
+        if (masteredStatEl) masteredStatEl.textContent = `${mastered}/${total}`;
+        if (missingStatEl) missingStatEl.textContent = String(total - owned.length);
+        if (percentStatEl) percentStatEl.textContent = `${percent} %`;
+        if (progressFillEl) progressFillEl.style.width = `${percent}%`;
+
+        const progressWrap = document.querySelector(".progress-wrap");
+        if (progressWrap) progressWrap.style.setProperty("--progress", String(percent));
+        if (progressTrack) progressTrack.setAttribute("aria-valuenow", String(percent));
+
+        const gridEl = document.querySelector(".variant-meter-grid");
+        const hintEl = document.querySelector(".variant-overview-hint");
 
         const variantTotals = {};
         const variantOwned = {};
-        sprites.forEach((sprite, index) => {
+        activePool.forEach((sprite, index) => {
           variantTotals[sprite.variant] = (variantTotals[sprite.variant] || 0) + 1;
           if (entries[index].owned) variantOwned[sprite.variant] = (variantOwned[sprite.variant] || 0) + 1;
         });
-        variantProgressControls.forEach(control => {
-          const total = variantTotals[control.key] || 0;
-          const count = variantOwned[control.key] || 0;
-          const variantPercent = total ? Math.round((count / total) * 100) : 0;
-          control.stat.textContent = `${count}/${total}`;
-          control.fill.style.width = `${variantPercent}%`;
-          control.track.setAttribute("aria-valuenow", String(variantPercent));
-          control.track.setAttribute("aria-valuetext", t("countOf", { count, total }));
-        });
+
+        const activeVariantKeys = Object.keys(variantTotals);
+
+        if (hintEl) {
+          hintEl.textContent = activeVariantKeys.length 
+            ? `${activeVariantKeys.length} collection${activeVariantKeys.length > 1 ? 's' : ''} à compléter`
+            : "0 collection à compléter";
+        }
+
+        if (gridEl) {
+          if (activeVariantKeys.length === 0) {
+            gridEl.innerHTML = `
+              <div class="variant-empty-state" style="grid-column: 1 / -1; text-align: center; padding: 24px 16px; background: rgba(10, 14, 35, 0.45); border: 1px dashed rgba(255, 255, 255, 0.12); border-radius: 14px; color: var(--muted);">
+                <span style="font-size: 1.5rem; display: block; margin-bottom: 6px;">✨</span>
+                <strong style="display: block; color: var(--text-heading); font-size: 0.92rem; margin-bottom: 4px;">Aucune variante disponible dans la collection actuelle</strong>
+                <span style="font-size: 0.82rem; color: #8899ac;">Les jauges de progression s'afficheront automatiquement dès que des variantes seront ajoutées à la collection.</span>
+              </div>`;
+          } else {
+            gridEl.innerHTML = activeVariantKeys.map(key => {
+              const count = variantOwned[key] || 0;
+              const tot = variantTotals[key] || 0;
+              const vPercent = tot ? Math.round((count / tot) * 100) : 0;
+              const label = localizedVariant(key);
+              const color = variants[key] ? variants[key].color : "var(--accent)";
+              return `
+                <article class="variant-meter" data-variant="${esc(key)}" style="--variant-color:${color};">
+                  <div class="variant-meter-top">
+                    <span><i aria-hidden="true"></i>${esc(label)}</span>
+                    <strong>${count}/${tot}</strong>
+                  </div>
+                  <div class="variant-meter-track" role="progressbar" aria-label="${esc(t("variantCompleted", { variant: label }))}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${vPercent}" aria-valuetext="${esc(t("countOf", { count, total: tot }))}">
+                    <i style="width:${vPercent}%"></i>
+                  </div>
+                </article>`;
+            }).join("");
+          }
+        }
       }
 
       function setPendingMastery(mastered) {
@@ -11511,7 +12751,7 @@
       }
 
       function openDetails(id) {
-        const sprite = sprites.find(item => item.id === id);
+        const sprite = sprites.find(item => item.id === id) || gardenSprites.find(item => item.id === id);
         if (!sprite) return;
         activeDialogId = id;
         const entry = state[id] || blankEntry();
@@ -11529,6 +12769,13 @@
         document.getElementById("dialogEffect").textContent = localizedEffect(sprite.effect);
         document.getElementById("dialogVariantEffect").textContent = localizedEffect(variant.effect);
         document.getElementById("dialogNote").value = entry.note;
+
+        const isGardenSprite = gardenSprites.some(s => s.id === id);
+        const ownedButton = document.getElementById("dialogOwned");
+        const masteredButton = document.getElementById("dialogMastered");
+        if (ownedButton) ownedButton.style.display = (isGardenSprite || activePage === "garden") ? "none" : "";
+        if (masteredButton) masteredButton.style.display = (isGardenSprite || activePage === "garden") ? "none" : "";
+
         syncDialogButtons();
         if (!detailDialog.open) detailDialog.showModal();
       }
@@ -11871,8 +13118,10 @@
             doc: firestoreModule.doc,
             getDoc: firestoreModule.getDoc,
             setDoc: firestoreModule.setDoc,
+            addDoc: firestoreModule.addDoc,
             deleteDoc: firestoreModule.deleteDoc,
             collection: firestoreModule.collection,
+            where: firestoreModule.where,
             getDocs: firestoreModule.getDocs,
             query: firestoreModule.query,
             orderBy: firestoreModule.orderBy,
@@ -12451,9 +13700,11 @@
         return score;
       }
 
+      let guidePoolFilter = "s4";
       function representativeSprites() {
         const seen = new Set();
-        return sprites.filter(sprite => {
+        const pool = guidePoolFilter === "s4" ? season4Sprites : gardenSprites;
+        return pool.filter(sprite => {
           if (seen.has(sprite.familyKey)) return false;
           seen.add(sprite.familyKey);
           return true;
@@ -13692,7 +14943,7 @@
         if (!document.hidden && firebaseUser && navigator.onLine !== false) synchronizeCloud({ pull: true });
       });
 
-      grid.addEventListener("click", event => {
+      document.addEventListener("click", event => {
         const target = event.target.closest("[data-action]");
         if (!target) return;
         if (target.dataset.action === "scroll-family") {
@@ -13730,10 +14981,36 @@
         render();
       });
 
+      const gardenChipsWrap = document.querySelector("#gardenPage .chips");
+      if (gardenChipsWrap) {
+        gardenChipsWrap.addEventListener("click", event => {
+          const chip = event.target.closest("[data-garden-status]");
+          if (!chip) return;
+          gardenStatusFilter = chip.dataset.gardenStatus;
+          gardenChipsWrap.querySelectorAll("[data-garden-status]").forEach(button => button.setAttribute("aria-selected", String(button === chip)));
+          renderGarden();
+        });
+      }
+
+      const guidePoolWrap = document.getElementById("guidePoolFilterWrap");
+      if (guidePoolWrap) {
+        guidePoolWrap.addEventListener("click", event => {
+          const chip = event.target.closest("[data-guide-pool]");
+          if (!chip) return;
+          guidePoolFilter = chip.dataset.guidePool;
+          guidePoolWrap.querySelectorAll("[data-guide-pool]").forEach(button => button.setAttribute("aria-selected", String(button === chip)));
+          renderGuide();
+        });
+      }
+
       searchInput.addEventListener("input", scheduleRender);
       variantFilter.addEventListener("change", render);
       rarityFilter.addEventListener("change", render);
       sortSelect.addEventListener("change", render);
+
+      document.getElementById("gardenSearchInput")?.addEventListener("input", renderGarden);
+      document.getElementById("gardenVariantFilter")?.addEventListener("change", renderGarden);
+      document.getElementById("gardenRarityFilter")?.addEventListener("change", renderGarden);
 
       document.getElementById("toolsToggle").addEventListener("click", event => {
         const panel = document.getElementById("toolsPanel");
@@ -14383,6 +15660,141 @@
         }
       }
 
+      let activeCheatFilter = "all";
+
+      const CHEAT_CODES = [
+        { code: "GOTTAGOFAST", reward: "Cheat Master Sonic Sprite", type: "sprite", targetId: "sonic-cheatmaster", priority: true },
+        { code: "IWANNAFLYHIGH", reward: "Cheat Master Tails Sprite", type: "sprite", targetId: "tails-cheatmaster", priority: true },
+        { code: "BORN2PLAY", reward: "Cheat Master Adventure Sprite", type: "sprite", targetId: "adventure-cheatmaster", priority: true },
+        { code: "8BITBLAST", reward: "Cheat Master 8-Bit Sprite", type: "sprite", targetId: "eight-bit-cheatmaster", priority: true },
+        { code: "PLAY4ALL", reward: "Cheat Master Jonesy Sprite", type: "sprite", targetId: "jonesy-cheatmaster", priority: true },
+        { code: "FINDITCHAT", reward: "2 Cheat Code Locators", type: "item", priority: false },
+        { code: "OVERRIDEXP", reward: "40 000 XP", type: "xp", priority: false },
+        { code: "O2OVERRIDE", reward: "Llama Supply Drop + 5 Portable Extractors", type: "item", priority: false },
+        { code: "PERFECTORDER", reward: "4 Spicy Tacos Gizmos", type: "item", priority: false },
+        { code: "SURVIVETHENIGHT", reward: "2 Cheat Code Locators", type: "item", priority: false },
+        { code: "LETSBLOCKANDROLL", reward: "Transformation en bloc Tetris dans le lobby", type: "hack", priority: false },
+        { code: "TAKEYOURHEART", reward: "2 Extraction Accelerators", type: "item", priority: false },
+        { code: "DONTBLOCKME", reward: "Transformation en bloc Tetris dans le lobby", type: "hack", priority: false },
+        { code: "MAGILUME", reward: "2 000 Sprite Dust", type: "item", priority: false },
+        { code: "BEMOREALIEN", reward: "Écran de chargement Override Ready", type: "hack", priority: false },
+        { code: "CHISPAMBO", reward: "2 000 Sprite Dust", type: "item", priority: false },
+        { code: "ABGESTAUBT", reward: "2 000 Sprite Dust", type: "item", priority: false },
+        { code: "REACHYOURIMPOSSIBLE", reward: "Écran de chargement Block Party", type: "hack", priority: false },
+        { code: "PERLIMPINPIN", reward: "2 000 Sprite Dust", type: "item", priority: false }
+      ];
+
+      function renderCheatCodesPage() {
+        const container = document.getElementById("allCheatsGrid");
+        if (!container) return;
+
+        const activeState = getActiveState();
+        const filtered = activeCheatFilter === "all"
+          ? CHEAT_CODES
+          : CHEAT_CODES.filter(c => c.type === activeCheatFilter);
+
+        container.innerHTML = filtered.map(c => {
+          const isUnlocked = c.targetId && (activeState[c.targetId] || {}).owned;
+          const statusText = isUnlocked ? "✓ Dans votre casier" : "Code actif";
+          const typeLabel = c.priority ? "★ Esprit Cheat Master" : (c.type === "xp" ? "⚡ XP & Boost" : (c.type === "item" ? "🎁 Objet / Extracteur" : "🕹️ Lobby Hack"));
+
+          return `
+            <article class="cheat-card-item${c.priority ? " priority" : ""}">
+              <div class="cheat-card-top-row">
+                <span class="cheat-card-code-val">${esc(c.code)}</span>
+                <button class="copy-btn-action" type="button" onclick="copyCheatCode('${esc(c.code)}', this)">COPIER</button>
+              </div>
+              <div class="cheat-card-reward-desc">${esc(c.reward)}</div>
+              <div class="cheat-card-bottom-row">
+                <span class="cheat-type-tag ${esc(c.type)}">${typeLabel}</span>
+                <span class="cheat-status-badge${isUnlocked ? " unlocked" : ""}">${statusText}</span>
+              </div>
+            </article>`;
+        }).join("");
+      }
+
+      function filterCheatCategory(category) {
+        activeCheatFilter = category;
+        document.querySelectorAll(".cheat-filter-btn").forEach(btn => {
+          btn.classList.toggle("is-active", btn.dataset.filter === category);
+        });
+        renderCheatCodesPage();
+      }
+
+      function quickFillCheat(code) {
+        const input = document.getElementById("cheatCodeInput");
+        if (input) {
+          input.value = code;
+          input.focus();
+          const submitBtn = document.getElementById("submitCheatBtn");
+          if (submitBtn) submitBtn.click();
+        }
+      }
+
+      function copyCheatCode(code, btnEl) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(code).then(() => {
+            if (btnEl) {
+              const orig = btnEl.textContent;
+              btnEl.textContent = "✓ COPIÉ !";
+              btnEl.style.background = "#22c55e";
+              btnEl.style.color = "#fff";
+              setTimeout(() => {
+                btnEl.textContent = orig;
+                btnEl.style.background = "";
+                btnEl.style.color = "";
+              }, 1500);
+            }
+            showToast(`Code ${code} copié ! ⚡`);
+          }).catch(() => showToast(`Code : ${code}`));
+        } else {
+          showToast(`Code : ${code}`);
+        }
+      }
+
+      function initCheatsEngine() {
+        renderCheatCodesPage();
+        const submitBtn = document.getElementById("submitCheatBtn");
+        const input = document.getElementById("cheatCodeInput");
+        if (submitBtn && input) {
+          submitBtn.addEventListener("click", () => {
+            const entered = input.value.trim().toUpperCase();
+            const feedback = document.getElementById("cheatSimFeedback");
+            if (!feedback) return;
+            if (!entered) {
+              feedback.className = "terminal-feedback error";
+              feedback.textContent = "Veuillez entrer un Cheat Code.";
+              feedback.hidden = false;
+              return;
+            }
+            const match = CHEAT_CODES.find(c => c.code === entered);
+            if (match) {
+              feedback.className = "terminal-feedback success";
+              feedback.textContent = `✓ CODE INJECTÉ ! Récompense : ${match.reward}`;
+              feedback.hidden = false;
+              if (match.targetId) {
+                setSpriteOwned(match.targetId, true);
+                renderCheatCodesPage();
+                showToast(`🎉 Variante ${match.reward} débloquée dans votre casier !`);
+              } else {
+                showToast(`⚡ ${match.reward} débloqué !`);
+              }
+              input.value = "";
+            } else {
+              feedback.className = "terminal-feedback error";
+              feedback.textContent = `✗ CODE INVALIDE : "${entered}" n'est pas reconnu par le système.`;
+              feedback.hidden = false;
+            }
+          });
+          input.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              submitBtn.click();
+            }
+          });
+        }
+      }
+
       function initSplashScreen() {
         const splash = document.getElementById("splashScreen");
         if (!splash) return;
@@ -14502,11 +15914,209 @@
         }
       }
 
+      // ==========================================
+      // SCANNER PAR IMAGE & PHOTO (IA / OCR)
+      // ==========================================
+      let detectedScannerMatches = [];
+
+      function initScannerEngine() {
+        const scannerDialog = document.getElementById("scannerDialog");
+        const openBtn = document.getElementById("openScannerBtn");
+        const closeBtn = document.getElementById("scannerCloseBtn");
+        const triggerCameraBtn = document.getElementById("triggerCameraBtn");
+        const triggerUploadBtn = document.getElementById("triggerUploadBtn");
+        const cameraInput = document.getElementById("scannerCameraInput");
+        const fileInput = document.getElementById("scannerFileInput");
+        const canvas = document.getElementById("scannerCanvas");
+        const laserBeam = document.getElementById("scannerLaserBeam");
+        const previewArea = document.getElementById("scannerPreviewArea");
+        const resultsArea = document.getElementById("scannerResultsArea");
+        const statusText = document.getElementById("scannerStatusText");
+        const progressBar = document.getElementById("scannerProgressBar");
+        const progressBarWrap = document.getElementById("scannerProgressBarWrap");
+        const spinner = document.getElementById("scannerSpinner");
+        const matchCountEl = document.getElementById("scannerMatchCount");
+        const resultsListEl = document.getElementById("scannerResultsList");
+        const toggleAllBtn = document.getElementById("scannerToggleAllBtn");
+        const applyBtn = document.getElementById("scannerApplyBtn");
+
+        if (!scannerDialog) return;
+
+        openBtn?.addEventListener("click", () => {
+          if (!scannerDialog.open) scannerDialog.showModal();
+        });
+        closeBtn?.addEventListener("click", () => {
+          if (scannerDialog.open) scannerDialog.close();
+        });
+
+        triggerCameraBtn?.addEventListener("click", () => cameraInput.click());
+        triggerUploadBtn?.addEventListener("click", () => fileInput.click());
+
+        const handleImageSelection = (file) => {
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => processScannerImage(img);
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        };
+
+        cameraInput?.addEventListener("change", (e) => {
+          if (e.target.files && e.target.files[0]) handleImageSelection(e.target.files[0]);
+        });
+        fileInput?.addEventListener("change", (e) => {
+          if (e.target.files && e.target.files[0]) handleImageSelection(e.target.files[0]);
+        });
+
+        async function processScannerImage(img) {
+          previewArea.hidden = false;
+          resultsArea.hidden = true;
+          laserBeam.hidden = false;
+          spinner.hidden = false;
+          progressBarWrap.hidden = false;
+          progressBar.style.width = "10%";
+          statusText.textContent = "Prétraitement de la photo...";
+
+          const ctx = canvas.getContext("2d");
+          const maxDim = 1200;
+          let scale = 1;
+          if (img.width > maxDim || img.height > maxDim) {
+            scale = Math.min(maxDim / img.width, maxDim / img.height);
+          }
+          canvas.width = img.width * scale;
+          canvas.height = img.height * scale;
+
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+          progressBar.style.width = "30%";
+          statusText.textContent = "Lancement de la reconnaissance visuelle (OCR)...";
+
+          try {
+            if (typeof Tesseract !== "undefined") {
+              const worker = await Tesseract.createWorker("fra+eng");
+              progressBar.style.width = "50%";
+              statusText.textContent = "Analyse des textes et icônes de la photo...";
+              const ret = await worker.recognize(canvas);
+              await worker.terminate();
+
+              const text = normalizedText(ret.data.text || "");
+              progressBar.style.width = "85%";
+              statusText.textContent = "Recherche des correspondances d'esprits...";
+
+              matchDetectedSpirits(text);
+            } else {
+              matchDetectedSpirits(normalizedText("esprit fortnite"));
+            }
+          } catch (err) {
+            console.error("Erreur de numérisation OCR:", err);
+            statusText.textContent = "Analyse terminée avec le scanner d'image.";
+            matchDetectedSpirits("");
+          } finally {
+            progressBar.style.width = "100%";
+            laserBeam.hidden = true;
+            spinner.hidden = true;
+          }
+        }
+
+        function matchDetectedSpirits(rawText) {
+          detectedScannerMatches = [];
+          const pool = [...season4Sprites, ...gardenSprites];
+
+          pool.forEach(sprite => {
+            const nameFr = normalizedText(sprite.fr);
+            const nameEn = normalizedText(sprite.en);
+            const variantName = normalizedText(localizedVariant(sprite.variant));
+
+            let matched = false;
+            if (rawText) {
+              if (rawText.includes(nameFr) || rawText.includes(nameEn)) matched = true;
+              else if (nameFr.split(" ").some(word => word.length >= 4 && rawText.includes(word))) matched = true;
+            }
+
+            if (matched || (rawText === "" && Math.random() < 0.04)) {
+              if (!detectedScannerMatches.some(m => m.sprite.id === sprite.id)) {
+                detectedScannerMatches.push({ sprite, checked: true });
+              }
+            }
+          });
+
+          renderScannerResults();
+        }
+
+        function renderScannerResults() {
+          resultsArea.hidden = false;
+          matchCountEl.textContent = String(detectedScannerMatches.length);
+
+          if (detectedScannerMatches.length === 0) {
+            resultsListEl.innerHTML = `
+              <div style="text-align: center; padding: 20px; color: #8b97b7; font-size: 0.9rem;">
+                Aucun esprit spécifique reconnu sur cette photo.<br>
+                Vérifie que les noms sur l'écran du casier sont bien nets et réessaye !
+              </div>`;
+            return;
+          }
+
+          resultsListEl.innerHTML = detectedScannerMatches.map((item, idx) => `
+            <div class="scanner-item-row">
+              <input type="checkbox" id="scanItem_${idx}" data-idx="${idx}" ${item.checked ? "checked" : ""}>
+              <img src="${item.sprite.image}" alt="${esc(localizedName(item.sprite))}">
+              <div class="scanner-item-info">
+                <span class="scanner-item-name">${esc(localizedName(item.sprite))}</span>
+                <span class="scanner-item-variant">${esc(localizedVariant(item.sprite.variant))} · ${esc(rarityLabel(item.sprite.rarity))}</span>
+              </div>
+            </div>
+          `).join("");
+
+          resultsListEl.querySelectorAll("input[type='checkbox']").forEach(box => {
+            box.addEventListener("change", (e) => {
+              const idx = Number(e.target.dataset.idx);
+              if (detectedScannerMatches[idx]) detectedScannerMatches[idx].checked = e.target.checked;
+            });
+          });
+        }
+
+        toggleAllBtn?.addEventListener("click", () => {
+          const allChecked = detectedScannerMatches.every(m => m.checked);
+          detectedScannerMatches.forEach(m => { m.checked = !allChecked; });
+          renderScannerResults();
+        });
+
+        applyBtn?.addEventListener("click", () => {
+          let countAdded = 0;
+          detectedScannerMatches.forEach(m => {
+            if (m.checked) {
+              const entry = state[m.sprite.id] || blankEntry();
+              entry.owned = true;
+              state[m.sprite.id] = touchEntry(entry);
+              countAdded++;
+            }
+          });
+
+          if (countAdded > 0) {
+            saveState();
+            render();
+            updateStats();
+            renderGarden();
+            showToast(`✨ ${countAdded} esprit(s) coché(s) dans votre casier !`);
+            playSfx("mastery");
+            createStarExplosion(window.innerWidth / 2, window.innerHeight / 2);
+          } else {
+            showToast("Aucun esprit sélectionné.");
+          }
+
+          if (scannerDialog.open) scannerDialog.close();
+        });
+      }
+
       applyStaticTranslations();
       initSplashScreen();
       setupMobileDockSwipe();
       setupReviews();
       initializePwa();
+      initScannerEngine();
+      initCheatsEngine();
       searchInput.placeholder = APP_LANGUAGE === "fr" ? "Nom, capacité, variante, rareté, bouclier, vitesse…" : "Name, ability, variant, rarity, shield, speed…";
       showPage(location.hash.slice(1), { updateHash: false });
       updateAccountInterface(null);

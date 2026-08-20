@@ -3,13 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Sprite Locker — Redirection</title>
+  <title>Prime Sprites — Redirection</title>
   <script>
-    // GitHub Pages SPA redirect: converts the path into a hash and redirects to index.html
-    var path = window.location.pathname;
-    var repo = path.split('/').filter(Boolean)[0] || '';
-    var hash = window.location.hash || '#home';
-    window.location.replace('/' + (repo ? repo + '/' : '') + hash);
+    (function() {
+      var path = window.location.pathname;
+      var segments = path.split('/').filter(Boolean);
+      var repo = segments[0] || '';
+      var hash = window.location.hash || '#home';
+      var target = '/' + (repo ? repo + '/' : '') + 'index.html' + hash;
+      if (!window.location.pathname.endsWith('index.html')) {
+        window.location.replace(target);
+      }
+    })();
   </script>
 </head>
 <body></body>
