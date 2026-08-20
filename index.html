@@ -5126,33 +5126,36 @@
     .review-trigger-btn {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
-      padding: 13px 28px;
-      font-size: 0.92rem;
+      gap: 8px;
+      padding: 9px 18px;
+      font-size: 0.86rem;
       font-weight: 800;
-      border-radius: 999px;
-      box-shadow: 0 10px 30px rgba(var(--accent-rgb), 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent, #24a9ff), #0077ff);
+      color: #000;
+      box-shadow: 0 6px 20px rgba(36, 169, 255, 0.35);
       cursor: pointer;
       border: 0;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.2s ease;
+      white-space: nowrap;
     }
     .review-trigger-btn:hover {
-      transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 16px 40px rgba(var(--accent-rgb), 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(36, 169, 255, 0.5);
     }
     .review-trigger-btn:active {
-      transform: translateY(1px) scale(0.98);
+      transform: translateY(1px);
     }
     .review-trigger-btn .btn-sparkle {
-      font-size: 1.15rem;
+      font-size: 1rem;
       filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.8));
     }
     .review-trigger-btn .btn-arrow {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       transition: transform 0.2s;
     }
     .review-trigger-btn:hover .btn-arrow {
-      transform: translateX(4px);
+      transform: translateX(3px);
     }
 
     .reviews-layout {
@@ -8864,263 +8867,40 @@
       <article class="patch-entry">
         <header class="patch-simple-head">
           <div>
-            <span class="patch-kicker">Nouvelle Saison · Chapitre 7 Saison 4</span>
-            <h1 id="patchNotesTitle">Prime Sprites <span>1.2 — Override</span></h1>
+            <span class="patch-kicker">Mise à jour Corrective</span>
+            <h1 id="patchNotesTitle">Correctif <span>Système d'Avis &amp; Noms</span></h1>
           </div>
-          <time class="patch-date" datetime="2026-08-20T00:00:00+02:00">
-            <span>20 août 2026 · Lancement officiel</span>
+          <time class="patch-date" datetime="2026-08-20T21:27:00+02:00">
+            <span>20 août 2026 · 21h27 (heure de Paris)</span>
           </time>
         </header>
 
         <div class="patch-grid">
           <section class="patch-card">
-            <h2>🎮 Nouvelle Saison « Override »</h2>
+            <h2>⭐ Résolution du Système d'Avis</h2>
             <ul class="patch-list">
-              <li>L'application passe officiellement en version <strong>Prime Sprites 1.2</strong> pour la nouvelle saison Fortnite.</li>
-              <li>Thématique officielle <strong>« Gaming Legends »</strong> &amp; Cybernétique : <em>Brisez les règles. Changez la donne.</em></li>
-              <li>Prise en charge des futurs esprits, compétences et variantes inspirés de l'univers cybernétique et des effets glitch.</li>
+              <li>Correction du bug qui empêchait l'ouverture de la modale lors d'un clic sur le bouton « Donnez votre avis ».</li>
+              <li>Redesign complet du bouton d'avis pour un affichage compact, élégant et parfaitement intégré.</li>
+              <li>Élimination des boutons doublons et activation universelle sur tous les supports.</li>
             </ul>
           </section>
           <section class="patch-card">
-            <h2>⚡ Crossovers &amp; Légendes Confirmées</h2>
+            <h2>🇫🇷 Traduction Intégrale des Esprits &amp; Variantes</h2>
             <ul class="patch-list">
-              <li>Préparation du catalogue pour l'arrivée des légendes : <strong>Sonic</strong>, <strong>Joker (Persona 5)</strong>, <strong>Sora (Kingdom Hearts)</strong>, <strong>Crash Bandicoot</strong> &amp; <strong>Spyro</strong>.</li>
-              <li>Intégration des éléments Pac-Man, Tetris et Mega Man dès leur déploiement dans le jeu.</li>
-              <li>Prise en charge des nouvelles mécaniques de piratage (Hacking) sur les cartes créatives et le catalogue.</li>
+              <li>Correction de la traduction en français pour toutes les variantes d'esprits en jeu.</li>
+              <li>La variante <em>Cheat Master</em> s'affiche désormais sous son nom officiel français : <strong>« Roi de la triche »</strong>.</li>
+              <li>Noms officiels Fortnite vérifiés et synchronisés en français et en anglais pour tous les esprits.</li>
             </ul>
           </section>
           <section class="patch-card">
-            <h2>🚀 Optimisations Prime Sprites 1.2</h2>
+            <h2>⚡ Optimisations &amp; Ergonomie</h2>
             <ul class="patch-list">
-              <li>Refonte complète du système de versioning PWA et synchronisation instantanée du casier.</li>
-              <li>Mise à jour des icônes de raccourcis d'application et des métadonnées de partage social.</li>
-              <li>Performances accrues pour un chargement fluide sur tous les appareils mobile et PC.</li>
+              <li>Navigation dynamique avec masquage intelligent des pages archivées.</li>
+              <li>Mise à jour PWA v7.5.0 pour un chargement instantané.</li>
+              <li>Fluidité accrue sur mobile et PC.</li>
             </ul>
           </section>
         </div>
-      </article>
-      <article class="patch-entry">
-        <header class="patch-simple-head">
-          <div>
-            <span class="patch-kicker">Mise à jour majeure</span>
-            <h1 id="patchNotesTitle">Prime Sprites <span>&amp; Design</span></h1>
-          </div>
-          <time class="patch-date" datetime="2026-08-13T01:14:00+02:00">
-            <span>13 août 2026 · En direct</span>
-          </time>
-        </header>
-
-        <div class="patch-grid">
-          <section class="patch-card">
-            <h2>⚡ Optimisations &amp; Performances</h2>
-            <ul class="patch-list">
-              <li>Mise à jour majeure du moteur applicatif et suppression des modules inutilisés.</li>
-              <li>Amélioration de la réactivité PWA et chargement instantané du catalogue.</li>
-              <li>Optimisation de la synchronisation du casier et du mode hors ligne.</li>
-            </ul>
-          </section>
-          <section class="patch-card">
-            <h2>Nouveau Nom &amp; Logos Adaptatifs</h2>
-            <ul class="patch-list">
-              <li>L'application évolue officiellement sous le nouveau nom <strong>Prime Sprites</strong>.</li>
-              <li>Intégration du nouveau logo adaptatif en version transparente (affichage automatique en blanc ou noir selon le thème).</li>
-              <li>Mise à jour complète des icônes d'application et des écrans d'accueil PWA.</li>
-            </ul>
-          </section>
-          <section class="patch-card">
-            <h2>Fonds d'Écran Épiques &amp; Ergonomie</h2>
-            <ul class="patch-list">
-              <li>Intégration des arrière-plans Fortnite personnalisés et réactifs pour PC (16:9) et Mobile (9:16).</li>
-              <li>Suppression des bannières d'en-tête pour un accès direct et instantané à toutes les fonctionnalités.</li>
-              <li>Barre de statut compacte réunissant l'état de synchronisation et les visiteurs en direct.</li>
-            </ul>
-          </section>
-        </div>
-      </article>
-
-      <article class="patch-entry">
-        <header class="patch-simple-head">
-          <div>
-            <span class="patch-kicker">Nouvelle Fonctionnalité</span>
-            <h1>Page Avis &amp; <span>Livre d'Or</span></h1>
-          </div>
-          <time class="patch-date" datetime="2026-08-05T02:00:00+02:00">
-            <span>5 août 2026 · 02h00 (heure de Paris)</span>
-          </time>
-        </header>
-
-        <div class="patch-grid">
-          <section class="patch-card">
-            <h2>Livre d'Or &amp; Avis Publics</h2>
-            <ul class="patch-list">
-              <li>Nouvelle section dédiée "Avis" accessible depuis le menu principal et le dock mobile.</li>
-              <li>Affichage public et en direct des avis, commentaires et retours laissés par la communauté.</li>
-              <li>Cartes d'avis élégantes affichant la note en étoiles, l'avatar Google et la date de publication.</li>
-            </ul>
-          </section>
-          <section class="patch-card">
-            <h2>Système de Notation 5 Étoiles</h2>
-            <ul class="patch-list">
-              <li>Système interactif de vote par étoiles dorées pour noter l'application de 1 à 5 étoiles.</li>
-              <li>Zone de texte pour rédiger vos commentaires, suggestions et encouragements.</li>
-              <li>Connexion simplifiée et sécurisée via compte Google pour garantir l'authenticité de chaque avis.</li>
-            </ul>
-          </section>
-          <section class="patch-card">
-            <h2>Synchronisation &amp; Sécurité Cloud</h2>
-            <ul class="patch-list">
-              <li>Enregistrement instantané des avis sur la base de données Firestore.</li>
-              <li>Règles de sécurité Firestore dédiées assurant la lecture publique et la protection contre le spam.</li>
-              <li>Rafraîchissement automatique de la liste dès qu'un nouvel avis est posté.</li>
-            </ul>
-          </section>
-        </div>
-      </article>
-
-      <article class="patch-entry">
-        <header class="patch-simple-head">
-          <div>
-            <span class="patch-kicker">Mise à jour Récente</span>
-            <h1>Refonte Premium <span>UI & VFX</span></h1>
-          </div>
-          <time class="patch-date" datetime="2026-08-05T23:00:00+02:00">
-            <span>5 août 2026 · 23h00 (heure de Paris)</span>
-          </time>
-        </header>
-
-        <div class="patch-grid">
-          <section class="patch-card">
-            <h2>Paramètres "Glassmorphism"</h2>
-            <ul class="patch-list">
-              <li>Refonte totale de la page Réglages avec un design premium tout en transparence (Glassmorphism 3.0).</li>
-              <li>Nouveaux boutons segmentés ultra-fluides pour ajuster la taille des cartes et la densité.</li>
-              <li>Sphères 3D lumineuses pour le choix de la couleur d'accentuation en temps réel.</li>
-              <li>Tuiles de fonds interactives reprenant le dégradé visuel exact.</li>
-            </ul>
-          </section>
-          <section class="patch-card">
-            <h2>VFX et Typographie</h2>
-            <ul class="patch-list">
-              <li>Intégration d'un système de particules d'étoiles 3D ultra-réaliste déclenché lors de la maîtrise.</li>
-              <li>Nouvelle typographie audacieuse "Jeu Vidéo Premium" pour les titres de section.</li>
-              <li>Nouvelle icône de sécurité 3D 🛡️ lumineuse pour l'accès administrateur.</li>
-            </ul>
-          </section>
-          <section class="patch-card">
-            <h2>Qualité de Vie</h2>
-            <ul class="patch-list">
-              <li>L'interface d'administration bénéficie d'une ambiance "Hack Terminal" très sécurisée.</li>
-              <li>Suppression des panneaux inutiles pour recentrer l'interface sur l'essentiel.</li>
-            </ul>
-          </section>
-        </div>
-      </article>
-
-      <article class="patch-entry">
-        <header class="patch-simple-head">
-          <div>
-            <span class="patch-kicker">Mise à jour v41.37</span>
-            <h1>Effets Sonores <span>(SFX)</span></h1>
-          </div>
-          <time class="patch-date" datetime="2026-08-11T01:30:00+02:00">
-            <span>11 août 2026 · 01h30 (heure de Paris)</span>
-          </time>
-        </header>
-
-        <div class="patch-grid">
-          <section class="patch-card">
-            <h2>Sons Interactifs</h2>
-            <ul class="patch-list">
-              <li>Sons tactiles discrets sur chaque clic de bouton ou d'interface.</li>
-              <li>Carillon harmonieux lors du déverrouillage d'un esprit.</li>
-              <li>Fanfare héroïque d'étoiles 🌟 lors de l'obtention d'une Maîtrise.</li>
-              <li>Son d'annulation lors du retrait d'un esprit.</li>
-            </ul>
-          </section>
-          <section class="patch-card">
-            <h2>Réglages Audio</h2>
-            <ul class="patch-list">
-              <li>Commutateur <strong>Activer les sons</strong> ajouté dans Réglages → Système.</li>
-              <li>Préférences sauvegardées automatiquement.</li>
-              <li>Synthèse Web Audio API 100% zéro latence et ultra-léger.</li>
-            </ul>
-          </section>
-        </div>
-      </article>
-
-      <article class="patch-entry">
-        <header class="patch-simple-head">
-          <div>
-            <span class="patch-kicker">Mise à jour v41.36</span>
-            <h1>Recherche Intelligente & <span>Mise à jour Auto</span></h1>
-          </div>
-          <time class="patch-date" datetime="2026-08-08T23:30:00+02:00">
-            <span>8 août 2026 · 23h30 (heure de Paris)</span>
-          </time>
-        </header>
-
-        <div class="patch-grid">
-          <section class="patch-card">
-            <h2>Moteur de Recherche Flou ("Fuzzy Search")</h2>
-            <ul class="patch-list">
-              <li>L'application tolère désormais tes fautes de frappe ! <strong>irnmouse</strong> ou <strong>balkman</strong> trouveront quand même l'esprit.</li>
-              <li>Algorithme adaptatif : 1 faute autorisée (3-5 lettres) et 2 fautes (6+ lettres).</li>
-              <li>Les correspondances exactes sans faute apparaissent toujours en premier.</li>
-            </ul>
-          </section>
-          <section class="patch-card">
-            <h2>Actualisation Automatique</h2>
-            <ul class="patch-list">
-              <li>Mises à jour instantanées de l'application et du catalogue sans manipulation.</li>
-              <li>Rechargement automatique et transparent dès qu'une nouvelle version est disponible en arrière-plan.</li>
-              <li>Plus besoin de fermer toutes tes fenêtres pour avoir les nouveautés !</li>
-            </ul>
-          </section>
-        </div>
-      </article>
-
-      <article class="patch-entry">
-        <header class="patch-simple-head">
-          <div>
-            <span class="patch-kicker" id="patchKicker">Mise à jour v41.35</span>
-            <h1 id="patchNotesTitle">Nouvelle interface <span>Catalogue & Guide</span></h1>
-          </div>
-          <time class="patch-date" id="patchDate" datetime="2026-08-04T14:30:00+02:00">
-            <span id="patchDateText">4 août 2026 · 14h30 (heure de Paris)</span>
-          </time>
-        </header>
-
-        <div class="patch-grid">
-          <section class="patch-card">
-            <h2 id="patchNewTitle">Nouvelle Interface (Cartes &amp; Slide)</h2>
-            <ul class="patch-list">
-              <li id="patchNewJohn">Chaque esprit possède désormais sa propre carte dédiée.</li>
-              <li id="patchNewLlama">Fais glisser de gauche à droite sur la carte pour voir toutes ses variantes.</li>
-              <li id="patchNewPeely">Vue claire sur la maîtrise, le nombre de variantes et la progression.</li>
-            </ul>
-          </section>
-          <section class="patch-card">
-            <h2 id="patchVariantsTitle">Correctifs &amp; Navigation PC</h2>
-            <ul class="patch-list">
-              <li id="patchVariantsQuack">Repositionnement des flèches de défilement (‹ ›) dans l’en-tête de carte.</li>
-              <li id="patchVariantsZero">Résolution du chevauchement avec le texte du nombre de variantes sur PC.</li>
-              <li id="patchVariantsRare">Navigation fluide et lisibilité optimale sur tous les écrans.</li>
-            </ul>
-          </section>
-          <section class="patch-card">
-            <h2 id="patchAppTitle">Améliorations PWA</h2>
-            <ul class="patch-list">
-              <li id="patchAppLevels">Installation automatique instantanée sur tous les navigateurs compatibles.</li>
-              <li id="patchAppFilters">Affichage du logo garanti dans la bannière d’installation.</li>
-              <li id="patchAppData">Guide interactif d’installation étape par étape pour Safari sur iOS.</li>
-            </ul>
-          </section>
-        </div>
-
-        <aside class="patch-notice">
-          <span class="patch-notice-mark" aria-hidden="true">!</span>
-          <div><strong id="patchNoticeTitle">Contenu encore non sorti</strong><p id="patchNoticeCopy">Ironmouse et les variantes Gemme encore signalées comme non sorties ne sont pas ajoutés au total : ils rejoindront le catalogue dès leur disponibilité officielle.</p></div>
-        </aside>
       </article>
     </section>
     <section class="feature-page app-page" id="cheatsPage" data-page="cheats" aria-labelledby="cheatsTitle">
@@ -9135,7 +8915,7 @@
             Cheat Codes <span>&amp; Lobby Hacks</span>
           </h1>
           <p class="cheats-hero-lead">
-            Injectez directement vos codes dans la console Admin Panel de Fortnite pour débloquer les esprits <strong>Cheat Master</strong>, des bonus d'EXP et des métamorphoses exclusives !
+            Injectez directement vos codes dans la console Admin Panel de Fortnite pour débloquer les esprits <strong>Roi de la triche</strong>, des bonus d'EXP et des métamorphoses exclusives !
           </p>
           
           <!-- QUICK STATS -->
@@ -9197,7 +8977,7 @@
       <!-- FILTER TABS BAR -->
       <div class="cheats-filter-bar" role="tablist" aria-label="Catégories de cheat codes">
         <button type="button" class="cheat-filter-btn is-active" data-filter="all" onclick="filterCheatCategory('all')">Tous les codes (19)</button>
-        <button type="button" class="cheat-filter-btn" data-filter="sprite" onclick="filterCheatCategory('sprite')">🔥 Esprits Cheat Master (5)</button>
+        <button type="button" class="cheat-filter-btn" data-filter="sprite" onclick="filterCheatCategory('sprite')">🔥 Esprits Roi de la triche (5)</button>
         <button type="button" class="cheat-filter-btn" data-filter="xp" onclick="filterCheatCategory('xp')">⚡ XP &amp; Boosts (3)</button>
         <button type="button" class="cheat-filter-btn" data-filter="item" onclick="filterCheatCategory('item')">🎁 Objets &amp; Extractions (5)</button>
         <button type="button" class="cheat-filter-btn" data-filter="hack" onclick="filterCheatCategory('hack')">🕹️ Lobby Hacks &amp; Cosmetics (6)</button>
@@ -9702,8 +9482,8 @@
       const VISITOR_HOUR_KEY = "sprite-locker-visitor-hour";
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
-      const PATCH_RELEASED_AT = "2026-08-04T14:30:00+02:00";
-      const PWA_VERSION = "2026-08-20-v7.3.0";
+      const PATCH_RELEASED_AT = "2026-08-20T21:27:00+02:00";
+      const PWA_VERSION = "2026-08-20-v7.6.0";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
@@ -10243,7 +10023,7 @@
           }
         },
         cheatmaster: {
-          fr: "Cheat Master", en: "Cheat Master", color: "#38bdf8",
+          fr: "Roi de la triche", en: "Cheat Master", color: "#38bdf8",
           effect: {
             fr: "Variante réseau débloquée par Cheat Code dans l'Admin Panel du lobby.",
             en: "Network variant unlocked via Cheat Code in the lobby Admin Panel."
@@ -10253,8 +10033,8 @@
 
       const families = [
         {
-          key: "bushranger", fr: "Bush Sprite", en: "Bush Sprite", rarity: "rare",
-          aliases: ["Esprit Buisson", "Bushranger"],
+          key: "bushranger", fr: "Esprit Buisson", en: "Bush Sprite", rarity: "rare",
+          aliases: ["Esprit Buisson", "Bushranger", "Bush Sprite"],
           effect: {
             fr: "Fait apparaître un buisson. Au niveau maximum, peut en faire apparaître après une élimination.",
             en: "Spawns a bush. At max level, can spawn a bush after an elimination."
@@ -10266,8 +10046,8 @@
           }
         },
         {
-          key: "eight-bit", fr: "8-Bit Sprite", en: "8-Bit Sprite", rarity: "rare",
-          aliases: ["Esprit 8-Bit", "8Bit"],
+          key: "eight-bit", fr: "Esprit 8-Bit", en: "8-Bit Sprite", rarity: "rare",
+          aliases: ["Esprit 8-Bit", "8Bit", "8-Bit Sprite"],
           effect: {
             fr: "Permet d'obtenir le 8-Bit Shotgun depuis le premier coffre et améliore son multiplicateur.",
             en: "Grants the 8-Bit Shotgun from the first chest and increases its multiplier."
@@ -10279,8 +10059,8 @@
           }
         },
         {
-          key: "adventure", fr: "Adventure Sprite", en: "Adventure Sprite", rarity: "rare",
-          aliases: ["Esprit Aventure", "Nain"],
+          key: "adventure", fr: "Esprit Aventure", en: "Adventure Sprite", rarity: "rare",
+          aliases: ["Esprit Aventure", "Nain", "Adventure Sprite"],
           effect: {
             fr: "Améliore un objet aléatoire de l'inventaire à chaque niveau.",
             en: "Upgrades a random inventory item at each level."
@@ -10292,8 +10072,8 @@
           }
         },
         {
-          key: "jonesy", fr: "Jonesy Sprite", en: "Jonesy Sprite", rarity: "rare",
-          aliases: ["Esprit Jonesy"],
+          key: "jonesy", fr: "Esprit Jonesy", en: "Jonesy Sprite", rarity: "rare",
+          aliases: ["Esprit Jonesy", "Jonesy Sprite"],
           effect: {
             fr: "Régénère de la vie ou du bouclier après avoir subi des dégâts.",
             en: "Regenerates Health or Shield after taking damage."
@@ -10305,8 +10085,8 @@
           }
         },
         {
-          key: "shadow", fr: "Shadow Sprite", en: "Shadow Sprite", rarity: "epic",
-          aliases: ["Esprit Shadow", "Esprit Ombre"],
+          key: "shadow", fr: "Esprit Ombre", en: "Shadow Sprite", rarity: "epic",
+          aliases: ["Esprit Shadow", "Esprit Ombre", "Shadow Sprite"],
           effect: {
             fr: "Recharge automatiquement les armes, y compris celles qui ne sont pas équipées.",
             en: "Automatically reloads weapons, including unequipped ones."
@@ -10318,8 +10098,8 @@
           }
         },
         {
-          key: "sonic", fr: "Sonic Sprite", en: "Sonic Sprite", rarity: "epic",
-          aliases: ["Esprit Sonic", "Sonic"],
+          key: "sonic", fr: "Esprit Sonic", en: "Sonic Sprite", rarity: "epic",
+          aliases: ["Esprit Sonic", "Sonic", "Sonic Sprite"],
           effect: {
             fr: "Augmente la vitesse de sprint.",
             en: "Increases sprint speed."
@@ -10331,8 +10111,8 @@
           }
         },
         {
-          key: "tails", fr: "Tails Sprite", en: "Tails Sprite", rarity: "epic",
-          aliases: ["Esprit Tails", "Tails"],
+          key: "tails", fr: "Esprit Tails", en: "Tails Sprite", rarity: "epic",
+          aliases: ["Esprit Tails", "Tails", "Tails Sprite"],
           effect: {
             fr: "Permet de planer dans les airs.",
             en: "Allows hovering mid-air."
@@ -10344,8 +10124,8 @@
           }
         },
         {
-          key: "killswitch", fr: "Killswitch Sprite", en: "Killswitch Sprite", rarity: "epic",
-          aliases: ["Esprit Killswitch"],
+          key: "killswitch", fr: "Esprit Killswitch", en: "Killswitch Sprite", rarity: "epic",
+          aliases: ["Esprit Killswitch", "Killswitch Sprite"],
           effect: {
             fr: "Active Hangtime avec une précision améliorée.",
             en: "Activates Hangtime with improved accuracy."
@@ -10357,8 +10137,8 @@
           }
         },
         {
-          key: "jackrabbit", fr: "Jackrabbit Sprite", en: "Jackrabbit Sprite", rarity: "legendary",
-          aliases: ["Esprit Jackrabbit", "Jazz Jackrabbit"],
+          key: "jackrabbit", fr: "Esprit Jackrabbit", en: "Jackrabbit Sprite", rarity: "legendary",
+          aliases: ["Esprit Jackrabbit", "Jazz Jackrabbit", "Jackrabbit Sprite"],
           effect: {
             fr: "Permet d'effectuer un saut supplémentaire en plein vol.",
             en: "Allows performing an extra jump mid-air."
@@ -10370,8 +10150,8 @@
           }
         },
         {
-          key: "crown", fr: "Crown Sprite", en: "Crown Sprite", rarity: "mythic",
-          aliases: ["Esprit Couronne", "Couronne"],
+          key: "crown", fr: "Esprit Couronne", en: "Crown Sprite", rarity: "mythic",
+          aliases: ["Esprit Couronne", "Couronne", "Crown Sprite"],
           effect: {
             fr: "Permet d'obtenir des Crown Wins supplémentaires après une Victoire Royale.",
             en: "Grants extra Crown Wins after a Victory Royale."
@@ -10383,8 +10163,8 @@
           }
         },
         {
-          key: "klombo", fr: "Klombo Sprite", en: "Klombo Sprite", rarity: "mythic",
-          aliases: ["Esprit Klombo", "Klombo"],
+          key: "klombo", fr: "Esprit Klombo", en: "Klombo Sprite", rarity: "mythic",
+          aliases: ["Esprit Klombo", "Klombo", "Klombo Sprite"],
           effect: {
             fr: "Donne des objets aléatoires à chaque niveau.",
             en: "Grants random items at each level."
@@ -10396,8 +10176,8 @@
           }
         },
         {
-          key: "stormscout", fr: "Storm Scout Sprite", en: "Storm Scout Sprite", rarity: "rare",
-          aliases: ["Esprit Eclaireur de la Tempête", "Storm Scout"],
+          key: "stormscout", fr: "Esprit Éclaireur de la Tempête", en: "Storm Scout Sprite", rarity: "rare",
+          aliases: ["Esprit Éclaireur de la Tempête", "Esprit Tempête", "Storm Scout Sprite"],
           effect: {
             fr: "Active Overdrive après avoir subi suffisamment de dégâts dans la tempête. Au niveau maximum, révèle les prochains cercles.",
             en: "Activates Overdrive after taking enough storm damage. At max level, reveals future storm circles."
@@ -11012,7 +10792,7 @@
             familyIndex,
             variantIndex,
             variant,
-            fr: family.fr,
+            fr: variant === "base" ? family.fr : `${family.fr} (${v.fr})`,
             en: variant === "base" ? family.en : `${v.en} ${family.en}`,
             aliases: family.aliases || [],
             rarity: family.rarity,
@@ -15512,16 +15292,18 @@
           });
         }
 
-        if (openModalBtn && modalDialog) {
-          openModalBtn.addEventListener("click", () => {
+        document.querySelectorAll(".review-trigger-btn, #openReviewModalBtn").forEach(btn => {
+          btn.addEventListener("click", () => {
             updateReviewModalUserPreview();
-            if (typeof modalDialog.showModal === "function") {
-              modalDialog.showModal();
-            } else {
-              modalDialog.setAttribute("open", "");
+            if (modalDialog) {
+              if (typeof modalDialog.showModal === "function") {
+                modalDialog.showModal();
+              } else {
+                modalDialog.setAttribute("open", "");
+              }
             }
           });
-        }
+        });
 
         if (closeModalBtn && modalDialog) {
           closeModalBtn.addEventListener("click", () => modalDialog.close());
@@ -15696,7 +15478,7 @@
         container.innerHTML = filtered.map(c => {
           const isUnlocked = c.targetId && (activeState[c.targetId] || {}).owned;
           const statusText = isUnlocked ? "✓ Dans votre casier" : "Code actif";
-          const typeLabel = c.priority ? "★ Esprit Cheat Master" : (c.type === "xp" ? "⚡ XP & Boost" : (c.type === "item" ? "🎁 Objet / Extracteur" : "🕹️ Lobby Hack"));
+          const typeLabel = c.priority ? (APP_LANGUAGE === "fr" ? "★ Esprit Roi de la triche" : "★ Cheat Master Sprite") : (c.type === "xp" ? "⚡ XP & Boost" : (c.type === "item" ? "🎁 Objet / Extracteur" : "🕹️ Lobby Hack"));
 
           return `
             <article class="cheat-card-item${c.priority ? " priority" : ""}">
