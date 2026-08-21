@@ -9446,17 +9446,17 @@
           <!-- QUICK STATS -->
           <div class="cheats-stats-bar">
             <div class="cheats-stat-item">
-              <span class="cheats-stat-val">19</span>
+              <span class="cheats-stat-val" id="cheatsCountActive">21</span>
               <span class="cheats-stat-lbl">Codes actifs</span>
             </div>
             <div class="cheats-stat-divider" aria-hidden="true"></div>
             <div class="cheats-stat-item">
-              <span class="cheats-stat-val">5</span>
+              <span class="cheats-stat-val" id="cheatsCountSprites">6</span>
               <span class="cheats-stat-lbl">Esprits Exclusifs</span>
             </div>
             <div class="cheats-stat-divider" aria-hidden="true"></div>
             <div class="cheats-stat-item">
-              <span class="cheats-stat-val">+40K</span>
+              <span class="cheats-stat-val" id="cheatsCountXp">+40K</span>
               <span class="cheats-stat-lbl">EXP &amp; Bonus</span>
             </div>
           </div>
@@ -10247,7 +10247,7 @@
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
       const PATCH_RELEASED_AT = "2026-08-21T02:20:00+02:00";
-      const PWA_VERSION = "2026-08-21-v11.21.0";
+      const PWA_VERSION = "2026-08-21-v11.22.0";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
@@ -17385,10 +17385,16 @@
         const isFr = APP_LANGUAGE === "fr";
         const filterBtns = document.querySelectorAll(".cheats-filter-bar .cheat-filter-btn");
         const totalCount = CHEAT_CODES.length;
-        const spriteCount = CHEAT_CODES.filter(c => c.type === "sprite").length;
+        const spriteCount = CHEAT_CODES.filter(c => c.type === "sprite" || c.priority).length;
         const xpCount = CHEAT_CODES.filter(c => c.type === "xp").length;
         const itemCount = CHEAT_CODES.filter(c => c.type === "item").length;
         const hackCount = CHEAT_CODES.filter(c => c.type === "hack").length;
+
+        const activeValEl = document.getElementById("cheatsCountActive");
+        if (activeValEl) activeValEl.textContent = totalCount;
+
+        const spriteValEl = document.getElementById("cheatsCountSprites");
+        if (spriteValEl) spriteValEl.textContent = spriteCount;
 
         const filterLabels = {
           "all": isFr ? `Tous les codes (${totalCount})` : `All Codes (${totalCount})`,
