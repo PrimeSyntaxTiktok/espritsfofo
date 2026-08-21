@@ -8675,6 +8675,26 @@
       background: rgba(255, 255, 255, 0.15);
       color: #fff;
     }
+    .tip-source-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #38bdf8;
+      font-weight: 750;
+      font-size: 0.78rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .tip-source-link:hover {
+      background: rgba(56, 189, 248, 0.28);
+      color: #fff;
+      border-color: rgba(56, 189, 248, 0.6);
+      transform: translateY(-1px);
+    }
 
     /* ==========================================
        ADMIN PAGES MANAGEMENT & MAINTENANCE STYLES
@@ -10227,7 +10247,7 @@
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
       const PATCH_RELEASED_AT = "2026-08-21T02:20:00+02:00";
-      const PWA_VERSION = "2026-08-21-v11.16.0";
+      const PWA_VERSION = "2026-08-21-v11.17.0";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
@@ -14776,6 +14796,297 @@
 
       <!-- TIPS CARDS CONTAINER -->
       <div class="tips-container">
+        <!-- NEW CARD 1: CROWN SPRITE VICTORY LEVEL UP -->
+        <article class="tip-card featured-leak" data-timestamp="1787294100000">
+          <div class="tip-card-header">
+            <div class="tip-card-meta">
+              <span class="tip-badge leak-badge" style="background: rgba(168, 85, 247, 0.15); color: #c084fc; border-color: rgba(168, 85, 247, 0.3);">${isFr ? "🟣 INFO FIABLE · PROGRESSION" : "🟣 RELIABLE INFO · PROGRESSION"}</span>
+              <span class="tip-date">${formatLeakTimestamp("2026-08-21T08:35:00+02:00")}</span>
+            </div>
+            <h2 class="tip-card-title">
+              ${isFr 
+                ? "Crown Sprite : Une Victoire Royale peut le faire passer directement Niveau 5 !" 
+                : "Crown Sprite: A Victory Crown win can instantly boost it to Level 5!"}
+            </h2>
+          </div>
+
+          <div class="tip-card-body">
+            <div class="tip-media-box">
+              <div class="tip-img-wrap">
+                <img src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Crown_L.webp" alt="${isFr ? "Esprit Couronne" : "Crown Sprite"}" class="tip-img" loading="eager">
+              </div>
+            </div>
+
+            <div class="tip-content-details">
+              <div class="tip-explicatif-block">
+                <h3>📌 ${isFr ? "Progression maximale instantanée par la victoire" : "Instant Max Progression via Victory"}</h3>
+                <p>
+                  ${isFr 
+                    ? "Une nouvelle précision majeure a été confirmée concernant l'évolution du <strong>Crown Sprite</strong> :" 
+                    : "A major new mechanic has been confirmed regarding the <strong>Crown Sprite</strong> progression:"}
+                </p>
+
+                <div class="tip-rules-grid">
+                  <div class="rule-card">
+                    <div class="rule-icon">👑</div>
+                    <div>
+                      <strong>${isFr ? "Passage direct au Niveau 5" : "Instant Level 5 Max"}</strong>
+                      <p>
+                        ${isFr 
+                          ? "Remporter une partie Battle Royale tout en ayant le Crown Sprite équipé peut immédiatement le propulser au <strong>niveau maximum (Niveau 5)</strong> et valider sa maîtrise complète en une seule victoire !" 
+                          : "Winning a Battle Royale match while wearing the Crown Sprite can instantly boost it to <strong>max level (Level 5)</strong> and complete its mastery in a single victory!"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="rule-card">
+                    <div class="rule-icon">🔄</div>
+                    <div>
+                      <strong>${isFr ? "Répétition par variante" : "Repetition per Variant"}</strong>
+                      <p>
+                        ${isFr 
+                          ? "La mécanique doit ensuite être répétée pour chacune des autres variantes du Crown Sprite au fur et à mesure de leur déverrouillage." 
+                          : "The mechanic must then be repeated for each unlocked Crown Sprite variant."}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="rule-card" style="grid-column: 1 / -1; background: rgba(168, 85, 247, 0.08); border-color: rgba(168, 85, 247, 0.25);">
+                    <div class="rule-icon">🔗</div>
+                    <div>
+                      <strong>${isFr ? "Sources & Preuve Communautaire" : "Sources & Community Evidence"}</strong>
+                      <p style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px;">
+                        <a href="https://insider-gaming.com/fortnite-level-up-master-crown-sprite/" target="_blank" rel="noopener" class="tip-source-link">📰 Article Insider Gaming</a>
+                        <a href="https://www.threads.com/@santaitofn/post/DcQzyg2lfMb/crown-sprite-instant-level-up-winning-a-match-while-wearing-a-victory-crown/" target="_blank" rel="noopener" class="tip-source-link">📹 Preuve vidéo Threads (Passage Niv. 5)</a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- NEW CARD 2: ADVENTURE SPRITE TRICK -->
+        <article class="tip-card" data-timestamp="1787293800000">
+          <div class="tip-card-header">
+            <div class="tip-card-meta">
+              <span class="tip-badge leak-badge" style="background: rgba(168, 85, 247, 0.15); color: #c084fc; border-color: rgba(168, 85, 247, 0.3);">${isFr ? "🟣 ASTUCE · INTERACTION CANNY" : "🟣 TRICK · CANNY INTERACTION"}</span>
+              <span class="tip-date">${formatLeakTimestamp("2026-08-21T08:30:00+02:00")}</span>
+            </div>
+            <h2 class="tip-card-title">
+              ${isFr 
+                ? "Astuce : Adventure Sprite peut faire monter en niveau votre Crown Sprite !" 
+                : "Trick: Adventure Sprite can level up your Crown Sprite!"}
+            </h2>
+          </div>
+
+          <div class="tip-card-body">
+            <div class="tip-media-box">
+              <div class="tip-img-wrap" style="display: flex; gap: 8px; align-items: center; justify-content: center;">
+                <img src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Dwarf_L.webp" alt="${isFr ? "Adventure Sprite" : "Adventure Sprite"}" class="tip-img" loading="lazy" style="max-width: 48%;">
+                <img src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Crown_L.webp" alt="${isFr ? "Crown Sprite" : "Crown Sprite"}" class="tip-img" loading="lazy" style="max-width: 48%;">
+              </div>
+            </div>
+
+            <div class="tip-content-details">
+              <div class="tip-explicatif-block">
+                <h3>📌 ${isFr ? "Synergie d'inventaire rapportée par la communauté" : "Inventory Synergy Reported by Community"}</h3>
+                <p>
+                  ${isFr 
+                    ? "Une interaction très intéressante a été découverte entre <strong>Adventure Sprite</strong> et <strong>Crown Sprite</strong> :" 
+                    : "An interesting interaction was discovered between <strong>Adventure Sprite</strong> and <strong>Crown Sprite</strong>:"}
+                </p>
+
+                <div class="tip-rules-grid">
+                  <div class="rule-card">
+                    <div class="rule-icon">⚡</div>
+                    <div>
+                      <strong>${isFr ? "Mécanique d'amélioration" : "Upgrade Mechanic"}</strong>
+                      <p>
+                        ${isFr 
+                          ? "Le pouvoir de l'Adventure Sprite améliore aléatoirement un objet présent dans votre inventaire lorsqu'il monte de niveau. Si un <strong>Crown Sprite</strong> se trouve dans votre inventaire, cette amélioration peut s'y appliquer !" 
+                          : "Adventure Sprite's ability randomly upgrades an item in your inventory when it levels up. If a <strong>Crown Sprite</strong> is in your inventory, it can get upgraded!"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="rule-card">
+                    <div class="rule-icon">⚠️</div>
+                    <div>
+                      <strong>${isFr ? "Attention aux correctifs" : "Potential Patch Warning"}</strong>
+                      <p>
+                        ${isFr 
+                          ? "Cela permet de faire progresser le Crown Sprite sans victoires. Cette interaction pouvant être involontaire, Epic Games est susceptible de la corriger prochainement." 
+                          : "This allows progressing Crown Sprite without wins. As this may be unintended, Epic Games might patch it later."}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="rule-card" style="grid-column: 1 / -1; background: rgba(168, 85, 247, 0.08); border-color: rgba(168, 85, 247, 0.25);">
+                    <div class="rule-icon">🔗</div>
+                    <div>
+                      <strong>${isFr ? "Source" : "Source"}</strong>
+                      <p style="margin-top: 6px;">
+                        <a href="https://insider-gaming.com/fortnite-level-up-master-crown-sprite/" target="_blank" rel="noopener" class="tip-source-link">📰 Article Insider Gaming</a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- NEW CARD 3: SPRITE GARDEN LAUNCH -->
+        <article class="tip-card" data-timestamp="1787293680000">
+          <div class="tip-card-header">
+            <div class="tip-card-meta">
+              <span class="tip-badge leak-badge" style="background: rgba(34, 197, 94, 0.15); color: #4ade80; border-color: rgba(34, 197, 94, 0.3);">${isFr ? "🟢 OFFICIEL · EXPÉRIENCE CRÉATIVE" : "🟢 OFFICIAL · CREATIVE EXPERIENCE"}</span>
+              <span class="tip-date">${formatLeakTimestamp("2026-08-21T08:28:00+02:00")}</span>
+            </div>
+            <h2 class="tip-card-title">
+              ${isFr 
+                ? "Sprite Garden : Lancement Officiel aujourd'hui (Code Île : 4220-9404-7987)" 
+                : "Sprite Garden: Official Launch Today (Island Code: 4220-9404-7987)"}
+            </h2>
+          </div>
+
+          <div class="tip-card-body">
+            <div class="tip-media-box">
+              <div class="tip-img-wrap">
+                <img src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ZeroPoint_L.webp" alt="${isFr ? "Sprite Garden" : "Sprite Garden"}" class="tip-img" loading="lazy">
+              </div>
+            </div>
+
+            <div class="tip-content-details">
+              <div class="tip-explicatif-block">
+                <h3>📌 ${isFr ? "Exposition et conservation des collections" : "Showcase & Collection Conservation"}</h3>
+                <p>
+                  ${isFr 
+                    ? "Le <strong>Sprite Garden</strong> est officiellement lancé ce 21 août 2026 !" 
+                    : "The <strong>Sprite Garden</strong> is officially launching on August 21, 2026!"}
+                </p>
+
+                <div class="tip-rules-grid">
+                  <div class="rule-card">
+                    <div class="rule-icon">🌸</div>
+                    <div>
+                      <strong>${isFr ? "Conservation des Sprites Saison 3" : "Season 3 Sprites Conservation"}</strong>
+                      <p>
+                        ${isFr 
+                          ? "Cette expérience vous permet de présenter vos Sprites collectionnés (notamment les collections de la Saison 3 comme Zero Point, Gem, etc.) qui restent conservés même après le passage à la Saison 4 Override." 
+                          : "This experience lets you showcase your collected Sprites (including Season 3 Zero Point & Gem variants) that remain saved."}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="rule-card">
+                    <div class="rule-icon">🎮</div>
+                    <div>
+                      <strong>${isFr ? "Code de l'île Créative" : "Island Code"}</strong>
+                      <p><strong style="font-size: 1.1rem; color: #4ade80;">4220-9404-7987</strong></p>
+                    </div>
+                  </div>
+
+                  <div class="rule-card" style="grid-column: 1 / -1; background: rgba(34, 197, 94, 0.08); border-color: rgba(34, 197, 94, 0.25);">
+                    <div class="rule-icon">🔗</div>
+                    <div>
+                      <strong>${isFr ? "Liens Officiels" : "Official Links"}</strong>
+                      <p style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px;">
+                        <a href="https://www.fortnite.com/@epicgames/4220-9404-7987" target="_blank" rel="noopener" class="tip-source-link">🌐 Page Officielle Fortnite (Sprite Garden)</a>
+                        <a href="https://beebom.com/all-fortnite-sprites-in-chapter-7-season-4/" target="_blank" rel="noopener" class="tip-source-link">📰 Article Beebom</a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- NEW CARD 4: OVERRIDE WEEKLY SCHEDULE -->
+        <article class="tip-card" data-timestamp="1787293620000">
+          <div class="tip-card-header">
+            <div class="tip-card-meta">
+              <span class="tip-badge leak-badge" style="background: rgba(34, 197, 94, 0.15); color: #4ade80; border-color: rgba(34, 197, 94, 0.3);">${isFr ? "🟢 OFFICIEL · PLANNING HEBDOMADAIRE" : "🟢 OFFICIAL · WEEKLY SCHEDULE"}</span>
+              <span class="tip-date">${formatLeakTimestamp("2026-08-21T08:27:00+02:00")}</span>
+            </div>
+            <h2 class="tip-card-title">
+              ${isFr 
+                ? "Calendrier Hebdomadaire Officiel Fortnite Override !" 
+                : "Official Weekly Schedule Fortnite Override!"}
+            </h2>
+          </div>
+
+          <div class="tip-card-body">
+            <div class="tip-media-box">
+              <div class="tip-img-wrap">
+                <img src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_8Bit_L.webp" alt="${isFr ? "Calendrier Override" : "Override Schedule"}" class="tip-img" loading="lazy">
+              </div>
+            </div>
+
+            <div class="tip-content-details">
+              <div class="tip-explicatif-block">
+                <h3>📌 ${isFr ? "Rythme hebdomadaire des codes, objets et bonus" : "Weekly Rhythm of Codes, Items & Boosts"}</h3>
+                <p>
+                  ${isFr 
+                    ? "Fortnite Override fonctionne désormais avec un calendrier hebdomadaire régulier :" 
+                    : "Fortnite Override now operates on a regular weekly schedule:"}
+                </p>
+
+                <div class="tip-rules-grid">
+                  <div class="rule-card">
+                    <div class="rule-icon">🗓️</div>
+                    <div>
+                      <strong>${isFr ? "Lundi — Cheat Code Monday" : "Monday — Cheat Code Monday"}</strong>
+                      <p>
+                        ${isFr 
+                          ? "Récompenses liées aux Sprites augmentées et ajout d'un nouveau <strong>Lobby Hack</strong>." 
+                          : "Increased Sprite rewards and a new <strong>Lobby Hack</strong> added."}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="rule-card">
+                    <div class="rule-icon">📦</div>
+                    <div>
+                      <strong>${isFr ? "Jeudi — Nouveaux Objets" : "Thursday — New Items"}</strong>
+                      <p>
+                        ${isFr 
+                          ? "Arrivée de nouveaux objets et contenus dans le mode Override." 
+                          : "New items and contents added to Override."}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="rule-card">
+                    <div class="rule-icon">⚡</div>
+                    <div>
+                      <strong>${isFr ? "Samedi — Power Hours" : "Saturday — Power Hours"}</strong>
+                      <p>
+                        ${isFr 
+                          ? "Power Hours thématiques augmentant les chances de débloquer les Sprites de la semaine." 
+                          : "Themed Power Hours boosting drop chances for featured Sprites."}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="rule-card" style="grid-column: 1 / -1; background: rgba(34, 197, 94, 0.08); border-color: rgba(34, 197, 94, 0.25);">
+                    <div class="rule-icon">🔗</div>
+                    <div>
+                      <strong>${isFr ? "Source Officielle" : "Official Source"}</strong>
+                      <p style="margin-top: 6px;">
+                        <a href="https://fortnite.gg/news" target="_blank" rel="noopener" class="tip-source-link">📰 Fil d'actualité Fortnite.GG / News Feed</a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
         <!-- FEATURED TIP CARD (GOLD CROWN LEAK) -->
         <article class="tip-card featured-leak" data-timestamp="1787269500000">
           <div class="tip-card-header">
