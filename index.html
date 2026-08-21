@@ -10247,7 +10247,7 @@
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
       const PATCH_RELEASED_AT = "2026-08-21T02:20:00+02:00";
-      const PWA_VERSION = "2026-08-21-v11.18.0";
+      const PWA_VERSION = "2026-08-21-v11.19.0";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
@@ -14813,7 +14813,7 @@
           <div class="tip-card-body">
             <div class="tip-media-box">
               <div class="tip-img-wrap">
-                <img src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Crown_L.webp" alt="${isFr ? "Esprit Couronne" : "Crown Sprite"}" class="tip-img" loading="eager">
+                <img src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Crown_L.webp" alt="${isFr ? "Esprit Couronne" : "Crown Sprite"}" class="tip-img" loading="eager" onerror="this.closest('.tip-media-box')?.remove();">
               </div>
             </div>
 
@@ -14873,8 +14873,8 @@
           <div class="tip-card-body">
             <div class="tip-media-box">
               <div class="tip-img-wrap" style="display: flex; gap: 8px; align-items: center; justify-content: center;">
-                <img src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Dwarf_L.webp" alt="${isFr ? "Adventure Sprite" : "Adventure Sprite"}" class="tip-img" loading="lazy" style="max-width: 48%;">
-                <img src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Crown_L.webp" alt="${isFr ? "Crown Sprite" : "Crown Sprite"}" class="tip-img" loading="lazy" style="max-width: 48%;">
+                <img src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Dwarf_L.webp" alt="${isFr ? "Adventure Sprite" : "Adventure Sprite"}" class="tip-img" loading="lazy" style="max-width: 48%;" onerror="this.style.display='none';">
+                <img src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Crown_L.webp" alt="${isFr ? "Crown Sprite" : "Crown Sprite"}" class="tip-img" loading="lazy" style="max-width: 48%;" onerror="this.style.display='none';">
               </div>
             </div>
 
@@ -14934,7 +14934,7 @@
           <div class="tip-card-body">
             <div class="tip-media-box">
               <div class="tip-img-wrap">
-                <img src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ZeroPoint_L.webp" alt="${isFr ? "Sprite Garden" : "Sprite Garden"}" class="tip-img" loading="lazy">
+                <img src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ZeroPoint_L.webp" alt="${isFr ? "Sprite Garden" : "Sprite Garden"}" class="tip-img" loading="lazy" onerror="this.closest('.tip-media-box')?.remove();">
               </div>
             </div>
 
@@ -14990,7 +14990,7 @@
           <div class="tip-card-body">
             <div class="tip-media-box">
               <div class="tip-img-wrap">
-                <img src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_8Bit_L.webp" alt="${isFr ? "Calendrier Override" : "Override Schedule"}" class="tip-img" loading="lazy">
+                <img src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_8Bit_L.webp" alt="${isFr ? "Calendrier Override" : "Override Schedule"}" class="tip-img" loading="lazy" onerror="this.closest('.tip-media-box')?.remove();">
               </div>
             </div>
 
@@ -15062,7 +15062,7 @@
           <div class="tip-card-body">
             <div class="tip-media-box">
               <div class="tip-img-wrap">
-                <img src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Crown_Gold_L.webp" alt="${isFr ? "Esprit Couronne (Or)" : "Gold Crown Sprite"}" class="tip-img" loading="eager">
+                <img src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Crown_Gold_L.webp" alt="${isFr ? "Esprit Couronne (Or)" : "Gold Crown Sprite"}" class="tip-img" loading="eager" onerror="this.closest('.tip-media-box')?.remove();">
               </div>
             </div>
 
@@ -15122,7 +15122,7 @@
           <div class="tip-card-body">
             <div class="tip-media-box">
               <div class="tip-img-wrap">
-                <img src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BushRanger_Cheatmaster_L.webp" alt="${isFr ? "Esprit Buisson (Roi de la triche)" : "Cheat Master Bush Sprite"}" class="tip-img" loading="lazy">
+                <img src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BushRanger_Cheatmaster_L.webp" alt="${isFr ? "Esprit Buisson (Roi de la triche)" : "Cheat Master Bush Sprite"}" class="tip-img" loading="lazy" onerror="this.closest('.tip-media-box')?.remove();">
               </div>
             </div>
 
@@ -15186,7 +15186,7 @@
           <div class="tip-card-body">
             <div class="tip-media-box">
               <div class="tip-img-wrap">
-                <img src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_StormScout_L.webp" alt="Storm Scout Sprite" class="tip-img" loading="lazy">
+                <img src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_StormScout_L.webp" alt="Storm Scout Sprite" class="tip-img" loading="lazy" onerror="this.closest('.tip-media-box')?.remove();">
               </div>
             </div>
 
@@ -15242,7 +15242,7 @@
           <div class="tip-card-body">
             <div class="tip-media-box">
               <div class="tip-img-wrap">
-                <img src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_NarrowFlea_Scribe_Cheatmaster_L.webp" alt="${isFr ? "Esprit Ombre (Roi de la triche)" : "Cheat Master Shadow Sprite"}" class="tip-img" loading="lazy">
+                <img src="https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_NarrowFlea_Scribe_Cheatmaster_L.webp" alt="${isFr ? "Esprit Ombre (Roi de la triche)" : "Cheat Master Shadow Sprite"}" class="tip-img" loading="lazy" onerror="this.closest('.tip-media-box')?.remove();">
               </div>
             </div>
 
