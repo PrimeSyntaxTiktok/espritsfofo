@@ -2,8 +2,8 @@ name: Auto Update Fortnite Sprites & News
 
 on:
   schedule:
-    # Run every 2 hours automatically
-    - cron: '0 */2 * * *'
+    # Run every 15 minutes automatically
+    - cron: '*/15 * * * *'
   workflow_dispatch:
     # Allows manual trigger via "Run workflow" button in GitHub Actions UI
 
