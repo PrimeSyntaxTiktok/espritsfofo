@@ -28,6 +28,9 @@ jobs:
       - name: Run Automated Sprites Update Script
         run: node scripts/auto-update-sprites.js
 
+      - name: Run Automated Quality Assurance (Anti-Bug) Checks
+        run: node scripts/quality-check.js
+
       - name: Commit and Push Changes if Updated
         run: |
           git config --global user.name "github-actions[bot]"
