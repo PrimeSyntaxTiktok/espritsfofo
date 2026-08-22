@@ -1,9 +1,10 @@
 /**
- * Prime Sprites — Automated Fortnite News, Leaks, Maps & Sprites Updater
+ * Prime Sprites — Automated Fortnite News, Leaks, Maps & Sprites Guide Updater
  * 
  * Automatically fetches Fortnite API news, datamined cosmetics (leaks), AND top Creative Map codes
- * in BOTH French (?language=fr) and English (?language=en) up to 20 new maps per 15-minute run,
- * formats cards according to site guidelines, updates index.html, bumps PWA versions, and notifies Discord.
+ * in BOTH French (?language=fr) and English (?language=en), formats cards according to site guidelines,
+ * updates index.html, injects new Sprites into the Player Guide & Catalog (`families`), bumps PWA versions,
+ * and notifies Discord.
  */
 
 const fs = require('fs');
@@ -41,9 +42,9 @@ function sendDiscordNotification(webhookUrl, addedTitles, newVersion) {
       avatar_url: "https://PrimeSyntaxTiktok.github.io/espritsfofo/icons/prime-logo-white-bgblack.png",
       embeds: [
         {
-          title: "🗺️ Prime Sprites — Nouveaux Contenus / Maps & Leaks Publiés !",
+          title: "🗺️ Prime Sprites — Nouveaux Contenus / Guide & Leaks Mis à Jour !",
           url: "https://PrimeSyntaxTiktok.github.io/espritsfofo/",
-          description: `**${addedTitles.length} nouvelle(s) carte(s) / map(s) Fortnite** ont été automatiquement ajoutées au site !`,
+          description: `**${addedTitles.length} nouvelle(s) mise(s) à jour / carte(s) d'Esprits & Maps** ont été ajoutées au site et au Guide !`,
           color: 3450096, // #34d399 teal/green
           fields: [
             {
@@ -57,7 +58,7 @@ function sendDiscordNotification(webhookUrl, addedTitles, newVersion) {
             },
             {
               name: "🌐 Lien du Site",
-              value: "[Consulter le Site](https://PrimeSyntaxTiktok.github.io/espritsfofo/)",
+              value: "[Consulter le Guide & Site](https://PrimeSyntaxTiktok.github.io/espritsfofo/)",
               inline: true
             }
           ],
@@ -121,7 +122,7 @@ const CATEGORY_MAP = {
 };
 
 async function runAutoUpdate() {
-  console.log('🔄 Checking Fortnite API for news, datamined leaks & Creative Maps (FR & EN localized)...');
+  console.log('🔄 Checking Fortnite API for news, datamined leaks, Sprites & Creative Maps (FR & EN localized)...');
   
   let htmlContent = fs.readFileSync(INDEX_PATH, 'utf8');
   let swContent = fs.readFileSync(SW_PATH, 'utf8');
@@ -221,7 +222,7 @@ async function runAutoUpdate() {
     }
   }
 
-  // --- PART 2: FETCH DATAMINED LEAKS & UNRELEASED COSMETICS ---
+  // --- PART 2: FETCH DATAMINED LEAKS & UNRELEASED COSMETICS & INJECT INTO PLAYER GUIDE (`families`) ---
   let leaksFr = null;
   let leaksEn = null;
   try {
@@ -257,6 +258,7 @@ async function runAutoUpdate() {
       if (isSpriteRelated) {
         const cardId = `leak-${itemFr.id}`;
 
+        // 1. Add Leak Card to Tips Page
         if (!htmlContent.includes(cardId)) {
           const timestamp = Date.now();
           const iconUrl = (itemFr.images && (itemFr.images.icon || itemFr.images.smallIcon)) || '';
@@ -310,6 +312,36 @@ async function runAutoUpdate() {
           htmlContent = htmlContent.replace(
             '<div class="tips-container">',
             '<div class="tips-container">' + newLeakHtml
+          );
+          newCardsAdded++;
+        }
+
+        // 2. Inject New Sprite into Player Guide & Catalog (`families` array)
+        const familyKey = itemFr.id.toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (!htmlContent.includes(`key: "${familyKey}"`)) {
+          const rarityVal = (itemFr.rarity ? itemFr.rarity.value : 'rare').toLowerCase();
+          const baseIcon = (itemFr.images && (itemFr.images.icon || itemFr.images.smallIcon)) || 'T_Icon_BR_Creature_Sprite_BushRanger_L.webp';
+
+          console.log(`📖 Injecting new Sprite into Player Guide & Catalog (`families`): key="${familyKey}", name="${nameFr}"`);
+          addedTitles.push(`Guide : Nouveau Sprite ${nameFr}`);
+
+          const newFamilyEntry = `        {
+          key: ${JSON.stringify(familyKey)}, fr: ${JSON.stringify(nameFr)}, en: ${JSON.stringify(nameEn)}, rarity: ${JSON.stringify(rarityVal)},
+          aliases: [${JSON.stringify(nameFr)}, ${JSON.stringify(nameEn)}],
+          effect: {
+            fr: ${JSON.stringify(descFr || "Capacité spéciale décelée dans les fichiers du jeu.")},
+            en: ${JSON.stringify(descEn || "Special in-game ability detected in recent game files.")}
+          },
+          images: {
+            base: ${JSON.stringify(baseIcon)},
+            gold: ${JSON.stringify(baseIcon)}
+          }
+        },
+`;
+
+          htmlContent = htmlContent.replace(
+            'const families = [',
+            'const families = [\n' + newFamilyEntry
           );
           newCardsAdded++;
         }
@@ -437,7 +469,7 @@ async function runAutoUpdate() {
     await sendDiscordNotification(process.env.DISCORD_WEBHOOK_URL, addedTitles, newVersion);
   }
 
-  console.log(`✅ Successfully updated files! (${newCardsAdded} new cards added including ${mapsAddedInRun} creative maps, PWA version set to ${newVersion})`);
+  console.log(`✅ Successfully updated files! (${newCardsAdded} new cards added including ${mapsAddedInRun} creative maps and guide families, PWA version set to ${newVersion})`);
 }
 
 runAutoUpdate().catch(err => {
