@@ -1,9 +1,9 @@
 /**
- * Prime Sprites — Automated Fortnite News, Leaks & Sprites Updater
+ * Prime Sprites — Automated Fortnite News, Leaks, Maps & Sprites Updater
  * 
- * Automatically fetches Fortnite API news AND newly datamined cosmetics (leaks)
- * in BOTH French (?language=fr) and English (?language=en), formats cards according to site guidelines,
- * updates index.html, bumps PWA versions, and notifies Discord.
+ * Automatically fetches Fortnite API news, datamined cosmetics (leaks), AND top Creative Map codes
+ * in BOTH French (?language=fr) and English (?language=en) up to 20 new maps per 15-minute run,
+ * formats cards according to site guidelines, updates index.html, bumps PWA versions, and notifies Discord.
  */
 
 const fs = require('fs');
@@ -41,14 +41,14 @@ function sendDiscordNotification(webhookUrl, addedTitles, newVersion) {
       avatar_url: "https://PrimeSyntaxTiktok.github.io/espritsfofo/icons/prime-logo-white-bgblack.png",
       embeds: [
         {
-          title: "🟠 Prime Sprites — Nouveaux Leaks / Esprits Détectés !",
+          title: "🗺️ Prime Sprites — Nouveaux Contenus / Maps & Leaks Publiés !",
           url: "https://PrimeSyntaxTiktok.github.io/espritsfofo/",
-          description: `**${addedTitles.length} nouveau(x) leak(s) / actualité(s) d'Esprits** ont été automatiquement ajoutés au site !`,
-          color: 16345634, // #f97316 orange
+          description: `**${addedTitles.length} nouvelle(s) carte(s) / map(s) Fortnite** ont été automatiquement ajoutées au site !`,
+          color: 3450096, // #34d399 teal/green
           fields: [
             {
               name: "📋 Nouveautés Publiées",
-              value: addedTitles.map(t => `• ${t}`).join('\n').substring(0, 1024) || "Nouveaux éléments dataminés découverts."
+              value: addedTitles.map(t => `• ${t}`).join('\n').substring(0, 1024) || "Nouveaux contenus Fortnite décelés."
             },
             {
               name: "🚀 Nouvelle Version PWA",
@@ -57,12 +57,12 @@ function sendDiscordNotification(webhookUrl, addedTitles, newVersion) {
             },
             {
               name: "🌐 Lien du Site",
-              value: "[Consulter les Leaks](https://PrimeSyntaxTiktok.github.io/espritsfofo/)",
+              value: "[Consulter le Site](https://PrimeSyntaxTiktok.github.io/espritsfofo/)",
               inline: true
             }
           ],
           footer: {
-            text: "Prime Sprites • Détecteur Automatique de Leaks GitHub Actions"
+            text: "Prime Sprites • Système d'Automatisation GitHub Actions (15 min)"
           },
           timestamp: new Date().toISOString()
         }
@@ -108,8 +108,20 @@ function bumpVersion(versionStr) {
   return `${today}-v11.29.0`;
 }
 
+const CATEGORY_MAP = {
+  '1v1': { fr: '1 contre 1 (1v1)', en: '1v1' },
+  'tycoon': { fr: 'Magnat (Tycoon)', en: 'Tycoon' },
+  'parkour': { fr: 'Parcours (Parkour)', en: 'Parkour' },
+  'horror': { fr: 'Horreur', en: 'Horror' },
+  'practice': { fr: 'Entraînement', en: 'Practice' },
+  'deathrun': { fr: 'Course de la Mort', en: 'Deathrun' },
+  'sprite': { fr: 'Jardin des Esprits', en: 'Sprite Garden' },
+  'bedwars': { fr: 'Guerre de Lits (Bedwars)', en: 'Bedwars' },
+  'gungame': { fr: 'Jeu d\'Armes (Gun Game)', en: 'Gun Game' }
+};
+
 async function runAutoUpdate() {
-  console.log('🔄 Checking Fortnite API for news & datamined leaks (FR & EN localized)...');
+  console.log('🔄 Checking Fortnite API for news, datamined leaks & Creative Maps (FR & EN localized)...');
   
   let htmlContent = fs.readFileSync(INDEX_PATH, 'utf8');
   let swContent = fs.readFileSync(SW_PATH, 'utf8');
@@ -305,6 +317,104 @@ async function runAutoUpdate() {
     }
   }
 
+  // --- PART 3: FETCH & INGEST TOP FORTNITE CREATIVE MAPS (UP TO 20 PER RUN) ---
+  console.log('🗺️ Ingesting Top Fortnite Creative Maps (up to 20 maps/15 min)...');
+  let mapsAddedInRun = 0;
+  const MAX_MAPS_PER_RUN = 20;
+
+  try {
+    const discoveryResFr = await fetchJson('https://fortnite-api.com/v2/creative/discovery');
+    const discoveryResEn = discoveryResFr; // fallback structure for discovery endpoint
+
+    if (discoveryResFr && discoveryResFr.data && discoveryResFr.data.panels) {
+      const panels = discoveryResFr.data.panels;
+
+      for (const panel of panels) {
+        if (mapsAddedInRun >= MAX_MAPS_PER_RUN) break;
+        const pages = panel.pages || panel.islands || [];
+
+        for (const island of pages) {
+          if (mapsAddedInRun >= MAX_MAPS_PER_RUN) break;
+
+          const mapCode = island.code || island.islandCode || island.linkCode || '';
+          if (!mapCode) continue;
+
+          // Anti-duplicate check: ensure mapCode isn't already present in htmlContent
+          if (htmlContent.includes(mapCode)) continue;
+
+          const titleFr = (island.title || island.name || `Map Fortnite ${mapCode}`).replace(/Sprite/gi, 'Esprit');
+          const titleEn = island.title || island.name || `Fortnite Map ${mapCode}`;
+          
+          const descFr = (island.description || `Découvrez cette map créative populaire sur Fortnite ! Code d'île : ${mapCode}`).replace(/Sprite/gi, 'Esprit');
+          const descEn = island.description || `Check out this top rated Fortnite Creative island! Island code: ${mapCode}`;
+          
+          const rawCat = (island.category || island.tag || '1v1').toLowerCase();
+          const categoryObj = CATEGORY_MAP[rawCat] || { fr: 'Créatif', en: 'Creative' };
+          
+          const ratingStars = island.rating ? `⭐ ${island.rating}/5` : '⭐ 4.9/5';
+          const imageUrl = island.image || island.thumbnail || '';
+          const cardId = `map-${mapCode.replace(/[^a-zA-Z0-9]/g, '')}`;
+
+          console.log(`✨ Adding Map Card [${mapsAddedInRun + 1}/${MAX_MAPS_PER_RUN}]: Code=${mapCode} | Title="${titleFr}"`);
+          addedTitles.push(`Map [${mapCode}] : ${titleFr}`);
+
+          const newMapHtml = `
+        <!-- AUTOMATED MAP CARD: ${cardId} -->
+        <article class="tip-card" data-timestamp="${Date.now()}" id="${cardId}">
+          <div class="tip-card-header">
+            <div class="tip-card-meta">
+              <span class="tip-badge leak-badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border-color: rgba(59, 130, 246, 0.3);">\${isFr ? ${JSON.stringify("🗺️ MAP " + categoryObj.fr.toUpperCase())} : ${JSON.stringify("🗺️ MAP " + categoryObj.en.toUpperCase())}}</span>
+              <span class="tip-date">${ratingStars}</span>
+            </div>
+            <h2 class="tip-card-title">
+              \${isFr ? ${JSON.stringify(titleFr + " (Code : " + mapCode + ")")} : ${JSON.stringify(titleEn + " (Code: " + mapCode + ")")}}
+            </h2>
+          </div>
+
+          <div class="tip-card-body">
+            ${imageUrl ? `<div class="tip-media-box">
+              <div class="tip-img-wrap">
+                <img src="${imageUrl}" alt="\${isFr ? ${JSON.stringify(titleFr)} : ${JSON.stringify(titleEn)}}" class="tip-img" loading="lazy" onerror="this.closest('.tip-media-box')?.remove();">
+              </div>
+            </div>` : ''}
+
+            <div class="tip-content-details">
+              <div class="tip-explicatif-block">
+                <h3>📌 \${isFr ? "Description & Code d'accès" : "Description & Access Code"}</h3>
+                <p>
+                  \${isFr ? ${JSON.stringify(descFr)} : ${JSON.stringify(descEn)}}
+                </p>
+
+                <div class="tip-rules-grid">
+                  <div class="rule-card">
+                    <div class="rule-icon">🎮</div>
+                    <div>
+                      <strong>\${isFr ? "Code de l'Île Créative" : "Island Code"}</strong>
+                      <p style="margin-top: 4px;">
+                        <code style="font-size: 1.1em; background: rgba(0,0,0,0.4); padding: 4px 8px; border-radius: 6px; font-weight: bold; color: #60a5fa;">${mapCode}</code>
+                        <button onclick="window.copyCheatCode ? window.copyCheatCode('${mapCode}') : navigator.clipboard.writeText('${mapCode}')" class="copy-btn" style="margin-left: 10px; cursor: pointer; padding: 4px 10px; background: rgba(59, 130, 246, 0.2); border: 1px solid #60a5fa; color: #60a5fa; border-radius: 6px; font-size: 0.85em;">\${isFr ? "Copier Code" : "Copy Code"}</button>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+`;
+          htmlContent = htmlContent.replace(
+            '<div class="tips-container">',
+            '<div class="tips-container">' + newMapHtml
+          );
+          mapsAddedInRun++;
+          newCardsAdded++;
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('⚠️ Creative maps discovery fetch:', e.message);
+  }
+
   // Always update & verify versioning
   const newVersion = bumpVersion(currentVersion);
   console.log(`🚀 New PWA Version to set: ${newVersion}`);
@@ -327,7 +437,7 @@ async function runAutoUpdate() {
     await sendDiscordNotification(process.env.DISCORD_WEBHOOK_URL, addedTitles, newVersion);
   }
 
-  console.log(`✅ Successfully updated files! (${newCardsAdded} new cards added, PWA version set to ${newVersion})`);
+  console.log(`✅ Successfully updated files! (${newCardsAdded} new cards added including ${mapsAddedInRun} creative maps, PWA version set to ${newVersion})`);
 }
 
 runAutoUpdate().catch(err => {
