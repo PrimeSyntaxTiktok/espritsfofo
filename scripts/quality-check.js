@@ -102,7 +102,7 @@ function checkImageHealth(url) {
     }
 
     const client = url.startsWith('https://') ? https : http;
-    const req = client.request(url, { method: 'HEAD', timeout: 5000 }, (res) => {
+    const req = client.get(url, { headers: { 'User-Agent': 'Mozilla/5.0' } }, (res) => {
       if (res.statusCode >= 200 && res.statusCode < 400) {
         resolve({ url, healthy: true, statusCode: res.statusCode });
       } else {
@@ -249,6 +249,6 @@ async function runQualityCheck() {
 }
 
 runQualityCheck().catch(err => {
-  console.error('❌ QA Check execution error:', err);
+  console.error('❌ Quality Check Error:', err);
   process.exit(1);
 });
