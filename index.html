@@ -10247,7 +10247,7 @@
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
       const PATCH_RELEASED_AT = "2026-08-21T02:20:00+02:00";
-      const PWA_VERSION = "2026-08-21-v11.26.0";
+      const PWA_VERSION = "2026-08-22-v11.27.0";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
@@ -14796,6 +14796,180 @@
 
       <!-- TIPS CARDS CONTAINER -->
       <div class="tips-container">
+        <!-- NEW CARD 1: GOLD HOURS OFFICIAL SCHEDULE & CORRECTION (02:30 CEST 22 AUG) -->
+        <article class="tip-card featured-leak" data-timestamp="1787358600000">
+          <div class="tip-card-header">
+            <div class="tip-card-meta">
+              <span class="tip-badge leak-badge" style="background: rgba(34, 197, 94, 0.15); color: #4ade80; border-color: rgba(34, 197, 94, 0.3);">${isFr ? "🟢 OFFICIEL · HORAIRES GOLD HOURS" : "🟢 OFFICIAL · GOLD HOURS SCHEDULE"}</span>
+              <span class="tip-date">${formatLeakTimestamp("2026-08-22T02:30:00+02:00")}</span>
+            </div>
+            <h2 class="tip-card-title">
+              ${isFr 
+                ? "Gold Hours : Horaires Officiels & Précision sur le Statut des Esprits Or !" 
+                : "Gold Hours: Official Schedule & Gold Sprites Status Update!"}
+            </h2>
+          </div>
+
+          <div class="tip-card-body">
+            <div class="tip-media-box">
+              <div class="tip-img-wrap">
+                <img src="https://cdn-live.prm.ol.epicgames.com/prod/b4813f9743f1429c96ca12a5c7d5ca51.jpeg?aspect=fill&amp;height=540&amp;width=960" alt="${isFr ? "Annonce Gold Hours Fortnite" : "Fortnite Gold Hours Announcement"}" class="tip-img" loading="eager" onerror="this.closest('.tip-media-box')?.remove();">
+              </div>
+            </div>
+
+            <div class="tip-content-details">
+              <div class="tip-explicatif-block">
+                <h3>📌 ${isFr ? "Statut de disponibilité et créneaux d'événement" : "Availability Status & Event Windows"}</h3>
+                <p>
+                  ${isFr 
+                    ? "Les 11 variantes d'<strong>Esprits Or</strong> sont officiellement annoncées mais restent non activées en jeu jusqu'au démarrage des créneaux Power Hour du samedi 22 août :" 
+                    : "The 11 <strong>Gold Sprite</strong> variants are officially announced but remain inactive in-game until the Power Hour windows start on Saturday, August 22:"}
+                </p>
+
+                <div class="tip-rules-grid">
+                  <div class="rule-card">
+                    <div class="rule-icon">🕒</div>
+                    <div>
+                      <strong>${isFr ? "Créneaux Officiels (Heure Française)" : "Official Time Windows (CEST)"}</strong>
+                      <p>
+                        ${isFr 
+                          ? "• <strong>Premier créneau</strong> : Samedi 22 août de <strong>20:00 à 22:00 CEST</strong>.<br>• <strong>Second créneau</strong> : Nuit du 22 au 23 août de <strong>03:00 à 05:00 CEST</strong>." 
+                          : "• <strong>First Window</strong>: Saturday August 22 from <strong>8:00 PM to 10:00 PM CEST</strong>.<br>• <strong>Second Window</strong>: Night of Aug 22-23 from <strong>3:00 AM to 5:00 AM CEST</strong>."}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="rule-card">
+                    <div class="rule-icon">✨</div>
+                    <div>
+                      <strong>${isFr ? "Bonus actifs pendant les Gold Hours" : "Active Gold Hours Boosts"}</strong>
+                      <p>
+                        ${isFr 
+                          ? "Taux d'apparition fortement augmentés pour les Esprits Or, bonus de monnaie Or, 1 Extracteur Portable et 1 Jeton 1-Up offerts au départ, et chances accrues de trouver la pièce maîtresse de Midas (<em>Midas' Masterpiece</em>)." 
+                          : "Increased drop rates for Gold Sprites, boosted Gold currency, 1 Portable Extractor & 1 1-Up Token at start, plus higher chances for Midas' Masterpiece."}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- NEW CARD 2: SPRITES ALLOWED IN RANKED MODE (02:28 CEST 22 AUG) -->
+        <article class="tip-card" data-timestamp="1787358480000">
+          <div class="tip-card-header">
+            <div class="tip-card-meta">
+              <span class="tip-badge leak-badge" style="background: rgba(34, 197, 94, 0.15); color: #4ade80; border-color: rgba(34, 197, 94, 0.3);">${isFr ? "🟢 OFFICIEL · MODE CLASSÉ" : "🟢 OFFICIAL · RANKED MODE"}</span>
+              <span class="tip-date">${formatLeakTimestamp("2026-08-22T02:28:00+02:00")}</span>
+            </div>
+            <h2 class="tip-card-title">
+              ${isFr 
+                ? "Mode Classé (Ranked) : Les Esprits sont désormais autorisés en partie !" 
+                : "Ranked Mode: Sprites are Now Allowed in Matches!"}
+            </h2>
+          </div>
+
+          <div class="tip-card-body">
+            <div class="tip-media-box">
+              <div class="tip-img-wrap">
+                <img src="https://cdn-live.prm.ol.epicgames.com/prod/b4813f9743f1429c96ca12a5c7d5ca51.jpeg?aspect=fill&amp;height=540&amp;width=960" alt="${isFr ? "Mode Classé Fortnite Sprites" : "Fortnite Ranked Sprites"}" class="tip-img" loading="lazy" onerror="this.closest('.tip-media-box')?.remove();">
+              </div>
+            </div>
+
+            <div class="tip-content-details">
+              <div class="tip-explicatif-block">
+                <h3>📌 ${isFr ? "Présence et règles de compétition en Classé" : "Presence & Competitive Rules in Ranked"}</h3>
+                <p>
+                  ${isFr 
+                    ? "Epic Games confirme que les <strong>Esprits</strong> apparaissent désormais dans les parties de Battle Royale Classé (Ranked) :" 
+                    : "Epic Games confirms that <strong>Sprites</strong> now appear in Ranked Battle Royale matches:"}
+                </p>
+
+                <div class="tip-rules-grid">
+                  <div class="rule-card">
+                    <div class="rule-icon">🎒</div>
+                    <div>
+                      <strong>${isFr ? "Collecte et Présence" : "Collection & Companion"}</strong>
+                      <p>
+                        ${isFr 
+                          ? "Les Esprits peuvent être trouvés sur la carte, collectés et vous accompagner pour ajouter à votre collection en Classé." 
+                          : "Sprites can be found, collected, and accompany players to progress their collection in Ranked."}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="rule-card">
+                    <div class="rule-icon">⚖️</div>
+                    <div>
+                      <strong>${isFr ? "Équilibre Compétitif" : "Competitive Balance"}</strong>
+                      <p>
+                        ${isFr 
+                          ? "Leurs pouvoirs passifs et capacités de gameplay sont <strong>intégralement désactivés en mode Classé</strong> afin de maintenir l'équité compétitive entre les joueurs." 
+                          : "Their passive boons and gameplay abilities are <strong>completely disabled in Ranked</strong> to preserve competitive balance."}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- NEW CARD 3: 22 ACTIVE SPRITES & RARITY RANKING (02:25 CEST 22 AUG) -->
+        <article class="tip-card" data-timestamp="1787358300000">
+          <div class="tip-card-header">
+            <div class="tip-card-meta">
+              <span class="tip-badge leak-badge" style="background: rgba(168, 85, 247, 0.15); color: #c084fc; border-color: rgba(168, 85, 247, 0.3);">${isFr ? "🟣 ANALYSE · RARETÉS & COLLECTION" : "🟣 ANALYSIS · RARITIES & COLLECTION"}</span>
+              <span class="tip-date">${formatLeakTimestamp("2026-08-22T02:25:00+02:00")}</span>
+            </div>
+            <h2 class="tip-card-title">
+              ${isFr 
+                ? "Collection & Rareté : 22 Esprits Actifs et Classement des Plus Rares !" 
+                : "Collection & Rarity: 22 Active Sprites & Rarest Rankings!"}
+            </h2>
+          </div>
+
+          <div class="tip-card-body">
+            <div class="tip-content-details">
+              <div class="tip-explicatif-block">
+                <h3>📌 ${isFr ? "État actuel du catalogue et synthèse des taux d'obtention" : "Current Catalog State & Drop Rate Synthesis"}</h3>
+                <p>
+                  ${isFr 
+                    ? "Un total de <strong>22 Esprits</strong> sont actuellement comptabilisés comme collectionnables pour la Saison 4 (excluant les variantes Or en attente d'activation) :" 
+                    : "A total of <strong>22 Sprites</strong> are currently countable as collectible for Season 4 (excluding unreleased Gold variants):"}
+                </p>
+
+                <div class="tip-rules-grid">
+                  <div class="rule-card">
+                    <div class="rule-icon">📊</div>
+                    <div>
+                      <strong>${isFr ? "Total de la Collection Actuelle" : "Current Collection Total"}</strong>
+                      <p>
+                        ${isFr 
+                          ? "<strong>22 Esprits collectionnables</strong> (variantes de base et variantes Roi de la triche actuellement actives en jeu)." 
+                          : "<strong>22 collectible Sprites</strong> (base variants and currently active Cheat Master variants)."}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="rule-card" style="grid-column: 1 / -1;">
+                    <div class="rule-icon">👑</div>
+                    <div>
+                      <strong>${isFr ? "Classement des 5 Esprits les Plus Rares" : "Top 5 Rarest Sprites Ranking"}</strong>
+                      <p style="margin-top: 6px;">
+                        ${isFr 
+                          ? "1. 🥇 <strong>Esprit Klombo Or</strong> — <em>Deviendra le plus rare (taux estimé à 0,00001 %) dès son activation pendant la Gold Hour.</em><br>2. 🥈 <strong>Esprit Klombo (Roi de la triche)</strong><br>3. 🥉 <strong>Esprit Klombo standard</strong><br>4. 🏅 <strong>Esprit Couronne (Roi de la triche)</strong><br>5. 🏅 <strong>Esprit Jackrabbit (Roi de la triche)</strong>" 
+                          : "1. 🥇 <strong>Gold Klombo Sprite</strong> — <em>Will become the rarest (0.00001% drop rate) once active during Gold Hour.</em><br>2. 🥈 <strong>Cheat Master Klombo Sprite</strong><br>3. 🥉 <strong>Standard Klombo Sprite</strong><br>4. 🏅 <strong>Cheat Master Crown Sprite</strong><br>5. 🏅 <strong>Cheat Master Jackrabbit Sprite</strong>"}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
         <!-- NEW CARD: STORM KING SPRITE DATAMINED (21:28 CEST) -->
         <article class="tip-card featured-leak" data-timestamp="1787340480000">
           <div class="tip-card-header">
