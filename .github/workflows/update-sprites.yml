@@ -26,6 +26,8 @@ jobs:
           node-version: '22'
 
       - name: Run Automated Sprites Update Script
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: node scripts/auto-update-sprites.js
 
       - name: Run Automated Quality Assurance (Anti-Bug) Checks

@@ -2,8 +2,8 @@
  * Prime Sprites — Automated Fortnite News & Sprites Updater
  * 
  * Automatically fetches Fortnite API news & cosmetics updates in BOTH French (?language=fr)
- * and English (?language=en), ensuring that in-game localized names are exact in French for French users
- * and exact in English for English users.
+ * and English (?language=en), formats cards according to site guidelines, updates index.html,
+ * bumps PWA versions, and notifies a Discord channel via Webhook.
  */
 
 const fs = require('fs');
@@ -26,6 +26,72 @@ function fetchJson(url) {
         }
       });
     }).on('error', reject);
+  });
+}
+
+function sendDiscordNotification(webhookUrl, addedTitles, newVersion) {
+  return new Promise((resolve) => {
+    if (!webhookUrl || !webhookUrl.startsWith('https://discord.com/api/webhooks/')) {
+      console.log('ℹ️ No Discord Webhook URL provided. Skipping Discord notification.');
+      return resolve();
+    }
+
+    const payload = JSON.stringify({
+      username: "Prime Sprites Bot",
+      avatar_url: "https://PrimeSyntaxTiktok.github.io/espritsfofo/icons/prime-logo-white-bgblack.png",
+      embeds: [
+        {
+          title: "🟢 Prime Sprites — Nouvelle Mise à Jour Automatique !",
+          url: "https://PrimeSyntaxTiktok.github.io/espritsfofo/",
+          description: `**${addedTitles.length} nouvelle(s) carte(s) d'actualités / d'Esprits** ont été automatiquement ajoutées au site !`,
+          color: 4898432, // #4ade80 green
+          fields: [
+            {
+              name: "📋 Nouveautés Publiées",
+              value: addedTitles.map(t => `• ${t}`).join('\n').substring(0, 1024) || "Nouveaux contenus Fortnite décelés."
+            },
+            {
+              name: "🚀 Nouvelle Version PWA",
+              value: `\`${newVersion}\``,
+              inline: true
+            },
+            {
+              name: "🌐 Lien du Site",
+              value: "[Consulter les Nouveautés](https://PrimeSyntaxTiktok.github.io/espritsfofo/)",
+              inline: true
+            }
+          ],
+          footer: {
+            text: "Prime Sprites • Système d'Automatisation GitHub Actions"
+          },
+          timestamp: new Date().toISOString()
+        }
+      ]
+    });
+
+    const parsedUrl = new URL(webhookUrl);
+    const options = {
+      hostname: parsedUrl.hostname,
+      path: parsedUrl.pathname + parsedUrl.search,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(payload)
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      console.log(`📢 Discord Notification Status: ${res.statusCode}`);
+      resolve();
+    });
+
+    req.on('error', (e) => {
+      console.warn('⚠️ Discord Webhook Notification failed:', e.message);
+      resolve();
+    });
+
+    req.write(payload);
+    req.end();
   });
 }
 
@@ -69,6 +135,7 @@ async function runAutoUpdate() {
   }
 
   let newCardsAdded = 0;
+  const addedTitles = [];
 
   if (newsFr && newsFr.data && newsFr.data.motds && newsEn && newsEn.data && newsEn.data.motds) {
     const motdsFr = newsFr.data.motds;
@@ -101,6 +168,7 @@ async function runAutoUpdate() {
         
         if (!htmlContent.includes(cardId)) {
           console.log(`✨ Adding bilingual card: FR="${titleFr}" | EN="${titleEn}"`);
+          addedTitles.push(titleFr);
           
           const newCardHtml = `
         <!-- AUTOMATED BILINGUAL NEWS CARD: ${cardId} -->
@@ -160,6 +228,11 @@ async function runAutoUpdate() {
 
   fs.writeFileSync(INDEX_PATH, htmlContent, 'utf8');
   fs.writeFileSync(SW_PATH, swContent, 'utf8');
+
+  // If new cards were added, send Discord Webhook notification if configured
+  if (newCardsAdded > 0 && process.env.DISCORD_WEBHOOK_URL) {
+    await sendDiscordNotification(process.env.DISCORD_WEBHOOK_URL, addedTitles, newVersion);
+  }
 
   console.log(`✅ Successfully updated files! (${newCardsAdded} new cards added, PWA version set to ${newVersion})`);
 }
