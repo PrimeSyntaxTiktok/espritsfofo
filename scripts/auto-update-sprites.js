@@ -464,6 +464,22 @@ async function runAutoUpdate() {
           </div>
         </article>
 `;
+          // Inject map into DEFAULT_CREATIVE_MAPS array in index.html (Powers #maps page)
+          if (!htmlContent.includes(`code: "${mapCode}"`) && !htmlContent.includes(`code: '${mapCode}'`)) {
+            const mapEntry = `        {
+          id: ${JSON.stringify("map-" + cleanCode)},
+          title: ${JSON.stringify(titleFr)},
+          code: ${JSON.stringify(mapCode)},
+          category: ${JSON.stringify(catFr)},
+          image: ${JSON.stringify(imageUrl || "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_8Bit_L.webp")},
+          description: ${JSON.stringify(descFr)}
+        },`;
+            htmlContent = htmlContent.replace(
+              'const DEFAULT_CREATIVE_MAPS = [',
+              'const DEFAULT_CREATIVE_MAPS = [\n' + mapEntry
+            );
+          }
+
           htmlContent = htmlContent.replace(
             '<div class="tips-container">',
             '<div class="tips-container">' + newMapHtml
