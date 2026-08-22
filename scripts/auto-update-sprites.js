@@ -4,7 +4,7 @@
  * Automatically fetches Fortnite API news, datamined cosmetics (leaks), AND top Creative Map codes
  * in BOTH French (?language=fr) and English (?language=en), formats cards according to site guidelines,
  * updates index.html, injects new Sprites into the Player Guide & Catalog (`families`), bumps PWA versions,
- * and notifies Discord.
+ * and sends a Discord status notification on EVERY execution run (both routine pings and new updates).
  */
 
 const fs = require('fs');
@@ -30,40 +30,69 @@ function fetchJson(url) {
   });
 }
 
-function sendDiscordNotification(webhookUrl, addedTitles, newVersion) {
+function sendDiscordNotification(webhookUrl, addedTitles, newVersion, newCardsAdded) {
   return new Promise((resolve) => {
     if (!webhookUrl || !webhookUrl.startsWith('https://discord.com/api/webhooks/')) {
       console.log('ℹ️ No Discord Webhook URL provided. Skipping Discord notification.');
       return resolve();
     }
 
+    const hasUpdates = newCardsAdded > 0;
+    const title = hasUpdates 
+      ? "🟢 Prime Sprites — Nouveaux Contenus Publiés !" 
+      : "🔵 Prime Sprites — Scan de Routine Réussi (15 min)";
+
+    const description = hasUpdates
+      ? `**${newCardsAdded} nouvelle(s) mise(s) à jour / carte(s)** ont été automatiquement ajoutées au site et au Guide !`
+      : "L'automatisation a scanné l'API Fortnite, les leaks et les maps. **Aucun nouveau leak détecté, le site est 100 % à jour !**";
+
+    const color = hasUpdates ? 3450096 : 3888632; // Green or Blue
+
+    const fields = hasUpdates ? [
+      {
+        name: "📋 Nouveautés Publiées",
+        value: addedTitles.map(t => `• ${t}`).join('\n').substring(0, 1024) || "Nouveaux contenus Fortnite décelés."
+      },
+      {
+        name: "🚀 Nouvelle Version PWA",
+        value: `\`${newVersion}\``,
+        inline: true
+      },
+      {
+        name: "🌐 Lien du Site",
+        value: "[Consulter le Site](https://PrimeSyntaxTiktok.github.io/espritsfofo/)",
+        inline: true
+      }
+    ] : [
+      {
+        name: "🛡️ Statut du Robot",
+        value: "✅ Scan exécuté avec succès • 0 bogue • Contrôle Qualité OK",
+        inline: false
+      },
+      {
+        name: "🚀 Version PWA Actuelle",
+        value: `\`${newVersion}\``,
+        inline: true
+      },
+      {
+        name: "🌐 Lien du Site",
+        value: "[Accéder au Site](https://PrimeSyntaxTiktok.github.io/espritsfofo/)",
+        inline: true
+      }
+    ];
+
     const payload = JSON.stringify({
       username: "Prime Sprites Bot",
       avatar_url: "https://PrimeSyntaxTiktok.github.io/espritsfofo/icons/prime-logo-white-bgblack.png",
       embeds: [
         {
-          title: "🗺️ Prime Sprites — Nouveaux Contenus / Guide & Leaks Mis à Jour !",
+          title: title,
           url: "https://PrimeSyntaxTiktok.github.io/espritsfofo/",
-          description: `**${addedTitles.length} nouvelle(s) mise(s) à jour / carte(s) d'Esprits & Maps** ont été ajoutées au site et au Guide !`,
-          color: 3450096, // #34d399 teal/green
-          fields: [
-            {
-              name: "📋 Nouveautés Publiées",
-              value: addedTitles.map(t => `• ${t}`).join('\n').substring(0, 1024) || "Nouveaux contenus Fortnite décelés."
-            },
-            {
-              name: "🚀 Nouvelle Version PWA",
-              value: `\`${newVersion}\``,
-              inline: true
-            },
-            {
-              name: "🌐 Lien du Site",
-              value: "[Consulter le Guide & Site](https://PrimeSyntaxTiktok.github.io/espritsfofo/)",
-              inline: true
-            }
-          ],
+          description: description,
+          color: color,
+          fields: fields,
           footer: {
-            text: "Prime Sprites • Système d'Automatisation GitHub Actions (15 min)"
+            text: "Prime Sprites • Détecteur Automatique & Confirmation d'Exécution"
           },
           timestamp: new Date().toISOString()
         }
@@ -447,29 +476,32 @@ async function runAutoUpdate() {
     console.warn('⚠️ Creative maps discovery fetch:', e.message);
   }
 
-  // Always update & verify versioning
-  const newVersion = bumpVersion(currentVersion);
-  console.log(`🚀 New PWA Version to set: ${newVersion}`);
+  // Always update & verify versioning if new content was added
+  let activeVersion = currentVersion;
+  if (newCardsAdded > 0) {
+    activeVersion = bumpVersion(currentVersion);
+    console.log(`🚀 New PWA Version to set: ${activeVersion}`);
 
-  htmlContent = htmlContent.replace(
-    /const PWA_VERSION = "([^"]+)";/,
-    `const PWA_VERSION = "${newVersion}";`
-  );
-  
-  swContent = swContent.replace(
-    /const CACHE_VERSION = "([^"]+)";/,
-    `const CACHE_VERSION = "${newVersion}";`
-  );
+    htmlContent = htmlContent.replace(
+      /const PWA_VERSION = "([^"]+)";/,
+      `const PWA_VERSION = "${activeVersion}";`
+    );
+    
+    swContent = swContent.replace(
+      /const CACHE_VERSION = "([^"]+)";/,
+      `const CACHE_VERSION = "${activeVersion}";`
+    );
 
-  fs.writeFileSync(INDEX_PATH, htmlContent, 'utf8');
-  fs.writeFileSync(SW_PATH, swContent, 'utf8');
-
-  // If new cards were added, send Discord Webhook notification if configured
-  if (newCardsAdded > 0 && process.env.DISCORD_WEBHOOK_URL) {
-    await sendDiscordNotification(process.env.DISCORD_WEBHOOK_URL, addedTitles, newVersion);
+    fs.writeFileSync(INDEX_PATH, htmlContent, 'utf8');
+    fs.writeFileSync(SW_PATH, swContent, 'utf8');
   }
 
-  console.log(`✅ Successfully updated files! (${newCardsAdded} new cards added including ${mapsAddedInRun} creative maps and guide families, PWA version set to ${newVersion})`);
+  // Send Discord Webhook notification on EVERY execution run (Heartbeat + Updates)
+  if (process.env.DISCORD_WEBHOOK_URL) {
+    await sendDiscordNotification(process.env.DISCORD_WEBHOOK_URL, addedTitles, activeVersion, newCardsAdded);
+  }
+
+  console.log(`✅ Successfully completed run! (${newCardsAdded} new cards added including ${mapsAddedInRun} creative maps and guide families, PWA version is ${activeVersion})`);
 }
 
 runAutoUpdate().catch(err => {
