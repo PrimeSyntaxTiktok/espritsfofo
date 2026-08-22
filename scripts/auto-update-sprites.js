@@ -1,9 +1,9 @@
 /**
  * Prime Sprites — Automated Fortnite News & Sprites Updater
  * 
- * Automatically fetches Fortnite API news & cosmetics updates,
- * formats cards according to site guidelines (French "Esprit", no links/authors,
- * clean image error handling), updates index.html and bumps PWA versions.
+ * Automatically fetches Fortnite API news & cosmetics updates in BOTH French (?language=fr)
+ * and English (?language=en), ensuring that in-game localized names are exact in French for French users
+ * and exact in English for English users.
  */
 
 const fs = require('fs');
@@ -30,7 +30,6 @@ function fetchJson(url) {
 }
 
 function bumpVersion(versionStr) {
-  // Format: 2026-08-22-v11.28.0 -> increment patch
   const match = versionStr.match(/^(\d{4}-\d{2}-\d{2}-v\d+\.\d+\.)(\d+)$/);
   if (match) {
     const today = new Date().toISOString().split('T')[0];
@@ -44,7 +43,7 @@ function bumpVersion(versionStr) {
 }
 
 async function runAutoUpdate() {
-  console.log('🔄 Checking Fortnite API for new updates & Sprites...');
+  console.log('🔄 Checking Fortnite API for new updates & Sprites (FR & EN localized)...');
   
   let htmlContent = fs.readFileSync(INDEX_PATH, 'utf8');
   let swContent = fs.readFileSync(SW_PATH, 'utf8');
@@ -59,42 +58,52 @@ async function runAutoUpdate() {
   const currentVersion = pwaVersionMatch[1];
   console.log(`📌 Current PWA Version: ${currentVersion}`);
 
-  // Fetch news from official Fortnite API endpoint
-  let apiNews = null;
+  // Fetch news in both French and English
+  let newsFr = null;
+  let newsEn = null;
   try {
-    apiNews = await fetchJson('https://fortnite-api.com/v2/news/br');
+    newsFr = await fetchJson('https://fortnite-api.com/v2/news/br?language=fr');
+    newsEn = await fetchJson('https://fortnite-api.com/v2/news/br?language=en');
   } catch (e) {
-    console.warn('⚠️ Could not fetch fortnite-api.com news (offline or rate limited):', e.message);
+    console.warn('⚠️ Could not fetch fortnite-api.com news:', e.message);
   }
 
   let newCardsAdded = 0;
 
-  if (apiNews && apiNews.data && apiNews.data.motds) {
-    const motds = apiNews.data.motds;
-    console.log(`📰 Found ${motds.length} active MOTD news items from Fortnite API.`);
+  if (newsFr && newsFr.data && newsFr.data.motds && newsEn && newsEn.data && newsEn.data.motds) {
+    const motdsFr = newsFr.data.motds;
+    const motdsEn = newsEn.data.motds;
     
-    for (const motd of motds) {
-      const title = motd.title || '';
-      const body = motd.body || '';
-      const imageUrl = motd.image || '';
+    console.log(`📰 Found ${motdsFr.length} active MOTDs in French & English.`);
+    
+    for (let i = 0; i < motdsFr.length; i++) {
+      const itemFr = motdsFr[i];
+      const itemEn = motdsEn.find(m => m.id === itemFr.id) || motdsEn[i] || itemFr;
+
+      const titleEn = itemEn.title || itemFr.title || '';
+      const bodyEn = itemEn.body || itemFr.body || '';
+      
+      // In French text, ensure official translation "Esprit" / "Esprits" for Sprites
+      let titleFr = itemFr.title || itemEn.title || '';
+      let bodyFr = itemFr.body || itemEn.body || '';
+      titleFr = titleFr.replace(/Sprite/gi, 'Esprit');
+      bodyFr = bodyFr.replace(/Sprite/gi, 'Esprit');
+      
+      const imageUrl = itemFr.image || itemEn.image || '';
       
       // Filter for Sprite / Esprit related news or overrides
-      if (title.toLowerCase().includes('sprite') || body.toLowerCase().includes('sprite') || 
-          title.toLowerCase().includes('esprit') || body.toLowerCase().includes('esprit') ||
-          title.toLowerCase().includes('override') || body.toLowerCase().includes('override')) {
+      if (titleEn.toLowerCase().includes('sprite') || bodyEn.toLowerCase().includes('sprite') || 
+          titleFr.toLowerCase().includes('esprit') || bodyFr.toLowerCase().includes('esprit') ||
+          titleEn.toLowerCase().includes('override') || bodyEn.toLowerCase().includes('override')) {
         
         const timestamp = Date.now();
-        const cardId = `motd-${motd.id || timestamp}`;
+        const cardId = `motd-${itemFr.id || timestamp}`;
         
         if (!htmlContent.includes(cardId)) {
-          console.log(`✨ Adding new Fortnite News Card: ${title}`);
-          
-          // Format title & body replacing Sprite with Esprit for French
-          const titleFr = title.replace(/Sprite/gi, 'Esprit');
-          const bodyFr = body.replace(/Sprite/gi, 'Esprit');
+          console.log(`✨ Adding bilingual card: FR="${titleFr}" | EN="${titleEn}"`);
           
           const newCardHtml = `
-        <!-- AUTOMATED NEWS CARD: ${cardId} -->
+        <!-- AUTOMATED BILINGUAL NEWS CARD: ${cardId} -->
         <article class="tip-card" data-timestamp="${timestamp}" id="${cardId}">
           <div class="tip-card-header">
             <div class="tip-card-meta">
@@ -102,7 +111,7 @@ async function runAutoUpdate() {
               <span class="tip-date">\${formatLeakTimestamp(new Date().toISOString())}</span>
             </div>
             <h2 class="tip-card-title">
-              \${isFr ? ${JSON.stringify(titleFr)} : ${JSON.stringify(title)}}
+              \${isFr ? ${JSON.stringify(titleFr)} : ${JSON.stringify(titleEn)}}
             </h2>
           </div>
 
@@ -115,9 +124,9 @@ async function runAutoUpdate() {
 
             <div class="tip-content-details">
               <div class="tip-explicatif-block">
-                <h3>📌 \${isFr ? "Détails de la mise à jour" : "Update Details"}</h3>
+                <h3>📌 \${isFr ? "Détails officiels en jeu" : "Official In-Game Details"}</h3>
                 <p>
-                  \${isFr ? ${JSON.stringify(bodyFr)} : ${JSON.stringify(body)}}
+                  \${isFr ? ${JSON.stringify(bodyFr)} : ${JSON.stringify(bodyEn)}}
                 </p>
               </div>
             </div>
