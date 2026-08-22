@@ -178,7 +178,12 @@ async function runQualityCheck() {
       
       let invalidCheats = 0;
       cheatCodesArray.forEach((cheat, index) => {
-        if (!cheat.code || !cheat.reward || !cheat.type || !cheat.targetId) {
+        const hasCode = Boolean(cheat.code);
+        const hasReward = Boolean(cheat.reward && (typeof cheat.reward === 'string' || (typeof cheat.reward === 'object' && (cheat.reward.fr || cheat.reward.en))));
+        const hasType = Boolean(cheat.type);
+        const hasTargetIfSprite = cheat.type !== 'sprite' || Boolean(cheat.targetId);
+
+        if (!hasCode || !hasReward || !hasType || !hasTargetIfSprite) {
           console.error(`❌ Invalid cheat code object at index ${index}:`, cheat);
           invalidCheats++;
         }
