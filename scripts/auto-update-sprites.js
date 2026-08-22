@@ -351,7 +351,7 @@ async function runAutoUpdate() {
           const rarityVal = (itemFr.rarity ? itemFr.rarity.value : 'rare').toLowerCase();
           const baseIcon = (itemFr.images && (itemFr.images.icon || itemFr.images.smallIcon)) || 'T_Icon_BR_Creature_Sprite_BushRanger_L.webp';
 
-          console.log(`📖 Injecting new Sprite into Player Guide & Catalog (`families`): key="${familyKey}", name="${nameFr}"`);
+          console.log(`📖 Injecting new Sprite into Player Guide & Catalog ('families'): key="${familyKey}", name="${nameFr}"`);
           addedTitles.push(`Guide : Nouveau Sprite ${nameFr}`);
 
           const newFamilyEntry = `        {
