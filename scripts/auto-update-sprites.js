@@ -112,6 +112,7 @@ function sendDiscordNotification(webhookUrl, addedTitles, newVersion, newCardsAd
 
     const req = https.request(options, (res) => {
       console.log(`📢 Discord Notification Status: ${res.statusCode}`);
+      res.resume();
       resolve();
     });
 
@@ -502,6 +503,7 @@ async function runAutoUpdate() {
   }
 
   console.log(`✅ Successfully completed run! (${newCardsAdded} new cards added including ${mapsAddedInRun} creative maps and guide families, PWA version is ${activeVersion})`);
+  process.exit(0);
 }
 
 runAutoUpdate().catch(err => {
