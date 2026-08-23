@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_VERSION = "2026-08-23-v11.44.2-mobile-tips";
+const CACHE_VERSION = "2026-08-23-v11.45.0-v4200-textures";
 const CACHE_PREFIX = "sprite-locker-";
 const SHELL_CACHE = `${CACHE_PREFIX}shell-${CACHE_VERSION}`;
 const ASSET_CACHE = `${CACHE_PREFIX}assets-${CACHE_VERSION}`;
