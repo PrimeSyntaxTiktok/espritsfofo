@@ -52,7 +52,7 @@ const hotfix = `${HOTFIX_START}
     article.id = TEST_ID;
     article.className = "tip-card featured-leak";
     article.dataset.timestamp = String(new Date("2026-08-23T20:39:00+02:00").getTime());
-    article.innerHTML = `
+    article.innerHTML = \`
       <div class="tip-card-header">
         <div class="tip-card-meta">
           <span class="tip-badge leak-badge" style="background:rgba(61,230,239,.14);color:#3de6ef;border-color:rgba(61,230,239,.35);">DATAMINING · ASSETS</span>
@@ -72,7 +72,7 @@ const hotfix = `${HOTFIX_START}
           <p><strong>Statut :</strong> dataminé. Les textures sont présentes dans les fichiers, mais cela ne confirme ni leur activation dans le catalogue live, ni leur méthode d’obtention, ni une date de sortie.</p>
           <p><strong>Source :</strong> <a href="https://x.com/FireMonkey/status/2091548468602913126" target="_blank" rel="noopener noreferrer">FireMonkey — publication du 23 août 2026</a>.</p>
         </div>
-      </div>`;
+      </div>\`;
     return article;
   };
 
