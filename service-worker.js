@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_VERSION = "2026-08-23-v11.45.0-v4200-textures";
+const CACHE_VERSION = "2026-08-23-v11.45.0";
 const CACHE_PREFIX = "sprite-locker-";
 const SHELL_CACHE = `${CACHE_PREFIX}shell-${CACHE_VERSION}`;
 const ASSET_CACHE = `${CACHE_PREFIX}assets-${CACHE_VERSION}`;
@@ -109,165 +109,6 @@ async function updateInBackground(request, cacheName) {
   }
 }
 
-async function injectPrimeSpritesRuntimePatch(response) {
-  if (!response || !response.ok || response.type === "opaque") return response;
-  const contentType = response.headers.get("content-type") || "";
-  if (!contentType.includes("text/html")) return response;
-
-  try {
-    const html = await response.text();
-    if (html.includes('id="prime-tips-mobile-fix"')) {
-      return new Response(html, { status: response.status, statusText: response.statusText, headers: response.headers });
-    }
-
-    const patch = `
-<style id="prime-tips-mobile-fix">
-@media (max-width: 700px) {
-  #tipsPage { padding-inline: 0 !important; }
-  #tipsPage .tips-container { gap: 10px !important; }
-  #tipsPage .daily-card-folder {
-    border-radius: 14px !important;
-    box-shadow: 0 8px 22px rgba(0,0,0,.28) !important;
-  }
-  #tipsPage .daily-card-header {
-    padding: 12px !important;
-    gap: 10px !important;
-    align-items: flex-start !important;
-  }
-  #tipsPage .daily-card-header-main {
-    flex: 1 1 auto !important;
-    min-width: 0 !important;
-  }
-  #tipsPage .daily-date-badge {
-    padding: 6px 9px !important;
-    font-size: .68rem !important;
-    letter-spacing: .04em !important;
-  }
-  #tipsPage .daily-card-title {
-    margin: 8px 0 9px !important;
-    font-size: 1.28rem !important;
-    line-height: 1.02 !important;
-    letter-spacing: -.025em !important;
-  }
-  #tipsPage .daily-card-meta-pills {
-    gap: 6px !important;
-    flex-wrap: nowrap !important;
-  }
-  #tipsPage .daily-pill {
-    max-width: 100% !important;
-    padding: 6px 8px !important;
-    font-size: .62rem !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-  }
-  #tipsPage .daily-pill.highlight-pill { display: none !important; }
-  #tipsPage .daily-toggle-btn {
-    flex: 0 0 42px !important;
-    width: 42px !important;
-    height: 42px !important;
-    border-radius: 13px !important;
-  }
-  #tipsPage .daily-card-content { padding: 10px !important; }
-  #tipsPage .tip-card {
-    padding: 14px !important;
-    border-radius: 14px !important;
-    box-shadow: 0 8px 20px rgba(0,0,0,.25) !important;
-  }
-  #tipsPage .tip-card-header {
-    gap: 8px !important;
-    margin-bottom: 10px !important;
-  }
-  #tipsPage .tip-card-meta {
-    gap: 6px !important;
-    margin-bottom: 7px !important;
-  }
-  #tipsPage .tip-badge {
-    max-width: 100% !important;
-    padding: 6px 8px !important;
-    font-size: .6rem !important;
-    line-height: 1.15 !important;
-    white-space: normal !important;
-  }
-  #tipsPage .tip-date { font-size: .64rem !important; }
-  #tipsPage .tip-card-title {
-    font-size: 1.12rem !important;
-    line-height: 1.07 !important;
-    letter-spacing: -.015em !important;
-  }
-  #tipsPage .tip-card-body { gap: 10px !important; }
-  #tipsPage .tip-card-body p { font-size: .88rem !important; line-height: 1.5 !important; }
-  #tipsPage .tip-media-box { margin-block: 2px !important; }
-  #tipsPage .tip-img-wrap { max-height: 220px !important; overflow: hidden !important; }
-}
-</style>
-<script id="prime-autofofo-test-runtime">
-(() => {
-  const TEST_SELECTOR = '[data-autofofo-test="true"]';
-  let queued = false;
-
-  function ensureTestCard() {
-    const page = document.getElementById('tipsPage');
-    if (!page || page.querySelector(TEST_SELECTOR)) return;
-
-    const firstFolder = page.querySelector('.daily-card-folder');
-    const container = firstFolder?.querySelector('.daily-card-content .tips-container') || page.querySelector('.tips-container');
-    if (!container) return;
-
-    const card = document.createElement('article');
-    card.className = 'tip-card featured-leak';
-    card.setAttribute('data-autofofo-test', 'true');
-    card.style.borderColor = 'rgba(61,230,239,.58)';
-    card.style.background = 'linear-gradient(145deg, rgba(13,35,55,.92), rgba(9,18,37,.98))';
-    card.innerHTML = `
-      <div class="tip-card-header">
-        <div class="tip-card-meta">
-          <span class="tip-badge leak-badge" style="background:rgba(61,230,239,.14);color:#3de6ef;border-color:rgba(61,230,239,.35);">TEST AUTOMATISATION</span>
-          <span class="tip-date">Publié le 23/08/2026 à 19:11</span>
-        </div>
-        <h2 class="tip-card-title">Test Autofofo — publication GitHub réussie</h2>
-      </div>
-      <div class="tip-card-body">
-        <p style="margin:0;color:var(--muted);">Message de test technique ajouté automatiquement depuis GitHub. Ce contenu n’est pas un leak Fortnite.</p>
-      </div>`;
-
-    container.prepend(card);
-    if (firstFolder) firstFolder.classList.add('is-open');
-  }
-
-  function scheduleEnsure() {
-    if (queued) return;
-    queued = true;
-    requestAnimationFrame(() => {
-      queued = false;
-      ensureTestCard();
-    });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', scheduleEnsure, { once: true });
-  } else {
-    scheduleEnsure();
-  }
-
-  window.addEventListener('hashchange', scheduleEnsure);
-  const observer = new MutationObserver(scheduleEnsure);
-  observer.observe(document.documentElement, { childList: true, subtree: true });
-})();
-</script>`;
-
-    const modified = html.includes("</head>")
-      ? html.replace("</head>", patch + "\n</head>")
-      : patch + html;
-
-    const headers = new Headers(response.headers);
-    headers.delete("content-length");
-    return new Response(modified, { status: response.status, statusText: response.statusText, headers });
-  } catch (_) {
-    return response;
-  }
-}
-
 async function serveNavigation(event) {
   const shellCache = await caches.open(SHELL_CACHE);
   try {
@@ -276,12 +117,11 @@ async function serveNavigation(event) {
     if (isCacheableResponse(response)) {
       await shellCache.put(INDEX_URL, response.clone());
     }
-    return await injectPrimeSpritesRuntimePatch(response);
+    return response;
   } catch (_) {
     const cached = await shellCache.match(INDEX_URL, { ignoreSearch: true, ignoreVary: true })
       || await shellCache.match(new URL("./", SCOPE_URL).href, { ignoreSearch: true, ignoreVary: true });
-    if (cached) return await injectPrimeSpritesRuntimePatch(cached);
-    return new Response("Sprite Locker n’est pas disponible hors connexion. Veuillez vous connecter une première fois à Internet.", {
+    return cached || new Response("Sprite Locker n’est pas disponible hors connexion. Veuillez vous connecter une première fois à Internet.", {
       status: 503,
       headers: { "Content-Type": "text/plain; charset=utf-8" }
     });
