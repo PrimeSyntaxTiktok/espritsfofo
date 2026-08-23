@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_VERSION = "2026-08-23-v11.44.0";
+const CACHE_VERSION = "2026-08-23-v11.44.1-autofofo-test";
 const CACHE_PREFIX = "sprite-locker-";
 const SHELL_CACHE = `${CACHE_PREFIX}shell-${CACHE_VERSION}`;
 const ASSET_CACHE = `${CACHE_PREFIX}assets-${CACHE_VERSION}`;
@@ -109,6 +109,38 @@ async function updateInBackground(request, cacheName) {
   }
 }
 
+async function injectAutofofoTest(response) {
+  if (!response || !response.ok || response.type === "opaque") return response;
+  const contentType = response.headers.get("content-type") || "";
+  if (!contentType.includes("text/html")) return response;
+  try {
+    const html = await response.text();
+    const marker = '<div class="tips-container">';
+    if (!html.includes(marker) || html.includes('data-autofofo-test="true"')) {
+      return new Response(html, { status: response.status, statusText: response.statusText, headers: response.headers });
+    }
+    const testCard = `
+        <article class="tip-card featured-leak" data-autofofo-test="true" style="border-color:rgba(61,230,239,.55);">
+          <div class="tip-card-header">
+            <div class="tip-card-meta">
+              <span class="tip-badge leak-badge" style="background:rgba(61,230,239,.14);color:#3de6ef;border-color:rgba(61,230,239,.35);">TEST AUTOMATISATION</span>
+              <span class="tip-date">Publié le 23/08/2026 à 19:11</span>
+            </div>
+            <h2 class="tip-card-title">Test Autofofo — publication GitHub réussie</h2>
+          </div>
+          <div class="tip-card-body">
+            <p style="margin:0;color:var(--muted);line-height:1.6;">Ceci est un message de test technique ajouté automatiquement afin de vérifier que l’automatisation peut publier directement sur Prime Sprites via GitHub. Ce contenu n’est pas un leak Fortnite.</p>
+          </div>
+        </article>`;
+    const modified = html.replace(marker, marker + testCard);
+    const headers = new Headers(response.headers);
+    headers.delete("content-length");
+    return new Response(modified, { status: response.status, statusText: response.statusText, headers });
+  } catch (_) {
+    return response;
+  }
+}
+
 async function serveNavigation(event) {
   const shellCache = await caches.open(SHELL_CACHE);
   try {
@@ -117,11 +149,12 @@ async function serveNavigation(event) {
     if (isCacheableResponse(response)) {
       await shellCache.put(INDEX_URL, response.clone());
     }
-    return response;
+    return await injectAutofofoTest(response);
   } catch (_) {
     const cached = await shellCache.match(INDEX_URL, { ignoreSearch: true, ignoreVary: true })
       || await shellCache.match(new URL("./", SCOPE_URL).href, { ignoreSearch: true, ignoreVary: true });
-    return cached || new Response("Sprite Locker n’est pas disponible hors connexion. Veuillez vous connecter une première fois à Internet.", {
+    if (cached) return await injectAutofofoTest(cached);
+    return new Response("Sprite Locker n’est pas disponible hors connexion. Veuillez vous connecter une première fois à Internet.", {
       status: 503,
       headers: { "Content-Type": "text/plain; charset=utf-8" }
     });
