@@ -38,32 +38,39 @@ const hotfix = `${HOTFIX_START}
     #tipsPage .tip-img { max-height: 210px !important; object-fit: contain !important; }
   }
 
-  #autofofo-test-card {
+  #autofofo-v4200-textures-card {
     border: 1px solid rgba(61,230,239,.55) !important;
     background: linear-gradient(145deg, rgba(8,35,48,.94), rgba(9,18,38,.97)) !important;
     box-shadow: 0 12px 30px rgba(0,0,0,.28), 0 0 18px rgba(61,230,239,.1) !important;
   }
 </style>
-<script id="autofofo-test-runtime">
+<script id="autofofo-v4200-textures-runtime">
 (() => {
-  const TEST_ID = "autofofo-test-card";
+  const TEST_ID = "autofofo-v4200-textures-card";
   const cardMarkup = () => {
     const article = document.createElement("article");
     article.id = TEST_ID;
     article.className = "tip-card featured-leak";
-    article.dataset.timestamp = String(Date.now());
+    article.dataset.timestamp = String(new Date("2026-08-23T20:39:00+02:00").getTime());
     article.innerHTML = `
       <div class="tip-card-header">
         <div class="tip-card-meta">
-          <span class="tip-badge leak-badge" style="background:rgba(61,230,239,.14);color:#3de6ef;border-color:rgba(61,230,239,.35);">TEST AUTOMATISATION</span>
-          <span class="tip-date">Publié le 23/08/2026 à 19:32</span>
+          <span class="tip-badge leak-badge" style="background:rgba(61,230,239,.14);color:#3de6ef;border-color:rgba(61,230,239,.35);">DATAMINING · ASSETS</span>
+          <span class="tip-date">Publié le 23/08/2026 à 20:39</span>
         </div>
-        <h2 class="tip-card-title">Test Autofofo — publication GitHub réussie</h2>
+        <h2 class="tip-card-title">Six variantes inédites reçoivent de nouvelles textures en v42.00</h2>
       </div>
       <div class="tip-card-body">
         <div class="tip-explicatif-block">
-          <h3>Vérification technique</h3>
-          <p>Ceci est un message de test ajouté directement au rendu de Leaks & Astuces. Ce contenu n’est pas un leak Fortnite.</p>
+          <h3>Textures ajoutées dans Fortnite: Override</h3>
+          <p>Des fichiers de la v42.00 contiennent de nouvelles textures pour six variantes qui n’avaient pas été publiées pendant la Saison 3 :</p>
+          <ul>
+            <li><strong>Cube :</strong> Canard, Roi et Démon</li>
+            <li><strong>Holofoil :</strong> Punk et Démon</li>
+            <li><strong>Gemme :</strong> Roi</li>
+          </ul>
+          <p><strong>Statut :</strong> dataminé. Les textures sont présentes dans les fichiers, mais cela ne confirme ni leur activation dans le catalogue live, ni leur méthode d’obtention, ni une date de sortie.</p>
+          <p><strong>Source :</strong> <a href="https://x.com/FireMonkey/status/2091548468602913126" target="_blank" rel="noopener noreferrer">FireMonkey — publication du 23 août 2026</a>.</p>
         </div>
       </div>`;
     return article;
