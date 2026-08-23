@@ -1,11 +1,14 @@
 name: Auto Update Fortnite Sprites & News
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/mobile-leaks-hotfix.js'
+      - '.github/workflows/update-sprites.yml'
   schedule:
-    # Run every 15 minutes automatically
     - cron: '*/15 * * * *'
   workflow_dispatch:
-    # Allows manual trigger via "Run workflow" button in GitHub Actions UI
 
 permissions:
   contents: write
@@ -29,6 +32,9 @@ jobs:
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: node scripts/auto-update-sprites.js
+
+      - name: Apply Mobile Leaks Hotfix
+        run: node scripts/mobile-leaks-hotfix.js
 
       - name: Run Automated Quality Assurance (Anti-Bug) Checks
         run: node scripts/quality-check.js
