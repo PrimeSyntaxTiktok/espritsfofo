@@ -2403,14 +2403,70 @@
 
     .empty-state strong { display: block; margin-bottom: 7px; color: #fff; font-family: var(--display); font-size: 1.35rem; font-style: italic; text-transform: uppercase; }
 
+    .collection-heading-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .collection-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #e2e8f0;
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-decoration: none;
+      transition: all 0.18s ease;
+    }
+    .collection-action-btn:hover {
+      background: rgba(var(--accent-rgb, 36, 169, 255), 0.18);
+      border-color: rgba(var(--accent-rgb, 36, 169, 255), 0.4);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    .collection-action-btn[hidden] {
+      display: none !important;
+    }
+
     .footer {
       display: flex;
+      flex-direction: column;
       margin-top: 48px;
       padding: 28px 8px 0;
       align-items: center;
       justify-content: center;
       border-top: 1px solid rgba(204, 218, 255, .12);
       text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .footer-links a {
+      color: #94a3b8;
+      font-size: 0.84rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.18s ease;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+    .footer-links a:hover {
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+    }
+    .footer-links a[hidden] {
+      display: none !important;
     }
 
     .developer-signature-wrap {
@@ -8817,6 +8873,159 @@
       border-color: rgba(56, 189, 248, 0.5);
     }
 
+    /* PAGE ÉVÉNEMENTS & COMPTES À REBOURS (1 COLONNE STACKÉE 100% LARGEUR) */
+    .events-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+    }
+
+    .event-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: clamp(16px, 2.5vw, 24px);
+      border-radius: 18px;
+      background: linear-gradient(145deg, rgba(16, 23, 48, 0.82), rgba(8, 12, 28, 0.95));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+      width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
+      backdrop-filter: blur(14px);
+      transition: transform 0.22s ease, border-color 0.22s ease;
+    }
+    .event-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(var(--accent-rgb, 36, 169, 255), 0.35);
+    }
+    .event-card.featured-event {
+      border-color: rgba(56, 189, 248, 0.35);
+      border-top-color: rgba(56, 189, 248, 0.6);
+      background:
+        radial-gradient(circle at 100% 0%, rgba(56, 189, 248, 0.14), transparent 45%),
+        linear-gradient(145deg, rgba(18, 32, 68, 0.9), rgba(9, 14, 34, 0.96));
+      box-shadow: 0 16px 44px rgba(0, 0, 0, 0.4), 0 0 25px rgba(56, 189, 248, 0.12);
+    }
+
+    .event-card-header {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .event-card-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .event-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.68rem;
+      font-weight: 900;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+    .event-card-title {
+      font-family: var(--display, "Barlow Condensed", sans-serif);
+      font-size: clamp(1.2rem, 2.4vw, 1.55rem);
+      font-style: italic;
+      font-weight: 950;
+      color: #fff;
+      margin: 0;
+      line-height: 1.15;
+      text-transform: uppercase;
+    }
+    .event-card-desc {
+      color: #cbd5e1;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* COMPTE À REBOURS EN BLOCS (JJ : HH : MM : SS) */
+    .event-countdown-shell {
+      margin-top: 4px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .event-countdown-label {
+      font-size: 0.72rem;
+      font-weight: 900;
+      color: var(--accent, #24a9ff);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .event-countdown-timer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .time-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 48px;
+      padding: 6px 10px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+    .time-value {
+      font-family: var(--display, "Barlow Condensed", sans-serif);
+      font-size: 1.35rem;
+      font-weight: 950;
+      color: #fff;
+      line-height: 1;
+    }
+    .time-unit {
+      font-size: 0.58rem;
+      font-weight: 800;
+      color: #94a3b8;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+    .time-separator {
+      font-family: var(--display, "Barlow Condensed", sans-serif);
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--accent, #24a9ff);
+      opacity: 0.6;
+    }
+    .event-ended-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 0.16);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.32);
+      font-size: 0.76rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
     /* ==========================================
        CARTE PAR JOUR - SYSTEME DE DOSSIERS QUOTIDIENS
        ========================================== */
@@ -9085,13 +9294,9 @@
         <div class="topbar-links" aria-label="Accès rapides">
           <a href="#home" data-page-target="home">Accueil</a>
           <a href="#catalog" data-page-target="catalog">Collection</a>
-          <a href="#cheats" data-page-target="cheats">Cheat Codes</a>
+          <a href="#events" data-page-target="events">Événements</a>
           <a href="#tips" data-page-target="tips">Leaks &amp; Astuces</a>
-          <a href="#guide" data-page-target="guide">Guide</a>
-          <a href="#garden" data-page-target="garden">Jardin</a>
-          <a href="#patch-notes" data-page-target="patch-notes">Patch Notes</a>
-          <a href="#reviews" data-page-target="reviews">Avis</a>
-          <a href="#maps" data-page-target="maps">Maps</a>
+          <a href="#cheats" data-page-target="cheats">Cheat Codes</a>
           <a href="#settings" data-page-target="settings">Réglages</a>
           <a href="#admin" data-page-target="admin" data-admin-link hidden>Admin</a>
         </div>
@@ -9194,6 +9399,10 @@
         <div>
           <span class="section-kicker">Catalogue</span>
           <h2 id="collectionTitle">Tous les esprits</h2>
+        </div>
+        <div class="collection-heading-actions">
+          <a class="collection-action-btn" href="#guide" data-page-target="guide">📖 Guide du Joueur</a>
+          <a class="collection-action-btn" href="#garden" data-page-target="garden" hidden>🌸 Jardin des Esprits</a>
         </div>
         <div class="result-line"><span><strong id="resultCount">109</strong> affichés</span><span id="activeHint">Variantes sorties vérifiées</span></div>
       </div>
@@ -9328,30 +9537,23 @@
       <div class="guide-grid" id="guideGrid"></div>
     </section>
 
-    <section class="feature-page app-page" id="mapsPage" data-page="maps" aria-labelledby="mapsTitle">
+    <section class="feature-page app-page" id="eventsPage" data-page="events" aria-labelledby="eventsTitle">
       <header class="tips-hero">
-        <div class="tips-hero-header">
-          <div class="tips-hero-title">
-            <span class="feature-eyebrow">Sélection Créative Fortnite</span>
-            <h1 id="mapsTitle">Cartes &amp; <span>Maps Créatives</span></h1>
-            <p>Découvre les meilleures cartes d'entraînement, duels, warmup et mini-jeux publiées par l'administrateur avec codes directs en 1 clic.</p>
+        <div class="tips-hero-inner">
+          <div class="tips-hero-badge">
+            <span class="tips-pulse-dot" aria-hidden="true"></span>
+            <span>PROGRAMME &amp; COMPTES À REBOURS</span>
           </div>
-          <div class="tips-hero-stats">
-            <div class="tips-stat-badge"><span>Maps disponibles</span> <strong id="mapsCountTotal">0</strong></div>
-          </div>
+          <h1 id="eventsTitle" class="tips-hero-title">
+            Événements <span>Fortnite</span>
+          </h1>
+          <p class="tips-hero-lead">
+            Retrouvez le calendrier officiel des événements à venir et suivez leurs comptes à rebours en direct !
+          </p>
         </div>
       </header>
 
-      <div class="tips-controls">
-        <div class="tips-search-wrap">
-          <span class="tips-search-icon" aria-hidden="true">🔍</span>
-          <input type="search" class="tips-search-input" id="mapsSearchInput" placeholder="Rechercher une map (ex: 1v1, aim, edit, warmup, code...)..." aria-label="Rechercher une map">
-        </div>
-        
-        <div class="tips-filters-row" id="mapsCategoryFilters"></div>
-      </div>
-
-      <div class="tips-grid" id="mapsGrid"></div>
+      <div class="events-container" id="eventsContainer"></div>
     </section>
 
     <section class="feature-page app-page" id="settingsPage" data-page="settings" aria-labelledby="settingsTitle">
@@ -10072,8 +10274,8 @@
       <header class="feature-hero reviews-hero">
         <div>
           <span class="feature-eyebrow">Avis de la communauté</span>
-          <h1 id="reviewsTitle">Livre <span>d'Or</span></h1>
-          <p>Laissez votre avis sur Prime Sprites et découvrez les retours des autres joueurs.</p>
+          <h1 id="reviewsTitle">Avis <span>Joueurs</span></h1>
+          <p>Découvrez les retours des joueurs et laissez votre avis sur Prime Sprites.</p>
         </div>
         <div class="reviews-hero-action">
           <button class="feature-primary review-trigger-btn" type="button" id="openReviewModalBtn">
@@ -10106,6 +10308,12 @@
     </section>
 
     <footer class="footer">
+      <div class="footer-links" aria-label="Liens secondaires">
+        <a href="#guide" data-page-target="guide">📖 Guide du Joueur</a>
+        <a href="#patch-notes" data-page-target="patch-notes">📜 Patch Notes</a>
+        <a href="#reviews" data-page-target="reviews">⭐ Avis</a>
+        <a href="#garden" data-page-target="garden" hidden>🌸 Jardin des Esprits</a>
+      </div>
       <div class="developer-signature-wrap">
         <img src="./icons/prime-syntax-signature.png" alt="Prime Syntax" class="developer-signature-img" loading="lazy" width="260" height="85">
       </div>
@@ -10121,33 +10329,17 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 5.5h16v13H4z"></path><path d="M8 5.5v13M16 5.5v13M4 12h16"></path></svg>
       <span>Collection</span>
     </a>
-    <a class="mobile-dock-item" href="#cheats" data-page-target="cheats">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-      <span>Cheats</span>
+    <a class="mobile-dock-item" href="#events" data-page-target="events">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+      <span>Événements</span>
     </a>
     <a class="mobile-dock-item" href="#tips" data-page-target="tips">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7z"></path><path d="M9 21h6"></path></svg>
-      <span>Leaks &amp; Astuces</span>
+      <span>Leaks</span>
     </a>
-    <a class="mobile-dock-item" href="#guide" data-page-target="guide">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 5.5h6a3 3 0 0 1 3 3v10H7a3 3 0 0 0-3 3z"></path><path d="M20 5.5h-4a3 3 0 0 0-3 3v10h4a3 3 0 0 1 3 3z"></path></svg>
-      <span>Guide</span>
-    </a>
-    <a class="mobile-dock-item" href="#garden" data-page-target="garden">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-      <span>Jardin</span>
-    </a>
-    <a class="mobile-dock-item" href="#patch-notes" data-page-target="patch-notes">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"></path><path d="M14 3v5h5M9 12h7M9 16h7"></path></svg>
-      <span>Patch Notes</span>
-    </a>
-    <a class="mobile-dock-item" href="#reviews" data-page-target="reviews">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-      <span>Avis</span>
-    </a>
-    <a class="mobile-dock-item" href="#maps" data-page-target="maps">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21 3 6"></polygon><line x1="9" y1="3" x2="9" y2="18"></line><line x1="15" y1="6" x2="15" y2="21"></line></svg>
-      <span>Maps</span>
+    <a class="mobile-dock-item" href="#cheats" data-page-target="cheats">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+      <span>Cheats</span>
     </a>
     <a class="mobile-dock-item" href="#settings" data-page-target="settings">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .4 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.4 1.7 1.7 0 0 0-1 1.6v.1h-4v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.4l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .4-1.9 1.7 1.7 0 0 0-1.6-1H3v-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.4-1.9L4.2 7l2.9-2.8.1.1a1.7 1.7 0 0 0 1.9.4 1.7 1.7 0 0 0 1-1.6V3h4v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.4l.1-.1L19.9 7l-.1.1a1.7 1.7 0 0 0-.4 1.9 1.7 1.7 0 0 0 1.6 1h.1v4H21a1.7 1.7 0 0 0-1.6 1Z"></path></svg>
@@ -10494,7 +10686,7 @@
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
       const PATCH_RELEASED_AT = "2026-08-21T02:20:00+02:00";
-      const PWA_VERSION = "2026-08-23-v11.46.0";
+      const PWA_VERSION = "2026-08-24-v12.20.0";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
@@ -12272,257 +12464,7 @@
         return meaningful.length ? meaningful : tokens;
       }
 
-      let currentMapsCategory = "all";
-      let currentMapsSearch = "";
-      let editingMapId = null;
-
-      const MAP_FAVORITES_KEY = "sprite-locker-maps-favorites-v1";
-      let mapFavorites = new Set();
-      function loadMapFavorites() {
-        try {
-          const raw = localStorage.getItem(MAP_FAVORITES_KEY);
-          if (raw) mapFavorites = new Set(JSON.parse(raw));
-        } catch (_) {}
-      }
-      function saveMapFavorites() {
-        try {
-          localStorage.setItem(MAP_FAVORITES_KEY, JSON.stringify(Array.from(mapFavorites)));
-        } catch (_) {}
-      }
-      function toggleMapFavorite(mapId) {
-        if (!mapId) return;
-        if (mapFavorites.has(mapId)) {
-          mapFavorites.delete(mapId);
-          showToast("Map retirée des favoris");
-        } else {
-          mapFavorites.add(mapId);
-          showToast("Map ajoutée aux favoris ⭐");
-        }
-        playSfx("click");
-        saveMapFavorites();
-        renderMaps();
-      }
-      loadMapFavorites();
-
       let lastReviewsSnapshot = null;
-
-      function copyMapCode(code, buttonEl) {
-        if (!code) return;
-        try {
-          navigator.clipboard.writeText(code);
-          playSfx("click");
-          if (buttonEl) {
-            const prevText = buttonEl.textContent;
-            buttonEl.textContent = "Copié ! ✓";
-            buttonEl.style.background = "#4fe29a";
-            buttonEl.style.color = "#000";
-            setTimeout(() => {
-              buttonEl.textContent = prevText;
-              buttonEl.style.background = "";
-              buttonEl.style.color = "";
-            }, 1800);
-          }
-          showToast(`Code d'île copié : ${code}`);
-        } catch (_) {
-          showToast(`Code : ${code}`);
-        }
-      }
-
-      document.addEventListener("click", event => {
-        const copyBtn = event.target.closest("[data-action='copy-code']");
-        if (copyBtn) {
-          event.preventDefault();
-          copyMapCode(copyBtn.dataset.code, copyBtn);
-          return;
-        }
-
-        const favMapBtn = event.target.closest("[data-action='toggle-fav-map']");
-        if (favMapBtn) {
-          event.preventDefault();
-          event.stopPropagation();
-          toggleMapFavorite(favMapBtn.dataset.mapId);
-          return;
-        }
-
-        const favFilterBtn = event.target.closest("[data-action='toggle-fav-filter']");
-        if (favFilterBtn) {
-          event.preventDefault();
-          currentMapsCategory = currentMapsCategory === "favorites" ? "all" : "favorites";
-          playSfx("click");
-          renderMaps();
-          return;
-        }
-
-        const inspectBtn = event.target.closest("[data-action='inspect-user']");
-        if (inspectBtn) {
-          event.preventDefault();
-          const uid = inspectBtn.dataset.userId;
-          const name = inspectBtn.dataset.userName;
-          const photo = inspectBtn.dataset.userPhoto;
-          startAdminInspection(uid, name, photo);
-          return;
-        }
-
-        const exitInspectBtn = event.target.closest("[data-action='exit-inspection']");
-        if (exitInspectBtn) {
-          event.preventDefault();
-          stopAdminInspection();
-          return;
-        }
-      });
-
-      document.getElementById("mapsSearchInput")?.addEventListener("input", event => {
-        currentMapsSearch = event.target.value;
-        renderMaps();
-      });
-
-      function renderMapCategoryFilters(mapsList) {
-        const container = document.getElementById("mapsCategoryFilters");
-        if (!container) return;
-
-        if (!mapsList || mapsList.length === 0) {
-          container.innerHTML = "";
-          container.style.display = "none";
-          return;
-        }
-
-        container.style.display = "flex";
-        container.className = "maps-filters-bar";
-
-        const availableCategories = Array.from(
-          new Set(mapsList.map(m => String(m.category || "Général").trim()).filter(Boolean))
-        );
-
-        const favCount = mapsList.filter(m => mapFavorites.has(m.id)).length;
-
-        if (currentMapsCategory !== "all" && currentMapsCategory !== "favorites" && !availableCategories.includes(currentMapsCategory)) {
-          currentMapsCategory = "all";
-        }
-
-        const isFavActive = currentMapsCategory === "favorites";
-
-        let optionsHtml = `<option value="all"${currentMapsCategory === "all" ? " selected" : ""}>Toutes les maps 🗺️ (${mapsList.length})</option>`;
-        availableCategories.forEach(cat => {
-          const count = mapsList.filter(m => String(m.category || "Général").trim() === cat).length;
-          const isSelected = currentMapsCategory === cat;
-          optionsHtml += `<option value="${esc(cat)}"${isSelected ? " selected" : ""}>${esc(cat)} (${count})</option>`;
-        });
-
-        container.innerHTML = `
-          <button class="maps-fav-filter-btn${isFavActive ? " is-active" : ""}" id="mapsFavFilterBtn" type="button" data-action="toggle-fav-filter">
-            ⭐ Favoris (${favCount})
-          </button>
-          <div class="maps-category-select-group">
-            <label for="mapsCategorySelect" class="maps-select-label">Catégories :</label>
-            <select id="mapsCategorySelect" class="maps-category-select">
-              ${optionsHtml}
-            </select>
-          </div>
-        `;
-
-        const selectEl = document.getElementById("mapsCategorySelect");
-        if (selectEl) {
-          selectEl.addEventListener("change", e => {
-            currentMapsCategory = e.target.value;
-            playSfx("click");
-            renderMaps();
-          });
-        }
-      }
-
-      function renderMaps() {
-        const grid = document.getElementById("mapsGrid");
-        const countTotal = document.getElementById("mapsCountTotal");
-        if (!grid) return;
-
-        const mapsList = Array.isArray(adminContent.creativeMaps) ? adminContent.creativeMaps : [];
-
-        if (countTotal) countTotal.textContent = String(mapsList.length);
-
-        renderMapCategoryFilters(mapsList);
-
-        const query = normalizedText(currentMapsSearch);
-
-        const filtered = mapsList.filter(map => {
-          const cat = String(map.category || "Général").trim();
-          if (currentMapsCategory === "favorites") {
-            if (!mapFavorites.has(map.id)) return false;
-          } else if (currentMapsCategory !== "all" && cat !== currentMapsCategory) {
-            return false;
-          }
-          if (!query) return true;
-          const titleMatch = normalizedText(map.title).includes(query);
-          const codeMatch = normalizedText(map.code).includes(query);
-          const descMatch = normalizedText(map.description || "").includes(query);
-          const catMatch = normalizedText(cat).includes(query);
-          return titleMatch || codeMatch || descMatch || catMatch;
-        });
-
-        if (filtered.length === 0) {
-          const emptyCopy = mapsList.length === 0
-            ? "L'administrateur n'a pas encore publié de carte sur le site."
-            : (currentMapsCategory === "favorites" ? "Tu n'as pas encore de map ajoutée aux favoris. Clique sur l'étoile ★ d'une map pour la conserver ici !" : "Aucune carte ne correspond à ta recherche dans cette catégorie.");
-          grid.innerHTML = `
-            <div style="grid-column: 1 / -1; text-align: center; padding: 50px 20px; background: rgba(8,13,32,0.6); border: 1px dashed rgba(255,255,255,0.15); border-radius: 18px;">
-              <span style="font-size: 2.5rem; display: block; margin-bottom: 10px;">${currentMapsCategory === "favorites" ? "⭐" : "🗺️"}</span>
-              <h3 style="margin: 0 0 6px; color: #fff; font-size: 1.1rem;">${mapsList.length === 0 ? "Aucune map disponible" : (currentMapsCategory === "favorites" ? "Aucun favori" : "Aucune map trouvée")}</h3>
-              <p style="margin: 0; color: #8b97b7; font-size: 0.88rem;">${emptyCopy}</p>
-            </div>
-          `;
-          return;
-        }
-
-        grid.innerHTML = filtered.map(map => {
-          const badgeLabel = map.category ? String(map.category).trim() : "🗺️ Carte Créative";
-          const isFav = mapFavorites.has(map.id);
-
-          return `
-            <article class="map-card" data-map-id="${esc(map.id)}">
-              <div class="map-card-thumb">
-                <img src="${esc(map.image)}" alt="${esc(map.title)}" loading="lazy" onerror="this.onerror=null;this.src='https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_CokeParmesan_Default_L.webp';">
-                <span class="map-card-badge">${esc(badgeLabel)}</span>
-                <button class="map-fav-btn${isFav ? " is-fav" : ""}" type="button" data-action="toggle-fav-map" data-map-id="${esc(map.id)}" aria-label="${isFav ? 'Retirer des favoris' : 'Ajouter aux favoris'}">
-                  <span aria-hidden="true">${isFav ? '★' : '☆'}</span>
-                </button>
-              </div>
-              <div class="map-card-content">
-                <h3 class="map-card-title">${esc(map.title)}</h3>
-                ${map.description ? `<p class="map-card-desc">${esc(map.description)}</p>` : ""}
-                <div class="map-card-code-row">
-                  <div class="map-code-box">
-                    <span class="map-code-label">Code d'île</span>
-                    <strong class="map-code-value">${esc(map.code)}</strong>
-                  </div>
-                  <button class="map-copy-btn" type="button" data-action="copy-code" data-code="${esc(map.code)}">
-                    <span aria-hidden="true">📋</span>
-                    <span>Copier</span>
-                  </button>
-                </div>
-              </div>
-            </article>
-          `;
-        }).join("");
-      }
-
-      function renderAdminMapQuickList() {
-        const list = document.getElementById("adminMapQuickList");
-        if (!list) return;
-        const maps = adminDraft && Array.isArray(adminDraft.creativeMaps) && adminDraft.creativeMaps.length
-          ? adminDraft.creativeMaps
-          : (adminContent.creativeMaps || []);
-
-        list.innerHTML = maps.length ? maps.map((map, index) => {
-          const published = (adminContent.creativeMaps || []).some(m => m.id === map.id || (m.code === map.code && m.title === map.title));
-          const mapId = map.id || `map-${index}`;
-          return `<article class="admin-patch-quick-row">
-            <div><strong>${esc(map.title || "Map Créative")}</strong><small>${esc(map.code || "Sans code")} · ${published ? "publiée" : "brouillon"}</small></div>
-            <div class="admin-patch-quick-actions">
-              <button type="button" data-admin-manage-action="edit" data-admin-manage-type="map" data-admin-manage-index="${index}" data-map-id="${esc(mapId)}"><span aria-hidden="true">✎</span>Modifier</button>
-              <button class="is-danger" type="button" data-admin-manage-action="delete" data-admin-manage-type="map" data-admin-manage-index="${index}" data-map-id="${esc(mapId)}"><span aria-hidden="true">×</span>Supprimer</button>
-            </div>
-          </article>`;
-        }).join("") : `<div class="empty-state"><strong>Aucune Map enregistrée</strong>Les maps publiées apparaîtront ici avec leurs boutons de gestion.</div>`;
-      }
 
       function userHasGardenSpirits() {
         const activeState = getActiveState();
@@ -12554,8 +12496,9 @@
         if (route === "inventory" || route === "collection") return "catalog";
         if (route === "jardin" || route === "garden") return "garden";
         if (route === "cheat" || route === "cheats" || route === "cheat-codes") return "cheats";
+        if (route === "events" || route === "evenements" || route === "event" || route === "agenda" || route === "calendrier") return "events";
         if (route === "tips" || route === "astuces" || route === "astuce" || route === "leaks") return "tips";
-        return ["home", "catalog", "garden", "cheats", "guide", "maps", "settings", "admin", "patch-notes", "reviews", "tips"].includes(route) ? route : "home";
+        return ["home", "catalog", "garden", "cheats", "events", "tips", "guide", "settings", "admin", "patch-notes", "reviews"].includes(route) ? route : "home";
       }
 
       function updateCollectionPageCopy() {
@@ -12667,10 +12610,10 @@
           const collectionVisible = activePage === "catalog" && !isMaintenance;
           const gardenVisible = activePage === "garden" && !isMaintenance;
           const cheatsVisible = activePage === "cheats" && !isMaintenance;
+          const eventsVisible = activePage === "events" && !isMaintenance;
           const tipsVisible = activePage === "tips" && !isMaintenance;
           const patchNotesVisible = activePage === "patch-notes" && !isMaintenance;
           const guideVisible = activePage === "guide" && !isMaintenance;
-          const mapsVisible = activePage === "maps" && !isMaintenance;
           const settingsVisible = activePage === "settings" && !isMaintenance;
           const adminVisible = activePage === "admin";
           const reviewsVisible = activePage === "reviews" && !isMaintenance;
@@ -12680,10 +12623,10 @@
           document.getElementById("collectionPage")?.classList.toggle("is-active", collectionVisible);
           document.getElementById("gardenPage")?.classList.toggle("is-active", gardenVisible);
           document.getElementById("cheatsPage")?.classList.toggle("is-active", cheatsVisible);
+          document.getElementById("eventsPage")?.classList.toggle("is-active", eventsVisible);
           document.getElementById("tipsPage")?.classList.toggle("is-active", tipsVisible);
           document.getElementById("patchNotesPage")?.classList.toggle("is-active", patchNotesVisible);
           document.getElementById("guidePage")?.classList.toggle("is-active", guideVisible);
-          document.getElementById("mapsPage")?.classList.toggle("is-active", mapsVisible);
           document.getElementById("settingsPage")?.classList.toggle("is-active", settingsVisible);
           document.getElementById("adminPage")?.classList.toggle("is-active", adminVisible);
           document.getElementById("reviewsPage")?.classList.toggle("is-active", reviewsVisible);
@@ -12712,14 +12655,14 @@
           } else if (cheatsVisible) {
             renderCheatCodesPage();
             updateStats();
+          } else if (eventsVisible) {
+            renderEventsPage();
+            updateStats();
           } else if (tipsVisible) {
             renderTipsPage();
             updateStats();
           } else if (guideVisible) {
             renderGuide();
-            updateStats();
-          } else if (mapsVisible) {
-            renderMaps();
             updateStats();
           } else if (settingsVisible) {
             renderAppearanceControls();
@@ -14402,14 +14345,14 @@
       const APP_PAGES_REGISTRY = [
         { id: "home", fr: "Accueil", en: "Home", icon: "🏠" },
         { id: "catalog", fr: "Collection / Esprits", en: "Catalog / Sprites", icon: "🎴" },
-        { id: "garden", fr: "Jardin des Esprits", en: "Spirit Garden", icon: "🌸" },
-        { id: "cheats", fr: "Cheat Codes", en: "Cheat Codes", icon: "⚡" },
+        { id: "events", fr: "Événements", en: "Events", icon: "📅" },
         { id: "tips", fr: "Leaks & Astuces", en: "Leaks & Tips", icon: "💡" },
+        { id: "cheats", fr: "Cheat Codes", en: "Cheat Codes", icon: "⚡" },
         { id: "guide", fr: "Guide du Joueur", en: "Player Guide", icon: "📖" },
-        { id: "maps", fr: "Maps Créatives", en: "Creative Maps", icon: "🗺️" },
-        { id: "settings", fr: "Réglages / Thèmes", en: "Settings / Themes", icon: "⚙️" },
-        { id: "reviews", fr: "Avis & Livre d'Or", en: "Reviews & Guestbook", icon: "⭐" },
-        { id: "patch-notes", fr: "Patch Notes", en: "Patch Notes", icon: "📜" }
+        { id: "garden", fr: "Jardin des Esprits", en: "Spirit Garden", icon: "🌸" },
+        { id: "patch-notes", fr: "Patch Notes", en: "Patch Notes", icon: "📜" },
+        { id: "reviews", fr: "Avis", en: "Reviews", icon: "⭐" },
+        { id: "settings", fr: "Réglages / Thèmes", en: "Settings / Themes", icon: "⚙️" }
       ];
 
       function updateNavigationVisibility() {
@@ -15016,6 +14959,172 @@
           : `Published on ${day}/${month}/${year} at ${hours}:${minutes}`;
       }
 
+      const CONFIRMED_EVENTS = [
+        {
+          id: "cheat-code-day",
+          dateIso: "2026-08-24T15:00:00+02:00",
+          dateLabelFr: "Lundi 24 Août 2026 à 15:00 CEST",
+          dateLabelEn: "Monday August 24, 2026 at 15:00 CEST",
+          badgeBg: "rgba(250, 204, 21, 0.16)",
+          badgeColor: "#facc15",
+          badgeBorder: "rgba(250, 204, 21, 0.32)",
+          badgeTextFr: "🔑 CHEAT CODE DAY",
+          badgeTextEn: "🔑 CHEAT CODE DAY",
+          titleFr: "Cheat Code Day — Nouveaux Codes & Récompenses",
+          titleEn: "Cheat Code Day — New Codes & Rewards",
+          descFr: "Journée consacrée à la diffusion et à l'activation de nouveaux codes de triche et récompenses exclusives de saison.",
+          descEn: "Dedicated day for release and activation of new cheat codes and exclusive seasonal rewards.",
+          icon: "🔑",
+          featured: false
+        },
+        {
+          id: "new-sprite-day",
+          dateIso: "2026-08-27T15:00:00+02:00",
+          dateLabelFr: "Jeudi 27 Août 2026 à 15:00 CEST (Horaire Serveur Indicatif)",
+          dateLabelEn: "Thursday August 27, 2026 at 15:00 CEST (Indicative Server Time)",
+          badgeBg: "rgba(56, 189, 248, 0.16)",
+          badgeColor: "#38bdf8",
+          badgeBorder: "rgba(56, 189, 248, 0.35)",
+          badgeTextFr: "⚡ NEW SPRITE DAY · SPÉCIAL ROI DE LA TRICHE",
+          badgeTextEn: "⚡ NEW SPRITE DAY · CHEAT MASTER SPECIAL",
+          titleFr: "New Sprite Day — Événement Roi de la Triche",
+          titleEn: "New Sprite Day — Cheat Master Event",
+          descFr: "Mise à jour d'activation majeure et ajustement des taux d'apparition des Esprits (Roi de la triche) dans les coffres et en partie.",
+          descEn: "Major activation update adjusting spawn rates and chest availability for Cheat Master Sprites in-game.",
+          icon: "⚡",
+          featured: false
+        },
+        {
+          id: "sonic-power-hours",
+          dateIso: "2026-08-29T18:00:00+02:00",
+          dateLabelFr: "Samedi 29 Août 2026 à 18:00 CEST",
+          dateLabelEn: "Saturday August 29, 2026 at 18:00 CEST",
+          badgeBg: "rgba(168, 85, 247, 0.16)",
+          badgeColor: "#c084fc",
+          badgeBorder: "rgba(168, 85, 247, 0.32)",
+          badgeTextFr: "🦔 POWER HOURS · THÈME SONIC & TAILS",
+          badgeTextEn: "🦔 POWER HOURS · SONIC & TAILS THEME",
+          titleFr: "Power Hours — Thème Sonic & Tails",
+          titleEn: "Power Hours — Sonic & Tails Theme",
+          descFr: "Sessions Power Hours spéciales offrant des boosts d'EXP et des récompenses thématiques dédiées aux Esprits Sonic & Tails.",
+          descEn: "Special Power Hours sessions providing XP boosts and thematic rewards dedicated to Sonic & Tails Sprites.",
+          icon: "🦔",
+          featured: false
+        },
+        {
+          id: "twitch-phase-2-end",
+          dateIso: "2026-09-03T16:00:00+02:00",
+          dateLabelFr: "Jeudi 3 Septembre 2026 à 16:00 CEST (10:00 ET)",
+          dateLabelEn: "Thursday September 3, 2026 at 16:00 CEST (10:00 ET)",
+          badgeBg: "rgba(147, 51, 234, 0.16)",
+          badgeColor: "#c084fc",
+          badgeBorder: "rgba(147, 51, 234, 0.35)",
+          badgeTextFr: "🟣 FIN PHASE 2 TWITCH · LOBBY HACK",
+          badgeTextEn: "🟣 TWITCH PHASE 2 END · LOBBY HACK",
+          titleFr: "Fin Phase 2 Twitch & Révélation du Lobby Hack",
+          titleEn: "Twitch Phase 2 End & Lobby Hack Reveal",
+          descFr: "Échéance officielle de fin de la Phase 2 de l'Extension Twitch Sprite Collection. Révélation attendue du nouveau Lobby Hack de fin de phase.",
+          descEn: "Official end of Twitch Extension Phase 2. Expected reveal of the new end-of-phase Lobby Hack code.",
+          icon: "🟣",
+          featured: true
+        },
+        {
+          id: "v4210-loot-hacks",
+          dateIso: "2026-09-03T09:00:00+02:00",
+          dateLabelFr: "Jeudi 3 Septembre 2026 (Patch v42.10 — Horaire à confirmer)",
+          dateLabelEn: "Thursday September 3, 2026 (v42.10 Patch — Time TBD)",
+          badgeBg: "rgba(56, 189, 248, 0.16)",
+          badgeColor: "#38bdf8",
+          badgeBorder: "rgba(56, 189, 248, 0.35)",
+          badgeTextFr: "🟣 LEAK FIABLE · 6 LOOT HACKS v42.10",
+          badgeTextEn: "🟣 RELIABLE LEAK · 6 LOOT HACKS v42.10",
+          titleFr: "Mise à Jour v42.10 — 6 Loot Hacks Réintroduits",
+          titleEn: "Update v42.10 — 6 Reintroduced Loot Hacks",
+          descFr: "Réintroduction d'armes et objets mythiques : Rocket Ram, Banana of the Gods, Deadeye Assault Rifle, Holo Twister, Striker Burst Rifle et Tracking Visor.",
+          descEn: "Reintroduction of mythic weapons & items: Rocket Ram, Banana of the Gods, Deadeye Assault Rifle, Holo Twister, Striker Burst Rifle, and Tracking Visor.",
+          icon: "🚀",
+          featured: false
+        }
+      ];
+
+      let eventsTimerInterval = null;
+
+      function renderEventsPage() {
+        const isFr = APP_LANGUAGE === "fr";
+        const container = document.getElementById("eventsContainer");
+        if (!container) return;
+
+        const titleEl = document.getElementById("eventsTitle");
+        if (titleEl) {
+          titleEl.innerHTML = isFr ? "Événements <span>Fortnite</span>" : "Fortnite <span>Events</span>";
+        }
+
+        container.innerHTML = CONFIRMED_EVENTS.map(event => {
+          const dateLabel = isFr ? event.dateLabelFr : event.dateLabelEn;
+          const badgeText = isFr ? event.badgeTextFr : event.badgeTextEn;
+          const title = isFr ? event.titleFr : event.titleEn;
+          const desc = isFr ? event.descFr : event.descEn;
+
+          return `
+            <article class="event-card ${event.featured ? "featured-event" : ""}" data-event-id="${event.id}" data-event-time="${event.dateIso}">
+              <div class="event-card-header">
+                <div class="event-card-meta">
+                  <span class="event-badge" style="background:${event.badgeBg}; color:${event.badgeColor}; border:1px solid ${event.badgeBorder};">${esc(badgeText)}</span>
+                  <span class="tip-date">${esc(dateLabel)}</span>
+                </div>
+                <h2 class="event-card-title">${esc(title)}</h2>
+              </div>
+              <p class="event-card-desc">${esc(desc)}</p>
+              <div class="event-countdown-shell" id="countdown-shell-${event.id}">
+                <span class="event-countdown-label">🕒 ${isFr ? "Temps restant avant l'événement" : "Time remaining until event"}</span>
+                <div class="event-countdown-timer" id="countdown-timer-${event.id}"></div>
+              </div>
+            </article>
+          `;
+        }).join("");
+
+        updateEventsCountdowns();
+        if (!eventsTimerInterval) {
+          eventsTimerInterval = setInterval(updateEventsCountdowns, 1000);
+        }
+      }
+
+      function updateEventsCountdowns() {
+        const isFr = APP_LANGUAGE === "fr";
+        const now = Date.now();
+
+        CONFIRMED_EVENTS.forEach(event => {
+          const timerEl = document.getElementById(`countdown-timer-${event.id}`);
+          if (!timerEl) return;
+
+          const targetMs = new Date(event.dateIso).getTime();
+          const diffMs = targetMs - now;
+
+          if (diffMs <= 0) {
+            timerEl.innerHTML = `<span class="event-ended-badge">🟢 ${isFr ? "Événement en cours / Disponible" : "Event Live / Available"}</span>`;
+            return;
+          }
+
+          const secondsTotal = Math.floor(diffMs / 1000);
+          const days = Math.floor(secondsTotal / (3600 * 24));
+          const hours = Math.floor((secondsTotal % (3600 * 24)) / 3600);
+          const minutes = Math.floor((secondsTotal % 3600) / 60);
+          const seconds = secondsTotal % 60;
+
+          const pad = n => String(n).padStart(2, "0");
+
+          timerEl.innerHTML = `
+            <div class="time-block"><span class="time-value">${pad(days)}</span><span class="time-unit">${isFr ? "Jours" : "Days"}</span></div>
+            <span class="time-separator">:</span>
+            <div class="time-block"><span class="time-value">${pad(hours)}</span><span class="time-unit">${isFr ? "Heures" : "Hours"}</span></div>
+            <span class="time-separator">:</span>
+            <div class="time-block"><span class="time-value">${pad(minutes)}</span><span class="time-unit">${isFr ? "Min" : "Min"}</span></div>
+            <span class="time-separator">:</span>
+            <div class="time-block"><span class="time-value">${pad(seconds)}</span><span class="time-unit">${isFr ? "Sec" : "Sec"}</span></div>
+          `;
+        });
+      }
+
       function renderTipsPage() {
         const page = document.getElementById("tipsPage");
         if (!page) return;
@@ -15043,6 +15152,125 @@
 
       <!-- TIPS CARDS CONTAINER -->
       <div class="tips-container">
+        <!-- TWITCH PHASE 2 END & LOBBY HACK LEAK (00:42 CEST 24 AUG 2026) -->
+        <article class="tip-card featured-leak" data-timestamp="1787524920000">
+          <div class="tip-card-header">
+            <div class="tip-card-meta">
+              <span class="tip-badge leak-badge" style="background: rgba(168, 85, 247, 0.15); color: #c084fc; border-color: rgba(168, 85, 247, 0.3);">${isFr ? "🟣 EXTENSION TWITCH · FIN PHASE 2 & LOBBY HACK" : "🟣 TWITCH EXTENSION · PHASE 2 END & LOBBY HACK"}</span>
+              <span class="tip-date">${formatLeakTimestamp("2026-08-24T00:42:00+02:00")}</span>
+            </div>
+            <h2 class="tip-card-title">
+              ${isFr 
+                ? "Extension Twitch Sprite Collection : Date de Fin de la Phase 2 Fixée au 3 Septembre & Révélation du Lobby Hack !" 
+                : "Twitch Sprite Collection Extension: Phase 2 End Date Set for Sept 3 & Lobby Hack Reveal!"}
+            </h2>
+          </div>
+
+          <div class="tip-card-body">
+            <div class="tip-content-details">
+              <div class="tip-explicatif-block">
+                <h3>📌 ${isFr ? "Précision Officielle sur l'Échéance de la Phase 2" : "Official Details on Phase 2 Deadline"}</h3>
+                <p>
+                  ${isFr 
+                    ? "Epic Games a officiellement précisé la date et l'heure de clôture de la Phase 2 de l'Extension Twitch Sprite Collection :" 
+                    : "Epic Games officially confirmed the end date and time for Phase 2 of the Twitch Sprite Collection Extension:"}
+                </p>
+
+                <div class="tip-rules-grid">
+                  <div class="rule-card">
+                    <div class="rule-icon">📅</div>
+                    <div>
+                      <strong>${isFr ? "Échéance : Jeudi 3 Septembre 2026 à 16:00 CEST" : "Deadline: Thursday Sept 3, 2026 at 16:00 CEST"}</strong>
+                      <p>${isFr ? "Heure source officielle : 10:00 ET (16:00 heure de Paris)." : "Official source time: 10:00 ET (16:00 Paris time)."}</p>
+                    </div>
+                  </div>
+                  <div class="rule-card">
+                    <div class="rule-icon">🔑</div>
+                    <div>
+                      <strong>${isFr ? "Révélation du Lobby Hack de Fin de Phase" : "End-of-Phase Lobby Hack Reveal"}</strong>
+                      <p>${isFr ? "Un nouveau Lobby Hack Twitch sera dévoilé à la fin exacte de la phase. Le code et la récompense restent secrets jusqu'à l'échéance." : "A new Twitch Lobby Hack will be revealed at the exact end of the phase. The code and reward remain undisclosed until live."}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tip-source-bar" style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
+                <a class="tip-source-link" href="https://communities.epicgames.com/thread/watch-creators-on-twitch-and-earn-rewards/SKgy" target="_blank" rel="noopener noreferrer">🔗 Epic Games Community Thread</a>
+                <a class="tip-source-link" href="https://x.com/FNFreeDrops/status/2090573858952683574" target="_blank" rel="noopener noreferrer">🔗 FNFreeDrops Tracking</a>
+                <a class="tip-source-link" href="https://x.com/FireMonkey/status/2090395353019224537" target="_blank" rel="noopener noreferrer">🔗 Recoupement FireMonkey</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- v42.10 LOOT HACKS LEAK (00:42 CEST 24 AUG 2026) -->
+        <article class="tip-card featured-leak" data-timestamp="1787524921000">
+          <div class="tip-card-header">
+            <div class="tip-card-meta">
+              <span class="tip-badge leak-badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border-color: rgba(56, 189, 248, 0.3);">${isFr ? "🟣 LEAK FIABLE · 6 LOOT HACKS v42.10" : "🟣 RELIABLE LEAK · 6 LOOT HACKS v42.10"}</span>
+              <span class="tip-date">${formatLeakTimestamp("2026-08-24T00:42:00+02:00")}</span>
+            </div>
+            <h2 class="tip-card-title">
+              ${isFr 
+                ? "Fortnite v42.10 : Datamine de 6 Loot Hacks & Armes Mythiques Prévus pour le 3 Septembre !" 
+                : "Fortnite v42.10: Datamined 6 Loot Hacks & Mythic Items Scheduled for September 3!"}
+            </h2>
+          </div>
+
+          <div class="tip-card-body">
+            <div class="tip-content-details">
+              <div class="tip-explicatif-block">
+                <h3>📌 ${isFr ? "6 Objets & Loot Hacks Identifiés pour la v42.10" : "6 Objects & Loot Hacks Identified for v42.10"}</h3>
+                <p>
+                  ${isFr 
+                    ? "Plusieurs dataminers majeurs (HYPEX, Blortzen) confirment le retour probable de 6 Loot Hacks et armes pour la mise à jour v42.10 du 3 septembre 2026 :" 
+                    : "Multiple prominent dataminers (HYPEX, Blortzen) confirm the planned return of 6 Loot Hacks and weapons for the v42.10 update on September 3, 2026:"}
+                </p>
+
+                <div class="tip-rules-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                  <div class="rule-card">
+                    <div class="rule-icon">🚀</div>
+                    <div><strong>Rocket Ram</strong><p>${isFr ? "Arme de déplacement mythique" : "Mythic mobility weapon"}</p></div>
+                  </div>
+                  <div class="rule-card">
+                    <div class="rule-icon">🍌</div>
+                    <div><strong>Banana of the Gods</strong><p>${isFr ? "Consommable légendaire" : "Legendary consumable"}</p></div>
+                  </div>
+                  <div class="rule-card">
+                    <div class="rule-icon">🎯</div>
+                    <div><strong>Deadeye Assault Rifle</strong><p>${isFr ? "Fusil d'assaut haute précision" : "High precision AR"}</p></div>
+                  </div>
+                  <div class="rule-card">
+                    <div class="rule-icon">🌪️</div>
+                    <div><strong>Holo Twister Assault Rifle</strong><p>${isFr ? "Fusil d'assaut à tirs vrillés" : "Spiral-shot assault rifle"}</p></div>
+                  </div>
+                  <div class="rule-card">
+                    <div class="rule-icon">💥</div>
+                    <div><strong>Striker Burst Rifle</strong><p>${isFr ? "Fusil à rafale tactique" : "Tactical burst rifle"}</p></div>
+                  </div>
+                  <div class="rule-card">
+                    <div class="rule-icon">👁️</div>
+                    <div><strong>Tracking Visor</strong><p>${isFr ? "Viseur de marquage d'ennemis" : "Target tracking visor"}</p></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tip-alert-box" style="margin-top: 8px;">
+                <span class="alert-icon">ℹ️</span>
+                <div>
+                  <strong>${isFr ? "Statut : Leak Très Fiable · Paramètres à Confirmer" : "Status: Highly Reliable Leak · Parameters TBD"}</strong>
+                  <p>${isFr ? "La date du 3 septembre reste un leak dataminé. Les coûts en Poussière d'Esprit, modalités de déblocage et ajustements statistiques seront confirmés lors de la mise en ligne du patch v42.10." : "The September 3 date is a datamined leak. Spirit Dust costs, unlock mechanics, and stat tweaks will be confirmed upon v42.10 patch launch."}</p>
+                </div>
+              </div>
+
+              <div class="tip-source-bar" style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
+                <a class="tip-source-link" href="https://x.com/HYPEX/status/2091142619690602921" target="_blank" rel="noopener noreferrer">🔗 HYPEX Datamine Report</a>
+                <a class="tip-source-link" href="https://x.com/blortzen/status/2091004633904746941" target="_blank" rel="noopener noreferrer">🔗 Blortzen Leak Recoupment</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
         <!-- OFFICIAL CALENDAR LEAK (21:41 CEST 23 AUG 2026) -->
         <article class="tip-card featured-leak" data-timestamp="1787514060000">
           <div class="tip-card-header">
