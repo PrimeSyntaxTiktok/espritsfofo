@@ -9814,7 +9814,7 @@
             <h2>⚡ Réparation Intégrale de la Page Cheat Codes</h2>
             <ul class="patch-list">
               <li>Résolution définitive du bug d'initialisation JavaScript qui masquait la grille de cheat codes.</li>
-              <li>Rendu fluide et instantané des <strong>21 codes actifs</strong> (Esprits <em>Roi de la triche</em>, EXP +40K, Ravitaillements Llama et Lobby Hacks Tetris).</li>
+              <li>Rendu fluide et instantané des <strong>22 codes actifs</strong>, incluant le nouveau code <strong>JonesyIsGolden</strong> (Esprit <em>Jonesy Doré</em>).</li>
               <li>Secourisation des filtres par catégorie avec repli automatique pour un affichage garanti.</li>
             </ul>
           </section>
@@ -10728,7 +10728,7 @@
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
       const PATCH_RELEASED_AT = "2026-08-24T12:45:00+02:00";
-      const PWA_VERSION = "2026-08-24-v12.70.0";
+      const PWA_VERSION = "2026-08-24-v12.80.0";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
@@ -15191,6 +15191,59 @@
 
       <!-- TIPS CARDS CONTAINER -->
       <div class="tips-container">
+        <!-- NEW CHEAT CODE JONESYISGOLDEN LEAK (12:56 CEST 24 AUG 2026) -->
+        <article class="tip-card featured-leak" data-timestamp="1787568960000">
+          <div class="tip-card-header">
+            <div class="tip-card-meta">
+              <span class="tip-badge leak-badge" style="background: rgba(234, 179, 8, 0.18); color: #facc15; border-color: rgba(234, 179, 8, 0.35);">${isFr ? "🔑 NOUVEAU CHEAT CODE · ESPRIT JONESY DORÉ" : "🔑 NEW CHEAT CODE · GOLD JONESY SPRITE"}</span>
+              <span class="tip-date">${formatLeakTimestamp("2026-08-24T12:56:00+02:00")}</span>
+            </div>
+            <h2 class="tip-card-title">
+              ${isFr 
+                ? "Nouveau Cheat Code Dévoilé : Entrez « JonesyIsGolden » pour Débloquer l'Esprit Jonesy Doré !" 
+                : "New Cheat Code Unveiled: Enter 'JonesyIsGolden' to Unlock the Gold Jonesy Sprite!"}
+            </h2>
+          </div>
+
+          <div class="tip-card-body">
+            <div class="tip-content-details">
+              <div class="tip-explicatif-block">
+                <h3>📌 ${isFr ? "Détails Officiels de l'Activation du Code" : "Official Code Activation Details"}</h3>
+                <p>
+                  ${isFr 
+                    ? "Un nouveau Cheat Code officiel Fortnite a été publié aujourd'hui pour célébrer le Cheat Code Day :" 
+                    : "A brand new official Fortnite Cheat Code has been released today to celebrate Cheat Code Day:"}
+                </p>
+
+                <div class="tip-rules-grid">
+                  <div class="rule-card">
+                    <div class="rule-icon">🔑</div>
+                    <div>
+                      <strong>${isFr ? "Code à Entrer : JonesyIsGolden" : "Code to Enter: JonesyIsGolden"}</strong>
+                      <p>${isFr ? "Code à saisir directement dans la console Admin Panel du lobby Battle Royale." : "Code to be entered directly in the Battle Royale lobby Admin Panel console."}</p>
+                    </div>
+                  </div>
+
+                  <div class="rule-card">
+                    <div class="rule-icon">🟡</div>
+                    <div>
+                      <strong>${isFr ? "Récompense : 🟡 Esprit Jonesy Doré (Roi de la triche)" : "Reward: 🟡 Gold Jonesy Sprite (Cheat Master)"}</strong>
+                      <p>${isFr ? "Débloque la variante exclusive dorée de l'Esprit Jonesy Roi de la triche dans votre casier." : "Unlocks the exclusive golden Cheat Master Jonesy Sprite variant in your locker."}</p>
+                    </div>
+                  </div>
+
+                  <div class="rule-card">
+                    <div class="rule-icon">📅</div>
+                    <div>
+                      <strong>${isFr ? "Date d'activation : 24 Août 2026 (Actif)" : "Activation Date: August 24, 2026 (Active)"}</strong>
+                      <p>${isFr ? "Disponible immédiatement en jeu pendant toute la durée du Cheat Code Day." : "Available immediately in-game throughout the Cheat Code Day."}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
         <!-- DATAMINED MATCH OVERRIDES LEAK (05:33 CEST 24 AUG 2026) -->
         <article class="tip-card featured-leak" data-timestamp="1787542380000">
           <div class="tip-card-header">
@@ -19461,6 +19514,7 @@
       }
 
       const CHEAT_CODES = [
+        { code: "JonesyIsGolden", reward: { fr: "🟡 Esprit Jonesy Doré (Roi de la triche)", en: "🟡 Gold Jonesy Sprite (Cheat Master)" }, type: "sprite", targetId: "jonesy-gold", priority: true, releasedAt: "2026-08-24T12:56:00+02:00" },
         { code: "H0p0nVC", reward: { fr: "2 000 Poussière d'esprit", en: "2,000 Sprite Dust" }, type: "item", priority: false, releasedAt: "2026-08-21T02:50:00+02:00" },
         { code: "GatherAndCraft", reward: { fr: "Esprit Buisson (Roi de la triche)", en: "Cheat Master Bush Sprite" }, type: "sprite", targetId: "bushranger-cheatmaster", priority: true, releasedAt: "2026-08-21T01:35:00+02:00" },
         { code: "GOTTAGOFAST", reward: { fr: "Esprit Sonic (Roi de la triche)", en: "Cheat Master Sonic Sprite" }, type: "sprite", targetId: "sonic-cheatmaster", priority: true, releasedAt: "2026-08-20T21:00:00+02:00" },
