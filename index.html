@@ -4772,6 +4772,51 @@
       background: rgba(255, 90, 120, .08);
       color: #ffdce3;
     }
+    .auth-actions-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 0 0 auto;
+    }
+    .auth-discord-btn {
+      display: inline-flex;
+      min-height: 37px;
+      padding: 6px 14px 6px 6px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 1px solid rgba(88, 101, 242, 0.4);
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(88, 101, 242, 0.28), rgba(88, 101, 242, 0.15));
+      color: #f5f8ff;
+      font-size: .61rem;
+      font-weight: 950;
+      letter-spacing: .02em;
+      text-decoration: none;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease, box-shadow .16s ease;
+    }
+    .auth-discord-btn:hover {
+      border-color: rgba(88, 101, 242, 0.8);
+      background: linear-gradient(135deg, rgba(88, 101, 242, 0.55), rgba(88, 101, 242, 0.35));
+      color: #fff;
+      box-shadow: 0 0 16px rgba(88, 101, 242, 0.45);
+      transform: translateY(-1px);
+    }
+    .auth-discord-btn:active {
+      transform: scale(.97);
+    }
+    .auth-discord-icon {
+      display: grid;
+      width: 25px;
+      height: 25px;
+      flex: 0 0 25px;
+      place-items: center;
+      border-radius: 8px;
+      background: #5865F2;
+      color: #fff;
+    }
     .auth-bar .visitor-counter-inline {
       display: flex;
       align-items: center;
@@ -5847,6 +5892,29 @@
     html[data-background] :is(.sync-card, .progress-wrap, .stat, .variant-overview, .toolbar, .panel-card, .guide-summary, .guide-integrity, .guide-card, .admin-publish-bar, .admin-history article, .admin-manage-row, .admin-patch-quick-row, .patch-entry, .patch-card, dialog) { border-color: rgba(var(--accent-rgb), .16); background: linear-gradient(145deg, color-mix(in srgb, var(--theme-surface-2) 90%, transparent), color-mix(in srgb, var(--theme-deep) 94%, transparent)); }
     html[data-background] :is(.feature-hero, .patch-simple-head) { border-color: rgba(var(--accent-rgb), .22); background: radial-gradient(circle at 88% 8%, rgba(var(--accent-rgb), .19), transparent 23rem), linear-gradient(135deg, color-mix(in srgb, var(--theme-surface-2) 92%, transparent), color-mix(in srgb, var(--theme-deep) 96%, transparent)); }
     html[data-background] :is(.topbar-links a[aria-current="page"], .mobile-dock-item[aria-current="page"], .admin-tabs button[aria-selected="true"], .segmented button[aria-pressed="true"]) { border-color: rgba(var(--accent-rgb), .42); background: rgba(var(--accent-rgb), .15); color: var(--accent); }
+
+    /* Bouton Discord spécial dans la topbar */
+    .topbar-links a.discord-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: #5865F2;
+      border-color: rgba(88, 101, 242, 0.35);
+      background: rgba(88, 101, 242, 0.1);
+      font-weight: 600;
+      transition: all .2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .topbar-links a.discord-link:hover {
+      background: #5865F2;
+      border-color: #5865F2;
+      color: #ffffff;
+      box-shadow: 0 0 14px rgba(88, 101, 242, 0.5);
+      transform: translateY(-1px);
+    }
+    .topbar-links a.discord-link svg {
+      flex-shrink: 0;
+      fill: currentColor;
+    }
 
     /* Point rouge clignotant pour les nouveautés non lues */
     .topbar-links a[data-page-target],
@@ -9343,7 +9411,15 @@
           </aside>
           <div class="auth-live-status" id="syncState" data-state="local" role="status" aria-live="polite"><span class="sync-dot"></span><span id="syncStateText">Local</span></div>
         </div>
-        <button class="auth-toggle" id="authToggleBtn" type="button" data-connected="false" disabled><span class="auth-google" aria-hidden="true">G</span><span>Connexion Google</span></button>
+        <div class="auth-actions-wrap">
+          <a href="https://discord.gg/p6JD6ZjBwa" target="_blank" rel="noopener noreferrer" class="auth-discord-btn" aria-label="Rejoindre le serveur Discord">
+            <span class="auth-discord-icon" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 127.14 96.36" fill="currentColor"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,121.65,29.12,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,45.91,53.89,53C53.89,60,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,45.91,96.12,53C96.12,60,91.08,65.69,84.69,65.69Z"/></svg>
+            </span>
+            <span>Discord</span>
+          </a>
+          <button class="auth-toggle" id="authToggleBtn" type="button" data-connected="false" disabled><span class="auth-google" aria-hidden="true">G</span><span>Connexion Google</span></button>
+        </div>
       </div>
 
       <div class="hud-grid">
@@ -9533,7 +9609,26 @@
           </div>
         </div>
         <div class="feature-hero-orb" aria-hidden="true">✦</div>
-      </header>
+      <!-- GUIDE MASTERY & SUPPORT BANNERS -->
+      <div style="margin: 16px 0; display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+        <div style="background: rgba(168, 85, 247, 0.12); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 14px; padding: 14px 16px;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; color: #c084fc; font-size: 0.82rem; font-weight: 800;">
+            <span>🎒</span> <span>MAÎTRISE DATAMINÉE · BACK BLING PIXEL SPRITE TRAINER</span>
+          </div>
+          <p style="margin: 0; color: #cbd5e1; font-size: 0.76rem; line-height: 1.5;">
+            Des quêtes de maîtrise cachées (<em>Sprite Mastery Back Bling</em>) ont été extraites pour Sonic, Tails, Shadow et d'autres Esprits. Elles débloqueront très probablement le cosmétique <strong>Pixel Sprite Trainer</strong> (console portable rétro affichant vos Esprits maîtrisés en pixel art). <em>(Statut: Dataminé / date et conditions quantitatives non confirmées)</em>.
+          </p>
+        </div>
+
+        <div style="background: rgba(34, 197, 94, 0.12); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 14px; padding: 14px 16px;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; color: #4ade80; font-size: 0.82rem; font-weight: 800;">
+            <span>🟢</span> <span>SUPPORT EPIC GAMES · RÉSOLUTION SPRITE MASTERY POD</span>
+          </div>
+          <p style="margin: 0; color: #cbd5e1; font-size: 0.76rem; line-height: 1.5;">
+            Epic Support confirme la résolution du bug qui masquait l'<strong>Ironmouse Sprite</strong> dans le <em>Sprite Mastery Pod Back Bling</em> pour les joueurs l'ayant maîtrisé avant la v42.00. Il s'affiche désormais correctement en jeu.
+          </p>
+        </div>
+      </div>
       <div class="guide-grid" id="guideGrid"></div>
     </section>
 
@@ -9797,6 +9892,43 @@
     </section>
 
     <section class="patch-page patch-page-compact app-page" id="patchNotesPage" data-page="patch-notes" aria-labelledby="patchNotesTitle">
+      <!-- NEW PATCH NOTE v13.90.0 (24 août 2026) -->
+      <article class="patch-entry">
+        <header class="patch-simple-head">
+          <div>
+            <span class="patch-kicker">Mise à jour v13.90.0</span>
+            <h1 id="patchNotesTitle">Mise à jour <span>Systèmes Arcade, Back Bling Maîtrise &amp; Structure Override</span></h1>
+          </div>
+          <time class="patch-date" datetime="2026-08-24T19:57:00+02:00">
+            <span>24 août 2026 · 19h57 (heure de Paris)</span>
+          </time>
+        </header>
+
+        <div class="patch-grid">
+          <section class="patch-card">
+            <h2>🕹️ Systèmes Arcade Dataminés (PAC-MAN &amp; Volley)</h2>
+            <ul class="patch-list">
+              <li>Découverte par HYPEX de <strong>5 bornes Arcade PAC-MAN</strong> interactives sur la carte Battle Royale (mini-jeu 2D avec fantômes, power pellets, vies et high score).</li>
+              <li>Datamining du second mini-jeu <strong>Arcade Volley</strong> (gameplay type Pong contre IA avec difficulté progressive).</li>
+            </ul>
+          </section>
+          <section class="patch-card">
+            <h2>🎒 Récompense de Maîtrise &amp; Support Epic Games</h2>
+            <ul class="patch-list">
+              <li>Datamining du cosmétique de maîtrise <strong>Back Bling Pixel Sprite Trainer</strong> (console rétro affichant les Esprits maîtrisés en pixel art).</li>
+              <li>Confirmation par Epic Support de la résolution du bug sur le <em>Sprite Mastery Pod</em> (l'<strong>Ironmouse Sprite</strong> maîtrisé avant v42.00 s'affiche désormais correctement).</li>
+            </ul>
+          </section>
+          <section class="patch-card">
+            <h2>🟠 Plafond Dataminé &amp; Séquence des 8 Variantes</h2>
+            <ul class="patch-list">
+              <li>Enregistrement de la cible de collection dataminée de <strong>~112 Esprits</strong> pour la Saison 4 (14 familles × 8 variantes par famille).</li>
+              <li>Séquence des 8 formes documentée : <em>Base → Roi de la triche → Or → Hacker → Gummy → Holofoil → Reaper → Trick or Treat</em>.</li>
+              <li>Prise en compte des 2 futures familles <strong>Squibbly Sprite</strong> et <strong>Overshield Sprite</strong> sans altérer les compteurs du casier live.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
       <!-- NEW PATCH NOTE v13.50.0 (24 août 2026) -->
       <article class="patch-entry">
         <header class="patch-simple-head">
@@ -10725,8 +10857,8 @@
       const VISITOR_HOUR_KEY = "sprite-locker-visitor-hour";
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
-      const PATCH_RELEASED_AT = "2026-08-24T19:03:00+02:00";
-      const PWA_VERSION = "2026-08-24-v13.50.0";
+      const PATCH_RELEASED_AT = "2026-08-24T19:57:00+02:00";
+      const PWA_VERSION = "2026-08-24-v13.90.0";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
@@ -15214,6 +15346,94 @@
 
       <!-- TIPS CARDS CONTAINER -->
       <div class="tips-container">
+        <!-- DATAMINED ARCADE MACHINES LEAK (19:57 CEST 24 AUG 2026) -->
+        <article class="tip-card featured-leak" data-timestamp="1787594220000">
+          <div class="tip-card-header">
+            <div class="tip-card-meta">
+              <span class="tip-badge leak-badge" style="background: rgba(234, 179, 8, 0.16); color: #facc15; border-color: rgba(234, 179, 8, 0.35);">${isFr ? "🟠 DATAMINE · MINI-JEUX ARCADE EN BATTLE ROYALE" : "🟠 DATAMINE · BATTLE ROYALE ARCADE MACHINES"}</span>
+              <span class="tip-date">${formatLeakTimestamp("2026-08-24T19:57:00+02:00")}</span>
+            </div>
+            <h2 class="tip-card-title">
+              ${isFr 
+                ? "Fortnite Override : 5 Bornes Arcade PAC-MAN & Arcade Volley Dataminées en Battle Royale !" 
+                : "Fortnite Override: 5 PAC-MAN & Arcade Volley Arcade Cabinets Datamined in Battle Royale!"}
+            </h2>
+          </div>
+
+          <div class="tip-card-body">
+            <div class="tip-content-details">
+              <div class="tip-explicatif-block">
+                <h3>📌 ${isFr ? "Systèmes Arcade Interactifs Découverts dans les Fichiers v42.00 (HYPEX)" : "Interactive Arcade Systems Discovered in v42.00 Files (HYPEX)"}</h3>
+                
+                <div class="tip-rules-grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
+                  <div class="rule-card">
+                    <div class="rule-icon">🕹️</div>
+                    <div>
+                      <strong>${isFr ? "5 Bornes PAC-MAN sur l'Île" : "5 PAC-MAN Cabinets on Island"}</strong>
+                      <p>${isFr ? "Interagir avec la borne ouvre un écran 2D et bascule les contrôles vers Pac-Man (4 fantômes, dots, fruits, vies, high score). Le personnage reste immobilisé pendant la session (fin de partie si déconnexion ou élimination)." : "Interacting opens a 2D screen switching controls to Pac-Man (4 ghosts, dots, fruits, lives, high score). Character remains immobilized during play."}</p>
+                    </div>
+                  </div>
+
+                  <div class="rule-card">
+                    <div class="rule-icon">🏐</div>
+                    <div>
+                      <strong>${isFr ? "Arcade Volley (Pong VS IA)" : "Arcade Volley (Pong VS AI)"}</strong>
+                      <p>${isFr ? "Second mini-jeu arcade de type Pong contre une IA avec score de victoire et difficulté progressive." : "Second arcade mini-game featuring Pong-style gameplay against AI with score tracking and scaling difficulty."}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- DATAMINED 112 SPRITES TARGET ROADMAP LEAK (19:57 CEST 24 AUG 2026) -->
+        <article class="tip-card featured-leak" data-timestamp="1787594220000">
+          <div class="tip-card-header">
+            <div class="tip-card-meta">
+              <span class="tip-badge leak-badge" style="background: rgba(249, 115, 22, 0.16); color: #fb923c; border-color: rgba(249, 115, 22, 0.35);">${isFr ? "🟠 DATAMINE · OBJECTIF DE ~112 ESPRITS & 8 VARIANTES" : "🟠 DATAMINE · ~112 SPRITES GOAL & 8 VARIANTS"}</span>
+              <span class="tip-date">${formatLeakTimestamp("2026-08-24T19:57:00+02:00")}</span>
+            </div>
+            <h2 class="tip-card-title">
+              ${isFr 
+                ? "Fortnite Override : Structure Dataminée de ~112 Esprits & Ordre Officiel des 8 Variantes !" 
+                : "Fortnite Override: Complete ~112 Sprites Datamined Target & Official 8 Variant Order!"}
+            </h2>
+          </div>
+
+          <div class="tip-card-body">
+            <div class="tip-content-details">
+              <div class="tip-explicatif-block">
+                <h3>📌 ${isFr ? "Plafond Indicatif de ~112 Esprits pour la Saison 4 (FireMonkey & VICE)" : "Indicative ~112 Sprites Target for Season 4 (FireMonkey & VICE)"}</h3>
+                <p>
+                  ${isFr 
+                    ? "Les données des fichiers prévoient 8 versions par famille pour 14 familles au total (incluant les deux nouvelles familles futures <em>Squibbly Sprite</em> et <em>Overshield Sprite</em>) :" 
+                    : "File structures target 8 versions per family across 14 families in total (including upcoming <em>Squibbly Sprite</em> and <em>Overshield Sprite</em>):"}
+                </p>
+
+                <h3>📌 ${isFr ? "Séquence Officielle des 8 Formes configurée dans les Fichiers" : "Official 8 Form Sequence Configured in Files"}</h3>
+                <ol style="color: #cbd5e1; padding-left: 20px; line-height: 1.8;">
+                  <li><strong>Base / Normal</strong></li>
+                  <li><strong>Roi de la triche</strong> (Cheat Master)</li>
+                  <li><strong>Or</strong> (Gold)</li>
+                  <li><strong>Hacker</strong></li>
+                  <li><strong>Gummy</strong> (retour de la génération précédente)</li>
+                  <li><strong>Holofoil</strong> (retour de la génération précédente)</li>
+                  <li><strong>Reaper</strong></li>
+                  <li><strong>Trick or Treat</strong> (lié à Fortnitemares 2026)</li>
+                </ol>
+
+                <div class="tip-alert-box" style="margin-top: 10px;">
+                  <span class="alert-icon">ℹ️</span>
+                  <div>
+                    <strong>${isFr ? "Distinction entre Compteurs Live et Datamining" : "Live vs Datamining Counter Note"}</strong>
+                    <p>${isFr ? "Les compteurs du casier live restent strictement basés sur les Esprits débloqués/disponibles en jeu. Le chiffre de 112 est une cible dataminée de fin de saison sous réserve d'ajustements par Epic Games." : "Live locker counters remain strictly based on in-game available Sprites. The 112 figure represents a datamined end-of-season target subject to Epic adjustments."}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
         <!-- NEW SPRITE DAY 27 AUGUST LEAK (19:03 CEST 24 AUG 2026) -->
         <article class="tip-card featured-leak" data-timestamp="1787590980000">
           <div class="tip-card-header">
