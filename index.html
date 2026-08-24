@@ -4866,6 +4866,7 @@
       .auth-bar .sync-avatar { width: 32px; height: 32px; flex-basis: 32px; }
       .auth-bar .visitor-counter-inline .visitor-counter-value { padding-left: 6px; gap: 3px; }
       .auth-bar .visitor-counter-inline .visitor-counter-value strong { font-size: .78rem; }
+      .auth-actions-wrap { gap: 7px; }
     }
     @media (max-width: 480px) {
       .auth-bar .visitor-counter-inline .visitor-counter-copy span { display: none; }
@@ -4876,6 +4877,11 @@
       .auth-bar .visitor-counter-inline .visitor-counter-value strong { font-size: .72rem; }
       .auth-live-status span:last-child { display: none; }
       .auth-toggle { font-size: .53rem; }
+      /* Discord button compact on mobile — icon only */
+      .auth-discord-btn { padding: 6px; gap: 0; }
+      .auth-discord-btn > span:last-child { display: none; }
+      .auth-discord-icon { width: 25px; height: 25px; }
+      .auth-actions-wrap { gap: 6px; flex-shrink: 0; }
     }
     @media (prefers-reduced-motion: reduce) { .app-page { animation: none; } }
   </style>
@@ -9476,10 +9482,6 @@
           <span class="section-kicker">Catalogue</span>
           <h2 id="collectionTitle">Tous les esprits</h2>
         </div>
-        <div class="collection-heading-actions">
-          <a class="collection-action-btn" href="#guide" data-page-target="guide">📖 Guide du Joueur</a>
-          <a class="collection-action-btn" href="#garden" data-page-target="garden" hidden>🌸 Jardin des Esprits</a>
-        </div>
         <div class="result-line"><span><strong id="resultCount">109</strong> affichés</span><span id="activeHint">Variantes sorties vérifiées</span></div>
       </div>
 
@@ -9609,8 +9611,10 @@
           </div>
         </div>
         <div class="feature-hero-orb" aria-hidden="true">✦</div>
+      </header>
+
       <!-- GUIDE MASTERY & SUPPORT BANNERS -->
-      <div style="margin: 16px 0; display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+      <div style="margin: 0 0 16px; display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
         <div style="background: rgba(168, 85, 247, 0.12); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 14px; padding: 14px 16px;">
           <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; color: #c084fc; font-size: 0.82rem; font-weight: 800;">
             <span>🎒</span> <span>MAÎTRISE DATAMINÉE · BACK BLING PIXEL SPRITE TRAINER</span>
@@ -9629,6 +9633,7 @@
           </p>
         </div>
       </div>
+
       <div class="guide-grid" id="guideGrid"></div>
     </section>
 
@@ -10506,7 +10511,7 @@
       <span>Événements</span>
     </a>
     <a class="mobile-dock-item" href="#tips" data-page-target="tips">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7z"></path><path d="M9 21h6"></path></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
       <span>Leaks</span>
     </a>
     <a class="mobile-dock-item" href="#cheats" data-page-target="cheats">
@@ -10858,7 +10863,7 @@
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
       const PATCH_RELEASED_AT = "2026-08-24T19:57:00+02:00";
-      const PWA_VERSION = "2026-08-24-v13.90.0";
+      const PWA_VERSION = "2026-08-24-v14.10.0";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
