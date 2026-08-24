@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_VERSION = "2026-08-24-v13.00.0";
+const CACHE_VERSION = "2026-08-24-v13.50.0";
 const CACHE_PREFIX = "sprite-locker-";
 const SHELL_CACHE = `${CACHE_PREFIX}shell-${CACHE_VERSION}`;
 const ASSET_CACHE = `${CACHE_PREFIX}assets-${CACHE_VERSION}`;
