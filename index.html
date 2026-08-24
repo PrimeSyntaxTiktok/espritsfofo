@@ -9797,12 +9797,54 @@
     </section>
 
     <section class="patch-page patch-page-compact app-page" id="patchNotesPage" data-page="patch-notes" aria-labelledby="patchNotesTitle">
-      <!-- NEW PATCH NOTE v10.8.0 (21 août 2026) -->
+      <!-- NEW PATCH NOTE v12.60.0 (24 août 2026) -->
       <article class="patch-entry">
         <header class="patch-simple-head">
           <div>
-            <span class="patch-kicker">Mise à jour Majeure v10.8.0</span>
-            <h1 id="patchNotesTitle">Mise à jour <span>Nouveautés, Tri Chronologique &amp; Ergonomie</span></h1>
+            <span class="patch-kicker">Mise à jour v12.60.0</span>
+            <h1 id="patchNotesTitle">Mise à jour <span>Réparation Cheat Codes, Navigation &amp; Leaks</span></h1>
+          </div>
+          <time class="patch-date" datetime="2026-08-24T12:45:00+02:00">
+            <span>24 août 2026 · 12h45 (heure de Paris)</span>
+          </time>
+        </header>
+
+        <div class="patch-grid">
+          <section class="patch-card">
+            <h2>⚡ Réparation Intégrale de la Page Cheat Codes</h2>
+            <ul class="patch-list">
+              <li>Résolution définitive du bug d'initialisation JavaScript qui masquait la grille de cheat codes.</li>
+              <li>Rendu fluide et instantané des <strong>21 codes actifs</strong> (Esprits <em>Roi de la triche</em>, EXP +40K, Ravitaillements Llama et Lobby Hacks Tetris).</li>
+              <li>Secourisation des filtres par catégorie avec repli automatique pour un affichage garanti.</li>
+            </ul>
+          </section>
+          <section class="patch-card">
+            <h2>🧭 Navigation Optimisée &amp; Ergonomie</h2>
+            <ul class="patch-list">
+              <li>Barre principale et dock mobile restructurés en <strong>6 onglets clés</strong> pour une fluidité maximale.</li>
+              <li>Réorganisation intelligente des liens du pied de page et renommage universel en <strong>« Avis »</strong>.</li>
+              <li>Boutons d'accès rapide <em>Guide du Joueur</em> et <em>Jardin des Esprits</em> intégrés en en-tête de collection.</li>
+              <li>Élimination des boucles de navigation pour un basculement d'onglets instantané et sans latence.</li>
+            </ul>
+          </section>
+          <section class="patch-card">
+            <h2>🔮 Fortnite Override : Boosts &amp; Leaks Dataminés</h2>
+            <ul class="patch-list">
+              <li><strong>Cheat Code Day (24-25 Août)</strong> : Publication des multiplicateurs officiels d'Epic Games (Esprits ×2, Poussière ×2, taux Légendaires/Mythiques en hausse).</li>
+              <li><strong>8 Match Overrides Dataminés (v42.00)</strong> : Fiche complète des cartouches (<em>Prop Hunt, Rocket Ruckus, Big Boom, Bullet Time, Ghost, Accuracy, Heal Overdrive, Third Party</em>).</li>
+              <li><strong>Sonic Power Hours (29 Août)</strong> : Heure non annoncée et bonus relayés par FN Assist.</li>
+              <li><strong>v42.10 &amp; Twitch Phase 2 (3 Sept.)</strong> : Échéance Phase 2 à 16h00 CEST et datamine des 6 Loot Hacks.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+
+      <!-- PREVIOUS PATCH NOTE v10.8.0 -->
+      <article class="patch-entry">
+        <header class="patch-simple-head">
+          <div>
+            <span class="patch-kicker">Mise à jour v10.8.0</span>
+            <h2>Mise à jour <span>Nouveautés, Tri Chronologique &amp; Ergonomie</span></h2>
           </div>
           <time class="patch-date" datetime="2026-08-21T02:20:00+02:00">
             <span>21 août 2026 · 02h20 (heure de Paris)</span>
@@ -9889,7 +9931,7 @@
             Cheat Codes <span>&amp; Lobby Hacks</span>
           </h1>
           <p class="cheats-hero-lead">
-            Injectez directement vos codes dans la console Admin Panel de Fortnite pour débloquer les esprits <strong>Roi de la triche</strong>, des bonus d'EXP et des métamorphoses exclusives !
+            Injectez vos codes dans la console Admin Panel de Fortnite pour débloquer les esprits <strong>Roi de la triche</strong>, des métamorphoses et profiter des <strong>boosts ×2 (Progression &amp; Poussière d'esprit)</strong> confirmés par Epic Games !
           </p>
           
           <!-- QUICK STATS -->
@@ -10685,8 +10727,8 @@
       const VISITOR_HOUR_KEY = "sprite-locker-visitor-hour";
       const VISITOR_LIFETIME_KEY = "sprite-locker-visitor-lifetime";
       const FIREBASE_SDK_VERSION = "12.16.0";
-      const PATCH_RELEASED_AT = "2026-08-21T02:20:00+02:00";
-      const PWA_VERSION = "2026-08-24-v12.20.0";
+      const PATCH_RELEASED_AT = "2026-08-24T12:45:00+02:00";
+      const PWA_VERSION = "2026-08-24-v12.70.0";
       const PWA_INSTALLED_KEY = "sprite-locker-pwa-installed-v1";
       const PWA_OFFLINE_READY_KEY = "sprite-locker-offline-ready-v1";
       let deferredInstallPrompt = null;
@@ -11982,6 +12024,7 @@
       const sprites = [];
       const season4Sprites = [];
       const gardenSprites = [];
+      var activeCheatFilter = "all";
 
       families.forEach((family, familyIndex) => {
         const isSeason4 = SEASON4_KEYS.has(family.key);
@@ -12487,7 +12530,7 @@
         });
 
         if (!hasGarden && activePage === "garden") {
-          showPage("catalog", { updateHash: true });
+          activePage = "catalog";
         }
       }
 
@@ -12619,17 +12662,12 @@
           const reviewsVisible = activePage === "reviews" && !isMaintenance;
 
           document.documentElement.dataset.appPage = activePage;
-          document.getElementById("homePage")?.classList.toggle("is-active", homeVisible);
-          document.getElementById("collectionPage")?.classList.toggle("is-active", collectionVisible);
-          document.getElementById("gardenPage")?.classList.toggle("is-active", gardenVisible);
-          document.getElementById("cheatsPage")?.classList.toggle("is-active", cheatsVisible);
-          document.getElementById("eventsPage")?.classList.toggle("is-active", eventsVisible);
-          document.getElementById("tipsPage")?.classList.toggle("is-active", tipsVisible);
-          document.getElementById("patchNotesPage")?.classList.toggle("is-active", patchNotesVisible);
-          document.getElementById("guidePage")?.classList.toggle("is-active", guideVisible);
-          document.getElementById("settingsPage")?.classList.toggle("is-active", settingsVisible);
-          document.getElementById("adminPage")?.classList.toggle("is-active", adminVisible);
-          document.getElementById("reviewsPage")?.classList.toggle("is-active", reviewsVisible);
+
+          document.querySelectorAll(".app-page").forEach(pageEl => {
+            const pageKey = pageEl.dataset.page;
+            const isMatch = (pageKey === activePage) || (pageKey === "collection" && activePage === "catalog");
+            pageEl.classList.toggle("is-active", isMatch && !isMaintenance);
+          });
 
           document.querySelectorAll("[data-page-target]").forEach(link => {
             if (link.dataset.pageTarget === activePage) link.setAttribute("aria-current", "page");
@@ -12646,31 +12684,32 @@
           document.querySelectorAll("[data-status]").forEach(button => {
             button.setAttribute("aria-selected", String(activePage === "catalog" && button.dataset.status === "all"));
           });
-          if (collectionVisible) {
+
+          if (activePage === "catalog") {
             updateCollectionPageCopy();
             render();
-          } else if (gardenVisible) {
+          } else if (activePage === "garden") {
             renderGarden();
             updateStats();
-          } else if (cheatsVisible) {
+          } else if (activePage === "cheats") {
             renderCheatCodesPage();
             updateStats();
-          } else if (eventsVisible) {
+          } else if (activePage === "events") {
             renderEventsPage();
             updateStats();
-          } else if (tipsVisible) {
+          } else if (activePage === "tips") {
             renderTipsPage();
             updateStats();
-          } else if (guideVisible) {
+          } else if (activePage === "guide") {
             renderGuide();
             updateStats();
-          } else if (settingsVisible) {
+          } else if (activePage === "settings") {
             renderAppearanceControls();
             updateStats();
-          } else if (adminVisible) {
+          } else if (activePage === "admin") {
             renderAdminAccess();
             updateStats();
-          } else if (reviewsVisible) {
+          } else if (activePage === "reviews") {
             if (typeof fetchReviews === "function") fetchReviews();
             updateStats();
           } else {
@@ -14963,17 +15002,17 @@
         {
           id: "cheat-code-day",
           dateIso: "2026-08-24T15:00:00+02:00",
-          dateLabelFr: "Lundi 24 Août 2026 à 15:00 CEST",
-          dateLabelEn: "Monday August 24, 2026 at 15:00 CEST",
+          dateLabelFr: "Lundi 24 Août au Mardi 25 Août 2026 (15:00 à 15:00 CEST)",
+          dateLabelEn: "Monday August 24 to Tuesday August 25, 2026 (15:00 to 15:00 CEST)",
           badgeBg: "rgba(250, 204, 21, 0.16)",
           badgeColor: "#facc15",
           badgeBorder: "rgba(250, 204, 21, 0.32)",
-          badgeTextFr: "🔑 CHEAT CODE DAY",
-          badgeTextEn: "🔑 CHEAT CODE DAY",
-          titleFr: "Cheat Code Day — Nouveaux Codes & Récompenses",
-          titleEn: "Cheat Code Day — New Codes & Rewards",
-          descFr: "Journée consacrée à la diffusion et à l'activation de nouveaux codes de triche et récompenses exclusives de saison.",
-          descEn: "Dedicated day for release and activation of new cheat codes and exclusive seasonal rewards.",
+          badgeTextFr: "🔑 CHEAT CODE DAY · BOOSTS 2X CONFIRMÉS",
+          badgeTextEn: "🔑 CHEAT CODE DAY · CONFIRMED 2X BOOSTS",
+          titleFr: "Cheat Code Day — Multiplicateurs & Récompenses Confirmés",
+          titleEn: "Cheat Code Day — Confirmed Multipliers & Rewards",
+          descFr: "Bonus confirmés par Epic Games : Progression des Esprits ×2, Poussière d'esprit ×2 lors des extractions, et fréquence d'apparition accrue des Esprits Légendaires & Mythiques.",
+          descEn: "Confirmed Epic Games boosts: 2× Sprite progression, 2× Extraction Sprite Dust, and increased spawn rates for Legendary & Mythic Sprites.",
           icon: "🔑",
           featured: false
         },
@@ -14996,18 +15035,18 @@
         },
         {
           id: "sonic-power-hours",
-          dateIso: "2026-08-29T18:00:00+02:00",
-          dateLabelFr: "Samedi 29 Août 2026 à 18:00 CEST",
-          dateLabelEn: "Saturday August 29, 2026 at 18:00 CEST",
+          dateIso: "2026-08-29T12:00:00+02:00",
+          dateLabelFr: "Samedi 29 Août 2026 — Heure non annoncée",
+          dateLabelEn: "Saturday August 29, 2026 — Time TBD",
           badgeBg: "rgba(168, 85, 247, 0.16)",
           badgeColor: "#c084fc",
           badgeBorder: "rgba(168, 85, 247, 0.32)",
-          badgeTextFr: "🦔 POWER HOURS · THÈME SONIC & TAILS",
-          badgeTextEn: "🦔 POWER HOURS · SONIC & TAILS THEME",
-          titleFr: "Power Hours — Thème Sonic & Tails",
-          titleEn: "Power Hours — Sonic & Tails Theme",
-          descFr: "Sessions Power Hours spéciales offrant des boosts d'EXP et des récompenses thématiques dédiées aux Esprits Sonic & Tails.",
-          descEn: "Special Power Hours sessions providing XP boosts and thematic rewards dedicated to Sonic & Tails Sprites.",
+          badgeTextFr: "🟣 LEAK FIABLE · SONIC POWER HOURS",
+          badgeTextEn: "🟣 RELIABLE LEAK · SONIC POWER HOURS",
+          titleFr: "Power Hours — Thème Sonic & Power Sneakers",
+          titleEn: "Power Hours — Sonic Theme & Power Sneakers",
+          descFr: "Fréquence accrue des Esprits thématiques Sonic et disponibilité accrue des Sonic Power Sneakers (Statut : 🟣 Leak fiable, FN Assist).",
+          descEn: "Increased spawn rate for Sonic-themed Sprites and higher availability of Sonic Power Sneakers (Status: 🟣 Reliable leak, FN Assist).",
           icon: "🦔",
           featured: false
         },
@@ -15152,6 +15191,82 @@
 
       <!-- TIPS CARDS CONTAINER -->
       <div class="tips-container">
+        <!-- DATAMINED MATCH OVERRIDES LEAK (05:33 CEST 24 AUG 2026) -->
+        <article class="tip-card featured-leak" data-timestamp="1787542380000">
+          <div class="tip-card-header">
+            <div class="tip-card-meta">
+              <span class="tip-badge leak-badge" style="background: rgba(249, 115, 22, 0.15); color: #fb923c; border-color: rgba(249, 115, 22, 0.3);">${isFr ? "🟠 DATAMINE v42.00 · FUTURS MATCH OVERRIDES" : "🟠 DATAMINE v42.00 · UPCOMING MATCH OVERRIDES"}</span>
+              <span class="tip-date">${formatLeakTimestamp("2026-08-24T05:33:00+02:00")}</span>
+            </div>
+            <h2 class="tip-card-title">
+              ${isFr 
+                ? "Fortnite Override : 8 Futurs Match Overrides & Cartouches Dataminés Dévoilés dans la v42.00 !" 
+                : "Fortnite Override: 8 Upcoming Match Overrides & Cartridges Datamined in v42.00!"}
+            </h2>
+          </div>
+
+          <div class="tip-card-body">
+            <div class="tip-content-details">
+              <div class="tip-explicatif-block">
+                <h3>📌 ${isFr ? "8 Cartouches d'Override en Développement dans les Fichiers" : "8 Override Cartridges Under Development in Files"}</h3>
+                <p>
+                  ${isFr 
+                    ? "Plusieurs cartouches Match Overrides indisponibles publiquement possèdent désormais des effets et valeurs internes complètes dans les données v42.00 (recoupé par HYPEX, SpushFNBR & AllThingsHow) :" 
+                    : "Several currently unavailable Match Overrides cartridges now feature complete internal effects and values in v42.00 files (cross-checked by HYPEX, SpushFNBR & AllThingsHow):"}
+                </p>
+
+                <div class="tip-rules-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
+                  <div class="rule-card">
+                    <div class="rule-icon">🎭</div>
+                    <div><strong>Prop Hunt (Mythique)</strong><p>${isFr ? "Rester accroupi et immobile pendant 2,5s transforme en accessoire du décor." : "Crouching and staying still for 2.5s transforms player into a prop."}</p></div>
+                  </div>
+                  <div class="rule-card">
+                    <div class="rule-icon">🚀</div>
+                    <div><strong>Rocket Ruckus (Peu commun)</strong><p>${isFr ? "Chaque 15e balle tirée se transforme automatiquement en roquette." : "Every 15th bullet fired turns into an explosive rocket."}</p></div>
+                  </div>
+                  <div class="rule-card">
+                    <div class="rule-icon">💥</div>
+                    <div><strong>Big Boom (Légendaire)</strong><p>${isFr ? "Annule les dégâts de chute et provoque à l'atterrissage une explosion (100–110 dégâts)." : "Immune to fall damage, triggers landing explosion dealing 100–110 damage."}</p></div>
+                  </div>
+                  <div class="rule-card">
+                    <div class="rule-icon">⏱️</div>
+                    <div><strong>Bullet Time (Épique)</strong><p>${isFr ? "Viser en l'air ralentit le temps à 0.18× (max 3,5s). Rechargement +40% plus rapide & dégâts aériens +10-20%." : "Aiming mid-air slows time to 0.18× (max 3.5s). 1.4× faster reload & +10-20% aerial damage."}</p></div>
+                  </div>
+                  <div class="rule-card">
+                    <div class="rule-icon">👻</div>
+                    <div><strong>Ghost</strong><p>${isFr ? "Rend le joueur complètement invisible pendant toute la durée du sprint." : "Grants full invisibility during sprint duration."}</p></div>
+                  </div>
+                  <div class="rule-card">
+                    <div class="rule-icon">🎯</div>
+                    <div><strong>Accuracy</strong><p>${isFr ? "Réduit de moitié (50%) le recul de l'arme ainsi que les paramètres de dispersion." : "Cuts weapon recoil and bullet spread parameters by 50%."}</p></div>
+                  </div>
+                  <div class="rule-card">
+                    <div class="rule-icon">💚</div>
+                    <div><strong>Heal Overdrive</strong><p>${isFr ? "Se soigner accorde immédiatement l'effet Overdrive (durée et seuil à confirmer)." : "Healing grants instant Overdrive status effect (duration TBD)."}</p></div>
+                  </div>
+                  <div class="rule-card">
+                    <div class="rule-icon">📍</div>
+                    <div><strong>Third Party</strong><p>${isFr ? "Révèle et indique sur la carte jusqu'à 3 lieux d'éliminations récentes de joueurs." : "Highlights up to 3 recent player elimination locations on map."}</p></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tip-alert-box" style="margin-top: 8px;">
+                <span class="alert-icon">⚠️</span>
+                <div>
+                  <strong>${isFr ? "Statut : Non Disponibles · Valeurs Susceptibles de Changer" : "Status: Unavailable · Subject to Change"}</strong>
+                  <p>${isFr ? "Ces cartouches sont dataminées dans le code v42.00 mais ne sont pas encore actives. Epic Games peut ajuster leurs valeurs ou les modifier par hotfix avant déploiement." : "These cartridges are datamined in v42.00 build but not yet enabled. Epic Games may adjust stats or tweak mechanics via hotfix prior to release."}</p>
+                </div>
+              </div>
+
+              <div class="tip-source-bar" style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
+                <a class="tip-source-link" href="https://x.com/HYPEX/status/2090938952807076164" target="_blank" rel="noopener noreferrer">🔗 HYPEX Cartridges Leak</a>
+                <a class="tip-source-link" href="https://x.com/SpushFNBR/status/2091291133196263522" target="_blank" rel="noopener noreferrer">🔗 SpushFNBR Datamining</a>
+                <a class="tip-source-link" href="https://allthings.how/fortnite-every-cartridge-hack-effect-and-how-to-claim-an-override-console/" target="_blank" rel="noopener noreferrer">🔗 Table Détillée AllThingsHow</a>
+              </div>
+            </div>
+          </div>
+        </article>
         <!-- TWITCH PHASE 2 END & LOBBY HACK LEAK (00:42 CEST 24 AUG 2026) -->
         <article class="tip-card featured-leak" data-timestamp="1787524920000">
           <div class="tip-card-header">
@@ -15299,8 +15414,8 @@
                   <div class="rule-card">
                     <div class="rule-icon">🔑</div>
                     <div>
-                      <strong>${isFr ? "Lundi 24 Août : Cheat Code Day" : "Monday Aug 24: Cheat Code Day"}</strong>
-                      <p>${isFr ? "Journée consacrée à la diffusion de nouveaux codes de triche et bonus." : "Dedicated day for new cheat codes and player reward drops."}</p>
+                      <strong>${isFr ? "Lundi 24 Août au Mardi 25 Août : Cheat Code Day (Boosts ×2 Confirmés)" : "Monday Aug 24 to Tuesday Aug 25: Cheat Code Day (Confirmed 2× Boosts)"}</strong>
+                      <p>${isFr ? "Confirmé par Epic Games (15:00 à 15:00 CEST) : Progression des Esprits ×2, Poussière d'esprit ×2 lors des extractions, et fréquence d'apparition accrue des Esprits Légendaires &amp; Mythiques." : "Confirmed by Epic Games (15:00 to 15:00 CEST): 2× Sprite progression, 2× Extraction Sprite Dust, and increased spawn rates for Legendary &amp; Mythic Sprites."}</p>
                     </div>
                   </div>
 
@@ -15315,8 +15430,8 @@
                   <div class="rule-card">
                     <div class="rule-icon">🦔</div>
                     <div>
-                      <strong>${isFr ? "Samedi 29 Août : Power Hours Thème Sonic" : "Saturday Aug 29: Sonic-Themed Power Hours"}</strong>
-                      <p>${isFr ? "Sessions Power Hours spéciales centrées sur le thème Sonic &amp; Tails (horaires exacts à venir)." : "Special Power Hours sessions themed around Sonic &amp; Tails (exact hours pending)."}</p>
+                      <strong>${isFr ? "Samedi 29 Août : Power Hours Thème Sonic &amp; Power Sneakers" : "Saturday Aug 29: Sonic-Themed Power Hours &amp; Power Sneakers"}</strong>
+                      <p>${isFr ? "Fréquence accrue des Esprits thématiques Sonic et disponibilité accrue des Sonic Power Sneakers (Statut : 🟣 Leak fiable, FN Assist — Heure non annoncée)." : "Increased spawn rate for Sonic-themed Sprites and higher availability of Sonic Power Sneakers (Status: 🟣 Reliable leak, FN Assist — Time TBD)."}</p>
                     </div>
                   </div>
                 </div>
@@ -18194,7 +18309,6 @@
         history.innerHTML = items.length ? items.slice().reverse().map(item => `<article><strong>${esc(item.title)}</strong><span>${esc(item.type)} · brouillon</span></article>`).join("") : "";
         renderAdminContentManager();
         renderAdminPatchQuickList();
-        renderAdminMapQuickList();
       }
 
       function renderAdminContentManager() {
@@ -18556,8 +18670,6 @@
         await publishAdminContent();
         form.reset();
         showToast("Map Créative publiée avec succès ! 🚀");
-        renderMaps();
-        renderAdminMapQuickList();
       });
       document.getElementById("adminPreviewBtn").addEventListener("click", () => applyAdminContent(adminDraft, { announce: true }));
       document.getElementById("adminPublishBtn").addEventListener("click", publishAdminContent);
@@ -18642,10 +18754,17 @@
       });
 
       document.addEventListener("click", event => {
-        const pageLink = event.target.closest("[data-page-target]");
+        const pageLink = event.target.closest("[data-page-target], a[href^='#']");
         if (!pageLink) return;
-        event.preventDefault();
-        showPage(pageLink.dataset.pageTarget);
+        const href = pageLink.getAttribute("href");
+        let targetPage = pageLink.dataset.pageTarget;
+        if (!targetPage && href && href.startsWith("#") && href.length > 1) {
+          targetPage = href.slice(1);
+        }
+        if (targetPage) {
+          event.preventDefault();
+          showPage(targetPage);
+        }
       });
 
       window.addEventListener("popstate", () => {
@@ -19341,8 +19460,6 @@
         }
       }
 
-      let activeCheatFilter = "all";
-
       const CHEAT_CODES = [
         { code: "H0p0nVC", reward: { fr: "2 000 Poussière d'esprit", en: "2,000 Sprite Dust" }, type: "item", priority: false, releasedAt: "2026-08-21T02:50:00+02:00" },
         { code: "GatherAndCraft", reward: { fr: "Esprit Buisson (Roi de la triche)", en: "Cheat Master Bush Sprite" }, type: "sprite", targetId: "bushranger-cheatmaster", priority: true, releasedAt: "2026-08-21T01:35:00+02:00" },
@@ -19369,22 +19486,26 @@
 
       function getCheatRewardText(c) {
         if (!c) return "";
-        if (c.targetId) {
-          const spriteList = typeof sprites !== "undefined" ? sprites : [];
-          const sprite = spriteList.find(s => s.id === c.targetId);
-          if (sprite) {
-            return localizedName(sprite);
-          }
-        }
         if (typeof c.reward === "object" && c.reward !== null) {
-          return c.reward[APP_LANGUAGE] || c.reward.fr || c.reward.en || "";
+          const text = c.reward[APP_LANGUAGE] || c.reward.fr || c.reward.en;
+          if (text) return text;
         }
-        return c.reward || "";
+        if (typeof c.reward === "string" && c.reward) return c.reward;
+        if (c.targetId) {
+          const pool = (typeof season4Sprites !== "undefined" ? season4Sprites : []).concat(typeof gardenSprites !== "undefined" ? gardenSprites : []);
+          const sprite = pool.find(s => s.id === c.targetId);
+          if (sprite) return localizedName(sprite);
+        }
+        return "";
       }
 
       function renderCheatCodesPage() {
         const container = document.getElementById("allCheatsGrid");
         if (!container) return;
+
+        if (!["all", "sprite", "xp", "item", "hack"].includes(activeCheatFilter)) {
+          activeCheatFilter = "all";
+        }
 
         const isFr = APP_LANGUAGE === "fr";
         const filterBtns = document.querySelectorAll(".cheats-filter-bar .cheat-filter-btn");
@@ -19410,13 +19531,26 @@
         filterBtns.forEach(btn => {
           const cat = btn.dataset.filter;
           if (filterLabels[cat]) btn.textContent = filterLabels[cat];
+          btn.classList.toggle("is-active", cat === activeCheatFilter);
         });
 
         const activeState = getActiveState();
-        const filtered = (activeCheatFilter === "all"
+        const listToDisplay = activeCheatFilter === "all"
           ? CHEAT_CODES
-          : CHEAT_CODES.filter(c => c.type === activeCheatFilter)
-        ).slice().sort((a, b) => new Date(b.releasedAt || 0) - new Date(a.releasedAt || 0));
+          : CHEAT_CODES.filter(c => c.type === activeCheatFilter);
+
+        const filtered = listToDisplay.slice().sort((a, b) => {
+          const tA = a.releasedAt ? new Date(a.releasedAt).getTime() || 0 : 0;
+          const tB = b.releasedAt ? new Date(b.releasedAt).getTime() || 0 : 0;
+          return tB - tA;
+        });
+
+        if (!filtered.length) {
+          container.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 40px 20px; background: rgba(15,23,42,0.6); border: 1px dashed rgba(255,255,255,0.15); border-radius: 18px; color: #8b97b7;">
+            <p>${isFr ? "Aucun code trouvé dans cette catégorie." : "No codes found in this category."}</p>
+          </div>`;
+          return;
+        }
 
         container.innerHTML = filtered.map(c => {
           const isUnlocked = c.targetId && (activeState[c.targetId] || {}).owned;

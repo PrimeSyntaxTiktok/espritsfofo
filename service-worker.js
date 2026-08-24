@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_VERSION = "2026-08-24-v12.20.0";
+const CACHE_VERSION = "2026-08-24-v12.70.0";
 const CACHE_PREFIX = "sprite-locker-";
 const SHELL_CACHE = `${CACHE_PREFIX}shell-${CACHE_VERSION}`;
 const ASSET_CACHE = `${CACHE_PREFIX}assets-${CACHE_VERSION}`;
@@ -113,7 +113,7 @@ async function serveNavigation(event) {
   const shellCache = await caches.open(SHELL_CACHE);
   try {
     const preload = await event.preloadResponse;
-    const response = preload || await fetch(event.request);
+    const response = preload || await fetch(event.request, { cache: "no-cache" });
     if (isCacheableResponse(response)) {
       await shellCache.put(INDEX_URL, response.clone());
     }
