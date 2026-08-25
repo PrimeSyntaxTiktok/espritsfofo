@@ -15180,25 +15180,15 @@
           : `Published on ${day}/${month}/${year} at ${hours}:${minutes}`;
       }
 
+      function isEventFinished(event, now = Date.now()) {
+        if (event.endDateIso) {
+          return now >= new Date(event.endDateIso).getTime();
+        }
+        const startMs = new Date(event.dateIso).getTime();
+        return now >= (startMs + 24 * 60 * 60 * 1000);
+      }
+
       const CONFIRMED_EVENTS = [
-        {
-          id: "cheat-code-day",
-          dateIso: "2026-08-24T15:00:00+02:00",
-          endDateIso: "2026-08-25T15:00:00+02:00",
-          dateLabelFr: "Lundi 24 Août à 15:00 au Mardi 25 Août 2026 à 15:00 CEST (24h)",
-          dateLabelEn: "Monday Aug 24 at 15:00 to Tuesday Aug 25, 2026 at 15:00 CEST (24h)",
-          badgeBg: "rgba(250, 204, 21, 0.16)",
-          badgeColor: "#facc15",
-          badgeBorder: "rgba(250, 204, 21, 0.32)",
-          badgeTextFr: "🟢 CHEAT CODE MONDAY / CHEAT CODE DAY · OFFICIEL 24H",
-          badgeTextEn: "🟢 CHEAT CODE MONDAY / CHEAT CODE DAY · OFFICIAL 24H",
-          titleFr: "Cheat Code Monday / Cheat Code Day — Officiel 24h",
-          titleEn: "Cheat Code Monday / Cheat Code Day — Official 24h Event",
-          descFr: "Événement officiel Epic Games de 24h (24 août 15:00 → 25 août 15:00 CEST). Bonus officiels Epic : Progression des niveaux des Sprites ×2 plus rapide, ×2 Poussière d'esprit aux extractions, Cheat Codes plus puissants (« Cheat Codes are more powerful »), et teasing du Lobby Hack JonesyIsGolden.",
-          descEn: "Official 24-hour Epic Games event (Aug 24 15:00 → Aug 25 15:00 CEST). Official boosts: 2× Sprite level progression, 2× Extraction Sprite Dust, enhanced Cheat Codes ('Cheat Codes are more powerful'), and JonesyIsGolden Lobby Hack tease.",
-          icon: "🔑",
-          featured: true
-        },
         {
           id: "new-sprite-day",
           dateIso: "2026-08-27T15:00:00+02:00",
@@ -15298,7 +15288,19 @@
           titleEl.innerHTML = isFr ? "Événements <span>Fortnite</span>" : "Fortnite <span>Events</span>";
         }
 
-        container.innerHTML = CONFIRMED_EVENTS.map(event => {
+        const activeEvents = CONFIRMED_EVENTS.filter(event => !isEventFinished(event));
+
+        if (!activeEvents.length) {
+          container.innerHTML = `
+            <div class="empty-state" style="grid-column: 1 / -1; padding: 40px 20px; text-align: center; background: rgba(255,255,255,0.03); border: 1px dashed var(--line); border-radius: 16px;">
+              <strong style="display: block; font-size: 1.1rem; color: var(--text); margin-bottom: 6px;">${isFr ? "Aucun événement à venir" : "No upcoming events"}</strong>
+              <span style="color: var(--muted); font-size: 0.85rem;">${isFr ? "Tous les événements programmés sont terminés. De nouveaux événements seront ajoutés dès leur annonce officielle !" : "All scheduled events have ended. New events will be added as soon as announced!"}</span>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = activeEvents.map(event => {
           const dateLabel = isFr ? event.dateLabelFr : event.dateLabelEn;
           const badgeText = isFr ? event.badgeTextFr : event.badgeTextEn;
           const title = isFr ? event.titleFr : event.titleEn;
@@ -15331,18 +15333,22 @@
       function updateEventsCountdowns() {
         const isFr = APP_LANGUAGE === "fr";
         const now = Date.now();
+        let needsReRender = false;
 
         CONFIRMED_EVENTS.forEach(event => {
+          if (isEventFinished(event, now)) {
+            const cardEl = document.querySelector(`[data-event-id="${event.id}"]`);
+            if (cardEl) {
+              cardEl.remove();
+              needsReRender = true;
+            }
+            return;
+          }
+
           const timerEl = document.getElementById(`countdown-timer-${event.id}`);
           if (!timerEl) return;
 
           const startMs = new Date(event.dateIso).getTime();
-          const endMs = event.endDateIso ? new Date(event.endDateIso).getTime() : 0;
-
-          if (endMs && now >= endMs) {
-            timerEl.innerHTML = `<span class="event-ended-badge" style="background: rgba(148,163,184,0.15); color: #94a3b8; border-color: rgba(148,163,184,0.3);">⚪ ${isFr ? "Événement Terminé" : "Event Ended"}</span>`;
-            return;
-          }
 
           if (now >= startMs) {
             timerEl.innerHTML = `<span class="event-ended-badge">🟢 ${isFr ? "Événement en cours / En direct" : "Event Live / Active"}</span>`;
@@ -15369,6 +15375,10 @@
             <div class="time-block"><span class="time-value">${pad(seconds)}</span><span class="time-unit">${isFr ? "Sec" : "Sec"}</span></div>
           `;
         });
+
+        if (needsReRender && !CONFIRMED_EVENTS.some(event => !isEventFinished(event, now))) {
+          renderEventsPage();
+        }
       }
 
       function renderTipsPage() {
