@@ -9482,7 +9482,7 @@
           <span class="section-kicker">Catalogue</span>
           <h2 id="collectionTitle">Tous les esprits</h2>
         </div>
-        <div class="result-line"><span><strong id="resultCount">33</strong> affichés</span><span id="activeHint">Variantes sorties vérifiées</span></div>
+        <div class="result-line"><span><strong id="resultCount">33</strong> affichés</span><span id="activeHint">33 variantes disponibles en jeu</span></div>
       </div>
 
       <section class="toolbar" aria-label="Recherche et filtres">
@@ -9934,12 +9934,52 @@
     </section>
 
     <section class="patch-page patch-page-compact app-page" id="patchNotesPage" data-page="patch-notes" aria-labelledby="patchNotesTitle">
-      <!-- NEW PATCH NOTE v13.94.0 (26 août 2026) -->
+      <!-- NEW PATCH NOTE v13.95.0 (27 août 2026) -->
+      <article class="patch-entry">
+        <header class="patch-simple-head">
+          <div>
+            <span class="patch-kicker">Mise à jour v13.95.0</span>
+            <h1 id="patchNotesTitle">Mise à jour <span>Lancement du New Sprite Day, 4 Nouveaux Lobby Hacks &amp; 33 Variantes Live !</span></h1>
+          </div>
+          <time class="patch-date" datetime="2026-08-27T15:00:00+02:00">
+            <span>27 août 2026 · 15h00 (heure de Paris)</span>
+          </time>
+        </header>
+
+        <div class="patch-grid">
+          <section class="patch-card">
+            <h2>⚡ New Sprite Day &amp; 33 Variantes Live</h2>
+            <ul class="patch-list">
+              <li>Activation officielle des 4 nouvelles variantes Roi de la triche : <strong>Klombo</strong>, <strong>Ombre (Shadow)</strong>, <strong>Jackrabbit</strong> et <strong>Killswitch</strong>.</li>
+              <li>Taux d'apparition boosté dans le loot pool toute la journée du 27 août.</li>
+              <li>Basculement officiel des compteurs du catalogue live à <strong>33 variantes disponibles en jeu</strong> sur 11 familles actives.</li>
+            </ul>
+          </section>
+          <section class="patch-card">
+            <h2>🔑 4 Nouveaux Lobby Hacks Dévoilés</h2>
+            <ul class="patch-list">
+              <li><code>UltimateLifeForm</code> → Esprit Ombre (Roi de la triche).</li>
+              <li><code>BerryGlitch</code> → Esprit Klombo (Roi de la triche).</li>
+              <li><code>GildedJackrabbit</code> → Esprit Jackrabbit doré.</li>
+              <li><code>CraftAndBuild</code> → Spray Portrait de Héros de Wrixel.</li>
+              <li>Le registre passe désormais à <strong>26 Lobby Hacks actifs</strong>.</li>
+            </ul>
+          </section>
+          <section class="patch-card">
+            <h2>🧹 Nettoyage des Événements</h2>
+            <ul class="patch-list">
+              <li>Suppression automatique du compte à rebours de l'événement New Sprite Day après son activation effective à 15h00 CEST.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+
+      <!-- PREVIOUS PATCH NOTE v13.94.0 (26 août 2026) -->
       <article class="patch-entry">
         <header class="patch-simple-head">
           <div>
             <span class="patch-kicker">Mise à jour v13.94.0</span>
-            <h1 id="patchNotesTitle">Mise à jour <span>5 Nouveaux Esprits Design-A-Sprite, Correction Cheat Master Shadow &amp; Compteurs 29/33</span></h1>
+            <h2>Mise à jour <span>5 Nouveaux Esprits Design-A-Sprite, Correction Cheat Master Shadow &amp; Compteurs 29/33</span></h2>
           </div>
           <time class="patch-date" datetime="2026-08-26T19:27:00+02:00">
             <span>26 août 2026 · 19h27 (heure de Paris)</span>
@@ -11158,7 +11198,7 @@
           catalogTitle: "Tous les esprits",
           spiritLocker: "Le casier des esprits",
           shown: "affichés",
-          fullCatalog: "Variantes sorties vérifiées",
+          fullCatalog: "33 variantes disponibles en jeu",
           filtersActive: "Filtres actifs",
           searchAndFilters: "Recherche et filtres",
           searchPlaceholder: "Rechercher un esprit…",
@@ -11363,7 +11403,7 @@
           catalogTitle: "All Sprites",
           spiritLocker: "Prime Sprites",
           shown: "shown",
-          fullCatalog: "Released variants verified",
+          fullCatalog: "33 available variants in-game",
           filtersActive: "Filters active",
           searchAndFilters: "Search and filters",
           searchPlaceholder: "Search for a Sprite…",
@@ -15324,23 +15364,6 @@
 
       const CONFIRMED_EVENTS = [
         {
-          id: "new-sprite-day",
-          dateIso: "2026-08-27T15:00:00+02:00",
-          dateLabelFr: "Jeudi 27 Août 2026 à 15:00 CEST (9:00 AM ET)",
-          dateLabelEn: "Thursday August 27, 2026 at 15:00 CEST (9:00 AM ET)",
-          badgeBg: "rgba(56, 189, 248, 0.16)",
-          badgeColor: "#38bdf8",
-          badgeBorder: "rgba(56, 189, 248, 0.35)",
-          badgeTextFr: "⚡ NEW SPRITE DAY · 4 VARIANTES ROI DE LA TRICHE",
-          badgeTextEn: "⚡ NEW SPRITE DAY · 4 CHEAT MASTER VARIANTS",
-          titleFr: "New Sprite Day — Rotation du Pool & Variantes Roi de la Triche",
-          titleEn: "New Sprite Day — Pool Rotation & Cheat Master Variants",
-          descFr: "Rotation hebdomadaire du pool d'Esprits à 15h00 CEST. Arrivée prévue de 4 nouvelles variantes Roi de la triche (Klombo — particulièrement rare, Ombre, Jackrabbit, Killswitch) et passage progressif de 6 variantes (Buisson, Jonesy, 8-Bit, Aventure, Sonic, Tails) dans le loot pool naturel.",
-          descEn: "Weekly Sprite pool rotation at 15:00 CEST. Expected arrival of 4 new Cheat Master variants (Klombo — extra rare, Shadow, Jackrabbit, Killswitch) and natural loot pool entry for 6 existing variants (Bush, Jonesy, 8-Bit, Adventure, Sonic, Tails).",
-          icon: "⚡",
-          featured: false
-        },
-        {
           id: "the-final-showdown-og",
           dateIso: "2026-08-29T20:00:00+02:00",
           dateLabelFr: "Samedi 29 Août 2026 — Connexion avant 19:55 CEST (Événement à 20:00 CEST)",
@@ -15542,6 +15565,65 @@
 
       <!-- TIPS CARDS CONTAINER -->
       <div class="tips-container">
+        <!-- NEW SPRITE DAY LIVE & 4 NEW LOBBY HACKS LEAK (15:00 CEST 27 AUG 2026) -->
+        <article class="tip-card featured-leak" data-timestamp="1787835600000">
+          <div class="tip-card-header">
+            <div class="tip-card-meta">
+              <span class="tip-badge leak-badge" style="background: rgba(56, 189, 248, 0.18); color: #38bdf8; border-color: rgba(56, 189, 248, 0.35);">${isFr ? "⚡ OFFICIEL EPIC GAMES · NEW SPRITE DAY &amp; 4 LOBBY HACKS" : "⚡ EPIC GAMES OFFICIAL · NEW SPRITE DAY &amp; 4 LOBBY HACKS"}</span>
+              <span class="tip-date">${formatLeakTimestamp("2026-08-27T15:00:00+02:00")}</span>
+            </div>
+            <h2 class="tip-card-title">
+              ${isFr 
+                ? "New Sprite Day Actif (27 Août) : 33 Variantes Live en Jeu &amp; 4 Nouveaux Lobby Hacks Dévoilés !" 
+                : "New Sprite Day Live (Aug 27): 33 In-Game Variants Live &amp; 4 New Lobby Hacks Unveiled!"}
+            </h2>
+          </div>
+
+          <div class="tip-card-body">
+            <div class="tip-content-details">
+              <div class="tip-explicatif-block">
+                <h3>📌 ${isFr ? "Activation Officielle des 4 Variantes Roi de la Triche &amp; 4 Nouveaux Codes" : "Official Activation of 4 Cheat Master Variants &amp; 4 New Codes"}</h3>
+                <p>
+                  ${isFr 
+                    ? "Le <strong>New Sprite Day du jeudi 27 août 15:00 CEST</strong> est désormais en ligne ! Les 4 nouvelles variantes Roi de la triche (<em>Klombo</em>, <em>Ombre / Shadow</em>, <em>Jackrabbit</em> et <em>Killswitch</em>) ont été injectées dans le loot pool avec un taux d'apparition boosté toute la journée. Le catalogue passe désormais à <strong>33 variantes disponibles en jeu</strong> sur 11 familles actives !" 
+                    : "<strong>New Sprite Day (Thursday August 27 at 15:00 CEST)</strong> is now live! The 4 new Cheat Master variants (<em>Klombo</em>, <em>Shadow</em>, <em>Jackrabbit</em>, and <em>Killswitch</em>) have been added to the loot pool with boosted spawn rates all day. The catalog now counts <strong>33 in-game available variants</strong> across 11 active families!"}
+                </p>
+
+                <div class="tip-rules-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top: 12px;">
+                  <div class="rule-card">
+                    <div class="rule-icon">🔑</div>
+                    <div>
+                      <strong>UltimateLifeForm</strong>
+                      <p>${isFr ? "Débloque l'Esprit Ombre (Roi de la triche) / Cheat Master Shadow." : "Unlocks Cheat Master Shadow Sprite."}</p>
+                    </div>
+                  </div>
+                  <div class="rule-card">
+                    <div class="rule-icon">🔑</div>
+                    <div>
+                      <strong>BerryGlitch</strong>
+                      <p>${isFr ? "Débloque l'Esprit Klombo (Roi de la triche) / Cheat Master Klombo." : "Unlocks Cheat Master Klombo Sprite."}</p>
+                    </div>
+                  </div>
+                  <div class="rule-card">
+                    <div class="rule-icon">🔑</div>
+                    <div>
+                      <strong>GildedJackrabbit</strong>
+                      <p>${isFr ? "Débloque l'Esprit Jackrabbit doré / Gold Jackrabbit Sprite." : "Unlocks Gold Jackrabbit Sprite."}</p>
+                    </div>
+                  </div>
+                  <div class="rule-card">
+                    <div class="rule-icon">🖼️</div>
+                    <div>
+                      <strong>CraftAndBuild</strong>
+                      <p>${isFr ? "Débloque le Spray Portrait de Héros de Wrixel (Quête Wrixel)." : "Unlocks Wrixel's Hero Portrait Spray."}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
         <!-- DESIGN-A-SPRITE 5 WINNERS LEAK (19:27 CEST 26 AUG 2026) -->
         <article class="tip-card featured-leak" data-timestamp="1787755620000">
           <div class="tip-card-header">
@@ -20442,6 +20524,10 @@
       }
 
       const CHEAT_CODES = [
+        { code: "UltimateLifeForm", reward: { fr: "🟣 Esprit Ombre (Roi de la triche) · Cheat Master Shadow", en: "🟣 Cheat Master Shadow Sprite" }, type: "sprite", targetId: "shadow-cheatmaster", priority: true, releasedAt: "2026-08-27T15:00:00+02:00" },
+        { code: "BerryGlitch", reward: { fr: "🟣 Esprit Klombo (Roi de la triche) · Cheat Master Klombo", en: "🟣 Cheat Master Klombo Sprite" }, type: "sprite", targetId: "klombo-cheatmaster", priority: true, releasedAt: "2026-08-27T15:00:00+02:00" },
+        { code: "GildedJackrabbit", reward: { fr: "🟡 Esprit Jackrabbit doré · Gold Jackrabbit Sprite", en: "🟡 Gold Jackrabbit Sprite" }, type: "sprite", targetId: "jackrabbit-gold", priority: true, releasedAt: "2026-08-27T15:00:00+02:00" },
+        { code: "CraftAndBuild", reward: { fr: "🖼️ Spray Portrait de Héros de Wrixel (Quête Wrixel)", en: "🖼️ Wrixel's Hero Portrait Spray" }, type: "hack", priority: false, releasedAt: "2026-08-27T15:00:00+02:00" },
         { code: "JonesyIsGolden", reward: { fr: "🟡 Esprit Jonesy Doré (Roi de la triche) · Aucun prérequis de quête", en: "🟡 Gold Jonesy Sprite (Cheat Master) · No quest prerequisite" }, type: "sprite", targetId: "jonesy-gold", priority: true, releasedAt: "2026-08-24T12:56:00+02:00" },
         { code: "H0p0nVC", reward: { fr: "2 000 Poussière d'esprit", en: "2,000 Sprite Dust" }, type: "item", priority: false, releasedAt: "2026-08-21T02:50:00+02:00" },
         { code: "GatherAndCraft", reward: { fr: "Esprit Buisson (Roi de la triche)", en: "Cheat Master Bush Sprite" }, type: "sprite", targetId: "bushranger-cheatmaster", priority: true, releasedAt: "2026-08-21T01:35:00+02:00" },
