@@ -9443,13 +9443,13 @@
             <span class="stat-icon stat-icon-locker" aria-hidden="true">
               <svg viewBox="0 0 32 32" fill="none"><path d="M9 10V8.5A4.5 4.5 0 0 1 13.5 4h5A4.5 4.5 0 0 1 23 8.5V10"></path><path d="M7 10.5h18v16H7z"></path><path d="M11 10.5v16M21 10.5v16"></path><path class="stat-icon-solid" d="m12.5 18 2.2 2.2 5-5"></path></svg>
             </span>
-            <div><strong id="ownedStat">0/33</strong><span>Possédés</span></div>
+            <div><strong id="ownedStat">0/36</strong><span>Possédés</span></div>
           </div>
           <div class="stat">
             <span class="stat-icon stat-icon-mastered" aria-hidden="true">
               <svg viewBox="0 0 32 32" fill="none"><path class="stat-icon-solid" d="m16 3.8 3.5 7.1 7.8 1.1-5.7 5.5 1.4 7.8-7-3.7-7 3.7 1.4-7.8L4.7 12l7.8-1.1L16 3.8Z"></path><path d="M16 8.8v8.7l5 2.8"></path></svg>
             </span>
-            <div><strong id="masteredStat">0/33</strong><span>Maîtrisés</span></div>
+            <div><strong id="masteredStat">0/36</strong><span>Maîtrisés</span></div>
           </div>
           <div class="stat">
             <span class="stat-icon stat-icon-level" aria-hidden="true">
@@ -9934,6 +9934,29 @@
     </section>
 
     <section class="patch-page patch-page-compact app-page" id="patchNotesPage" data-page="patch-notes" aria-labelledby="patchNotesTitle">
+      <!-- NEW PATCH NOTE v13.99.1 (29 août 2026) -->
+      <article class="patch-entry">
+        <header class="patch-simple-head">
+          <div>
+            <span class="patch-kicker">Mise à jour v13.99.1</span>
+            <h1 id="patchNotesTitle">Mise à jour <span>Intégration de Storm Scout au Catalogue Principal &amp; Retrait du Jardin</span></h1>
+          </div>
+          <time class="patch-date" datetime="2026-08-29T21:48:00+02:00">
+            <span>29 août 2026 · 21h48 (heure de Paris)</span>
+          </time>
+        </header>
+
+        <div class="patch-grid">
+          <section class="patch-card">
+            <h2>🧚 Storm Scout Sprite en Jeu</h2>
+            <ul class="patch-list">
+              <li>Déplacement officiel de la famille <strong>Storm Scout Sprite (Esprit Éclaireur de la Tempête)</strong> et de ses 3 formes (Base, Or, Roi de la triche) du Jardin d'Esprits vers le catalogue actif de la Saison 4.</li>
+              <li>Le catalogue principal passe désormais à <strong>36 variantes disponibles sur 12 familles d'Esprits</strong>.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+
       <!-- NEW PATCH NOTE v13.99.0 (28 août 2026) -->
       <article class="patch-entry">
         <header class="patch-simple-head">
@@ -12564,7 +12587,7 @@
         mythic: "rgba(246,223,50,.39)"
       };
 
-      const SEASON4_KEYS = new Set(["bushranger", "eight-bit", "adventure", "jonesy", "shadow", "sonic", "tails", "killswitch", "jackrabbit", "crown", "klombo"]);
+      const SEASON4_KEYS = new Set(["bushranger", "eight-bit", "adventure", "jonesy", "shadow", "sonic", "tails", "killswitch", "jackrabbit", "crown", "klombo", "stormscout"]);
 
       const sprites = [];
       const season4Sprites = [];
