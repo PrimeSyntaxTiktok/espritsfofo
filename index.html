@@ -9407,7 +9407,7 @@
           <span class="section-kicker">Catalogue</span>
           <h2 id="collectionTitle">Tous les esprits</h2>
         </div>
-        <div class="result-line"><span><strong id="resultCount">36</strong> affichés</span><span id="activeHint">36 variantes disponibles en jeu</span></div>
+        <div class="result-line"><span><strong id="resultCount">48</strong> affichés</span><span id="activeHint">48 variantes disponibles en jeu</span></div>
       </div>
 
       <section class="toolbar" aria-label="Recherche et filtres">
@@ -9989,7 +9989,7 @@
           catalogTitle: "Tous les esprits",
           spiritLocker: "Le casier des esprits",
           shown: "affichés",
-          fullCatalog: "36 variantes disponibles en jeu",
+          fullCatalog: "48 variantes disponibles en jeu",
           filtersActive: "Filtres actifs",
           searchAndFilters: "Recherche et filtres",
           searchPlaceholder: "Rechercher un esprit…",
@@ -10194,7 +10194,7 @@
           catalogTitle: "All Sprites",
           spiritLocker: "Prime Sprites",
           shown: "shown",
-          fullCatalog: "36 available variants in-game",
+          fullCatalog: "48 available variants in-game",
           filtersActive: "Filters active",
           searchAndFilters: "Search and filters",
           searchPlaceholder: "Search for a Sprite…",
@@ -10578,6 +10578,58 @@
             base: "T_Icon_BR_Creature_Sprite_StormScout_L.webp",
             gold: "T_Icon_BR_Creature_Sprite_StormScout_Gold_L.webp",
             cheatmaster: "T_Icon_BR_Creature_Sprite_StormScout_Cheatmaster_L.webp"
+          }
+        },
+        {
+          key: "megaman", fr: "Esprit Mega Man", en: "Mega Man Sprite", rarity: "mythic",
+          aliases: ["Esprit Mega Man", "Mega Man", "Mega Man Sprite"],
+          effect: {
+            fr: "Permet de glisser avec une friction grandement réduite pour couvrir de longues distances sans perte de vitesse.",
+            en: "Allows you to slip and slide around with greatly reduced friction to cover long distances without losing speed."
+          },
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_MegaMan_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_MegaMan_Gold_L.webp",
+            cheatmaster: "T_Icon_BR_Creature_Sprite_MegaMan_Cheatmaster_L.webp"
+          }
+        },
+        {
+          key: "onigiri", fr: "Esprit Onigiri", en: "Onigiri Sprite", rarity: "rare",
+          aliases: ["Esprit Onigiri", "Onigiri", "Onigiri Sprite"],
+          effect: {
+            fr: "Accorde l'effet Surmultiplication après avoir consommé un aliment ou une boisson de soin ou de bouclier.",
+            en: "Grants the Overdrive effect after consuming any food or drink healing item."
+          },
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_Onigiri_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_Onigiri_Gold_L.webp",
+            cheatmaster: "T_Icon_BR_Creature_Sprite_Onigiri_Cheatmaster_L.webp"
+          }
+        },
+        {
+          key: "xray", fr: "Esprit Rayons X", en: "X-Ray Sprite", rarity: "epic",
+          aliases: ["Esprit Rayons X", "Esprit X-Ray", "X-Ray", "X-Ray Sprite", "Rayons X"],
+          effect: {
+            fr: "Marque périodiquement les ennemis dans la zone environnante. Le rayon de détection s'élargit à chaque niveau.",
+            en: "Periodically marks enemies in an area around you. The detection radius widens with each level."
+          },
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_XRay_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_XRay_Gold_L.webp",
+            cheatmaster: "T_Icon_BR_Creature_Sprite_XRay_Cheatmaster_L.webp"
+          }
+        },
+        {
+          key: "overshield", fr: "Esprit Surbouclier", en: "Overshield Sprite", rarity: "epic",
+          aliases: ["Esprit Surbouclier", "Surbouclier", "Overshield Sprite", "Overshield"],
+          effect: {
+            fr: "Accorde un surbouclier passif qui se régénère automatiquement et augmente avec le niveau de l'Esprit.",
+            en: "Grants a passive Overshield that regenerates automatically and scales with Sprite Level."
+          },
+          images: {
+            base: "T_Icon_BR_Creature_Sprite_Overshield_L.webp",
+            gold: "T_Icon_BR_Creature_Sprite_Overshield_Gold_L.webp",
+            cheatmaster: "T_Icon_BR_Creature_Sprite_Overshield_Cheatmaster_L.webp"
           }
         },
         {
@@ -11151,6 +11203,26 @@
           category: "healing", summonCost: 2700,
           ability: { fr: "Régénère le bouclier et la santé en continu pour toi et ton escouade à proximité.", en: "Continuously regenerates shield and health for you and nearby squadmates." },
           levelCaption: { fr: "Taux de soin par seconde", en: "Heal rate per second" }, levels: ["2/s", "3/s", "4/s", "5/s", "6/s"]
+        },
+        megaman: {
+          category: "mobility", summonCost: 6750,
+          ability: { fr: "Permet de glisser avec une friction grandement réduite pour couvrir de longues distances sans perte de vitesse.", en: "Allows you to slip and slide around with greatly reduced friction to cover long distances without losing speed." },
+          levelCaption: { fr: "Distance et vitesse de glissade", en: "Slide distance & speed" }, levels: ["+25 %", "+40 %", "+55 %", "+75 %", "+100 %"]
+        },
+        onigiri: {
+          category: "combat", summonCost: 2700,
+          ability: { fr: "Accorde l'effet Surmultiplication après avoir consommé un aliment ou une boisson de soin ou de bouclier.", en: "Grants the Overdrive effect after consuming any food or drink healing item." },
+          levelCaption: { fr: "Durée de Surmultiplication", en: "Overdrive duration" }, levels: ["6 s", "8 s", "10 s", "12 s", "15 s"]
+        },
+        xray: {
+          category: "squad", summonCost: 4500,
+          ability: { fr: "Marque périodiquement les ennemis dans la zone environnante. Le rayon de détection s'élargit à chaque niveau.", en: "Periodically marks enemies in an area around you. The detection radius widens with each level." },
+          levelCaption: { fr: "Rayon de détection", en: "Detection radius" }, levels: ["30 m", "45 m", "60 m", "75 m", "90 m"]
+        },
+        overshield: {
+          category: "defense", summonCost: 4500,
+          ability: { fr: "Accorde un surbouclier passif qui se régénère automatiquement sans avoir besoin d'objets de soin.", en: "Grants a passive Overshield that regenerates automatically without healing items." },
+          levelCaption: { fr: "Capacité du surbouclier", en: "Overshield capacity" }, levels: ["10", "20", "30", "40", "50"]
         }
       });
 
@@ -11172,7 +11244,10 @@
         mythic: "rgba(246,223,50,.39)"
       };
 
-      const SEASON4_KEYS = new Set(["bushranger", "eight-bit", "adventure", "jonesy", "shadow", "sonic", "tails", "killswitch", "jackrabbit", "crown", "klombo", "stormscout"]);
+      const SEASON4_KEYS = new Set([
+        "bushranger", "eight-bit", "adventure", "jonesy", "shadow", "sonic", "tails", "killswitch", "jackrabbit", "crown", "klombo", "stormscout",
+        "megaman", "onigiri", "xray", "overshield"
+      ]);
 
       const sprites = [];
       const season4Sprites = [];
@@ -11990,7 +12065,11 @@ function blankEntry() {
         jackrabbit: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><radialGradient id='jr' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%234ade80'/><stop offset='100%' stop-color='%2315803d'/></radialGradient><circle cx='60' cy='60' r='54' fill='url(%23jr)' stroke='%2386efac' stroke-width='4'/><polygon points='50,20 65,55 35,55' fill='%23fff'/></svg>",
         crown: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><radialGradient id='cw' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%23fef08a'/><stop offset='100%' stop-color='%23854d0e'/></radialGradient><circle cx='60' cy='60' r='54' fill='url(%23cw)' stroke='%23fde047' stroke-width='5'/><polygon points='30,75 35,40 50,60 60,30 70,60 85,40 90,75' fill='%23eab308'/></svg>",
         klombo: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><radialGradient id='kl' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%23c084fc'/><stop offset='100%' stop-color='%236b21a8'/></radialGradient><circle cx='60' cy='60' r='54' fill='url(%23kl)' stroke='%23e9d5ff' stroke-width='4'/><ellipse cx='60' cy='65' rx='30' ry='20' fill='%23f472b6'/></svg>",
-        stormscout: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><radialGradient id='ss' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%23a855f7'/><stop offset='100%' stop-color='%234c1d95'/></radialGradient><circle cx='60' cy='60' r='54' fill='url(%23ss)' stroke='%23c084fc' stroke-width='4'/><circle cx='60' cy='60' r='20' fill='%2338bdf8'/></svg>"
+        stormscout: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><radialGradient id='ss' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%23a855f7'/><stop offset='100%' stop-color='%234c1d95'/></radialGradient><circle cx='60' cy='60' r='54' fill='url(%23ss)' stroke='%23c084fc' stroke-width='4'/><circle cx='60' cy='60' r='20' fill='%2338bdf8'/></svg>",
+        megaman: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><radialGradient id='mm' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%2338bdf8'/><stop offset='100%' stop-color='%230369a1'/></radialGradient><circle cx='60' cy='60' r='54' fill='url(%23mm)' stroke='%237dd3fc' stroke-width='4'/><rect x='36' y='42' width='48' height='36' rx='8' fill='%230284c7'/><circle cx='50' cy='56' r='6' fill='%23fff'/><circle cx='70' cy='56' r='6' fill='%23fff'/><path d='M44 72 Q60 82 76 72' stroke='%23fff' stroke-width='4' fill='none'/></svg>",
+        onigiri: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><radialGradient id='og' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%23f1f5f9'/><stop offset='100%' stop-color='%2394a3b8'/></radialGradient><circle cx='60' cy='60' r='54' fill='%231e293b' stroke='%2338bdf8' stroke-width='4'/><polygon points='60,28 88,80 32,80' rx='10' fill='url(%23og)' stroke='%23cbd5e1' stroke-width='3'/><rect x='48' y='64' width='24' height='20' rx='3' fill='%230f172a'/><circle cx='52' cy='52' r='4' fill='%230f172a'/><circle cx='68' cy='52' r='4' fill='%230f172a'/></svg>",
+        xray: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><radialGradient id='xr' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%23c084fc'/><stop offset='100%' stop-color='%23581c87'/></radialGradient><circle cx='60' cy='60' r='54' fill='url(%23xr)' stroke='%23e879f9' stroke-width='4'/><circle cx='60' cy='60' r='38' fill='none' stroke='%2338bdf8' stroke-width='3' stroke-dasharray='4,4'/><circle cx='60' cy='60' r='24' fill='none' stroke='%23a855f7' stroke-width='3'/><circle cx='60' cy='60' r='10' fill='%2322d3ee'/><line x1='60' y1='20' x2='60' y2='100' stroke='%2338bdf8' stroke-width='2' opacity='0.7'/><line x1='20' y1='60' x2='100' y2='60' stroke='%2338bdf8' stroke-width='2' opacity='0.7'/></svg>",
+        overshield: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><radialGradient id='os' cx='50%' cy='50%' r='50%'><stop offset='0%' stop-color='%2360a5fa'/><stop offset='100%' stop-color='%231e3a8a'/></radialGradient><circle cx='60' cy='60' r='54' fill='url(%23os)' stroke='%2393c5fd' stroke-width='4'/><path d='M60 26 L88 38 C88 68 60 88 60 92 C60 88 32 68 32 38 Z' fill='%232563eb' stroke='%23bfdbfe' stroke-width='4'/><path d='M60 36 L78 45 C78 65 60 78 60 80 C60 78 42 65 42 45 Z' fill='%2360a5fa' opacity='0.8'/></svg>"
       };
 
       function settleSpriteImage(image, loaded) {
