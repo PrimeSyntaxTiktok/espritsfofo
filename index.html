@@ -2747,7 +2747,8 @@
         padding-left: 12px;
         border-bottom-color: rgba(204,218,255,.12);
       }
-      .topbar-links { display: none; }
+      .topbar-links { display: flex; align-items: center; }
+      .topbar-links a { display: none; }
       /* .brand-copy small { display: none; } */
       .hero { min-height: 350px; padding: 27px 22px; border-radius: 24px; }
       .hero-inner { display: block; min-height: 294px; }
@@ -4752,6 +4753,17 @@
     .auth-toggle:hover { border-color: rgba(125, 218, 255, .52); transform: translateY(-1px); }
     .auth-toggle:active { transform: scale(.97); }
     .auth-toggle:disabled { opacity: .55; cursor: wait; transform: none; }
+    .auth-toggle.icon-only {
+      min-height: 36px;
+      min-width: 36px;
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      border-radius: 10px;
+      display: inline-grid;
+      place-items: center;
+      margin-left: 2px;
+    }
     .auth-google,
     .auth-power {
       display: grid;
@@ -9360,7 +9372,7 @@
   <canvas id="vfxCanvas" style="position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; z-index:9999;"></canvas>
   <div class="app" id="top">
     <nav class="topbar" aria-label="Navigation principale">
-      <a class="brand" href="#catalog" data-page-target="catalog" aria-label="Prime Sprites 1.2, collection">
+      <a class="brand" href="#catalog" aria-label="Prime Sprites 1.2, collection">
         <span class="brand-mark" aria-hidden="true"><img src="./icons/prime-logo-white-transparent.png" alt="Prime Sprites 1.2" class="brand-logo-img"></span>
         <span class="brand-copy"><strong>PRIME SPRITES 1.2</strong><small>Saison Override</small></span>
       </a>
@@ -9368,11 +9380,9 @@
         <div class="topbar-links" aria-label="Accès rapides">
           <a href="#catalog" data-page-target="catalog">Collection</a>
           <a href="#cheats" data-page-target="cheats">Cheat Codes</a>
-
-
-
-
-
+          <button class="auth-toggle icon-only" id="authToggleBtn" type="button" aria-label="Connexion Google" title="Connexion Google">
+            <span class="auth-google" aria-hidden="true">G</span>
+          </button>
         </div>
       </div>
     </nav>
@@ -9446,43 +9456,17 @@
       </div>
       </section>
 
-      <main class="grid" id="spriteGrid" aria-live="polite"></main>
-    </section>
+      <div class="grid" id="spriteGrid" aria-live="polite"></div>
+    </main>
 
     <section class="feature-page app-page" id="cheatsPage" data-page="cheats" aria-labelledby="cheatsTitle">
-      <!-- HERO BANNER -->
-      <header class="cheats-hero">
-        <div class="cheats-hero-inner">
-          <div class="cheats-hero-badge">
-            <span class="cheats-pulse-dot" aria-hidden="true"></span>
-            <span>FORTNITE v42.00 // OVERRIDE CHEAT SYSTEM</span>
-          </div>
-          <h1 id="cheatsTitle" class="cheats-hero-title">
-            Cheat Codes <span>&amp; Lobby Hacks</span>
-          </h1>
-          <p class="cheats-hero-lead">
-            Injectez les codes dans l'Admin Panel de Fortnite pour dÃ©bloquer des Esprits <strong>Roi de la triche</strong>, objets et effets spÃ©ciaux. ðŸŸ¢ <strong>Cheat Code Monday (31 aoÃ»t) en cours</strong> : Double Sprite XP, Double PoussiÃ¨re d'esprit et frÃ©quence accrue des Cheat Codes en Battle Royale !
-          </p>
-          
-          <!-- QUICK STATS -->
-          <div class="cheats-stats-bar">
-            <div class="cheats-stat-item">
-              <span class="cheats-stat-val" id="cheatsCountActive">22</span>
-              <span class="cheats-stat-lbl">Codes actifs</span>
-            </div>
-            <div class="cheats-stat-divider" aria-hidden="true"></div>
-            <div class="cheats-stat-item">
-              <span class="cheats-stat-val" id="cheatsCountSprites">7</span>
-              <span class="cheats-stat-lbl">Esprits Exclusifs</span>
-            </div>
-            <div class="cheats-stat-divider" aria-hidden="true"></div>
-            <div class="cheats-stat-item">
-              <span class="cheats-stat-val" id="cheatsCountXp">+40K</span>
-              <span class="cheats-stat-lbl">EXP &amp; Bonus</span>
-            </div>
-          </div>
+      <div class="collection-heading">
+        <div>
+          <span class="section-kicker">Cheat Codes</span>
+          <h2 id="cheatsTitle">Lobby Hacks &amp; Codes Actifs</h2>
         </div>
-      </header>
+        <div class="result-line"><span><strong id="cheatsCountActive">27</strong> codes actifs</span><span>Fortnite Chapitre 7 Saison 4</span></div>
+      </div>
 
       <!-- FILTER TABS BAR -->
       <div class="cheats-filter-bar" role="tablist" aria-label="Catégories de cheat codes">
@@ -10005,7 +9989,7 @@
           catalogTitle: "Tous les esprits",
           spiritLocker: "Le casier des esprits",
           shown: "affichés",
-          fullCatalog: "33 variantes disponibles en jeu",
+          fullCatalog: "36 variantes disponibles en jeu",
           filtersActive: "Filtres actifs",
           searchAndFilters: "Recherche et filtres",
           searchPlaceholder: "Rechercher un esprit…",
@@ -10210,7 +10194,7 @@
           catalogTitle: "All Sprites",
           spiritLocker: "Prime Sprites",
           shown: "shown",
-          fullCatalog: "33 available variants in-game",
+          fullCatalog: "36 available variants in-game",
           filtersActive: "Filters active",
           searchAndFilters: "Search and filters",
           searchPlaceholder: "Search for a Sprite…",
@@ -11104,9 +11088,9 @@
         },
         stormscout: {
           category: "mobility", summonCost: 2700,
-          ability: { fr: "Active Overdrive (+25 % vitesse, +50 % contrÃ´le aÃ©rien, -15 % gravitÃ©, +25 % saut, endurance illimitÃ©e) aprÃ¨s 10 dÃ©gÃ¢ts de TempÃªte. Au niveau 5, rÃ©vÃ¨le les futurs cercles de TempÃªte.", en: "Activates Overdrive (+25% speed, +50% air control, -15% gravity, +25% jump power, unlimited stamina) after taking 10 storm damage. At max level, reveals future storm circles." },
-          levelCaption: { fr: "DurÃ©e d'Overdrive", en: "Overdrive duration" }, levels: ["12 s", "14 s", "16 s", "18 s", "20 s"],
-          note: { fr: "DÃ©clenchement dataminÃ© : 10 dÃ©gÃ¢ts de TempÃªte. Le texte suggÃ¨re une rÃ©duction progressive, mais la valeur reste fixÃ©e Ã  10 dans les donnÃ©es actuelles.", en: "Datamined trigger: 10 storm damage. Text suggests progressive reduction, but value stays at 10 in current data." }
+          ability: { fr: "Active Overdrive (+25 % vitesse, +50 % contrôle aérien, -15 % gravité, +25 % saut, endurance illimitée) après 10 dégâts de Tempête. Au niveau 5, révèle les futurs cercles de Tempête.", en: "Activates Overdrive (+25% speed, +50% air control, -15% gravity, +25% jump power, unlimited stamina) after taking 10 storm damage. At max level, reveals future storm circles." },
+          levelCaption: { fr: "Durée d'Overdrive", en: "Overdrive duration" }, levels: ["12 s", "14 s", "16 s", "18 s", "20 s"],
+          note: { fr: "Déclenchement dataminé : 10 dégâts de Tempête. Le texte suggère une réduction progressive, mais la valeur reste fixée à 10 dans les données actuelles.", en: "Datamined trigger: 10 storm damage. Text suggests progressive reduction, but value stays at 10 in current data." }
         },
         jazz: {
           category: "mobility", summonCost: 4500,
@@ -11318,7 +11302,7 @@
             if (el && typeof t === "function") el.textContent = t(key);
           };
 
-          document.querySelectorAll("[data-page-target]").forEach(link => {
+          document.querySelectorAll(".topbar-links [data-page-target], .mobile-dock [data-page-target], .footer-links [data-page-target]").forEach(link => {
             const target = link.dataset.pageTarget;
             if (target === "catalog") link.textContent = typeof t === "function" ? t("catalogNav") : "Collection";
             else if (target === "cheats") link.textContent = "Cheat Codes";
@@ -11328,14 +11312,17 @@
             syncStateText.textContent = navigator.onLine === false ? (typeof t === "function" ? t("localOffline") : "Local") : (typeof t === "function" ? t("local") : "Online");
           }
           if (typeof authToggleButton !== "undefined" && authToggleButton) {
-            authToggleButton.innerHTML = '<span class="auth-google" aria-hidden="true">G</span><span>' + (typeof t === "function" ? t("connect") : "Connexion") + '</span>';
+            const connected = authToggleButton.dataset.connected === "true";
+            if (!connected) {
+              authToggleButton.innerHTML = '<span class="auth-google" aria-hidden="true">G</span>';
+            }
           }
 
           setTxt(".section-kicker", "catalogNav");
           setTxt("#collectionTitle", "catalogTitle");
           const resultSummary = document.querySelector(".result-line > span:first-child");
           if (resultSummary && typeof sprites !== "undefined") {
-            resultSummary.innerHTML = '<strong id="resultCount">' + (sprites ? sprites.length : 0) + '</strong> ' + (typeof t === "function" ? t("shown") : "affichÃ©s");
+            resultSummary.innerHTML = '<strong id="resultCount">' + (sprites ? sprites.length : 0) + '</strong> ' + (typeof t === "function" ? t("shown") : "affichés");
           }
           setTxt("#activeHint", "fullCatalog");
           setAttr(".toolbar", "aria-label", "searchAndFilters");
@@ -12754,10 +12741,15 @@ function blankEntry() {
         if (authToggleButton) {
           authToggleButton.dataset.connected = String(connected);
           authToggleButton.disabled = authActionInProgress;
-          authToggleButton.innerHTML = connected
-            ? `<span class="auth-power" aria-hidden="true">↪</span><span>${t("signOut")}</span>`
-            : `<span class="auth-google" aria-hidden="true">G</span><span>${t("connect")}</span>`;
+          if (connected && user && user.photoURL) {
+            authToggleButton.innerHTML = `<img src="${esc(user.photoURL)}" alt="Avatar" style="width:24px;height:24px;border-radius:50%;object-fit:cover;">`;
+          } else if (connected) {
+            authToggleButton.innerHTML = `<span class="auth-power" aria-hidden="true">↪</span>`;
+          } else {
+            authToggleButton.innerHTML = `<span class="auth-google" aria-hidden="true">G</span>`;
+          }
           authToggleButton.setAttribute("aria-label", t(connected ? "signOutAria" : "signIn"));
+          authToggleButton.setAttribute("title", connected ? (user?.displayName ? `Connecté: ${user.displayName} (Cliquer pour déconnecter)` : "Déconnexion") : "Connexion Google");
         }
 
         const reviewGate = document.getElementById("reviewAuthGate");
@@ -14030,18 +14022,18 @@ function blankEntry() {
           id: "cheat-code-monday-aug31",
           dateIso: "2026-08-31T00:00:00+02:00",
           endDateIso: "2026-09-01T23:59:59+02:00",
-          dateLabelFr: "Lundi 31 AoÃ»t 2026 (Toute la journÃ©e & 1er Septembre)",
+          dateLabelFr: "Lundi 31 Août 2026 (Toute la journée & 1er Septembre)",
           dateLabelEn: "Monday August 31, 2026 (All Day & Sept 1)",
           badgeBg: "rgba(34, 197, 94, 0.16)",
           badgeColor: "#4ade80",
           badgeBorder: "rgba(34, 197, 94, 0.35)",
-          badgeTextFr: "ðŸŸ¢ Ã‰VÃ‰NEMENT LIVE â€” CHEAT CODE MONDAY",
-          badgeTextEn: "ðŸŸ¢ LIVE EVENT â€” CHEAT CODE MONDAY",
-          titleFr: "Cheat Code Monday â€” Multiplicateurs Ã—2 & Taux BoostÃ©",
-          titleEn: "Cheat Code Monday â€” 2x Multipliers & Boosted Rates",
-          descFr: "Ã‰vÃ©nement officiel actif : Double Sprite XP, Double PoussiÃ¨re d'esprit (Sprite Dust) et frÃ©quence d'apparition fortement accrue des Cheat Codes en partie Battle Royale !",
+          badgeTextFr: "🟢 ÉVÉNEMENT LIVE — CHEAT CODE MONDAY",
+          badgeTextEn: "🟢 LIVE EVENT — CHEAT CODE MONDAY",
+          titleFr: "Cheat Code Monday — Multiplicateurs ×2 & Taux Boosté",
+          titleEn: "Cheat Code Monday — 2x Multipliers & Boosted Rates",
+          descFr: "Événement officiel actif : Double Sprite XP, Double Poussière d'esprit (Sprite Dust) et fréquence d'apparition fortement accrue des Cheat Codes en partie Battle Royale !",
           descEn: "Official live event: Double Sprite XP, Double Sprite Dust, and heavily boosted Cheat Code spawn rates in Battle Royale matches!",
-          icon: "ðŸŽ²",
+          icon: "🎲",
           featured: true
         },
         {
@@ -14064,18 +14056,18 @@ function blankEntry() {
         {
           id: "sonic-power-hours",
           dateIso: "2026-08-30T03:00:00+02:00",
-          dateLabelFr: "Dimanche 30 AoÃ»t (03h00â€“05h00 CEST) & Samedi 29 AoÃ»t (20h00â€“22h00 CEST)",
-          dateLabelEn: "Sunday Aug 30 (03:00â€“05:00 CEST) & Saturday Aug 29 (20:00â€“22:00 CEST)",
+          dateLabelFr: "Dimanche 30 Août (03h00–05h00 CEST) & Samedi 29 Août (20h00–22h00 CEST)",
+          dateLabelEn: "Sunday Aug 30 (03:00–05:00 CEST) & Saturday Aug 29 (20:00–22:00 CEST)",
           badgeBg: "rgba(34, 197, 94, 0.16)",
           badgeColor: "#4ade80",
           badgeBorder: "rgba(34, 197, 94, 0.35)",
-          badgeTextFr: "ðŸŸ¢ Ã‰VÃ‰NEMENT OFFICIEL â€” SONIC POWER HOURS",
-          badgeTextEn: "ðŸŸ¢ OFFICIAL EVENT â€” SONIC POWER HOURS",
-          titleFr: "Sonic Power Hours â€” Bonus Officiels & DeuxiÃ¨me Session",
-          titleEn: "Sonic Power Hours â€” Official Bonuses & Second Session",
-          descFr: "Bonus officiels Epic Games : Sonic, Tails et Shadow (+ leurs variantes) apparaissent plus souvent. Les Sonic Power Sneakers ont un taux fortement augmentÃ© dans les coffres, et les 1-Up Tokens et Portable Extractors apparaissent comme rÃ©compenses rares ! DeuxiÃ¨me session : Dimanche 30 aoÃ»t de 03h00 Ã  05h00 CEST.",
+          badgeTextFr: "🟢 ÉVÉNEMENT OFFICIEL — SONIC POWER HOURS",
+          badgeTextEn: "🟢 OFFICIAL EVENT — SONIC POWER HOURS",
+          titleFr: "Sonic Power Hours — Bonus Officiels & Deuxième Session",
+          titleEn: "Sonic Power Hours — Official Bonuses & Second Session",
+          descFr: "Bonus officiels Epic Games : Sonic, Tails et Shadow (+ leurs variantes) apparaissent plus souvent. Les Sonic Power Sneakers ont un taux fortement augmenté dans les coffres, et les 1-Up Tokens et Portable Extractors apparaissent comme récompenses rares ! Deuxième session : Dimanche 30 août de 03h00 à 05h00 CEST.",
           descEn: "Official Epic Games bonuses: Sonic, Tails, and Shadow (+ variants) spawn more frequently. Sonic Power Sneakers drop rate boosted in chests, and 1-Up Tokens & Portable Extractors appear as rare rewards! Second session: Sun Aug 30 from 03:00 to 05:00 CEST.",
-          icon: "âš¡",
+          icon: "⚡",
           featured: true
         },
         {
@@ -19337,8 +19329,8 @@ function blankEntry() {
       }
 
       const CHEAT_CODES = [
-        { code: "STORMSCOUTING", reward: { fr: "Esprit Ã‰claireur de la TempÃªte (Roi de la triche)", en: "Cheat Master Storm Scout Sprite" }, type: "sprite", targetId: "stormscout-cheatmaster", priority: true, releasedAt: "2026-08-29T20:00:00+02:00" },
-        { code: "JonesyIsGolden", reward: { fr: "Esprit Jonesy DorÃ© (Roi de la triche) â€” Aucun prÃ©requis", en: "Gold Jonesy Sprite (Cheat Master) â€” No quest required" }, type: "sprite", targetId: "jonesy-gold", priority: true, releasedAt: "2026-08-24T12:56:00+02:00" },
+        { code: "STORMSCOUTING", reward: { fr: "Esprit Éclaireur de la Tempête (Roi de la triche)", en: "Cheat Master Storm Scout Sprite" }, type: "sprite", targetId: "stormscout-cheatmaster", priority: true, releasedAt: "2026-08-29T20:00:00+02:00" },
+        { code: "JonesyIsGolden", reward: { fr: "Esprit Jonesy Doré (Roi de la triche) — Aucun prérequis", en: "Gold Jonesy Sprite (Cheat Master) — No quest required" }, type: "sprite", targetId: "jonesy-gold", priority: true, releasedAt: "2026-08-24T12:56:00+02:00" },
         { code: "GatherAndCraft", reward: { fr: "Esprit Buisson (Roi de la triche)", en: "Cheat Master Bush Sprite" }, type: "sprite", targetId: "bushranger-cheatmaster", priority: true, releasedAt: "2026-08-21T01:35:00+02:00" },
         { code: "GOTTAGOFAST", reward: { fr: "Esprit Sonic (Roi de la triche)", en: "Cheat Master Sonic Sprite" }, type: "sprite", targetId: "sonic-cheatmaster", priority: true, releasedAt: "2026-08-20T21:00:00+02:00" },
         { code: "IWANNAFLYHIGH", reward: { fr: "Esprit Tails (Roi de la triche)", en: "Cheat Master Tails Sprite" }, type: "sprite", targetId: "tails-cheatmaster", priority: true, releasedAt: "2026-08-20T21:00:00+02:00" },
@@ -19349,21 +19341,21 @@ function blankEntry() {
         { code: "HOPPINGALONG", reward: { fr: "Esprit Jackrabbit (Roi de la triche)", en: "Cheat Master Jackrabbit Sprite" }, type: "sprite", targetId: "jackrabbit-cheatmaster", priority: true, releasedAt: "2026-08-20T21:00:00+02:00" },
         { code: "KLOMBOPOWER", reward: { fr: "Esprit Klombo (Roi de la triche)", en: "Cheat Master Klombo Sprite" }, type: "sprite", targetId: "klombo-cheatmaster", priority: true, releasedAt: "2026-08-20T21:00:00+02:00" },
         { code: "KILLSWITCHENGAGED", reward: { fr: "Esprit Killswitch (Roi de la triche)", en: "Cheat Master Killswitch Sprite" }, type: "sprite", targetId: "killswitch-cheatmaster", priority: true, releasedAt: "2026-08-20T21:00:00+02:00" },
-        { code: "FORTNITEANNI9", reward: { fr: "5 000 PoussiÃ¨re d'esprit & Ã‰cran de fÃªte 9Ã¨me Anniversaire", en: "5,000 Sprite Dust & 9th Anniversary Loading Screen" }, type: "item", priority: false, releasedAt: "2026-09-01T14:00:00+02:00" },
+        { code: "FORTNITEANNI9", reward: { fr: "5 000 Poussière d'esprit & Écran de fête 9ème Anniversaire", en: "5,000 Sprite Dust & 9th Anniversary Loading Screen" }, type: "item", priority: false, releasedAt: "2026-09-01T14:00:00+02:00" },
         { code: "OVERRIDEMASTER", reward: { fr: "Pack Bonus XP & 3 Extracteurs Portables", en: "XP Boost Pack & 3 Portable Extractors" }, type: "xp", priority: false, releasedAt: "2026-08-31T20:00:00+02:00" },
-        { code: "H0p0nVC", reward: { fr: "2 000 PoussiÃ¨re d'esprit", en: "2,000 Sprite Dust" }, type: "item", priority: false, releasedAt: "2026-08-21T02:50:00+02:00" },
+        { code: "H0p0nVC", reward: { fr: "2 000 Poussière d'esprit", en: "2,000 Sprite Dust" }, type: "item", priority: false, releasedAt: "2026-08-21T02:50:00+02:00" },
         { code: "O2OVERRIDE", reward: { fr: "Ravitaillement de Llama + 5 Extracteurs Portables", en: "Llama Supply Drop + 5 Portable Extractors" }, type: "item", priority: false, releasedAt: "2026-08-20T21:00:00+02:00" },
-        { code: "PERFECTORDER", reward: { fr: "4 Gadgets Tacos Ã‰picÃ©s", en: "4 Spicy Tacos Gizmos" }, type: "item", priority: false, releasedAt: "2026-08-20T21:00:00+02:00" },
-        { code: "SURVIVETHENIGHT", reward: { fr: "2 DÃ©tecteurs de Cheat Codes", en: "2 Cheat Code Locators" }, type: "item", priority: false, releasedAt: "2026-08-20T21:00:00+02:00" },
+        { code: "PERFECTORDER", reward: { fr: "4 Gadgets Tacos Épicés", en: "4 Spicy Tacos Gizmos" }, type: "item", priority: false, releasedAt: "2026-08-20T21:00:00+02:00" },
+        { code: "SURVIVETHENIGHT", reward: { fr: "2 Détecteurs de Cheat Codes", en: "2 Cheat Code Locators" }, type: "item", priority: false, releasedAt: "2026-08-20T21:00:00+02:00" },
         { code: "LETSBLOCKANDROLL", reward: { fr: "Transformation en bloc Tetris dans le salon", en: "Tetris block lobby transformation" }, type: "hack", priority: false, releasedAt: "2026-08-20T21:00:00+02:00" },
-        { code: "TAKEYOURHEART", reward: { fr: "2 AccÃ©lÃ©rateurs d'Extraction", en: "2 Extraction Accelerators" }, type: "item", priority: false, releasedAt: "2026-08-20T21:00:00+02:00" },
+        { code: "TAKEYOURHEART", reward: { fr: "2 Accélérateurs d'Extraction", en: "2 Extraction Accelerators" }, type: "item", priority: false, releasedAt: "2026-08-20T21:00:00+02:00" },
         { code: "DONTBLOCKME", reward: { fr: "Transformation en bloc Tetris dans le salon", en: "Tetris block lobby transformation" }, type: "hack", priority: false, releasedAt: "2026-08-20T21:00:00+02:00" },
-        { code: "MAGILUME", reward: { fr: "2 000 PoussiÃ¨re d'esprit", en: "2,000 Sprite Dust" }, type: "item", priority: false, releasedAt: "2026-08-20T21:00:00+02:00" },
-        { code: "BEMOREALIEN", reward: { fr: "Ã‰cran de chargement Override Ready", en: "Override Ready Loading Screen" }, type: "hack", priority: false, releasedAt: "2026-08-20T21:00:00+02:00" },
-        { code: "CHISPAMBO", reward: { fr: "2 000 PoussiÃ¨re d'esprit", en: "2,000 Sprite Dust" }, type: "item", priority: false, releasedAt: "2026-08-20T21:00:00+02:00" },
-        { code: "ABGESTAUBT", reward: { fr: "2 000 PoussiÃ¨re d'esprit", en: "2,000 Sprite Dust" }, type: "item", priority: false, releasedAt: "2026-08-20T21:00:00+02:00" },
-        { code: "REACHYOURIMPOSSIBLE", reward: { fr: "Ã‰cran de chargement Block Party", en: "Block Party Loading Screen" }, type: "hack", priority: false, releasedAt: "2026-08-20T21:00:00+02:00" },
-        { code: "PERLIMPINPIN", reward: { fr: "2 000 PoussiÃ¨re d'esprit", en: "2,000 Sprite Dust" }, type: "item", priority: false, releasedAt: "2026-08-20T21:00:00+02:00" }
+        { code: "MAGILUME", reward: { fr: "2 000 Poussière d'esprit", en: "2,000 Sprite Dust" }, type: "item", priority: false, releasedAt: "2026-08-20T21:00:00+02:00" },
+        { code: "BEMOREALIEN", reward: { fr: "Écran de chargement Override Ready", en: "Override Ready Loading Screen" }, type: "hack", priority: false, releasedAt: "2026-08-20T21:00:00+02:00" },
+        { code: "CHISPAMBO", reward: { fr: "2 000 Poussière d'esprit", en: "2,000 Sprite Dust" }, type: "item", priority: false, releasedAt: "2026-08-20T21:00:00+02:00" },
+        { code: "ABGESTAUBT", reward: { fr: "2 000 Poussière d'esprit", en: "2,000 Sprite Dust" }, type: "item", priority: false, releasedAt: "2026-08-20T21:00:00+02:00" },
+        { code: "REACHYOURIMPOSSIBLE", reward: { fr: "Écran de chargement Block Party", en: "Block Party Loading Screen" }, type: "hack", priority: false, releasedAt: "2026-08-20T21:00:00+02:00" },
+        { code: "PERLIMPINPIN", reward: { fr: "2 000 Poussière d'esprit", en: "2,000 Sprite Dust" }, type: "item", priority: false, releasedAt: "2026-08-20T21:00:00+02:00" }
       ];
 
       function getCheatRewardText(c) {
