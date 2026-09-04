@@ -6177,6 +6177,27 @@
     .family-variant-visual img { width: 100%; height: 100%; object-fit: contain; filter: grayscale(1) brightness(.5) opacity(.58) drop-shadow(0 8px 10px rgba(0,0,0,.42)); transition: filter .2s ease, opacity .2s ease, transform .2s ease; }
     .family-variant-tile.is-owned .family-variant-visual { border-color: color-mix(in srgb, var(--variant-color) 62%, rgba(255,255,255,.2)); background: radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--variant-color) 17%, transparent), rgba(8,14,36,.92) 72%); box-shadow: 0 0 20px color-mix(in srgb, var(--variant-color) 13%, transparent); }
     .family-variant-tile.is-owned .family-variant-visual img { filter: drop-shadow(0 9px 11px rgba(0,0,0,.44)); }
+
+    /* Variantes visuelles exclusives pour Mega Man (Or & Roi de la triche) */
+    [data-id="megaman-gold"] .family-variant-visual img,
+    [data-id="megaman-gold"] .sprite-image img,
+    #dialogImageBox[data-sprite-id="megaman-gold"] img {
+      filter: sepia(1) saturate(6) hue-rotate(5deg) brightness(1.18) contrast(1.15) drop-shadow(0 0 14px rgba(250, 204, 21, 0.85)) !important;
+    }
+    .family-variant-tile[data-id="megaman-gold"].is-missing:not(:hover) .family-variant-visual img,
+    .sprite-card[data-id="megaman-gold"]:not(.owned):not(:hover) .sprite-image img {
+      filter: sepia(0.8) saturate(2.2) hue-rotate(5deg) brightness(0.62) opacity(0.65) drop-shadow(0 8px 10px rgba(0,0,0,.42)) !important;
+    }
+
+    [data-id="megaman-cheatmaster"] .family-variant-visual img,
+    [data-id="megaman-cheatmaster"] .sprite-image img,
+    #dialogImageBox[data-sprite-id="megaman-cheatmaster"] img {
+      filter: hue-rotate(110deg) saturate(3.2) brightness(1.22) contrast(1.25) drop-shadow(0 0 16px rgba(56, 189, 248, 0.9)) !important;
+    }
+    .family-variant-tile[data-id="megaman-cheatmaster"].is-missing:not(:hover) .family-variant-visual img,
+    .sprite-card[data-id="megaman-cheatmaster"]:not(.owned):not(:hover) .sprite-image img {
+      filter: hue-rotate(110deg) saturate(1.8) brightness(0.62) opacity(0.65) drop-shadow(0 8px 10px rgba(0,0,0,.42)) !important;
+    }
     .family-variant-lock { position: absolute; display: grid; width: 37px; height: 37px; place-items: center; border: 1px solid rgba(255,255,255,.25); border-radius: 50%; background: rgba(8,13,32,.76); box-shadow: 0 8px 18px rgba(0,0,0,.35); color: #d7dded; backdrop-filter: blur(6px); }
     .family-variant-lock svg { width: 21px; height: 21px; }
     .family-variant-mastered { position: absolute; top: 7px; right: 11px; display: grid; width: 25px; height: 25px; place-items: center; border: 1px solid rgba(255,225,67,.42); border-radius: 50%; background: rgba(25,21,4,.86); box-shadow: 0 0 13px rgba(255,223,45,.3); color: #ffe642; font-size: .64rem; }
@@ -12720,7 +12741,9 @@ function blankEntry() {
         image.src = sprite.image;
         image.alt = name;
         image.onerror = () => image.classList.add("broken");
-        document.getElementById("dialogImageBox").style.setProperty("--glow", rarityGlow[sprite.rarity]);
+        const dialogBox = document.getElementById("dialogImageBox");
+        dialogBox.dataset.spriteId = sprite.id;
+        dialogBox.style.setProperty("--glow", rarityGlow[sprite.rarity]);
         document.getElementById("dialogKicker").textContent = t("variantKicker", { rarity: rarityLabel(sprite.rarity), variant: localizedVariant(sprite.variant) });
         document.getElementById("dialogTitle").textContent = name;
         document.getElementById("dialogOriginal").textContent = t("catalogEntry", { number: String(sprite.catalogNumber).padStart(3, "0") });
